@@ -8,16 +8,16 @@ const page = () => {
     <div className=" w-full flex flex-col md:flex-row gap-10 justify-between p-4 md:p-20">
       <div className="flex flex-col gap-2">
         <h2 className="text-2xl 2xl:text-4xl mb-6 font-bold">Review And Pay</h2>
-        <div className=" w-full flex items-center gap-4  justify-between">
-          <div className="flex flex-col gap-1.5">
+        <div className=" w-full flex flex-col md:flex-row  items-center gap-4  justify-between">
+          <div className="flex w-full flex-col gap-1.5">
             <p className="text-xs 2xl:text-base">First Name</p>
             <input
               type="text"
-              className="bg-[#3C3C434A] border border-gray-500 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+              className="bg-[#3C3C434A] w-full border border-gray-500 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
               placeholder=" Enter first name "
             />
           </div>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex w-full flex-col gap-1.5">
             <p className="text-xs 2xl:text-base">Last Name</p>
             <input
               type="text"
@@ -34,15 +34,15 @@ const page = () => {
             placeholder=" Enter email "
           />
         </div>
-        <div className=" w-full flex my-2.5 items-center gap-4  justify-between">
-          <div className="flex flex-col gap-1.5">
+        <div className=" w-full flex flex-col md:flex-row my-2.5 items-center gap-4  justify-between">
+          <div className="flex w-full flex-col gap-1.5">
             <input
               type="text"
               className="bg-[#3C3C434A] border border-gray-500 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
               placeholder=" Area Code "
             />
           </div>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex w-full flex-col gap-1.5">
             <input
               type="text"
               className="bg-[#3C3C434A] border border-gray-500 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
@@ -83,8 +83,8 @@ const page = () => {
               placeholder=" Enter card name "
             />
           </div>
-          <div className=" w-full flex items-center gap-4  justify-between">
-            <div className="flex flex-col gap-1.5">
+          <div className=" w-full flex flex-col md:flex-row items-center gap-4  justify-between">
+            <div className="flex flex-col w-full gap-1.5">
               <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
                 Date
               </p>
@@ -94,7 +94,7 @@ const page = () => {
                 placeholder=" mm / yy "
               />
             </div>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col w-full gap-1.5">
               <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
                 CVV
               </p>

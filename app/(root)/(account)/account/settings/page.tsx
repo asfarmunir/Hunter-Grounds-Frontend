@@ -28,7 +28,7 @@ const links = [
 ];
 
 const page = () => {
-  const [tab, setTab] = React.useState("edit-profile");
+  const [tab, setTab] = React.useState("payment-details");
 
   return (
     <div className=" w-full p-4 md:px-20 py-12 relative">
@@ -100,8 +100,8 @@ const GeneralSettings = () => {
         Perosnal Information
       </p>
       <div className=" w-full bg-[#352e2e33] border border-[#372F2F] p-6 rounded-xl shadow-md">
-        <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className=" min-w-36">Profile Picture</p>
+        <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/20  gap-4 md:gap-16">
+          <p className=" min-w-16 md:min-w-36">Profile Picture</p>
           <div className="flex flex-col gap-3">
             <div className="flex gap-4 items-center">
               <Image
@@ -127,15 +127,15 @@ const GeneralSettings = () => {
           </div>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className=" min-w-36">First Name</p>
+          <p className=" min-w-16 md:min-w-36">First Name</p>
           <p className="">Joney</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className=" min-w-36">Last Name</p>
+          <p className=" min-w-16 md:min-w-36">Last Name</p>
           <p className="">Joney</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className=" min-w-36">Facebook</p>
+          <p className=" min-w-16 md:min-w-36">Facebook</p>
           <button
             className={`text-sm 2xl:text-base font-semibold bg-[#05D6FF80] px-4 py-2 rounded-lg
                 }`}
@@ -144,7 +144,7 @@ const GeneralSettings = () => {
           </button>{" "}
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className=" min-w-36">Email</p>
+          <p className=" min-w-16 md:min-w-36">Email</p>
           <p className="">xyz@gmail.com</p>
         </div>
       </div>
@@ -153,23 +153,23 @@ const GeneralSettings = () => {
       </p>
       <div className=" w-full bg-[#352e2e33] border border-[#372F2F] p-6 rounded-xl shadow-md">
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">Street Address</p>
+          <p className="  min-w-16 md:min-w-36">Street Address</p>
           <p className="">Optional</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">Apt or suite number</p>
+          <p className="  min-w-16 md:min-w-36">Apt or suite number</p>
           <p className="">Optional</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">City</p>
+          <p className="  min-w-16 md:min-w-36">City</p>
           <p className="">Optional</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">Zip Code</p>
+          <p className="  min-w-16 md:min-w-36">Zip Code</p>
           <p className="">Optional</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">Phone Number</p>
+          <p className="  min-w-16 md:min-w-36">Phone Number</p>
           <p className="">Optional</p>
         </div>
       </div>
@@ -178,23 +178,23 @@ const GeneralSettings = () => {
       </p>
       <div className=" w-full bg-[#352e2e33] border border-[#372F2F] p-6 rounded-xl shadow-md">
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">HuntGrounds URL</p>
+          <p className="  min-w-16 md:min-w-36">HuntGrounds URL</p>
           <p className="">A short description of yourself as a Hunt Grounder</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">public location</p>
+          <p className="  min-w-16 md:min-w-36">public location</p>
           <p className="">Optional</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">Personal URL</p>
+          <p className="  min-w-16 md:min-w-36">Personal URL</p>
           <p className="">Optional</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">Instagram Handle</p>
+          <p className="  min-w-16 md:min-w-36">Instagram Handle</p>
           <p className="">Optional</p>
         </div>
         <div className="flex py-8 border-b border-primary-50/20  gap-16">
-          <p className="  min-w-36">Twitter Handle</p>
+          <p className="  min-w-16 md:min-w-36">Twitter Handle</p>
           <p className="">Optional</p>
         </div>
       </div>
@@ -255,7 +255,7 @@ const EmailsAndSms = () => {
       </h2>
 
       <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
           <div className="w-16 flex justify-center ">
             <Image
               src="/images/email2.svg"
@@ -264,7 +264,7 @@ const EmailsAndSms = () => {
               alt="email"
             />
           </div>
-          <p className="text-primary-50 md:pl-6 font-bold text-lg">
+          <p className="text-primary-50 md:pl-6 text-xs font-bold md:text-lg">
             Optional communication from the Huntground team
           </p>
         </div>
@@ -325,7 +325,7 @@ const EmailsAndSms = () => {
         </div>
       </div>
       <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <div className="w-16 flex justify-center ">
             <Image
               src="/images/email2.svg"
@@ -337,7 +337,7 @@ const EmailsAndSms = () => {
           <div className="w-16 flex justify-center ">
             <Image src="/images/phone.svg" width={30} height={30} alt="email" />
           </div>
-          <p className="text-primary-50 md:pl-6 text-lg font-bold">
+          <p className="text-primary-50 md:pl-6 text-xs md:text-lg font-bold">
             Huntground experience communications
           </p>
         </div>
@@ -419,8 +419,8 @@ const EmailsAndSms = () => {
         </button>
       </div>
       <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
-        <div className="flex items-center">
-          <div className="w-16 flex justify-center ">
+        <div className="flex items-center gap-3">
+          <div className="w-16 flex justify-center  ">
             <Image
               src="/images/email2.svg"
               width={30}
@@ -431,7 +431,7 @@ const EmailsAndSms = () => {
           <div className="w-16 flex justify-center ">
             <Image src="/images/phone.svg" width={30} height={30} alt="email" />
           </div>
-          <p className="text-primary-50 md:pl-6 text-lg font-bold">
+          <p className="text-primary-50 md:pl-6 text-sm md:text-lg font-bold">
             Optional communication from the Huntground team
           </p>
         </div>
@@ -491,9 +491,9 @@ const PaymentDetails = () => {
       <p className="text-lg  font-normal text-gray-400 mt-8 mb-2">
         Your saved cards
       </p>
-      <div className=" w-full bg-[#352e2e33] space-y-4 border flex flex-col items-center gap-3 border-[#372F2F] p-6 rounded-xl shadow-md">
+      <div className=" w-full bg-[#352e2e33] space-y-4 border flex flex-col  gap-3 border-[#372F2F] p-6 rounded-xl shadow-md">
         <h2 className="text-2xl font-semibold mb-4">Payment Details</h2>
-        <div className="w-full bg-[#372F2F33] shadow-inner p-5 rounded-lg flex-col md:flex-row flex items-center justify-center md:justify-between shadow-slate-800">
+        <div className="w-full bg-[#372F2F33] shadow-inner p-5 rounded-lg flex-col md:flex-row flex items-center justify-center gap-4 md:justify-between shadow-slate-800">
           <div className="flex  items-center gap-3">
             <Image src="/images/visa.svg" width={35} alt="visa" height={35} />
             <div className="flex flex-col gap-1">
@@ -510,7 +510,7 @@ const PaymentDetails = () => {
             </button>
           </div>
         </div>
-        <div className="w-full bg-[#372F2F33] shadow-inner p-5 rounded-lg flex-col md:flex-row flex items-center justify-center md:justify-between shadow-slate-800">
+        <div className="w-full bg-[#372F2F33] shadow-inner p-5 rounded-lg flex-col md:flex-row flex items-center justify-center gap-4 md:justify-between shadow-slate-800">
           <div className="flex  items-center gap-3">
             <Image src="/images/visa.svg" width={35} alt="visa" height={35} />
             <div className="flex flex-col gap-1">
@@ -524,6 +524,82 @@ const PaymentDetails = () => {
             </button>
             <button className="text-lg font-semibold text-white">
               <RiDeleteBinLine />
+            </button>
+          </div>
+        </div>
+
+        <button className=" my-3 px-5 py-2.5 rounded-full w-fit text-[#00C88C] border border-[#00C88C] bg-[#00C88C]/10">
+          Add new card
+        </button>
+
+        <div className=" my-6 w-full bg-[#12131280] space-y-2 flex flex-col items-center rounded-xl p-5 border border-[#2a2c2a21]">
+          <h3 className=" mx-auto 2xl:text-lg mb-5 ">Add New Card</h3>
+          <div className="flex flex-col gap-2 w-full">
+            <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
+              Card Number
+            </p>
+            <input
+              type="text"
+              className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+              placeholder=" Enter card number "
+            />
+          </div>
+          <div className="flex flex-col gap-2 w-full">
+            <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
+              Card Number
+            </p>
+            <input
+              type="text"
+              className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+              placeholder=" Enter card number "
+            />
+          </div>
+          <div className="flex flex-col gap-2 w-full">
+            <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
+              Card Name
+            </p>
+            <input
+              type="text"
+              className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+              placeholder=" Enter card name "
+            />
+          </div>
+          <div className=" w-full flex flex-col md:flex-row items-center gap-4  justify-between">
+            <div className="flex flex-col w-full gap-1.5">
+              <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
+                Date
+              </p>
+              <input
+                type="text"
+                className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+                placeholder=" mm / yy "
+              />
+            </div>
+            <div className="flex flex-col w-full gap-1.5">
+              <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
+                CVV
+              </p>
+              <input
+                type="text"
+                className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+                placeholder=" X X X "
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 w-full mb-4">
+            <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
+              Zip Code
+            </p>
+            <input
+              type="text"
+              className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+              placeholder=" Enter zip code"
+            />
+          </div>
+
+          <div className="flex items-center px-2 py-4 gap-3 justify-center w-full ">
+            <button className=" text-black font-semibold px-8 md:w-1/4 text-lg py-2 rounded-xl bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
+              Add New Card
             </button>
           </div>
         </div>

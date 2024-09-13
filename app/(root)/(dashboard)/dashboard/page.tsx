@@ -18,14 +18,14 @@ const page = () => {
             />
             Export
           </button>
-          <button className=" text-black font-semibold  px-4 text-sm py-2 rounded-full bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
+          <button className=" hidden md:block text-black font-semibold  px-4 text-sm py-2 rounded-full bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
             Bulk Edit
           </button>
         </div>
       </div>
       <div className=" w-full grid grid-cols-1 gap-4 md:grid-cols-3  lg:grid-col-3">
         <div className="flex flex-col gap-3">
-          <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
+          <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
             <p className="textlg 2xl:text-xl mb-6 text-gray-300">Total Sales</p>
             <div className="flex items-center gap-4">
               <p className="text-2xl 2xl:text-5xl font-semibold">$9,343</p>
@@ -41,7 +41,7 @@ const page = () => {
               <p className="text-sm text-slate-300">vs last month</p>
             </div>
           </div>
-          <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
+          <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
             <p className="textlg 2xl:text-xl mb-6 text-gray-300">
               Withdrawal Status
             </p>
@@ -51,7 +51,7 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
+        <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
           <p className="textlg 2xl:text-xl mb-3 text-gray-300">User Growth</p>
           <div className="flex items-center gap-3">
             <button className="bg-[#372F2F33] text-xs text-nowrap  2xl:text-sm border border-[#312a2a7e] px-4 py-1 rounded-full">

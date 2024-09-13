@@ -64,7 +64,7 @@ const page = () => {
         <Form {...form}>
           <div
             id="first"
-            className="flex flex-col bg-[#161313CC]  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+            className="flex flex-col bg-[#161313CC]  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
           >
             <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
               Own land? <span className="text-primary-50">Earn money </span>{" "}
@@ -79,7 +79,7 @@ const page = () => {
             </p>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className=" w-full px-12 "
+              className=" w-full px-6 md:px-12 "
             >
               <FormField
                 control={form.control}
@@ -217,7 +217,7 @@ const page = () => {
                     onChange={(e) => setCountryCode(e.target.value)}
                     className="border-none  bg-transparent focus:ring-1 outline-offset-1 
                          shadow  focus:border mr-0  rounded-lg   
-                          py-1.5 2xl:px-6 text-[#848BAC] leading-tight truncate w-32 
+                          py-1.5 2xl:px-6 text-[#848BAC] leading-tight truncate w-16 md:w-32 
                           "
                   >
                     {codes.map((code, index) => (
@@ -338,12 +338,7 @@ const page = () => {
         </h2>
         <div className="flex items-center justify-center w-full gap-5 flex-wrap lg:flex-nowrap  mt-16  mb-6">
           <div className="flex gap-4">
-            <Image
-              src="/images/relax.svg"
-              width={100}
-              height={100}
-              alt="logo"
-            />
+            <Image src="/images/relax.svg" width={90} height={90} alt="logo" />
             <div className="flex flex-col gap-1.5">
               <p className="text-xs 2xl:text-sm text-primary-50 font-semibold">
                 Relax
@@ -358,7 +353,7 @@ const page = () => {
             </div>
           </div>
           <div className="flex gap-4">
-            <Image src="/images/paid.svg" width={100} height={100} alt="logo" />
+            <Image src="/images/paid.svg" width={90} height={90} alt="logo" />
             <div className="flex flex-col gap-1.5">
               <p className="text-xs 2xl:text-sm text-primary-50 font-semibold">
                 Your Rules
@@ -448,7 +443,7 @@ const page = () => {
         <Form {...form}>
           <div
             id="first"
-            className="flex flex-col bg-[#161313CC]  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+            className="flex flex-col bg-[#161313CC]  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3 p-4 md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
           >
             <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
               Own land? <span className="text-primary-50">Earn money </span>{" "}
@@ -463,7 +458,7 @@ const page = () => {
             </p>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className=" w-full px-12 "
+              className=" w-full px-5 md:px-12 "
             >
               <FormField
                 control={form.control}
@@ -601,7 +596,7 @@ const page = () => {
                     onChange={(e) => setCountryCode(e.target.value)}
                     className="border-none  bg-transparent focus:ring-1 outline-offset-1 
                          shadow  focus:border mr-0  rounded-lg   
-                          2xl:py-1.5 2xl:px-6 text-[#848BAC] leading-tight truncate w-32 
+                          2xl:py-1.5 2xl:px-6 text-[#848BAC] leading-tight truncate w-16 md:w-32 
                           "
                   >
                     {codes.map((code, index) => (

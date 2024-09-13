@@ -14,11 +14,11 @@ const page = () => {
             <p className=" w-2 h-2 bg-primary-50 rounded-full"></p>
             <p className=" py-2 text-sm">Today</p>
           </div>
-          <FaChevronRight className=" text-2xl p-0.5 border border-primary-50/30 rounded-full" />
+          <FaChevronRight className=" hidden md:block text-2xl p-0.5 border border-primary-50/30 rounded-full" />
           <FaChevronRight className=" text-2xl p-0.5 border border-primary-50/30 rounded-full" />
           <p className="font-semibold">August 23</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <button className=" px-4 text-sm py-2 rounded-full shadow-inner shadow-gray-800 inline-flex gap-2 ">
             <Image
               src={"/images/setting.svg"}

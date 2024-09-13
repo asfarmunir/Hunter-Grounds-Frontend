@@ -12,7 +12,7 @@ const links = [
   },
   {
     name: "Property",
-    href: "/property",
+    href: "/dashboard",
   },
   {
     name: "Calendar",
@@ -20,7 +20,7 @@ const links = [
   },
   {
     name: "Inbox",
-    href: "/inbox",
+    href: "/dashboard",
   },
 ];
 const layout = ({ children }: { children: React.ReactNode }) => {
