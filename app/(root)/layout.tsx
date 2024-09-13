@@ -16,6 +16,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       ? "url('/images/bg-hero2.svg')" // Another condition
       : pathname === "/booking"
       ? "url('/images/bg-hero.svg')" // Another condition
+      : pathname === "/account/inbox"
+      ? "url('/images/bg-hero.svg')" // Another condition
       : pathname === "/pre-booking/payment"
       ? "url('/images/bg-hero3.svg')" // Another condition
       : pathname === "/no-bg"

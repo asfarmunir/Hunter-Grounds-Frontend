@@ -13,7 +13,7 @@ const links = [
 ];
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-full bg-primary">
+    <div className="w-full ">
       <Topbar links={links} />
       {children}
     </div>
