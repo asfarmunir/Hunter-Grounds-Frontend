@@ -6,51 +6,6 @@ import { useInView } from "react-intersection-observer";
 import { motion, useMotionValue, useScroll } from "framer-motion";
 import Image from "next/image";
 
-interface RoadmapItem {
-  number: number;
-  items: string[];
-}
-
-const roadmapItems: RoadmapItem[] = [
-  {
-    number: 1,
-    items: [
-      "Team internally purchases two 1.5 megawatt containers. Once filled each earning 10%-20% ROI per month.",
-      "Brand and go to market strategy development.",
-      "Visit Logic Mining headquarters in Alberta.",
-      "Site, socials, and white paper launch.",
-    ],
-  },
-  {
-    number: 2,
-    items: [
-      "Social FI campaign launch.",
-      "Seed Round launch.",
-      "Massive multi platform marketing campaign kickoff.",
-      "Private ICO sale start",
-      "Pre TGE Staking launch",
-      "TGE",
-    ],
-  },
-  {
-    number: 3,
-    items: [
-      "Token Launch",
-      "Play To Earn Game development begins",
-      "Hosting Business Channel Opens",
-      "Containers & Operational Expansion",
-    ],
-  },
-  {
-    number: 4,
-    items: [
-      "Play To Earn game launch",
-      "Second phase marketing push",
-      "Strategic Partnership Expansion",
-    ],
-  },
-];
-
 export default function Roadmap() {
   const [ref1, inView1, entry1] = useInView({ threshold: 0.8 });
   const [ref2, inView2, entry2] = useInView({ threshold: 1 });
@@ -79,7 +34,7 @@ export default function Roadmap() {
 
   useEffect(() => {
     if (inView4) {
-      setHeight(80.7);
+      setHeight(100);
     } else {
       setHeight(0);
     }

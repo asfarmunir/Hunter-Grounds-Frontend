@@ -233,7 +233,7 @@ const page = () => {
               </button>{" "}
             </div>
           </div>
-          <div className=" bg-[#16131399] p-8 col-span-2 border border-[#372F2F] rounded-xl">
+          <div className=" bg-[#16131399] p-8 md:col-span-2 border border-[#372F2F] rounded-xl">
             <h2 className="flex items-center mb-6 text-sm text-gray-200 gap-2">
               <Image
                 src={"/images/dollar-circle.svg"}

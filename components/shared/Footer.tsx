@@ -60,7 +60,7 @@ const Footer = () => {
               />
               <div className="flex flex-col ">
                 <span className="text-xs font-thin">Download on the</span>
-                <p className=" text-sm md:text-base 2xl:text-lg font-semibold">
+                <p className=" text-xs xs:text-sm md:text-base 2xl:text-lg font-semibold">
                   App Store
                 </p>
               </div>
@@ -74,8 +74,8 @@ const Footer = () => {
               />
               <div className="flex flex-col ">
                 <span className="text-xs font-thin">Get It on</span>
-                <p className=" text-sm md:text-base 2xl:text-lg font-semibold">
-                  Play Store
+                <p className=" text-xs xs:text-sm md:text-base 2xl:text-lg font-semibold">
+                  Google Play
                 </p>
               </div>
             </div>

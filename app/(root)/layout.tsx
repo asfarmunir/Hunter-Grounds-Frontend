@@ -33,7 +33,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       }`}
       style={{
         backgroundImage: backgroundImage,
-        // backgroundBlendMode: "multiply",
       }}
     >
       <section className="w-full overflow-y-auto h-screen">

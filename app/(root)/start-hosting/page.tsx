@@ -211,13 +211,13 @@ const page = () => {
                 )}
               />
               <div className="flex items-start  gap-3 ">
-                <div className="flex items-center  p-3  rounded-lg gap-2.5 bg-[#2A2A2A]">
+                <div className="flex items-center   px-3 p-0.5 md:p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
                   <select
                     value={countryCode}
                     onChange={(e) => setCountryCode(e.target.value)}
                     className="border-none  bg-transparent focus:ring-1 outline-offset-1 
                          shadow  focus:border mr-0  rounded-lg   
-                          py-1.5 2xl:px-6 text-[#848BAC] leading-tight truncate w-16 md:w-32 
+                          p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32 
                           "
                   >
                     {codes.map((code, index) => (
@@ -290,9 +290,11 @@ const page = () => {
             </form>
           </div>
         </Form>
-        <div className="flex items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute -bottom-14 right-[25%] md:right-[40%]">
+        <div className="flex items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute -bottom-14 right-[15%]  xs:right-[25%] md:right-[40%]">
           <Image src="/images/check.svg" width={20} height={20} alt="logo" />
-          <p className="text-sm font-semibold">Hunt Where You Feel Free.</p>
+          <p className="text-xs xs:text-sm font-semibold">
+            Hunt Where You Feel Free.
+          </p>
         </div>
         <div className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4  max-w-sm rounded-xl shadow">
           <h2 className="text-4xl 2xl:text-5xl text-primary-50 px-8">
@@ -308,7 +310,7 @@ const page = () => {
       </div>
       <div className=" w-full flex pt-16 md:pt-0 items-center bg-primary  justify-between px-6 pb-12  md:pl-10 2xl:pl-16 md:pr-0 md:h-[30rem] 2xl:h-[34rem] mt-16  overflow-hidden">
         <div className=" bg-[#161313CC]   p-4  max-w-xl rounded-xl shadow">
-          <h2 className="text-5xl 2xl:text-6xl font-semibold text-white text-center w-full ">
+          <h2 className="text-3xl md:text-5xl 2xl:text-6xl font-semibold text-white text-center w-full ">
             Why <span className="text-primary-50">Host?</span>{" "}
           </h2>
           <p className=" 2xl:text-lg  my-3">
@@ -590,29 +592,27 @@ const page = () => {
                 )}
               />
               <div className="flex items-start  gap-3 ">
-                <div className="flex items-center  p-3  rounded-lg gap-2.5 bg-[#2A2A2A]">
-                  <select
-                    value={countryCode}
-                    onChange={(e) => setCountryCode(e.target.value)}
-                    className="border-none  bg-transparent focus:ring-1 outline-offset-1 
+                <select
+                  value={countryCode}
+                  onChange={(e) => setCountryCode(e.target.value)}
+                  className="border-none  bg-transparent focus:ring-1 outline-offset-1 
                          shadow  focus:border mr-0  rounded-lg   
                           2xl:py-1.5 2xl:px-6 text-[#848BAC] leading-tight truncate w-16 md:w-32 
                           "
-                  >
-                    {codes.map((code, index) => (
-                      <option key={index} value={code.countryCodes[0]}>
-                        {code.isoCode2} +{code.countryCodes[0]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                >
+                  {codes.map((code, index) => (
+                    <option key={index} value={code.countryCodes[0]}>
+                      {code.isoCode2} +{code.countryCodes[0]}
+                    </option>
+                  ))}
+                </select>
                 <FormField
                   control={form.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem className="mb-4 w-full ">
                       <FormControl className="">
-                        <div className="flex items-center  px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                        <div className="flex items-center  px-3 p- rounded-lg gap-2.5 bg-[#2A2A2A]">
                           <Input
                             placeholder="Phone Number* "
                             {...field}
