@@ -24,11 +24,22 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { IoMdSearch } from "react-icons/io";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { RxHamburgerMenu, RxCalendar } from "react-icons/rx";
+import { format } from "date-fns";
 
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import LoginModal from "@/components/shared/LoginModal";
 import SignupModal from "@/components/shared/SignupModal";
 const Navbar = () => {
+  const [date, setDate] = React.useState<Date>();
+
   const pathname = usePathname();
   return (
     <nav className=" w-full  rounded-full px-3 md:pl-10 2xl:pl-12 2xl:px-5 py-3.5 flex items-center justify-between">
@@ -41,15 +52,36 @@ const Navbar = () => {
       />
 
       <div className=" bg-[#2A2A2A] px-4 py-2 hidden md:flex items-center gap-2 rounded-lg">
-        <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r pr-2.5 border-gray-500">
-          <Image
-            src={"/images/calendar.svg"}
-            width={18}
-            height={18}
-            alt="logo"
-          />
-          Add Dates +
-        </button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <button
+              className={
+                " inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500 dark:bg-transparent "
+              }
+            >
+              <Image
+                src={"/images/calendar.svg"}
+                width={17}
+                height={17}
+                alt="logo"
+              />{" "}
+              {date ? (
+                format(date, "PPP")
+              ) : (
+                <span className="text-white">Add Dates +</span>
+              )}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+
         <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
           <Image src={"/images/guest.svg"} width={18} height={18} alt="logo" />
           Add Guests +
