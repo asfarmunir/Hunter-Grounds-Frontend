@@ -1,15 +1,15 @@
 export const navlinks = [
     {
         name: "Near Me",
-        href: "/near-me",
+        href: "#",
     },
     {
         name: "Trips",
-        href: "/trips",
+        href: "#",
     },
     {
         name: "Saved",
-        href: "/saved",
+        href: "#",
     },
     {
         name: "Start hosting",

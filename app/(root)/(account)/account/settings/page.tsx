@@ -28,11 +28,11 @@ const links = [
 ];
 
 const page = () => {
-  const [tab, setTab] = React.useState("payment-details");
+  const [tab, setTab] = React.useState("edit-profile");
 
   return (
     <div className=" w-full p-4 md:px-20 py-12 relative">
-      <div className=" hidden md:block absolute right-0 h-[600px]  ">
+      <div className=" hidden md:block absolute right-0 top-[30%] h-[600px]  ">
         <Image
           src={"/images/footerBg.svg"}
           alt="bg"

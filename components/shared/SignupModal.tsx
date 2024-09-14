@@ -70,9 +70,9 @@ const AddClient = () => {
         <Form {...form}>
           <div
             id="first"
-            className="flex flex-col bg-[#161313CC]  items-center max-h-[95svh] overflow-auto justify-start w-full gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+            className="flex flex-col bg-[#161313CC]  items-center max-h-[95svh] overflow-auto justify-start w-full gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:pt-16 rounded-xl "
           >
-            <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-bold">
+            <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-semibold">
               Signup to continue
             </h2>
             <p className="font-semibold mb-2 ">

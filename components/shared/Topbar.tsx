@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import { navlinks } from "@/lib/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -41,7 +39,7 @@ const Navbar = ({
     <div
       className={` ${
         pathname === "/account/inbox" ? "" : "bg-[#FF99001A]"
-      } w-full   px-2 md:px-6 md:pl-14 2xl:pl-16 2xl:px-5  flex items-center gap-2 md:gap-8 overflow-x-scroll pb-1 md:pb-0  `}
+      } w-full   px-2 md:px-6 md:pl-14 2xl:pl-16 2xl:px-5  flex items-center gap-2 md:gap-8 overflow-x-auto pb-1 md:pb-0  `}
     >
       {links.map((link, index) => (
         <Link

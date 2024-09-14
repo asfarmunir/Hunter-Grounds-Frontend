@@ -104,7 +104,7 @@ const page = () => {
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Property Address
           </p>
-          <div className=" w-full dark:bg-[#372F2F33] border border-[#372F2F] p-6 rounded-xl shadow-md">
+          <div className=" w-full dark:bg-[#372F2F33] border flex flex-col items-center md:items-start border-[#372F2F] p-6 rounded-xl shadow-md">
             <div className="flex py-8 items-center gap-3   ">
               <Image
                 src="/images/missing.svg"
@@ -115,7 +115,7 @@ const page = () => {
 
               <p className="text-sm text-gray-300">Address not provided</p>
             </div>
-            <button className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
+            <button className=" bg-gradient-to-t text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
               Change Adress
             </button>
           </div>
@@ -190,10 +190,10 @@ const page = () => {
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
             <p className="text-sm  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
-              1 Photo Added
+              3 Photos Added
             </p>
-            <div className=" w-full flex flex-col-reverse gap-4 md:flex-row justify-between">
-              <div className="flex items-center justify-center flex-wrap gap-1">
+            <div className=" w-full flex flex-col gap-4 md:flex-row justify-between">
+              <div className="flex items-center justify-center md:justify-start flex-wrap ">
                 <div className=" w-36 h-36">
                   <Image
                     src="/images/place1.svg"
@@ -228,7 +228,7 @@ const page = () => {
                   />
                 </div>
               </div>
-              <button className=" w-fit h-fit bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
+              <button className=" w-fit h-fit text-xs md:text-sm bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
                 Add or edit photos
               </button>
             </div>
@@ -237,7 +237,7 @@ const page = () => {
             Profile Picture
           </p>
           <div className=" w-full dark:bg-[#372F2F33] flex items-center gap-6 flex-col md:flex-row justify-between border border-[#372F2F] p-7 rounded-xl shadow-md">
-            <div className="flex flex-col">
+            <div className="flex flex-col items-center md:items-start">
               <p className="text-sm  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
                 Add a profile picture
               </p>
@@ -274,7 +274,7 @@ const page = () => {
 
                 <p className="text-sm text-gray-300"> information provided</p>
               </div>
-              <button className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
+              <button className=" bg-gradient-to-t text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
                 Verfy ID
               </button>
             </div>
@@ -294,7 +294,7 @@ const page = () => {
             Insurance
           </p>
           <div className=" w-full dark:bg-[#372F2F33] border flex items-center justify-between gap-4 flex-col md:flex-row border-[#372F2F] p-6 rounded-xl shadow-md">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center md:items-start">
               <div className="flex py-5 items-center gap-3   ">
                 <Image
                   src="/images/missing.svg"
@@ -309,7 +309,7 @@ const page = () => {
                   policy <br /> Enrollment period: undefined - undefined
                 </p>
               </div>
-              <button className=" w-fit bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
+              <button className=" w-fit text-xs md:text-sm bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
                 Complete
               </button>
             </div>

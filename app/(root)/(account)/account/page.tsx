@@ -41,12 +41,9 @@ const page = () => {
               tristique nisl sem. Vitae non ornare consectetur iaculis risus.
             </p>
           </div>
-          <Link
-            href={"/account/settings"}
-            className=" px-20  py-3 rounded-xl  bg-[#372F2F] "
-          >
+          <button className=" px-20 text-sm py-3 rounded-xl  bg-[#372F2F] ">
             Edit Profile
-          </Link>
+          </button>
         </div>
         <div className=" p-5 rounded-xl flex flex-col bg-gradient-to-b from-primary to-orange-500/20 ">
           <p className="text-xl font-semibold">Trusted HuntGround</p>

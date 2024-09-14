@@ -43,13 +43,15 @@ const Navbar = () => {
   const pathname = usePathname();
   return (
     <nav className=" w-full  rounded-full px-3 md:pl-10 2xl:pl-12 2xl:px-5 py-3.5 flex items-center justify-between">
-      <Image
-        src="/images/logo.svg"
-        alt="Logo"
-        width={130}
-        height={130}
-        className=" w-36 2xl:w-48  "
-      />
+      <Link href={"/"}>
+        <Image
+          src="/images/logo.svg"
+          alt="Logo"
+          width={130}
+          height={130}
+          className=" w-36 2xl:w-48  "
+        />
+      </Link>
 
       <div className=" bg-[#2A2A2A] px-4 py-2 hidden md:flex items-center gap-2 rounded-lg">
         <Popover>

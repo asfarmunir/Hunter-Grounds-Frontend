@@ -21,8 +21,8 @@ const socials = [
 ];
 const Footer = () => {
   return (
-    <div className=" w-full flex items-center bg-primary  justify-between px-6 pb-12  md:pl-10 2xl:pl-16 md:pr-0 md:h-[30rem] 2xl:h-[34rem] mt-16  overflow-hidden">
-      <div className="flex flex-col md:flex-row gap-10 pt-16">
+    <div className=" w-full flex items-center bg-[#000214]  justify-between px-6 pb-12  md:pl-10 2xl:pl-16 md:pr-0 md:h-[35rem] 2xl:h-[40rem] mt-16  overflow-hidden">
+      <div className="flex flex-col md:flex-row gap-10 pt-12 md:pt-32 md:pl-8 pb-12 ">
         <div className="flex flex-col gap-2 ">
           <h2 className="text-2xl 2xl:text-4xl font-black">
             Let's Keep in Touch

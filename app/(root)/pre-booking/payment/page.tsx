@@ -6,7 +6,7 @@ import React from "react";
 const page = () => {
   return (
     <div className=" w-full flex flex-col md:flex-row gap-10 justify-between p-4 md:p-20">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full max-w-lg 2xl:max-w-2xl">
         <h2 className="text-2xl 2xl:text-4xl mb-6 font-bold">Review And Pay</h2>
         <div className=" w-full flex flex-col md:flex-row  items-center gap-4  justify-between">
           <div className="flex w-full flex-col gap-1.5">
@@ -51,7 +51,7 @@ const page = () => {
           </div>
         </div>
 
-        <div className=" my-6 w-full bg-[#12131280] space-y-2 flex flex-col items-center rounded-xl p-5 border border-[#2a2c2a21]">
+        <div className=" my-6 w-full bg-[#121312c0] space-y-2 flex flex-col items-center rounded-xl p-5 border border-[#2a2c2a21]">
           <h3 className=" mx-auto 2xl:text-lg mb-5 ">Payment Details</h3>
           <div className="flex flex-col gap-2 w-full">
             <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
@@ -125,6 +125,11 @@ const page = () => {
               Save my payment information so checkout easy in next time
             </p>
           </div>
+          <div className=" w-full flex justify-start">
+            <button className=" px-3 py-2 text-xs 2xl:text-sm rounded-lg w-fit text-[#00C88C] border border-[#00c88c3c] bg-[#00C88C]/10">
+              Use Added Card
+            </button>
+          </div>
         </div>
       </div>
       <div className="">
@@ -177,7 +182,7 @@ const page = () => {
           Cancellation Policy,  the host's rules, HuntGrounds Terms of Use, and
           HuntGrounds Privacy Policy.{" "}
         </p>
-        <button className=" w-[96%] px-12 py-3 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold ">
+        <button className=" w-[96%] px-12 py-3 mt-4 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold ">
           I agree and book now
         </button>
       </div>

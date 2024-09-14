@@ -59,8 +59,8 @@ const page = () => {
     console.log(values);
   }
   return (
-    <div className="px-4  py-8 relative pb-20">
-      <div className=" md:pl-12 relative 2xl:pl-20 w-full">
+    <div className="  py-8 relative ">
+      <div className=" md:pl-12 relative 2xl:pl-20 w-full pb-4">
         <Form {...form}>
           <div
             id="first"
@@ -290,13 +290,13 @@ const page = () => {
             </form>
           </div>
         </Form>
-        <div className="flex items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute -bottom-14 right-[15%]  xs:right-[25%] md:right-[40%]">
+        <div className="flex items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute bottom-0 right-[15%]  xs:right-[25%] md:right-[40%]">
           <Image src="/images/check.svg" width={20} height={20} alt="logo" />
           <p className="text-xs xs:text-sm font-semibold">
             Hunt Where You Feel Free.
           </p>
         </div>
-        <div className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4  max-w-sm rounded-xl shadow">
+        <div className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4  max-w-sm 2xl:max-w-md rounded-xl shadow">
           <h2 className="text-4xl 2xl:text-5xl text-primary-50 px-8">
             $1 Million USD <span className="text-white">Included</span>{" "}
           </h2>
@@ -308,9 +308,9 @@ const page = () => {
           </p>
         </div>
       </div>
-      <div className=" w-full flex pt-16 md:pt-0 items-center bg-primary  justify-between px-6 pb-12  md:pl-10 2xl:pl-16 md:pr-0 md:h-[30rem] 2xl:h-[34rem] mt-16  overflow-hidden">
-        <div className=" bg-[#161313CC]   p-4  max-w-xl rounded-xl shadow">
-          <h2 className="text-3xl md:text-5xl 2xl:text-6xl font-semibold text-white text-center w-full ">
+      <div className=" w-full flex pt-16 md:pt-0 items-center bg-[#000214]  justify-between px-6 md:pl-10 2xl:pl-20 md:pr-0 md:h-[34rem] 2xl:h-[40rem] mt-16  overflow-hidden">
+        <div className=" bg-[#161313CC]   p-4 md:p-6 2xl:p-8  max-w-xl 2xl:max-w-2xl rounded-xl shadow">
+          <h2 className="text-3xl mb-6 2xl:mb-8 md:text-5xl 2xl:text-6xl font-semibold text-white text-center w-full ">
             Why <span className="text-primary-50">Host?</span>{" "}
           </h2>
           <p className=" 2xl:text-lg  my-3">
@@ -333,12 +333,12 @@ const page = () => {
           />
         </div>
       </div>
-      <div className=" w-full px-4 py-20 md:p-20 bg-primary">
+      <div className=" w-full px-4 py-20 md:p-20 bg-[#000214] ">
         <h2 className="text-3xl md:text-5xl 2xl:text-6xl font-semibold text-white   ">
           The  <span className="text-primary-50">Benefits</span> <br /> of
           HuntGrounds
         </h2>
-        <div className="flex items-center justify-center w-full gap-5 flex-wrap lg:flex-nowrap  mt-16  mb-6">
+        <div className="flex items-center justify-center w-full gap-5 flex-wrap lg:flex-nowrap  mt-16  mb-12">
           <div className="flex gap-4">
             <Image src="/images/relax.svg" width={90} height={90} alt="logo" />
             <div className="flex flex-col gap-1.5">
@@ -348,7 +348,7 @@ const page = () => {
               <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold">
                 Offer bookings at anytime you want
               </h2>
-              <p className="text-sm md:text-base 2xl:text-lg  font-thin text-slate-300">
+              <p className="text-sm md:text-base 2xl:text-lg text-sm  font-thin text-gray-400">
                 Offer bookings at any time that suits you, putting control of
                 your schedule right in your hands.
               </p>
@@ -363,7 +363,7 @@ const page = () => {
               <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold">
                 Get paid weekly
               </h2>
-              <p className="text-sm md:text-base 2xl:text-lg  font-thin text-slate-300">
+              <p className="text-sm md:text-base 2xl:text-lg text-sm  font-thin text-gray-400">
                 Receive your payments weekly, ensuring a steady and reliable
                 income stream.
               </p>
@@ -385,7 +385,7 @@ const page = () => {
               <h2 className="text-xl 2xl:text-2xl font-bold">
                 We only take 10%
               </h2>
-              <p className="2xl:text-lg  font-thin text-slate-300">
+              <p className="2xl:text-lg text-sm  font-thin text-gray-400">
                 We only take a 10% commission, so you keep the majority of your
                 earnings.
               </p>
@@ -405,7 +405,7 @@ const page = () => {
               <h2 className="text-xl 2xl:text-2xl font-bold">
                 We do the marketing for you
               </h2>
-              <p className="2xl:text-lg  font-thin text-slate-300">
+              <p className="2xl:text-lg text-sm  font-thin text-gray-400">
                 We handle the marketing for you, so you can focus on what you do
                 best.
               </p>
@@ -425,7 +425,7 @@ const page = () => {
               <h2 className="text-xl 2xl:text-2xl font-bold">
                 More bookings, no hassle.
               </h2>
-              <p className="2xl:text-lg  md:max-w-lg font-thin text-slate-300">
+              <p className="2xl:text-lg text-sm  md:max-w-lg font-thin text-gray-400">
                 Get more bookings without the hassle. We take care of the
                 details so you can focus on providing an exceptional experience.
               </p>
@@ -434,18 +434,18 @@ const page = () => {
         </div>
       </div>
 
-      <div className=" w-full py-12 bg-primary flex flex-col items-center">
+      <div className=" w-full py-12 bg-[#000214]  flex flex-col items-center">
         <h2 className="text-2xl md:text-5xl 2xl:text-6xl max-w-2xl 2xl:max-w-4xl 2xl:mb-8 text-center w-full font-semibold text-white   ">
           What does <span className="text-primary-50">HuntGrounds</span>{" "}
           provide?
         </h2>
         <Roadmap />
       </div>
-      <div className=" md:pl-12 relative 2xl:pl-20 pt-16 w-full">
+      <div className=" md:pl-12 relative 2xl:pl-20 w-full pt-16 ">
         <Form {...form}>
           <div
             id="first"
-            className="flex flex-col bg-[#161313CC]  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3 p-4 md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+            className="flex flex-col bg-[#161313CC]  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
           >
             <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
               Own land? <span className="text-primary-50">Earn money </span>{" "}
@@ -460,7 +460,7 @@ const page = () => {
             </p>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className=" w-full px-5 md:px-12 "
+              className=" w-full px-6 md:px-12 "
             >
               <FormField
                 control={form.control}
@@ -592,27 +592,29 @@ const page = () => {
                 )}
               />
               <div className="flex items-start  gap-3 ">
-                <select
-                  value={countryCode}
-                  onChange={(e) => setCountryCode(e.target.value)}
-                  className="border-none  bg-transparent focus:ring-1 outline-offset-1 
+                <div className="flex items-center   px-3 p-0.5 md:p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                  <select
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    className="border-none  bg-transparent focus:ring-1 outline-offset-1 
                          shadow  focus:border mr-0  rounded-lg   
-                          2xl:py-1.5 2xl:px-6 text-[#848BAC] leading-tight truncate w-16 md:w-32 
+                          p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32 
                           "
-                >
-                  {codes.map((code, index) => (
-                    <option key={index} value={code.countryCodes[0]}>
-                      {code.isoCode2} +{code.countryCodes[0]}
-                    </option>
-                  ))}
-                </select>
+                  >
+                    {codes.map((code, index) => (
+                      <option key={index} value={code.countryCodes[0]}>
+                        {code.isoCode2} +{code.countryCodes[0]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <FormField
                   control={form.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem className="mb-4 w-full ">
                       <FormControl className="">
-                        <div className="flex items-center  px-3 p- rounded-lg gap-2.5 bg-[#2A2A2A]">
+                        <div className="flex items-center  px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
                           <Input
                             placeholder="Phone Number* "
                             {...field}
@@ -670,7 +672,7 @@ const page = () => {
           </div>
         </Form>
 
-        <div className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4  max-w-sm rounded-xl shadow">
+        <div className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4  max-w-sm 2xl:max-w-md rounded-xl shadow">
           <h2 className="text-4xl 2xl:text-5xl text-primary-50 px-8">
             $1 Million USD <span className="text-white">Included</span>{" "}
           </h2>

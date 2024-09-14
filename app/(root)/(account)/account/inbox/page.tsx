@@ -3,8 +3,8 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className=" p-4 md:p-20 w-full flex flex-col md:flex-row justify-center gap-8 ">
-      <div className="bg-[#161313CC] p-5 md:min-w-[420px] rounded-xl">
+    <div className=" p-4 md:p-8 md:pr-16 w-full flex flex-col md:flex-row justify-center gap-12 ">
+      <div className="bg-[#161313CC] p-5 md:min-w-[390px] 2xl:min-w-[420px] rounded-xl">
         <h2 className="text-lg 2xl:text-xl  font-semibold mb-5">Messages</h2>
         <div className="flex flex-col w-full gap-2">
           {Array.from({ length: 5 }).map((_, index) => (
@@ -77,7 +77,7 @@ const page = () => {
           </div>
         </div>
         <div className="  relative  flex-grow  ">
-          <div className="flex flex-col gap-2 p-4">
+          <div className="flex flex-col gap-2 p-5">
             <p className=" bg-white text-black p-5 text-xs 2xl:text-sm rounded-xl w-fit max-w-[16rem]">
               Lorem ipsum dolor sit amet
             </p>
@@ -85,7 +85,7 @@ const page = () => {
               Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet
             </p>
           </div>
-          <div className="flex flex-col items-end w-full p-4  gap-2">
+          <div className="flex flex-col items-end w-full p-5  gap-2">
             <p className=" bg-primary-50/75 text-white p-5 text-xs 2xl:text-sm rounded-xl w-fit max-w-[16rem]">
               Lorem ipsum dolor sit amet
             </p>
@@ -93,11 +93,11 @@ const page = () => {
               Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet
             </p>
           </div>
-          <div className=" w-full bg-[#372F2F80] p-4 flex absolute -bottom-20 items-center gap-1 ">
+          <div className=" w-full bg-[#372F2F80] p-3 flex absolute -bottom-20 items-center gap-1 ">
             <input
               type="text"
               placeholder="Type a message"
-              className=" w-full text-white text-xs 2xl:text-sm border-white border-2 rounded-full p-3 bg-[#FFFFFF33]"
+              className=" w-full text-white text-xs 2xl:text-sm border-white border-2 rounded-full p-2 2xl:p-3 bg-[#FFFFFF33]"
             />
             <button className=" p-2 ">
               <Image

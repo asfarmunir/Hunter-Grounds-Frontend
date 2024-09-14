@@ -64,9 +64,9 @@ const AddClient = () => {
         <Form {...form}>
           <div
             id="first"
-            className="flex flex-col bg-[#161313CC]  items-center justify-center w-full gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+            className="flex flex-col bg-[#161313CC]  items-center justify-center w-full gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:pt-16 rounded-xl "
           >
-            <h2 className="text-3xl md:text-4xl 2xl:text-5xl font-bold">
+            <h2 className="text-3xl md:text-4xl 2xl:text-5xl font-semibold 2xl:mb-2">
               Login to continue
             </h2>
             <p className="font-semibold mb-2 ">
