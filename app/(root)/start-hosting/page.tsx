@@ -60,11 +60,11 @@ const page = () => {
   }
   return (
     <div className="  py-8 relative ">
-      <div className=" md:pl-12 relative 2xl:pl-20 w-full pb-4">
+      <div className=" md:pl-12 relative 2xl:pl-20 flex flex-col items-center md:items-start w-full pb-4">
         <Form {...form}>
           <div
             id="first"
-            className="flex flex-col bg-[#161313CC]  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+            className="flex flex-col bg-[#161313CC] mb-12  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
           >
             <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
               Own land? <span className="text-primary-50">Earn money </span>{" "}
@@ -290,17 +290,17 @@ const page = () => {
             </form>
           </div>
         </Form>
-        <div className="flex items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute bottom-0 right-[15%]  xs:right-[25%] md:right-[40%]">
+        <div className="flex items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute bottom-0 md:right-[40%]">
           <Image src="/images/check.svg" width={20} height={20} alt="logo" />
           <p className="text-xs xs:text-sm font-semibold">
             Hunt Where You Feel Free.
           </p>
         </div>
-        <div className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4  max-w-sm 2xl:max-w-md rounded-xl shadow">
-          <h2 className="text-4xl 2xl:text-5xl text-primary-50 px-8">
+        <div className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow">
+          <h2 className="text-4xl 2xl:text-5xl leading-loose text-primary-50 px-8">
             $1 Million USD <span className="text-white">Included</span>{" "}
           </h2>
-          <p className="text-sm 2xl:text-base font-semibold my-3">
+          <p className="text-sm 2xl:text-base font-semibold text-[#D3DAFF] my-3">
             In the rare event of a guest injury while occupying a HuntGrounds
             hosted property, rest assured that our insurance policy protects
             Hosts on every booking for up to $1 million USD in general liability
@@ -309,8 +309,8 @@ const page = () => {
         </div>
       </div>
       <div className=" w-full flex pt-16 md:pt-0 items-center bg-[#000214]  justify-between px-6 md:pl-10 2xl:pl-20 md:pr-0 md:h-[34rem] 2xl:h-[40rem] mt-16  overflow-hidden">
-        <div className=" bg-[#161313CC]   p-4 md:p-6 2xl:p-8  max-w-xl 2xl:max-w-2xl rounded-xl shadow">
-          <h2 className="text-3xl mb-6 2xl:mb-8 md:text-5xl 2xl:text-6xl font-semibold text-white text-center w-full ">
+        <div className=" bg-[#161313CC]   p-4 md:p-6 2xl:p-10  max-w-xl 2xl:max-w-3xl rounded-2xl shadow">
+          <h2 className="text-3xl mb-6 2xl:mb-12 md:text-5xl 2xl:text-6xl font-semibold text-white text-center w-full ">
             Why <span className="text-primary-50">Host?</span>{" "}
           </h2>
           <p className=" 2xl:text-lg  my-3">
@@ -334,36 +334,48 @@ const page = () => {
         </div>
       </div>
       <div className=" w-full px-4 py-20 md:p-20 bg-[#000214] ">
-        <h2 className="text-3xl md:text-5xl 2xl:text-6xl font-semibold text-white   ">
+        <h2 className="text-3xl md:text-5xl text-center md:text-center 2xl:text-6xl font-semibold text-white   ">
           The  <span className="text-primary-50">Benefits</span> <br /> of
           HuntGrounds
         </h2>
         <div className="flex items-center justify-center w-full gap-5 flex-wrap lg:flex-nowrap  mt-16  mb-12">
           <div className="flex gap-4">
-            <Image src="/images/relax.svg" width={90} height={90} alt="logo" />
+            <Image
+              src="/images/relax.svg"
+              width={90}
+              height={90}
+              className=" w-[50px] h-[50px] md:w-[90px] md:h-[90px]"
+              alt="logo"
+            />
             <div className="flex flex-col gap-1.5">
               <p className="text-xs 2xl:text-sm text-primary-50 font-semibold">
                 Relax
               </p>
-              <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold">
+              <h2 className="text-xl md:text-3xl 2xl:text-4xl font-bold">
                 Offer bookings at anytime you want
               </h2>
-              <p className="text-sm md:text-base 2xl:text-lg text-sm  font-thin text-gray-400">
+              <p className="text-xs  md:text-base 2xl:text-lg  font-thin text-gray-400">
                 Offer bookings at any time that suits you, putting control of
                 your schedule right in your hands.
               </p>
             </div>
           </div>
           <div className="flex gap-4">
-            <Image src="/images/paid.svg" width={90} height={90} alt="logo" />
+            <Image
+              src="/images/paid.svg"
+              width={90}
+              className=" w-[50px] h-[50px] md:w-[90px] md:h-[90px]"
+              height={90}
+              alt="logo"
+            />
             <div className="flex flex-col gap-1.5">
               <p className="text-xs 2xl:text-sm text-primary-50 font-semibold">
                 Your Rules
               </p>
-              <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold">
+              <h2 className="text-xl md:text-3xl 2xl:text-4xl font-bold">
                 Get paid weekly
               </h2>
-              <p className="text-sm md:text-base 2xl:text-lg text-sm  font-thin text-gray-400">
+              <p className="text-xs md:text-base 2xl:text-lg   font-thin text-gray-400">
                 Receive your payments weekly, ensuring a steady and reliable
                 income stream.
               </p>

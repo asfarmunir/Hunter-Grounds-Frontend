@@ -203,7 +203,7 @@ const Navbar = () => {
                       asChild
                       className="text-primary-50 hover:text-white px-2 font-semibold hover:bg-primary-50/50 cursor-pointer"
                     >
-                      <Link href={"/account/settings"}>Accounts</Link>
+                      <Link href={"/account"}>Accounts</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="text-primary-50 hover:text-white px-2 font-semibold hover:bg-primary-50/50 cursor-pointer">
                       Trip

@@ -85,16 +85,16 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex flex-col gap-6">
-          <Link className=" 2xl:text-xl font-semibold" href={"/"}>
+          <Link className=" 2xl:text-xl font-thin" href={"/"}>
             FAQ
           </Link>
-          <Link className=" 2xl:text-xl font-semibold" href={"/"}>
+          <Link className=" 2xl:text-xl font-thin" href={"/"}>
             Terms Of Service
           </Link>
-          <Link className=" 2xl:text-xl font-semibold" href={"/"}>
+          <Link className=" 2xl:text-xl font-thin" href={"/"}>
             Privacy Policy
           </Link>
-          <Link className=" 2xl:text-xl font-semibold" href={"/"}>
+          <Link className=" 2xl:text-xl font-thin" href={"/"}>
             Write to Us
           </Link>
           <p className=" text-pretty justify-center inline-flex text-sm 2xl:text-base text-primary-50 border border-primary-50 px-3 py-2 rounded-full items-center gap-3">
@@ -103,16 +103,16 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex flex-col gap-6">
-          <Link className=" 2xl:text-xl font-semibold" href={"/"}>
+          <Link className=" 2xl:text-xl font-thin" href={"/"}>
             Cookie Policy
           </Link>
-          <Link className=" 2xl:text-xl font-semibold" href={"/"}>
+          <Link className=" 2xl:text-xl font-thin" href={"/"}>
             Refund Policy
           </Link>
-          <Link className=" 2xl:text-xl font-semibold" href={"/"}>
+          <Link className=" 2xl:text-xl font-thin" href={"/"}>
             Gun Safety
           </Link>
-          <Link className=" 2xl:text-xl font-semibold" href={"/"}>
+          <Link className=" 2xl:text-xl font-thin" href={"/"}>
             Risk Disclosure
           </Link>
           <p className=" text-pretty inline-flex border border-[#05d5ff3f] text-primary-50 px-3 py-2 rounded-full items-center justify-center gap-3">

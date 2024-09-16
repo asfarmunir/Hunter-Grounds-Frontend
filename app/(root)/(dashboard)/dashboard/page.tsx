@@ -3,7 +3,7 @@ import React from "react";
 import WithdrawFunds from "@/components/shared/WithdrawFunds";
 const page = () => {
   return (
-    <div className="p-4 md:p-20 w-full space-y-8">
+    <div className="p-4 md:p-20 w-full bg-[#000214] space-y-8">
       <div className=" w-full flex items-center justify-between">
         <h3 className="text-xl md:text-3xl 2xl:text-4xl font-bold">
           Sales Overview

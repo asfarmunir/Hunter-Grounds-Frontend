@@ -1,25 +1,45 @@
 import Image from "next/image";
 import React from "react";
+import { Slider } from "@/components/ui/slider";
 
 const Home = () => {
   return (
-    <div className=" min-h-screen p-4 md:px-20 flex gap-12 2xl:gap-20  w-full flex-col md:flex-row items-center relative ">
+    <div className=" min-h-screen p-4 md:px-16 flex gap-12 2xl:gap-20  w-full flex-col md:flex-row items-center relative ">
       <div className="flex text-xs md:text-sm items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute -bottom-12 md:right-[40%]">
         <Image src="/images/check.svg" width={20} height={20} alt="logo" />
         <p className="text-sm font-semibold">Hunt Where You Feel Free.</p>
       </div>
-      <div className=" w-full">
+      <div className=" w-full pt-8">
+        <div className="flex  mb-6  md:mb-0 items-center px-3 md:px-0 pt-4 justify-center flex-col gap-1 max-w-xl 2xl:max-w-2xl">
+          <p className="text-sm 2xl:text-base mb-1 font-thin  capitalize">
+            price range{" "}
+          </p>
+          <div className="flex items-center justify-between w-full px-1.5 mb-2 max-w-xs 2xl:max-w-sm">
+            <p className=" font-thin  text-xs  capitalize">From</p>
+            <p className=" font-thin  text-xs  capitalize">To</p>
+          </div>
+          <Slider
+            defaultValue={[4, 96]}
+            max={100}
+            className=" max-w-xs 2xl:max-w-sm mx-auto "
+            step={1}
+          />
+          <div className="flex items-center justify-between w-full  mt-2 max-w-xs 2xl:max-w-sm">
+            <p className=" font-thin  text-xs  capitalize">$10</p>
+            <p className=" font-thin  text-xs  capitalize">$50000$</p>
+          </div>
+        </div>
         <h2 className=" 2xl:text-lg text-sm font-bold mb-5">123 Places</h2>
-        <div className="grid grid-cols-1 w-full  sm:grid-cols-2 gap-y-10 place-items-center gap-4 2xl:gap-6  lg:grid-cols-3">
+        <div className="grid grid-cols-1 w-full  sm:grid-cols-2 gap-y-10 place-items-center  max-w-xl 2xl:max-w-2xl gap-4  lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, index) => (
             <div
               key={index}
-              className=" flex flex-col items-center  max-w-[12rem] 2xl:max-w-full w-full"
+              className=" flex flex-col items-center px-6 md:px-0  md:max-w-[12rem] 2xl:max-w-full w-full"
             >
               <Image
                 src="/images/place1.svg"
                 width={250}
-                className="rounded-xl mb-3 "
+                className="rounded-xl mb-4 w-full "
                 height={250}
                 alt="hehe"
               />
@@ -29,7 +49,7 @@ const Home = () => {
                   9.0
                 </span>
               </h4>
-              <p className=" font-light text-sm">
+              <p className=" font-thin  text-slate-50  text-sm">
                 11 sites Lodging 800 acres Harrington, QC from only{" "}
                 <span className=" font-semibold"> CA$88</span> / night
               </p>
