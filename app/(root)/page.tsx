@@ -1,6 +1,9 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { Slider } from "@/components/ui/slider";
+import { motion } from "framer-motion";
+import { containerVariants, fadeInVariants } from "@/lib/animations";
 
 const Home = () => {
   return (
@@ -30,9 +33,17 @@ const Home = () => {
           </div>
         </div>
         <h2 className=" 2xl:text-lg text-sm font-bold mb-5">123 Places</h2>
-        <div className="grid grid-cols-1 w-full  sm:grid-cols-2 gap-y-10 place-items-center  max-w-xl 2xl:max-w-2xl gap-4  lg:grid-cols-3">
+        <motion.div
+          variants={containerVariants} // Apply the container variant for staggering
+          initial="initial"
+          viewport={{ once: true }}
+          whileInView="animate"
+          className="grid grid-cols-1 w-full  sm:grid-cols-2 gap-y-10 place-items-center  max-w-xl 2xl:max-w-2xl gap-4  lg:grid-cols-3"
+        >
           {Array.from({ length: 6 }).map((_, index) => (
-            <div
+            <motion.div
+              variants={fadeInVariants} // Each child fades in
+              viewport={{ once: true }}
               key={index}
               className=" flex flex-col items-center px-6 md:px-0  md:max-w-[12rem] 2xl:max-w-full w-full"
             >
@@ -53,9 +64,9 @@ const Home = () => {
                 11 sites Lodging 800 acres Harrington, QC from only{" "}
                 <span className=" font-semibold"> CA$88</span> / night
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
       <div className="md:w-[65%]">
         <Image

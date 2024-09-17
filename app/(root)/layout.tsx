@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
-  const [hideCookieWarning, setHideCookieWarning] = React.useState(false);
+  const [hideCookieWarning, setHideCookieWarning] = React.useState(true);
 
   const backgroundImage =
     pathname === "/"

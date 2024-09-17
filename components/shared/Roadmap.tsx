@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-
 import { motion, useMotionValue, useScroll } from "framer-motion";
 import Image from "next/image";
 
@@ -117,7 +116,16 @@ export default function Roadmap() {
         {/* left side */}
         <div className="w-1/2 pt-16 2xl:pl-32  ">
           {/* card 1 */}
-          <div className=" h-60  ">
+          <motion.div
+            viewport={{ amount: 0.55 }}
+            initial={{ opacity: 0, x: -150 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+            }}
+            className=" h-60  "
+          >
             <Image
               src="/images/calendar2.svg"
               width={500}
@@ -125,12 +133,21 @@ export default function Roadmap() {
               alt="roadmap"
               className=" h-full"
             />
-          </div>
+          </motion.div>
           {/* gap */}
           <div className="w-0 h-10"></div>
           {/* card 2 */}
 
-          <div className="h-60 flex flex-col justify-center items-end ">
+          <motion.div
+            viewport={{ amount: 0.55 }}
+            initial={{ opacity: 0, x: -150 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+            }}
+            className="h-60 flex flex-col justify-center items-end "
+          >
             <h4 className="w-fit  pr-4  font-bold text-[27px]">02</h4>
             <div ref={ref2} className="mt-4  max-w-[600px]">
               <div className="flex flex-col gap-2 justify-start items-end">
@@ -144,10 +161,19 @@ export default function Roadmap() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
           <div className="w-0 h-10"></div>
           {/* card 3 */}
-          <div className=" h-60  ">
+          <motion.div
+            viewport={{ amount: 0.55 }}
+            initial={{ opacity: 0, x: -150 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+            }}
+            className=" h-60  "
+          >
             <Image
               src="/images/hosting.svg"
               width={500}
@@ -155,11 +181,20 @@ export default function Roadmap() {
               alt="roadmap"
               className=" h-full"
             />
-          </div>
+          </motion.div>
           {/* gap */}
           <div className="w-0 h-10"></div>
           {/* card 4 */}
-          <div className="h-60 flex flex-col justify-center items-end ">
+          <motion.div
+            viewport={{ amount: 0.55 }}
+            initial={{ opacity: 0, x: -150 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+            }}
+            className="h-60 flex flex-col justify-center items-end "
+          >
             <h4 className="w-fit  pr-4  font-bold text-[27px]">04</h4>
             <div ref={ref4} className="mt-4  max-w-[600px]">
               <div className="flex flex-col gap-2 justify-start items-end">
@@ -173,7 +208,7 @@ export default function Roadmap() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* center */}
@@ -222,7 +257,16 @@ export default function Roadmap() {
         {/* right side */}
         <div className="w-1/2 py-16  pr-4 lg:pr-16 ">
           {/* card 1 */}
-          <div className="h-60 flex flex-col justify-center ">
+          <motion.div
+            viewport={{ amount: 0.55 }}
+            initial={{ opacity: 0, x: 150 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+            }}
+            className="h-60 flex flex-col justify-center "
+          >
             <h4 className="w-fit  pr-4  font-bold text-[27px]">01</h4>
             <div ref={ref1} className="mt-4  max-w-[600px]">
               <div className="flex flex-col gap-2 justify-start items-start">
@@ -236,11 +280,20 @@ export default function Roadmap() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
           {/* gap */}
           <div className="w-0 h-10"></div>
           {/* card 2 */}
-          <div className=" h-60  ">
+          <motion.div
+            viewport={{ amount: 0.55 }}
+            initial={{ opacity: 0, x: 150 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+            }}
+            className=" h-60  "
+          >
             <Image
               src="/images/tax.svg"
               width={500}
@@ -248,11 +301,20 @@ export default function Roadmap() {
               alt="roadmap"
               className=" h-full"
             />
-          </div>
+          </motion.div>
           {/* gap */}
           <div className="w-0 h-10"></div>
           {/* card 3 */}
-          <div className="h-60 flex flex-col justify-center ">
+          <motion.div
+            viewport={{ amount: 0.55 }}
+            initial={{ opacity: 0, x: 150 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+            }}
+            className="h-60 flex flex-col justify-center "
+          >
             <h4 className="w-fit  pr-4  font-bold text-[27px]">03</h4>
             <div ref={ref3} className="mt-4  max-w-[600px]">
               <div className="flex flex-col gap-2 justify-start items-start">
@@ -266,11 +328,20 @@ export default function Roadmap() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
           {/* gap */}
           <div className="w-0 h-10"></div>
           {/* card 4 */}
-          <div className=" h-60  ">
+          <motion.div
+            viewport={{ amount: 0.55 }}
+            initial={{ opacity: 0, x: 150 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.3, duration: 0.7, ease: "easeOut" },
+            }}
+            className=" h-60  "
+          >
             <Image
               src="/images/free.svg"
               width={500}
@@ -278,7 +349,7 @@ export default function Roadmap() {
               alt="roadmap"
               className=" h-full"
             />
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
