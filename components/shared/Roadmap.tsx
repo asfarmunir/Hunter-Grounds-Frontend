@@ -117,7 +117,7 @@ export default function Roadmap() {
         <div className="w-1/2 pt-16 2xl:pl-32  ">
           {/* card 1 */}
           <motion.div
-            viewport={{ amount: 0.55 }}
+            viewport={{ amount: 0.55, once: true }}
             initial={{ opacity: 0, x: -150 }}
             whileInView={{
               opacity: 1,
@@ -139,7 +139,7 @@ export default function Roadmap() {
           {/* card 2 */}
 
           <motion.div
-            viewport={{ amount: 0.55 }}
+            viewport={{ amount: 0.55, once: true }}
             initial={{ opacity: 0, x: -150 }}
             whileInView={{
               opacity: 1,
@@ -165,7 +165,7 @@ export default function Roadmap() {
           <div className="w-0 h-10"></div>
           {/* card 3 */}
           <motion.div
-            viewport={{ amount: 0.55 }}
+            viewport={{ amount: 0.55, once: true }}
             initial={{ opacity: 0, x: -150 }}
             whileInView={{
               opacity: 1,
@@ -186,7 +186,7 @@ export default function Roadmap() {
           <div className="w-0 h-10"></div>
           {/* card 4 */}
           <motion.div
-            viewport={{ amount: 0.55 }}
+            viewport={{ amount: 0.55, once: true }}
             initial={{ opacity: 0, x: -150 }}
             whileInView={{
               opacity: 1,
@@ -258,7 +258,7 @@ export default function Roadmap() {
         <div className="w-1/2 py-16  pr-4 lg:pr-16 ">
           {/* card 1 */}
           <motion.div
-            viewport={{ amount: 0.55 }}
+            viewport={{ amount: 0.55, once: true }}
             initial={{ opacity: 0, x: 150 }}
             whileInView={{
               opacity: 1,
@@ -285,7 +285,7 @@ export default function Roadmap() {
           <div className="w-0 h-10"></div>
           {/* card 2 */}
           <motion.div
-            viewport={{ amount: 0.55 }}
+            viewport={{ amount: 0.55, once: true }}
             initial={{ opacity: 0, x: 150 }}
             whileInView={{
               opacity: 1,
@@ -306,7 +306,7 @@ export default function Roadmap() {
           <div className="w-0 h-10"></div>
           {/* card 3 */}
           <motion.div
-            viewport={{ amount: 0.55 }}
+            viewport={{ amount: 0.55, once: true }}
             initial={{ opacity: 0, x: 150 }}
             whileInView={{
               opacity: 1,
@@ -333,7 +333,7 @@ export default function Roadmap() {
           <div className="w-0 h-10"></div>
           {/* card 4 */}
           <motion.div
-            viewport={{ amount: 0.55 }}
+            viewport={{ amount: 0.55, once: true }}
             initial={{ opacity: 0, x: 150 }}
             whileInView={{
               opacity: 1,

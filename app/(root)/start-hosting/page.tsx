@@ -540,7 +540,7 @@ const page = () => {
         </motion.div>
         <Roadmap />
       </div>
-      <div className=" md:pl-12 relative 2xl:pl-20 pt-12 md:pt-0 flex flex-col items-center md:items-start w-full pb-4">
+      <div className=" md:pl-12 relative 2xl:pl-20 pt-12  flex flex-col items-center md:items-start w-full pb-4">
         <motion.div
           viewport={{ once: true }}
           initial={{
