@@ -32,7 +32,11 @@ const Footer = () => {
             important cases
           </p>
           <div className="flex items-center  border mb-4 border-slate-600 rounded-full w-fit pl-3 sm:pl-5">
-            <input type="text" placeholder="Enter your email" className="" />
+            <input
+              type="text"
+              placeholder="Enter your email"
+              className=" bg-transparent"
+            />
             <button className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] text-xs md:text-sm rounded-full px-6 py-4 text-black font-semibold 2xl:text-lg">
               Subscribe
             </button>
