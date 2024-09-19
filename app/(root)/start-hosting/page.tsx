@@ -61,7 +61,7 @@ const page = () => {
   }
   return (
     <div className="  py-8 relative overflow-x-hidden  ">
-      <div className=" md:pl-12 relative 2xl:pl-20 flex flex-col items-center md:items-start w-full pb-4">
+      <div className=" md:pl-12 relative 2xl:pl-20 flex  flex-col items-center md:items-start w-full pb-4">
         <motion.div
           viewport={{ once: true }}
           initial={{
@@ -77,7 +77,7 @@ const page = () => {
           <Form {...form}>
             <div
               id="first"
-              className="flex flex-col bg-[#161313CC] mb-12 py-8 md:py-0  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+              className="flex flex-col bg-[#161313CC] mb-12 py-8   items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
             >
               <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
                 Own land? <span className="text-primary-50">Earn money </span>{" "}
@@ -266,7 +266,7 @@ const page = () => {
                 <div className="flex flex-col w-full mt-6 items-center justify-center">
                   <Button
                     type="submit"
-                    className="bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] mb-4 inner-shadow  w-full rounded-xl  mt-2 text-black font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
+                    className="bg-gradient-to-t hover:bg-gradient-to-b transition-all duration-500   from-[#FF9900] to-[#FFE7A9] mb-4 inner-shadow  w-full rounded-xl  mt-2 text-black font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
                   >
                     {/* {isLoading ? (
                     <ColorRing
@@ -556,7 +556,7 @@ const page = () => {
           <Form {...form}>
             <div
               id="first"
-              className="flex flex-col bg-[#161313CC] py-8 md:py-0 mb-12  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+              className="flex flex-col bg-[#161313CC] py-8  mb-12  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
             >
               <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
                 Own land? <span className="text-primary-50">Earn money </span>{" "}
@@ -745,7 +745,7 @@ const page = () => {
                 <div className="flex flex-col w-full mt-6 items-center justify-center">
                   <Button
                     type="submit"
-                    className="bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] mb-4 inner-shadow  w-full rounded-xl  mt-2 text-black font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
+                    className="bg-gradient-to-t hover:bg-gradient-to-b transition-all duration-500   from-[#FF9900] to-[#FFE7A9] mb-4 inner-shadow  w-full rounded-xl  mt-2 text-black font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
                   >
                     {/* {isLoading ? (
                     <ColorRing

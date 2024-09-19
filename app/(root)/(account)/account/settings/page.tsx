@@ -112,7 +112,7 @@ const GeneralSettings = () => {
                 className="rounded-full"
               />
               <button
-                className={`text-xs md:text-sm 2xl:text-base font-semibold bg-gradient-to-b from-[#FF9900] to-[#3a3e3a6f] px-4 py-2 rounded-lg
+                className={`text-xs md:text-sm 2xl:text-base font-semibold bg-gradient-to-b hover:bg-gradient-to-br transition-all duration-500 from-[#FF9900] to-[#3a3e3a6f] px-4 py-2 rounded-lg
                 }`}
               >
                 Upload Photo
@@ -598,7 +598,7 @@ const PaymentDetails = () => {
           </div>
 
           <div className="flex items-center px-2 py-4 gap-3 justify-center w-full ">
-            <button className=" text-black font-semibold px-8 md:w-1/4 text-lg py-2 rounded-xl bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
+            <button className=" text-black font-semibold px-8 md:w-1/4 text-sm 2xl:text-lg text-nowrap py-2 rounded-xl bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
               Add New Card
             </button>
           </div>

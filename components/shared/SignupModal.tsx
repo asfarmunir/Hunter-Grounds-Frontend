@@ -57,7 +57,7 @@ const AddClient = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        className={`text-sm 2xl:text-base font-semibold bg-gradient-to-b from-[#FF9900] to-[#3a3e3a6f] px-3 py-1.5 rounded-lg
+        className={`text-sm 2xl:text-base hover:shadow-inner transition-all hover:shadow-orange-200 font-semibold bg-gradient-to-b from-[#FF9900] to-[#3a3e3a6f] px-3 py-1.5 rounded-lg
                 }`}
       >
         Sign Up

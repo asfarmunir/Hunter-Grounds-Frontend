@@ -37,7 +37,7 @@ const Footer = () => {
               placeholder="Enter your email"
               className=" bg-transparent"
             />
-            <button className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] text-xs md:text-sm rounded-full px-6 py-4 text-black font-semibold 2xl:text-lg">
+            <button className=" bg-gradient-to-t hover:px-8 transition-all hover:shadow-inner shadow-orange-400 from-[#FF9900] to-[#FFE7A9] text-xs md:text-sm rounded-full px-6 py-4 text-black font-semibold 2xl:text-lg">
               Subscribe
             </button>
           </div>
@@ -49,6 +49,7 @@ const Footer = () => {
                   src={`/images/${social.img}.svg`}
                   width={30}
                   height={30}
+                  className=" hover:-translate-y-1 transition-all "
                   alt="social"
                 />
               </button>
@@ -89,16 +90,29 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex flex-col gap-6">
-          <Link className=" 2xl:text-xl font-thin" href={"/"}>
+          <Link
+            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
+            href={"/"}
+          >
             FAQ
           </Link>
-          <Link className=" 2xl:text-xl font-thin" href={"/"}>
+          <Link
+            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
+            href={"/"}
+          >
             Terms Of Service
           </Link>
-          <Link className=" 2xl:text-xl font-thin" href={"/"}>
+
+          <Link
+            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
+            href={"/"}
+          >
             Privacy Policy
           </Link>
-          <Link className=" 2xl:text-xl font-thin" href={"/"}>
+          <Link
+            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
+            href={"/"}
+          >
             Write to Us
           </Link>
           <p className=" text-pretty justify-center inline-flex text-sm 2xl:text-base text-primary-50 border border-primary-50 px-3 py-2 rounded-full items-center gap-3">
@@ -107,16 +121,28 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex flex-col gap-6">
-          <Link className=" 2xl:text-xl font-thin" href={"/"}>
+          <Link
+            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
+            href={"/"}
+          >
             Cookie Policy
           </Link>
-          <Link className=" 2xl:text-xl font-thin" href={"/"}>
+          <Link
+            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
+            href={"/"}
+          >
             Refund Policy
           </Link>
-          <Link className=" 2xl:text-xl font-thin" href={"/"}>
+          <Link
+            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
+            href={"/"}
+          >
             Gun Safety
           </Link>
-          <Link className=" 2xl:text-xl font-thin" href={"/"}>
+          <Link
+            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
+            href={"/"}
+          >
             Risk Disclosure
           </Link>
           <p className=" text-pretty inline-flex border border-[#05d5ff3f] text-primary-50 px-3 py-2 rounded-full items-center justify-center gap-3">
