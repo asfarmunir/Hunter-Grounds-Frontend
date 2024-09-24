@@ -1,8 +1,16 @@
+import Image from "next/image";
 import React from "react";
 
 const page = () => {
   return (
-    <div className=" min-h-screen bg-[#000214] relative p-12 space-y-3">
+    <div className="min-h-screen bg-[#000214] relative p-4 md:p-12 space-y-4 md:space-y-3">
+      <Image
+        src={"/images/footerBg.svg"}
+        alt="bg"
+        width={500}
+        height={500}
+        className="  opacity-40 absolute right-0"
+      />{" "}
       <h4 className="text-2xl 2xl:text-3xl">
         <span className="text-primary-50">HuntGrounds</span> Cookie Policy
       </h4>
