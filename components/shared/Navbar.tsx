@@ -39,7 +39,7 @@ import LoginModal from "@/components/shared/LoginModal";
 import SignupModal from "@/components/shared/SignupModal";
 const Navbar = () => {
   const [date, setDate] = React.useState<Date>();
-
+  const [toggleSearch, setToggleSearch] = React.useState(false);
   const pathname = usePathname();
   return (
     <nav className=" w-full  rounded-full px-3 md:pl-10 2xl:pl-12 2xl:px-5 py-3.5 flex items-center justify-between">
@@ -53,7 +53,53 @@ const Navbar = () => {
         />
       </Link>
 
-      <div className=" bg-[#2A2A2A] px-4 py-2 hidden md:flex items-center gap-2 rounded-lg">
+      <div
+        className=" bg-[#2A2A2A] px-2  min-w-[540px] 
+       py-2  hidden md:flex items-center gap-2 rounded-lg"
+      >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
+              <Image
+                src={"/images/where.svg"}
+                width={18}
+                height={18}
+                alt="logo"
+              />
+
+              {!toggleSearch && <span>Where+</span>}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="mt-4 bg-[#2A2A2A]  rounded-md border-none ">
+            <DropdownMenuItem className="text-slate-50 hover:text-white py-3 items-center gap-1.5 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
+              <Image
+                src={"/images/map.svg"}
+                width={19}
+                height={19}
+                alt="logo"
+              />
+              Lagos
+            </DropdownMenuItem>
+            <DropdownMenuItem className="text-slate-50 hover:text-white py-3 items-center gap-1.5 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
+              <Image
+                src={"/images/map.svg"}
+                width={19}
+                height={19}
+                alt="logo"
+              />
+              Oslo
+            </DropdownMenuItem>
+            <DropdownMenuItem className="text-slate-50 hover:text-white py-3 items-center gap-1.5 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
+              <Image
+                src={"/images/map.svg"}
+                width={19}
+                height={19}
+                alt="logo"
+              />
+              Denver
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Popover>
           <PopoverTrigger asChild>
             <button
@@ -70,7 +116,11 @@ const Navbar = () => {
               {date ? (
                 format(date, "PPP")
               ) : (
-                <span className="text-white">Add Dates +</span>
+                <span
+                  className={`${toggleSearch ? "hidden" : "block"}  text-white`}
+                >
+                  Add Dates +
+                </span>
               )}
             </button>
           </PopoverTrigger>
@@ -86,14 +136,23 @@ const Navbar = () => {
 
         <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
           <Image src={"/images/guest.svg"} width={18} height={18} alt="logo" />
-          Add Guests +
+          {!toggleSearch && <span> Add Guests +</span>}
         </button>
         <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
           <Image src={"/images/map.svg"} width={18} height={18} alt="logo" />
-          Map Area
+          {!toggleSearch && <span>Map Area</span>}
         </button>
+        <input
+          type="text"
+          placeholder="search"
+          className={` ${
+            toggleSearch ? "block" : "hidden"
+          } bg-transparent border border-primary-50/30 flex-grow p-2 transition-all  rounded-full text-xs px-4`}
+        />
 
-        <IoMdSearch className=" bg-gradient-to-b from-[#FF9900] to-[#10111080] px-1 ml-3 rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
+        <button onClick={() => setToggleSearch(!toggleSearch)}>
+          <IoMdSearch className=" bg-gradient-to-b from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
+        </button>
       </div>
       <div className=" hidden md:flex items-center gap-4">
         {navlinks.map((link, index) => (
