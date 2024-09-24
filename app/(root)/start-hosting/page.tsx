@@ -266,7 +266,7 @@ const page = () => {
                 <div className="flex flex-col w-full mt-6 items-center justify-center">
                   <Button
                     type="submit"
-                    className="bg-gradient-to-t hover:bg-gradient-to-b transition-all duration-500   from-[#FF9900] to-[#FFE7A9] mb-4 inner-shadow  w-full rounded-xl  mt-2 text-black font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
+                    className="bg-gradient-to-r hover:bg-gradient-to-l transition-all duration-500   from-[#FF9900] to-white mb-4 inner-shadow  w-full rounded-xl  mt-2  font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
                   >
                     {/* {isLoading ? (
                     <ColorRing
@@ -285,7 +285,9 @@ const page = () => {
                       ]}
                     />
                   ) : ( */}
-                    <span className=" capitalize">Start Earning</span>
+                    <span className=" capitalize text-white">
+                      Start Earning
+                    </span>
                     {/* )} */}
                   </Button>
                   <p className="text-[0.7rem] 2xl:text-sm  text-slate-400 font-thin w-full text-center">
@@ -322,7 +324,7 @@ const page = () => {
             x: 0,
             transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
           }}
-          className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow"
+          className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-8 2xl:right-10  p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow"
         >
           <h2 className="text-4xl 2xl:text-5xl  text-primary-50 px-8">
             $1 Million USD <span className="text-white">Included</span>{" "}
@@ -556,7 +558,7 @@ const page = () => {
           <Form {...form}>
             <div
               id="first"
-              className="flex flex-col bg-[#161313CC] py-8  mb-12  items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
+              className="flex flex-col bg-[#161313CC] mb-12 py-8   items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
             >
               <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
                 Own land? <span className="text-primary-50">Earn money </span>{" "}
@@ -745,7 +747,7 @@ const page = () => {
                 <div className="flex flex-col w-full mt-6 items-center justify-center">
                   <Button
                     type="submit"
-                    className="bg-gradient-to-t hover:bg-gradient-to-b transition-all duration-500   from-[#FF9900] to-[#FFE7A9] mb-4 inner-shadow  w-full rounded-xl  mt-2 text-black font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
+                    className="bg-gradient-to-r hover:bg-gradient-to-l transition-all duration-500   from-[#FF9900] to-white mb-4 inner-shadow  w-full rounded-xl  mt-2  font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
                   >
                     {/* {isLoading ? (
                     <ColorRing
@@ -764,7 +766,9 @@ const page = () => {
                       ]}
                     />
                   ) : ( */}
-                    <span className=" capitalize">Start Earning</span>
+                    <span className=" capitalize text-white">
+                      Start Earning
+                    </span>
                     {/* )} */}
                   </Button>
                   <p className="text-[0.7rem] 2xl:text-sm  text-slate-400 font-thin w-full text-center">
@@ -794,7 +798,7 @@ const page = () => {
             x: 0,
             transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
           }}
-          className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-0  p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow"
+          className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-8 2xl:right-10 p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow"
         >
           <h2 className="text-4xl 2xl:text-5xl  text-primary-50 px-8">
             $1 Million USD <span className="text-white">Included</span>{" "}

@@ -28,6 +28,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
+import { Checkbox } from "../ui/checkbox";
 
 const formSchema = z.object({
   email: z.string().min(2, { message: "Email is required" }),
@@ -51,14 +52,13 @@ const AddClient = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        className={`text-sm 2xl:text-base hover:border-b-2 border-primary-50 hover:-translate-y-1 font-semibold 
-                }`}
+        className={`text-sm 2xl:text-base font-thin hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5 }`}
       >
         Login
       </AlertDialogTrigger>
       <AlertDialogContent className=" p-0  bg-[#161313CC] border-none  2xl:min-w-[600px]  ">
-        <AlertDialogCancel className=" w-fit absolute right-3 top-3">
-          <IoCloseSharp className="text-lg text-primary  bg-primary-50 rounded-full " />
+        <AlertDialogCancel className=" w-fit absolute right-3 top-3 dark:bg-[#161313CC] border-none">
+          <IoCloseSharp className="text-3xl text-white p-1 bg-[#372F2F] rounded-full " />
         </AlertDialogCancel>
 
         <Form {...form}>
@@ -140,7 +140,13 @@ const AddClient = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex justify-end items-center w-full">
+              <div className="flex justify-between pt-4 items-center w-full">
+                <div className="flex items-center gap-2">
+                  <Checkbox />
+                  <p className="text-xs 2xl:text-sm text-brown-100 font-semibold">
+                    Remember password
+                  </p>
+                </div>
                 <Link href={"/"} className="text-xs 2xl:text-sm font-semibold">
                   Forgot Password?
                 </Link>

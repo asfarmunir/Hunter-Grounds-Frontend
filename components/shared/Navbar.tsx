@@ -6,6 +6,9 @@ import { navlinks } from "@/lib/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoChevronDownOutline, IoSettingsOutline } from "react-icons/io5";
+import { GoPeople } from "react-icons/go";
+import { FaRegQuestionCircle } from "react-icons/fa";
+
 import { HiMoon } from "react-icons/hi2";
 import { RiSearchLine } from "react-icons/ri";
 import {
@@ -158,7 +161,7 @@ const Navbar = () => {
         {navlinks.map((link, index) => (
           <Link
             key={index}
-            className={`text-sm 2xl:text-base hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all  font-semibold pb-1.5 mt-1.5
+            className={`text-sm 2xl:text-base font-thin hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5
             ${pathname === link.href ? "border-b-2 px-2 border-primary-50" : ""}
         `}
             href={link.href}
@@ -188,23 +191,28 @@ const Navbar = () => {
                   className="rounded-full"
                 />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="mr-8 mt-2  rounded-xl border border-primary-50 ">
-                <DropdownMenuItem
-                  asChild
-                  className="text-primary-50 hover:text-white px-2 font-semibold hover:bg-primary-50/50 cursor-pointer"
-                >
-                  <Link href={"/account/settings"}>Accounts</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-primary-50 hover:text-white px-2 font-semibold hover:bg-primary-50/50 cursor-pointer">
+              <DropdownMenuContent className="mr-8 mt-2 p-2 rounded-xl border border-primary-50/6- ">
+                <Link href={"/account/settings"}>
+                  {" "}
+                  <DropdownMenuItem className=" inline-flex items-center gap-2 px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    <GoPeople className="text-lg text-primary-50" />
+                    Accounts
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                  <FaRegQuestionCircle className="text-lg text-primary-50" />
                   Trip
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-primary-50 hover:text-white px-2 font-semibold hover:bg-primary-50/50 cursor-pointer">
+                <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                  <FaRegQuestionCircle className="text-lg text-primary-50" />
                   Help and FAQ
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-primary-50 hover:text-white px-2 font-semibold hover:bg-primary-50/50 cursor-pointer">
+                <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                  <FaRegQuestionCircle className="text-lg text-primary-50" />
                   Store
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-primary-50 hover:text-white px-2 font-semibold hover:bg-primary-50/50 cursor-pointer">
+                <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                  <FaRegQuestionCircle className="text-lg text-primary-50" />
                   Earn CA$100
                 </DropdownMenuItem>
               </DropdownMenuContent>

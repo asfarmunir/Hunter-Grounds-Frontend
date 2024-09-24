@@ -65,7 +65,11 @@
         --ring: 212.7 26.8% 83.9%;
     }
 }
-
+.oyo {
+    background-image:
+        radial-gradient(at 50% 85%, rgba(255, 153, 0, 0.1) 0, transparent 57%),
+        radial-gradient(at 100% 45%, rgba(255, 153, 0, 0.3) 0, transparent 0%);
+}
 * {
     list-style: none;
     padding: 0;

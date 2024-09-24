@@ -12,7 +12,7 @@ import {
 
 const page = () => {
   return (
-    <div className="p-4 md:p-20 w-full space-y-8">
+    <div className="p-4 md:p-20 w-full space-y-8 ">
       <div className=" w-full flex items-center justify-between">
         <h3 className="text-xl md:text-3xl 2xl:text-4xl font-bold">HuntCash</h3>
         <div className="flex items-center gap-3">
@@ -276,21 +276,21 @@ const page = () => {
           <TableBody>
             {Array.from({ length: 4 }).map((_, i) => (
               <TableRow key={i}>
-                <TableCell className=" border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/30">
+                <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
                   620491
                 </TableCell>
-                <TableCell className=" border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/30">
+                <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
                   $37.25
                 </TableCell>
-                <TableCell className=" border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/30">
+                <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
                   My Test Product
                 </TableCell>
-                <TableCell className=" border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/30">
+                <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
                   <p className=" px-4 py-1.5 text-xs  border-2 border-[#00c88c70] text-[#00c88cad] w-fit rounded-full bg-[#00C88C1A]">
                     Paid
                   </p>
                 </TableCell>
-                <TableCell className=" border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/30">
+                <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
                   April 16, 2025 5:11 pm
                 </TableCell>
               </TableRow>

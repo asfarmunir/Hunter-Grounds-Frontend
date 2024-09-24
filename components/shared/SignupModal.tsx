@@ -57,14 +57,14 @@ const AddClient = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        className={`text-sm 2xl:text-base hover:shadow-inner transition-all hover:shadow-orange-200 font-semibold bg-gradient-to-b from-[#FF9900] to-[#3a3e3a6f] px-3 py-1.5 rounded-lg
+        className={`text-xs 2xl:text-sm hover:shadow-inner transition-all hover:shadow-orange-200 font-semibold bg-gradient-to-b from-[#FF9900] to-[#3a3e3a6f] px-4 py-2 rounded-lg
                 }`}
       >
         Sign Up
       </AlertDialogTrigger>
       <AlertDialogContent className=" p-0  bg-[#161313CC] border-none  2xl:min-w-[600px]  ">
-        <AlertDialogCancel className=" w-fit absolute right-3 top-3">
-          <IoCloseSharp className="text-lg text-primary  bg-primary-50 rounded-full " />
+        <AlertDialogCancel className=" w-fit absolute right-3 top-3 dark:bg-[#161313CC] border-none">
+          <IoCloseSharp className="text-3xl text-white p-1 bg-[#372F2F] rounded-full " />
         </AlertDialogCancel>
 
         <Form {...form}>

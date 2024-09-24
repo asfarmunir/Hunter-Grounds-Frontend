@@ -31,13 +31,13 @@ const Footer = () => {
             We will not clog up your email inbox and will write only in very
             important cases
           </p>
-          <div className="flex items-center  border mb-4 border-slate-600 rounded-full w-fit pl-3 sm:pl-5">
+          <div className="flex items-center  border mb-4 border-slate-600 rounded-3xl w-fit pl-3 sm:pl-5">
             <input
               type="text"
               placeholder="Enter your email"
               className=" bg-transparent"
             />
-            <button className=" bg-gradient-to-t hover:px-8 transition-all hover:shadow-inner shadow-orange-400 from-[#FF9900] to-[#FFE7A9] text-xs md:text-sm rounded-full px-6 py-4 text-black font-semibold 2xl:text-lg">
+            <button className=" bg-gradient-to-r 2xl:hover:px-14 hover:px-10 transition-all hover:shadow-inner shadow-orange-400 from-[#FF9900] to-[#FFFFFF] text-xs md:text-sm rounded-3xl px-8 2xl:px-12 py-4  font-semibold 2xl:text-lg">
               Subscribe
             </button>
           </div>
@@ -115,7 +115,7 @@ const Footer = () => {
           >
             Write to Us
           </Link>
-          <p className=" text-pretty justify-center inline-flex text-sm 2xl:text-base text-primary-50 border border-primary-50 px-3 py-2 rounded-full items-center gap-3">
+          <p className=" text-pretty justify-center bg-[#05D6FF1A] inline-flex text-sm 2xl:text-base text-primary-50 border border-primary-50 px-3 py-2 rounded-full items-center gap-3">
             <Image src={"/images/mail.svg"} alt="bg" width={25} height={25} />
             Help@HuntGrounds.com
           </p>
@@ -145,7 +145,7 @@ const Footer = () => {
           >
             Risk Disclosure
           </Link>
-          <p className=" text-pretty inline-flex border border-[#05d5ff3f] text-primary-50 px-3 py-2 rounded-full items-center justify-center gap-3">
+          <p className=" text-pretty inline-flex border bg-[#05D6FF1A] border-[#05d5ff3f] text-primary-50 px-3 py-2 rounded-full items-center justify-center gap-3">
             <span className=" w-4 h-4 bg-primary-50 border-2 border-blue-600 rounded-full"></span>
             18+
           </p>
