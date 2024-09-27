@@ -3,6 +3,8 @@ import { Lexend } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
+import { Toaster } from "react-hot-toast";
+import AuthSessionProvider from "@/lib/AuthProvider";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -23,28 +25,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={lexend.variable}>
-        <NextTopLoader
-          color="orange"
-          initialPosition={0.08}
-          crawlSpeed={200}
-          height={2}
-          showSpinner={false}
-          crawl={true}
-          easing="ease"
-          speed={200}
-          shadow="0 0 5px #2299DD,0 0 5px #2299DD"
-        />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-        {/* <Toaster position="bottom-center" /> */}
-      </body>
+      <AuthSessionProvider>
+        <body className={lexend.variable}>
+          <NextTopLoader
+            color="orange"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={2}
+            showSpinner={false}
+            crawl={true}
+            easing="ease"
+            speed={200}
+            shadow="0 0 5px #2299DD,0 0 5px #2299DD"
+          />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster position="bottom-center" />
+          </ThemeProvider>
+          {/* <Toaster position="bottom-center" /> */}
+        </body>
+      </AuthSessionProvider>
     </html>
   );
 }

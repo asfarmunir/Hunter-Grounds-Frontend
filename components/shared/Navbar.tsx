@@ -5,33 +5,19 @@ import { navlinks } from "@/lib/constants";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IoChevronDownOutline, IoSettingsOutline } from "react-icons/io5";
 import { GoPeople } from "react-icons/go";
 import { FaRegQuestionCircle } from "react-icons/fa";
 
-import { HiMoon } from "react-icons/hi2";
-import { RiSearchLine } from "react-icons/ri";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { IoMdSearch } from "react-icons/io";
 import { RxHamburgerMenu, RxCalendar } from "react-icons/rx";
 import { format } from "date-fns";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -40,10 +26,28 @@ import {
 } from "@/components/ui/popover";
 import LoginModal from "@/components/shared/LoginModal";
 import SignupModal from "@/components/shared/SignupModal";
+import { useSession, signOut } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { IUser } from "@/lib/types/user";
 const Navbar = () => {
+  const session = useSession();
+  const router = useRouter();
+
   const [date, setDate] = React.useState<Date>();
   const [toggleSearch, setToggleSearch] = React.useState(false);
   const pathname = usePathname();
+
+  const signOutUser = async () => {
+    await signOut({
+      redirect: false,
+      callbackUrl: "/",
+    });
+    toast.success("Signed out successfully");
+    router.refresh();
+    router.replace("/");
+  };
+
   return (
     <nav className=" w-full  rounded-full px-3 md:pl-10 2xl:pl-12 2xl:px-5 py-3.5 flex items-center justify-between">
       <Link href={"/"}>
@@ -172,10 +176,11 @@ const Navbar = () => {
         {/* <button className="text-sm 2xl:text-base font-semibold">
           Sign Out
         </button> */}
-        {pathname === "/start-hosting" ? (
+        {session.status === "authenticated" ? (
           <>
             <button
-              className={`text-sm 2xl:text-base hover:border-b-2 border-primary-50 hover:-translate-y-1 font-semibold pb-1.5 mt-1.5
+              onClick={signOutUser}
+              className={`text-sm 2xl:text-base transition-all hover:border-b-2 border-primary-50 hover:-translate-y-1 font-semibold pb-1.5 mt-1.5
 
         `}
             >
@@ -183,16 +188,17 @@ const Navbar = () => {
             </button>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Image
-                  src={"/images/avatar.svg"}
-                  width={45}
-                  height={45}
-                  alt="logo"
-                  className="rounded-full"
-                />
+                <div className="w-[50px] h-[50px] rounded-full flex overflow-hidden  items-center object-contain object-center justify-center">
+                  <Image
+                    src={session.data.user?.image || "/images/avatar.svg"}
+                    width={60}
+                    alt="avatar"
+                    height={60}
+                  />
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="mr-8 mt-2 p-2 rounded-xl border border-primary-50/6- ">
-                <Link href={"/account/settings"}>
+                <Link href={"/account"}>
                   {" "}
                   <DropdownMenuItem className=" inline-flex items-center gap-2 px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
                     <GoPeople className="text-lg text-primary-50" />

@@ -1,14 +1,12 @@
-import React from "react";
+import AddProperty from "@/components/shared/AddProperty";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getUserDetails } from "@/database/actions/user.action";
-import UserProfile from "@/components/shared/UserProfile";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
-
   const userDetails = await getUserDetails(session.user.email);
-  return <UserProfile userDetails={userDetails} />;
+  return <AddProperty userDetails={userDetails} />;
 };
 
 export default page;

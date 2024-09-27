@@ -15,7 +15,7 @@ const page = () => {
           height={600}
         />
         <Link
-          href={"/dashboard/edit-profile"}
+          href={"/dashboard/add-property"}
           className=" opacity-0 absolute bottom-8 2xl:bottom-10 py-4 w-full"
         >
           go
