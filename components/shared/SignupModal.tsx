@@ -31,6 +31,7 @@ import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
 import axios from "axios";
 import GoogleLogin from "./GoogleLogin";
+import { signIn } from "next-auth/react";
 const formSchema = z.object({
   email: z.string().min(2, { message: "Email is required" }),
   password: z.string().min(2, { message: "Password is required" }),
@@ -68,6 +69,12 @@ const AddClient = () => {
         toast.error(response.data.message);
         return;
       }
+      const { email, password } = values;
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
       toast.success("User created successfully");
     } catch (error) {
       console.log(error);

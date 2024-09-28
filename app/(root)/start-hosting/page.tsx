@@ -31,7 +31,10 @@ import Image from "next/image";
 import codes from "country-calling-code";
 import Roadmap from "@/components/shared/Roadmap";
 import { motion } from "framer-motion";
-
+import axios from "axios";
+import { signIn, useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+import { ColorRing } from "react-loader-spinner";
 const formSchema = z.object({
   email: z.string().min(2, { message: "Email is required" }),
   password: z.string().min(2, { message: "Password is required" }),
@@ -42,7 +45,8 @@ const formSchema = z.object({
 });
 const page = () => {
   const [countryCode, setCountryCode] = React.useState("+1");
-  console.log("🚀 ~ page ~ countryCode:", countryCode);
+  const [loading, setLoading] = React.useState<boolean>(false);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,204 +58,97 @@ const page = () => {
       phone: "",
     },
   });
-
+  const session = useSession();
   const router = useRouter();
   async function onSubmit(values: any) {
-    console.log(values);
+    try {
+      setLoading(true);
+      const data = {
+        firstname: values.firstName,
+        lastname: values.lastName,
+        phone: countryCode + values.phone,
+        zip: values.zipCode,
+        email: values.email,
+        password: values.password,
+      };
+
+      const response = await axios.post("/api/auth/signup", data);
+      if (response.status !== 200) {
+        throw new Error("Something went wrong");
+      }
+      if (response.data.status !== 200) {
+        toast.error(response.data.message);
+        return;
+      }
+      const { email, password } = values;
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      toast.success("User created successfully");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <div className="  py-8 relative overflow-x-hidden  ">
-      <div className=" md:pl-12 relative 2xl:pl-20 flex  flex-col items-center md:items-start w-full pb-4">
-        <motion.div
-          viewport={{ once: true }}
-          initial={{
-            opacity: 0,
-            x: -200,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-            transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
-          }}
-        >
-          <Form {...form}>
-            <div
-              id="first"
-              className="flex flex-col bg-[#161313CC] mb-12 py-8   items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
-            >
-              <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
-                Own land? <span className="text-primary-50">Earn money </span>{" "}
-                <br /> on HuntGrounds
-              </h2>
-              <p className="font-normal mb-2 mt-1 ">
-                Sign up for free, host when you want, <br /> and get
-                <span className="text-primary-50 mx-1 font-semibold">
-                  paid
-                </span>{" "}
-                every week.
-              </p>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className=" w-full px-6 md:px-12 "
+      {session.status !== "authenticated" && (
+        <div className=" md:pl-12 relative 2xl:pl-20 flex  flex-col items-center md:items-start w-full pb-4">
+          <motion.div
+            viewport={{ once: true }}
+            initial={{
+              opacity: 0,
+              x: -200,
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
+            }}
+          >
+            <Form {...form}>
+              <div
+                id="first"
+                className="flex flex-col bg-[#161313CC] mb-12 py-8   items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
               >
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Image
-                            src="/images/email.svg"
-                            width={25}
-                            height={25}
-                            alt="email"
-                          />
-                          <Input
-                            placeholder="Email* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Input
-                            placeholder="First Name* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Input
-                            placeholder="Last Name* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="zipCode"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Input
-                            placeholder="Zip Code* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Image
-                            src="/images/password.svg"
-                            width={25}
-                            height={25}
-                            alt="email"
-                          />
-                          <Input
-                            placeholder="Password* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1  outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                          <Image
-                            src="/images/eye.svg"
-                            width={30}
-                            className=" border-l pl-2 border-primary-50/50"
-                            height={30}
-                            alt="email"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="flex items-start  gap-3 ">
-                  <div className="flex items-center   px-3 p-0.5 md:p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                    <select
-                      value={countryCode}
-                      onChange={(e) => setCountryCode(e.target.value)}
-                      className="border-none  bg-transparent focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0  rounded-lg   
-                          p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32 
-                          "
-                    >
-                      {codes.map((code, index) => (
-                        <option key={index} value={code.countryCodes[0]}>
-                          {code.isoCode2} +{code.countryCodes[0]}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
+                  Own land? <span className="text-primary-50">Earn money </span>{" "}
+                  <br /> on HuntGrounds
+                </h2>
+                <p className="font-normal mb-2 mt-1 ">
+                  Sign up for free, host when you want, <br /> and get
+                  <span className="text-primary-50 mx-1 font-semibold">
+                    paid
+                  </span>{" "}
+                  every week.
+                </p>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className=" w-full px-6 md:px-12 "
+                >
                   <FormField
                     control={form.control}
-                    name="phone"
+                    name="email"
                     render={({ field }) => (
-                      <FormItem className="mb-4 w-full ">
+                      <FormItem className="mb-4 w-full">
                         <FormControl className="">
-                          <div className="flex items-center  px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Image
+                              src="/images/email.svg"
+                              width={25}
+                              height={25}
+                              alt="email"
+                            />
                             <Input
-                              placeholder="Phone Number* "
+                              placeholder="Email* "
                               {...field}
-                              className="   border-none bg-red-50  focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
+                              className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
 
                           "
@@ -262,81 +159,223 @@ const page = () => {
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className="flex flex-col w-full mt-6 items-center justify-center">
-                  <Button
-                    type="submit"
-                    className="bg-gradient-to-r hover:bg-gradient-to-l transition-all duration-500   from-[#FF9900] to-white mb-4 inner-shadow  w-full rounded-xl  mt-2  font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
-                  >
-                    {/* {isLoading ? (
-                    <ColorRing
-                      visible={true}
-                      height="35"
-                      width="35"
-                      ariaLabel="color-ring-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="color-ring-wrapper"
-                      colors={[
-                        "#ffffff",
-                        "#ffffff",
-                        "#ffffff",
-                        "#ffffff",
-                        "#ffffff",
-                      ]}
-                    />
-                  ) : ( */}
-                    <span className=" capitalize text-white">
-                      Start Earning
-                    </span>
-                    {/* )} */}
-                  </Button>
-                  <p className="text-[0.7rem] 2xl:text-sm  text-slate-400 font-thin w-full text-center">
-                    This site is protected reCAPTCHA and the Google <br />
-                    <span className="text-white font-semibold">
-                      Privacy Policy
-                    </span>{" "}
-                    and{" "}
-                    <span className="text-white font-semibold">
-                      Terms of Service
-                    </span>{" "}
-                    apply.{" "}
-                  </p>
-                </div>
-              </form>
-            </div>
-          </Form>
-        </motion.div>
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem className="mb-4 w-full">
+                        <FormControl className="">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Input
+                              placeholder="First Name* "
+                              {...field}
+                              className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
 
-        <div className="flex items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute bottom-0 md:right-[40%]">
-          <Image src="/images/check.svg" width={20} height={20} alt="logo" />
-          <p className="text-xs xs:text-sm font-semibold">
-            Hunt Where You Feel Free.
-          </p>
+                          "
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem className="mb-4 w-full">
+                        <FormControl className="">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Input
+                              placeholder="Last Name* "
+                              {...field}
+                              className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="zipCode"
+                    render={({ field }) => (
+                      <FormItem className="mb-4 w-full">
+                        <FormControl className="">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Input
+                              placeholder="Zip Code* "
+                              {...field}
+                              className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem className="mb-4 w-full">
+                        <FormControl className="">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Image
+                              src="/images/password.svg"
+                              width={25}
+                              height={25}
+                              alt="email"
+                            />
+                            <Input
+                              placeholder="Password* "
+                              {...field}
+                              className="   border-none bg-red-50 focus:ring-1  outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                            />
+                            <Image
+                              src="/images/eye.svg"
+                              width={30}
+                              className=" border-l pl-2 border-primary-50/50"
+                              height={30}
+                              alt="email"
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex items-start  gap-3 ">
+                    <div className="flex items-center   px-3 p-0.5 md:p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                      <select
+                        value={countryCode}
+                        onChange={(e) => setCountryCode(e.target.value)}
+                        className="border-none  bg-transparent focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0  rounded-lg   
+                          p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32 
+                          "
+                      >
+                        {codes.map((code, index) => (
+                          <option key={index} value={code.countryCodes[0]}>
+                            {code.isoCode2} +{code.countryCodes[0]}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem className="mb-4 w-full ">
+                          <FormControl className="">
+                            <div className="flex items-center  px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                              <Input
+                                placeholder="Phone Number* "
+                                {...field}
+                                className="   border-none bg-red-50  focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex flex-col w-full mt-6 items-center justify-center">
+                    <Button
+                      type="submit"
+                      className="bg-gradient-to-r hover:bg-gradient-to-l transition-all duration-500   from-[#FF9900] to-white mb-4 inner-shadow  w-full rounded-xl  mt-2  font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
+                    >
+                      {loading ? (
+                        <ColorRing
+                          visible={true}
+                          height="35"
+                          width="35"
+                          ariaLabel="color-ring-loading"
+                          wrapperStyle={{}}
+                          wrapperClass="color-ring-wrapper"
+                          colors={[
+                            "#ffffff",
+                            "#ffffff",
+                            "#ffffff",
+                            "#ffffff",
+                            "#ffffff",
+                          ]}
+                        />
+                      ) : (
+                        <span className=" capitalize text-white">
+                          Start Earning
+                        </span>
+                      )}
+                    </Button>
+                    <p className="text-[0.7rem] 2xl:text-sm  text-slate-400 font-thin w-full text-center">
+                      This site is protected reCAPTCHA and the Google <br />
+                      <span className="text-white font-semibold">
+                        Privacy Policy
+                      </span>{" "}
+                      and{" "}
+                      <span className="text-white font-semibold">
+                        Terms of Service
+                      </span>{" "}
+                      apply.{" "}
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </Form>
+          </motion.div>
+
+          <div className="flex items-center gap-3 bg-[#141428] rounded-full px-4 py-2 shadow-inner shadow-slate-800 absolute bottom-0 md:right-[40%]">
+            <Image src="/images/check.svg" width={20} height={20} alt="logo" />
+            <p className="text-xs xs:text-sm font-semibold">
+              Hunt Where You Feel Free.
+            </p>
+          </div>
+          <motion.div
+            viewport={{ amount: 0.25, once: true }}
+            initial={{
+              opacity: 0,
+              x: 200,
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
+            }}
+            className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-8 2xl:right-10  p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow"
+          >
+            <h2 className="text-4xl 2xl:text-5xl  text-primary-50 px-8">
+              $1 Million USD <span className="text-white">Included</span>{" "}
+            </h2>
+            <p className="text-sm 2xl:text-base font-semibold text-[#D3DAFF] my-3">
+              In the rare event of a guest injury while occupying a HuntGrounds
+              hosted property, rest assured that our insurance policy protects
+              Hosts on every booking for up to $1 million USD in general
+              liability claims.
+            </p>
+          </motion.div>
         </div>
-        <motion.div
-          viewport={{ amount: 0.25, once: true }}
-          initial={{
-            opacity: 0,
-            x: 200,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-            transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
-          }}
-          className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-8 2xl:right-10  p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow"
-        >
-          <h2 className="text-4xl 2xl:text-5xl  text-primary-50 px-8">
-            $1 Million USD <span className="text-white">Included</span>{" "}
-          </h2>
-          <p className="text-sm 2xl:text-base font-semibold text-[#D3DAFF] my-3">
-            In the rare event of a guest injury while occupying a HuntGrounds
-            hosted property, rest assured that our insurance policy protects
-            Hosts on every booking for up to $1 million USD in general liability
-            claims.
-          </p>
-        </motion.div>
-      </div>
+      )}
+
       <div className=" w-full flex pt-16 md:pt-0 items-center bg-[#000214]  justify-between px-6 md:pl-10 2xl:pl-20 md:pr-0 md:h-[34rem] 2xl:h-[40rem] mt-16  overflow-hidden">
         <motion.div
           viewport={{ amount: 0.25, once: true }}
@@ -542,197 +581,58 @@ const page = () => {
         </motion.div>
         <Roadmap />
       </div>
-      <div className=" md:pl-12 relative 2xl:pl-20 pt-12  flex flex-col items-center md:items-start w-full pb-4">
-        <motion.div
-          viewport={{ once: true }}
-          initial={{
-            opacity: 0,
-            x: -200,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-            transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
-          }}
-        >
-          <Form {...form}>
-            <div
-              id="first"
-              className="flex flex-col bg-[#161313CC] mb-12 py-8   items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
-            >
-              <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
-                Own land? <span className="text-primary-50">Earn money </span>{" "}
-                <br /> on HuntGrounds
-              </h2>
-              <p className="font-normal mb-2 mt-1 ">
-                Sign up for free, host when you want, <br /> and get
-                <span className="text-primary-50 mx-1 font-semibold">
-                  paid
-                </span>{" "}
-                every week.
-              </p>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className=" w-full px-6 md:px-12 "
+      {session.status !== "authenticated" && (
+        <div className=" md:pl-12 relative 2xl:pl-20 pt-12  flex flex-col items-center md:items-start w-full pb-4">
+          <motion.div
+            viewport={{ once: true }}
+            initial={{
+              opacity: 0,
+              x: -200,
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
+            }}
+          >
+            <Form {...form}>
+              <div
+                id="first"
+                className="flex flex-col bg-[#161313CC] mb-12 py-8   items-center  overflow-auto justify-start w-fit  gap-5 md:gap-3  md:p-8 2xl:px-10 2xl:py-16 rounded-xl "
               >
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Image
-                            src="/images/email.svg"
-                            width={25}
-                            height={25}
-                            alt="email"
-                          />
-                          <Input
-                            placeholder="Email* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Input
-                            placeholder="First Name* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Input
-                            placeholder="Last Name* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="zipCode"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Input
-                            placeholder="Zip Code* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormControl className="">
-                        <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                          <Image
-                            src="/images/password.svg"
-                            width={25}
-                            height={25}
-                            alt="email"
-                          />
-                          <Input
-                            placeholder="Password* "
-                            {...field}
-                            className="   border-none bg-red-50 focus:ring-1  outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                          />
-                          <Image
-                            src="/images/eye.svg"
-                            width={30}
-                            className=" border-l pl-2 border-primary-50/50"
-                            height={30}
-                            alt="email"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="flex items-start  gap-3 ">
-                  <div className="flex items-center   px-3 p-0.5 md:p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                    <select
-                      value={countryCode}
-                      onChange={(e) => setCountryCode(e.target.value)}
-                      className="border-none  bg-transparent focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0  rounded-lg   
-                          p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32 
-                          "
-                    >
-                      {codes.map((code, index) => (
-                        <option key={index} value={code.countryCodes[0]}>
-                          {code.isoCode2} +{code.countryCodes[0]}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <h2 className="text-2xl md:text-3xl 2xl:text-5xl  font-bold">
+                  Own land? <span className="text-primary-50">Earn money </span>{" "}
+                  <br /> on HuntGrounds
+                </h2>
+                <p className="font-normal mb-2 mt-1 ">
+                  Sign up for free, host when you want, <br /> and get
+                  <span className="text-primary-50 mx-1 font-semibold">
+                    paid
+                  </span>{" "}
+                  every week.
+                </p>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className=" w-full px-6 md:px-12 "
+                >
                   <FormField
                     control={form.control}
-                    name="phone"
+                    name="email"
                     render={({ field }) => (
-                      <FormItem className="mb-4 w-full ">
+                      <FormItem className="mb-4 w-full">
                         <FormControl className="">
-                          <div className="flex items-center  px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Image
+                              src="/images/email.svg"
+                              width={25}
+                              height={25}
+                              alt="email"
+                            />
                             <Input
-                              placeholder="Phone Number* "
+                              placeholder="Email* "
                               {...field}
-                              className="   border-none bg-red-50  focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
+                              className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
 
                           "
@@ -743,74 +643,215 @@ const page = () => {
                       </FormItem>
                     )}
                   />
-                </div>
-                <div className="flex flex-col w-full mt-6 items-center justify-center">
-                  <Button
-                    type="submit"
-                    className="bg-gradient-to-r hover:bg-gradient-to-l transition-all duration-500   from-[#FF9900] to-white mb-4 inner-shadow  w-full rounded-xl  mt-2  font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
-                  >
-                    {/* {isLoading ? (
-                    <ColorRing
-                      visible={true}
-                      height="35"
-                      width="35"
-                      ariaLabel="color-ring-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="color-ring-wrapper"
-                      colors={[
-                        "#ffffff",
-                        "#ffffff",
-                        "#ffffff",
-                        "#ffffff",
-                        "#ffffff",
-                      ]}
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem className="mb-4 w-full">
+                        <FormControl className="">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Input
+                              placeholder="First Name* "
+                              {...field}
+                              className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem className="mb-4 w-full">
+                        <FormControl className="">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Input
+                              placeholder="Last Name* "
+                              {...field}
+                              className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="zipCode"
+                    render={({ field }) => (
+                      <FormItem className="mb-4 w-full">
+                        <FormControl className="">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Input
+                              placeholder="Zip Code* "
+                              {...field}
+                              className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem className="mb-4 w-full">
+                        <FormControl className="">
+                          <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                            <Image
+                              src="/images/password.svg"
+                              width={25}
+                              height={25}
+                              alt="email"
+                            />
+                            <Input
+                              placeholder="Password* "
+                              {...field}
+                              className="   border-none bg-red-50 focus:ring-1  outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                            />
+                            <Image
+                              src="/images/eye.svg"
+                              width={30}
+                              className=" border-l pl-2 border-primary-50/50"
+                              height={30}
+                              alt="email"
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex items-start  gap-3 ">
+                    <div className="flex items-center   px-3 p-0.5 md:p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                      <select
+                        value={countryCode}
+                        onChange={(e) => setCountryCode(e.target.value)}
+                        className="border-none  bg-transparent focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0  rounded-lg   
+                          p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32 
+                          "
+                      >
+                        {codes.map((code, index) => (
+                          <option key={index} value={code.countryCodes[0]}>
+                            {code.isoCode2} +{code.countryCodes[0]}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem className="mb-4 w-full ">
+                          <FormControl className="">
+                            <div className="flex items-center  px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
+                              <Input
+                                placeholder="Phone Number* "
+                                {...field}
+                                className="   border-none bg-red-50  focus:ring-1 outline-offset-1 
+                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
+                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+
+                          "
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  ) : ( */}
-                    <span className=" capitalize text-white">
-                      Start Earning
-                    </span>
-                    {/* )} */}
-                  </Button>
-                  <p className="text-[0.7rem] 2xl:text-sm  text-slate-400 font-thin w-full text-center">
-                    This site is protected reCAPTCHA and the Google <br />
-                    <span className="text-white font-semibold">
-                      Privacy Policy
-                    </span>{" "}
-                    and{" "}
-                    <span className="text-white font-semibold">
-                      Terms of Service
-                    </span>{" "}
-                    apply.{" "}
-                  </p>
-                </div>
-              </form>
-            </div>
-          </Form>
-        </motion.div>
-        <motion.div
-          viewport={{ amount: 0.25, once: true }}
-          initial={{
-            opacity: 0,
-            x: 200,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-            transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
-          }}
-          className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-8 2xl:right-10 p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow"
-        >
-          <h2 className="text-4xl 2xl:text-5xl  text-primary-50 px-8">
-            $1 Million USD <span className="text-white">Included</span>{" "}
-          </h2>
-          <p className="text-sm 2xl:text-base font-semibold text-[#D3DAFF] my-3">
-            In the rare event of a guest injury while occupying a HuntGrounds
-            hosted property, rest assured that our insurance policy protects
-            Hosts on every booking for up to $1 million USD in general liability
-            claims.
-          </p>
-        </motion.div>
-      </div>
+                  </div>
+                  <div className="flex flex-col w-full mt-6 items-center justify-center">
+                    <Button
+                      type="submit"
+                      className="bg-gradient-to-r hover:bg-gradient-to-l transition-all duration-500   from-[#FF9900] to-white mb-4 inner-shadow  w-full rounded-xl  mt-2  font-bold py-6 px-10 2xl:text-lg   focus:outline-none focus:shadow-outline"
+                    >
+                      {loading ? (
+                        <ColorRing
+                          visible={true}
+                          height="35"
+                          width="35"
+                          ariaLabel="color-ring-loading"
+                          wrapperStyle={{}}
+                          wrapperClass="color-ring-wrapper"
+                          colors={[
+                            "#ffffff",
+                            "#ffffff",
+                            "#ffffff",
+                            "#ffffff",
+                            "#ffffff",
+                          ]}
+                        />
+                      ) : (
+                        <span className=" capitalize text-white">
+                          Start Earning
+                        </span>
+                      )}
+                    </Button>
+                    <p className="text-[0.7rem] 2xl:text-sm  text-slate-400 font-thin w-full text-center">
+                      This site is protected reCAPTCHA and the Google <br />
+                      <span className="text-white font-semibold">
+                        Privacy Policy
+                      </span>{" "}
+                      and{" "}
+                      <span className="text-white font-semibold">
+                        Terms of Service
+                      </span>{" "}
+                      apply.{" "}
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </Form>
+          </motion.div>
+          <motion.div
+            viewport={{ amount: 0.25, once: true }}
+            initial={{
+              opacity: 0,
+              x: 200,
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.1, duration: 1.2, ease: "easeInOut" },
+            }}
+            className=" bg-[#161313CC] hidden md:block absolute bottom-0 right-8 2xl:right-10 p-4 2xl:p-7  max-w-sm 2xl:max-w-lg rounded-xl shadow"
+          >
+            <h2 className="text-4xl 2xl:text-5xl  text-primary-50 px-8">
+              $1 Million USD <span className="text-white">Included</span>{" "}
+            </h2>
+            <p className="text-sm 2xl:text-base font-semibold text-[#D3DAFF] my-3">
+              In the rare event of a guest injury while occupying a HuntGrounds
+              hosted property, rest assured that our insurance policy protects
+              Hosts on every booking for up to $1 million USD in general
+              liability claims.
+            </p>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

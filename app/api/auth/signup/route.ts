@@ -2,7 +2,6 @@ import { NextResponse,NextRequest } from "next/server";
 import User from "@/database/user.modal";
 import { connectToDatabase } from "@/database";
 import * as bcryptjs from "bcryptjs";
-import { sendEmail } from "@/lib/sendgrid";
 export async function POST(req:NextRequest, res:NextResponse ){
     try {
         
@@ -10,6 +9,13 @@ export async function POST(req:NextRequest, res:NextResponse ){
         const {email, password, firstname,lastname,zip} = await req.json();
 
       // console.log("🚀 ~ POST ~ emailing:", emailing)
+      console.log("values",
+        email,
+        password,
+        firstname,
+        lastname,
+        zip
+        )
 
         const existingUser = await User.findOne({email});
         if(existingUser){
