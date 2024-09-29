@@ -56,6 +56,14 @@ const App: React.FC = () => {
 
   const appearance = {
     theme: "stripe",
+    rules: {
+      ".Label": {
+        marginBottom: "8px",
+      },
+      ".Input:hover": {
+        color: "red",
+      },
+    },
   };
 
   const options = {

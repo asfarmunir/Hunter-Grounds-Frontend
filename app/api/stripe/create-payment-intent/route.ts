@@ -10,13 +10,13 @@ const calculateOrderAmount = (items:any) => {
 };
 
 export async function POST(req : NextRequest) {
-  const { items } = await req.json();
+  const { data } = await req.json();
+  console.log("🚀 ~ POST ~ data:", data)
 
-  // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-   description: 'Software development services',
+   description: 'hunterground payment intent', 
   shipping: {
-    name: 'Jenny Rosen',
+    name: data.bookingFirstname + ' ' + data.bookingLastname,
     address: {
       line1: '510 Townsend St',
       postal_code: '98140',
@@ -25,21 +25,13 @@ export async function POST(req : NextRequest) {
       country: 'US',
     },
   },
-  amount: 1099,
-  currency: 'usd',
+    amount: data.totalAmount*100,
+    currency: 'usd',
     automatic_payment_methods: {
       enabled: true,
     },
     metadata: {
-        integration_check: 'accept_a_payment',
-        customer_id: '123456789',
-        customer_name: 'Jane Doe',
-        customer_email: 'asdsa@asd.com',
-        customer_phone: '123456789',
-        customer_address: '123 Main Street',
-        customer_postal_code: '12345',
-        customer_city: 'San Francisco',
-        customer_state: 'CA',
+        ...data
         },
   });
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
@@ -18,9 +19,12 @@ const page = () => {
         <p className="text-sm text-gray-300 ">
           Your trip information will be emailed
         </p>
-        <button className=" w-3/4 bg-gradient-to-r  text-black my-4 from-[#FF9900] to-[#FFE7A9] rounded-xl py-3 font-semibold">
+        <Link
+          href={"/"}
+          className=" w-3/4 bg-gradient-to-r text-center hover:cursor-pointer text-black my-4 from-[#FF9900] to-[#FFE7A9] rounded-xl py-3 font-semibold"
+        >
           View Trip Details
-        </button>
+        </Link>
       </div>
     </div>
   );

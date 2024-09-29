@@ -6,6 +6,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import { BounceLoader } from "react-spinners";
 
 interface CheckoutFormProps {
   dpmCheckerLink: string;
@@ -22,8 +23,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ dpmCheckerLink }) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Disable form submission until Stripe.js has loaded.
       return;
     }
 
@@ -32,7 +31,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ dpmCheckerLink }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/pre-booking/success/stripe",
+        return_url: "http://localhost:3000/pre-booking/success",
       },
     });
 
@@ -55,16 +54,27 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ dpmCheckerLink }) => {
     <>
       <form id="payment-form" className=" w-full" onSubmit={handleSubmit}>
         <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
+        <button
+          disabled={isLoading || !stripe || !elements}
+          id="submit"
+          className=" w-full md:mt-6 px-12 py-3  disabled:cursor-not-allowed flex items-center justify-center rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold "
+        >
           <span id="button-text">
             {isLoading ? (
-              <div className="spinner" id="spinner"></div>
+              <BounceLoader size={28} color={"white"} />
             ) : (
-              "Pay now"
+              "I agree and book now"
             )}
           </span>
         </button>
-        {message && <div id="payment-message">{message}</div>}
+        {message && (
+          <div
+            id="payment-message"
+            className="mt-3  text-sm 2xl:text-base text-red-500"
+          >
+            {message}
+          </div>
+        )}
       </form>
 
       {/* [DEV]: For demo purposes only, display dynamic payment methods annotation and integration checker */}
