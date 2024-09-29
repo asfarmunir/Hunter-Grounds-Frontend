@@ -1,5 +1,6 @@
 import stripe from "stripe";
 import { NextResponse } from "next/server";
+import { createBooking } from "@/database/actions/booking.action";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -29,6 +30,18 @@ export async function POST(request: Request) {
     
 
     return NextResponse.json({ message: "OK",});
+  }
+
+  if(eventType === "payment_intent.succeeded") {
+    const { id, amount, currency, payment_method_types , metadata} = event.data.object;
+    const bookingDetails = {
+      totalAmount: amount,
+      bookingEmail: metadata.customer_email,
+    }
+
+    const booking = await createBooking(bookingDetails);
+
+    return NextResponse.json({ message: "OK", booking});
   }
 
   return new Response("", { status: 200 });

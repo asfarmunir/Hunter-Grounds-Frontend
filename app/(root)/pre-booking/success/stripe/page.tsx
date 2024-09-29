@@ -25,8 +25,22 @@ const App: React.FC = () => {
     setConfirmed(confirmedPayment);
   }, []);
 
-  useEffect(() => {
-    // Create PaymentIntent on page load
+  //   useEffect(() => {
+  //     // Create PaymentIntent on page load
+  //     axios
+  //       .post("/api/stripe/create-payment-intent", {
+  //         items: [{ id: "xl-tshirt" }],
+  //       })
+  //       .then((res) => {
+  //         setClientSecret(res.data.clientSecret);
+  //         setDpmCheckerLink(res.data.dpmCheckerLink);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error creating payment intent:", error);
+  //       });
+  //   }, []);
+
+  const clicked = () => {
     axios
       .post("/api/stripe/create-payment-intent", {
         items: [{ id: "xl-tshirt" }],
@@ -38,7 +52,7 @@ const App: React.FC = () => {
       .catch((error) => {
         console.error("Error creating payment intent:", error);
       });
-  }, []);
+  };
 
   const appearance = {
     theme: "stripe",
@@ -51,6 +65,9 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
+      <button onClick={clicked} className=" bg-blue-400 px-4 py-2 rounded-lg">
+        lesgo
+      </button>
       {clientSecret && (
         //@ts-ignore
         <Elements options={options} stripe={stripePromise}>

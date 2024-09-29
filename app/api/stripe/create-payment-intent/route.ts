@@ -30,6 +30,17 @@ export async function POST(req : NextRequest) {
     automatic_payment_methods: {
       enabled: true,
     },
+    metadata: {
+        integration_check: 'accept_a_payment',
+        customer_id: '123456789',
+        customer_name: 'Jane Doe',
+        customer_email: 'asdsa@asd.com',
+        customer_phone: '123456789',
+        customer_address: '123 Main Street',
+        customer_postal_code: '12345',
+        customer_city: 'San Francisco',
+        customer_state: 'CA',
+        },
   });
 
 

@@ -1,9 +1,54 @@
+"use client";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import React from "react";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "@/components/shared/CheckoutForm";
+import CompletePage from "@/components/shared/Complete";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+
+// Load Stripe outside of the component to avoid reinitializing it on every render
+const stripePromise: Promise<Stripe | null> = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 const page = () => {
+  const [clientSecret, setClientSecret] = useState<string>("");
+  const [dpmCheckerLink, setDpmCheckerLink] = useState<string>("");
+  const [confirmed, setConfirmed] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if the payment has been confirmed using the query param
+    const confirmedPayment = new URLSearchParams(window.location.search).get(
+      "payment_intent_client_secret"
+    );
+    setConfirmed(confirmedPayment);
+  }, []);
+
+  const clicked = () => {
+    axios
+      .post("/api/stripe/create-payment-intent", {
+        items: [{ id: "xl-tshirt" }],
+      })
+      .then((res) => {
+        setClientSecret(res.data.clientSecret);
+        setDpmCheckerLink(res.data.dpmCheckerLink);
+      })
+      .catch((error) => {
+        console.error("Error creating payment intent:", error);
+      });
+  };
+  const appearance = {
+    theme: "stripe",
+  };
+
+  const options = {
+    clientSecret,
+    appearance,
+  };
+
   return (
     <div className=" w-full flex flex-col md:flex-row gap-10 justify-between p-4 md:p-20">
       <div className="flex flex-col gap-2 w-full max-w-lg 2xl:max-w-2xl">
@@ -53,6 +98,24 @@ const page = () => {
 
         <div className=" my-6 w-full bg-[#121312c0] space-y-2 flex flex-col items-center rounded-xl p-5 border border-[#2a2c2a21]">
           <h3 className=" mx-auto 2xl:text-lg mb-5 ">Payment Details</h3>
+          <button
+            onClick={clicked}
+            className=" bg-blue-400 px-4 py-2 rounded-lg"
+          >
+            lesgo
+          </button>
+
+          {clientSecret && (
+            //@ts-ignore
+            <Elements options={options} stripe={stripePromise}>
+              {confirmed ? (
+                <CompletePage />
+              ) : (
+                <CheckoutForm dpmCheckerLink={dpmCheckerLink} />
+              )}
+            </Elements>
+          )}
+          {/* ////// */}
           <div className="flex flex-col gap-2 w-full">
             <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
               Card Number
