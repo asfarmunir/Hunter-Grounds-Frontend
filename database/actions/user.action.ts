@@ -4,7 +4,7 @@ import User from '@/database/user.modal';
 import bcrypt from 'bcryptjs';
 import { connectToDatabase } from '@/database';
 import { revalidatePath } from 'next/cache';
-
+import { StreamChat } from 'stream-chat';
 export const getUserDetails = async (email: string) => {
     try {
         await connectToDatabase();
@@ -72,4 +72,12 @@ export const updateUserProfileImage = async (email: string, profileImage: string
         console.error('Update user profile image error: ', error);
         return { message: 'Internal Server Error', status: 500 };
     }
+}
+
+const serverClient = StreamChat.getInstance(process.env.NEXT_PUBLIC_STREAM_API_KEY!, process.env.STREAM_SECRET_KEY);
+
+export const createStreamUserToken = async (id:string): Promise<string> =>{
+
+    return serverClient.createToken(id);
+
 }

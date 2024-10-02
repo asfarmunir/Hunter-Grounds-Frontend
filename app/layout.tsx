@@ -5,6 +5,8 @@ import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { Toaster } from "react-hot-toast";
 import AuthSessionProvider from "@/lib/AuthProvider";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -27,6 +29,14 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* <link
+          href="https://api.tiles.mapbox.com/mapbox-gl-js/v<YOUR_MAPBOX_VERSION>/mapbox-gl.css"
+          rel="stylesheet"
+        /> */}
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css"
+          rel="stylesheet"
+        />
       </head>
       <AuthSessionProvider>
         <body className={lexend.variable}>
