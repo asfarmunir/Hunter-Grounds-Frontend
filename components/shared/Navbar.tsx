@@ -162,6 +162,13 @@ const Navbar = () => {
         </button>
       </div>
       <div className=" hidden md:flex items-center gap-4">
+        <Link
+          className={`text-sm 2xl:text-base font-thin hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5
+        `}
+          href={"/chat?id=66f46e6c4ec7d951720cc09b"}
+        >
+          Chat
+        </Link>
         {navlinks.map((link, index) => (
           <Link
             key={index}

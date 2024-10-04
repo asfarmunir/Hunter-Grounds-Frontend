@@ -1,17 +1,12 @@
 "use client";
-import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
 import { usePathname } from "next/navigation";
-import React, { useCallback } from "react";
-import Link from "next/link";
-import { useCreateChatClient } from "stream-chat-react";
-import { createStreamUserToken } from "@/database/actions/user.action";
-import { useSession } from "next-auth/react";
+import React from "react";
+import Navbar from "./Navbar";
+import { Footer } from "react-day-picker";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
-  const [hideCookieWarning, setHideCookieWarning] = React.useState(true);
-  const session = useSession();
+  // const [hideCookieWarning, setHideCookieWarning] = React.useState(true);
 
   const backgroundImage =
     pathname === "/"
@@ -31,19 +26,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       : pathname === "/no-bg"
       ? ""
       : "";
-
-  // if (session.status === "authenticated") {
-  //   const tokenProvider = useCallback( async () => {
-  //     return await createStreamUserToken(session.data.user!.id);
-  //   }, [session.data.user!.id, createStreamUserToken]);
-
-  //   const client = useCreateChatClient({
-  //     apiKey: process.env.NEXT_PUBLIC_STREAM_API_KEY!,
-  //     tokenOrProvider: tokenProvider,
-  //     userData: session.data.user!.id,
-  //   });
-  // }
-
   return (
     <main
       className={`relative h-screen overflow-hidden bg-[#000214]  bg-cover bg-center bg-no-repeat ${
@@ -58,7 +40,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         {children}
         <Footer />
       </section>
-      {hideCookieWarning ? null : (
+      {/* {hideCookieWarning ? null : (
         <div className=" w-full hidden absolute bg-[#ff99004b] px-8 py-4  bottom-0 md:flex items-center justify-between">
           <div className="flex flex-col ">
             <p className="2xl:text-lg font-semibold">Cookie Preferences</p>
@@ -82,9 +64,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </main>
   );
 };
 
-export default Layout;
+export default LayoutProvider;

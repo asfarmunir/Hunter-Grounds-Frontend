@@ -22,3 +22,27 @@ export const createProperty = async (property: IProperty) => {
     return JSON.parse(JSON.stringify({error,status: 500}));
   }
 };
+
+export const getAllPropertiesLocation = async () => {
+  try {
+    await connectToDatabase();
+
+    const properties = await Property.find({});
+
+    if (!properties) {
+      return JSON.parse(JSON.stringify({error: "Properties not found",status: 404}));
+    }
+    const propertiesLocation = properties.map((property) => {
+      return {
+        name: property.name,
+        location: property.location,
+      }});
+
+
+    return JSON.parse(JSON.stringify({ propertiesLocation  ,status: 200}));
+
+  } catch (error) {
+    console.log("Error in getAllPropertiesLocation: ", error);
+    return JSON.parse(JSON.stringify({error,status: 500}));
+  }
+}

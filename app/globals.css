@@ -77,6 +77,17 @@
     scroll-behavior: smooth;
     font-family: var(--font-lexend);
 }
+.str-chat__channel-list {
+    width: 30%;
+}
+
+.str-chat__channel {
+    width: 100%;
+}
+
+.str-chat__thread {
+    width: 45%;
+}
 
 body {
     font-family: var(--font-lexend);
@@ -275,26 +286,4 @@ body {
 .cl-formButtonPrimary:focus,
 .cl-formButtonPrimary:active {
     background-color: #705cf7;
-}
-
-/* ========================================== REACT-DATEPICKER STYLES */
-.datePicker {
-    width: 100%;
-}
-
-.react-datepicker__input-container input {
-    background-color: transparent;
-    width: 100%;
-    outline: none;
-    margin-left: 16px;
-}
-
-.react-datepicker__day--selected {
-    background-color: #624cf5 !important;
-    color: #ffffff !important;
-    border-radius: 4px;
-}
-
-.react-datepicker__time-list-item--selected {
-    background-color: #624cf5 !important;
 }

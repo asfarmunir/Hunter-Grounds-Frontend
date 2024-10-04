@@ -14,10 +14,12 @@ import { useRouter } from "next/navigation";
 import { IUser } from "@/lib/types/user";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { createProperty } from "@/database/actions/property.action";
+import axios from "axios";
 
 const initialSettings = [
   { name: "Property Address", status: "pending" },
   { name: "Acres", status: "pending" },
+  { name: "Price Per Night", status: "pending" },
   { name: "Property Name", status: "pending" },
   { name: "Property Description", status: "pending" },
   { name: "Photos", status: "pending" },
@@ -28,19 +30,25 @@ const initialSettings = [
 
 const page = ({ userDetails }: { userDetails: IUser }) => {
   const [propertyDetails, setPropertyDetails] = useState({
-    address: "some address dal ",
+    address: " 20, los angeles",
     acres: 20,
+    city: "los angeles",
     name: "bolo bolo bolo",
     description: "lesgoooo",
     photos: [] as string[],
     profilePicture: "",
+    location: {
+      longitude: 0,
+      latitude: 0,
+    },
     insurance: "",
+    price: 200,
     gameAvailable: "",
   });
 
   const [settings, setSettings] = useState(initialSettings);
   const [files, setFiles] = useState<File[]>([]);
-
+  const [loading, setLoading] = useState<boolean>(false);
   // Function to update the status based on user input
   const updateStatus = useCallback(() => {
     setSettings((prevSettings) =>
@@ -57,6 +65,12 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               ...s,
               status: propertyDetails.acres ? "completed" : "pending",
             };
+          case "Price Per Night":
+            return {
+              ...s,
+              status: propertyDetails.price > 0 ? "completed" : "pending",
+            };
+
           case "Property Name":
             return {
               ...s,
@@ -157,12 +171,46 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     ),
   });
 
+  const getCoordinatesFromMapbox = async (address: string) => {
+    const accessToken =
+      "pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"; // Replace with your actual Mapbox access token
+    const encodedAddress = encodeURIComponent(address); // URL encode the address to ensure it's properly formatted
+
+    try {
+      const response = await axios.get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?country=PK&access_token=${accessToken}`
+      );
+
+      if (response.data.features.length > 0) {
+        const { center } = response.data.features[0]; // `center` contains longitude and latitude
+        const [longitude, latitude] = center;
+        return { latitude, longitude };
+      } else {
+        throw new Error("No results found for the given address");
+      }
+    } catch (error) {
+      console.error("Geocoding error:", error);
+      return null;
+    }
+  };
+
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    const coordinates = await getCoordinatesFromMapbox(propertyDetails.address);
+    if (!coordinates) {
+      toast.error("Invalid address. Please provide a valid address");
+      setLoading(false);
+      return;
+    }
+    console.log("🚀 ~ submitHandler ~ coordinates:", coordinates);
+    propertyDetails.location = coordinates;
+
     // if (settings.some((s) => s.status === "pending")) {
     //   toast.error("Please fill all the required fields");
     //   return;
     // }
+    console.log("🚀 ~ submitHandler ~ propertyDetails:", propertyDetails);
 
     if (files.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
@@ -172,6 +220,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           color: "#fff",
         },
       });
+      setLoading(false);
       return;
     }
 
@@ -195,11 +244,14 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     console.log("🚀 ~ submitHandler ~ uploadedImages:", uploadedImagesUrl);
     const data = {
       ...propertyDetails,
+      pricePerNight: propertyDetails.price,
       photos: uploadedImagesUrl,
+      city: propertyDetails.city.trim().replace(/\s+/g, "").toLowerCase(), // Remove spaces and convert to lowercase
     };
     const res = await createProperty(data);
     if (res.status !== 200) {
       toast.error("Something went wrong while creating property");
+      setLoading(false);
       return;
     }
     toast.success("Property Listed Successfully! ", {
@@ -209,6 +261,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
         color: "#fff",
       },
     });
+    setLoading(false);
   };
 
   return (
@@ -257,7 +310,8 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             </div>
             <button
               type="submit"
-              className="bg-gradient-to-b text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg"
+              disabled={loading}
+              className="bg-gradient-to-b disabled:cursor-not-allowed text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg"
             >
               Add Property
             </button>
@@ -290,13 +344,39 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               <input
                 type="text"
                 required
-                placeholder="Enter your address"
+                placeholder="Enter your complete address"
                 className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
                 value={propertyDetails.address}
                 onChange={(e) =>
                   setPropertyDetails({
                     ...propertyDetails,
                     address: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="flex  py-4 items-center gap-3 w-full      ">
+              <Image
+                src={
+                  propertyDetails.city.length > 3
+                    ? "/images/added.svg"
+                    : "/images/missing.svg"
+                }
+                width={30}
+                height={30}
+                alt="location"
+              />
+
+              <input
+                type="text"
+                required
+                placeholder="Enter City"
+                className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
+                value={propertyDetails.city}
+                onChange={(e) =>
+                  setPropertyDetails({
+                    ...propertyDetails,
+                    city: e.target.value,
                   })
                 }
               />
@@ -322,6 +402,29 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   setPropertyDetails({
                     ...propertyDetails,
                     acres: parseInt(e.target.value),
+                  })
+                }
+                className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 2xl:p-6 dark:bg-[#372f2f67] "
+              />
+            </div>
+          </div>
+          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+            Price Per Night
+          </p>
+          <div className=" w-full dark:bg-[#372F2F33] border border-[#372F2F] p-6 rounded-xl shadow-md">
+            <p className="text-sm  tracking-wide text-[#FFFFFF80] mb-2">
+              How much do you want to charge per night? This can be changed
+              later.
+            </p>
+            <div className="  pb-3  my-3">
+              <Input
+                type="number"
+                required
+                value={propertyDetails.price}
+                onChange={(e) =>
+                  setPropertyDetails({
+                    ...propertyDetails,
+                    price: parseInt(e.target.value),
                   })
                 }
                 className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 2xl:p-6 dark:bg-[#372f2f67] "

@@ -77,7 +77,15 @@ export const updateUserProfileImage = async (email: string, profileImage: string
 const serverClient = StreamChat.getInstance(process.env.NEXT_PUBLIC_STREAM_API_KEY!, process.env.STREAM_SECRET_KEY);
 
 export const createStreamUserToken = async (id:string): Promise<string> =>{
-
+    
     return serverClient.createToken(id);
 
+}
+
+export const createNewStreamUser = async (id:string, name:string, image:string) =>{
+   return serverClient.upsertUser({
+        id,
+        name,
+        image
+    })
 }
