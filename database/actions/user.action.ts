@@ -89,3 +89,23 @@ export const createNewStreamUser = async (id:string, name:string, image:string) 
         image
     })
 }
+
+
+export const updateUserStatus = async (userId:string) => {
+
+    try {
+        await connectToDatabase();
+       const user = await User.findById(userId);
+         if (!user) {
+            return { message: 'User not found', status: 404 };
+        }
+        
+        user.isVerified = true;
+        await user.save();
+        return JSON.parse(JSON.stringify({status:200}))
+        
+    } catch (error) {
+         console.error('error updating user status: ', error);
+        return { message: 'Internal Server Error', status: 500 };
+    }
+}

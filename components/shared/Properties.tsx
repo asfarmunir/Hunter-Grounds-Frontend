@@ -6,7 +6,6 @@ import Image from "next/image";
 import { IProperty } from "@/lib/types/property";
 import Link from "next/link";
 const Properties = ({ properties }: { properties: IProperty[] }) => {
-  console.log("🚀 ~ Properties ~ properties:", properties);
   return (
     <div className=" ">
       {properties && properties.length ? (

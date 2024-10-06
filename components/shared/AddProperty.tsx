@@ -24,11 +24,12 @@ const initialSettings = [
   { name: "Property Description", status: "pending" },
   { name: "Photos", status: "pending" },
   { name: "Profile Picture", status: "completed" },
-  { name: "Insurance", status: "pending" },
-  { name: "Game Available", status: "pending" },
+  // { name: "Insurance", status: "pending" },
+  // { name: "Game Available", status: "pending" },
 ];
 
 const page = ({ userDetails }: { userDetails: IUser }) => {
+  console.log("🚀 ~ page ~ userDetails:", userDetails);
   const [propertyDetails, setPropertyDetails] = useState({
     address: " 20, los angeles",
     acres: 20,
@@ -91,16 +92,16 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               ...s,
               status: userDetails.profileImage ? "completed" : "pending",
             };
-          case "Insurance":
-            return {
-              ...s,
-              status: propertyDetails.insurance ? "completed" : "pending",
-            };
-          case "Game Available":
-            return {
-              ...s,
-              status: propertyDetails.gameAvailable ? "completed" : "pending",
-            };
+          // case "Insurance":
+          //   return {
+          //     ...s,
+          //     status: propertyDetails.insurance ? "completed" : "pending",
+          //   };
+          // case "Game Available":
+          //   return {
+          //     ...s,
+          //     status: propertyDetails.gameAvailable ? "completed" : "pending",
+          //   };
           default:
             return s;
         }
@@ -198,6 +199,12 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    if (settings.some((s) => s.status === "pending")) {
+      toast.error("Please fill all the required fields");
+      setLoading(false);
+      return;
+    }
+
     const coordinates = await getCoordinatesFromMapbox(propertyDetails.address);
     if (!coordinates) {
       toast.error("Invalid address. Please provide a valid address");
@@ -206,11 +213,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     }
     console.log("🚀 ~ submitHandler ~ coordinates:", coordinates);
     propertyDetails.location = coordinates;
-
-    // if (settings.some((s) => s.status === "pending")) {
-    //   toast.error("Please fill all the required fields");
-    //   return;
-    // }
 
     if (files.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
@@ -575,19 +577,25 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           </p>
           <div className=" w-full dark:bg-[#372F2F33] border flex items-center justify-between gap-4 flex-col md:flex-row border-[#372F2F] p-6 rounded-xl shadow-md">
             <div className="flex flex-col">
-              <div className="flex py-5 items-center gap-3   ">
-                <Image
-                  src="/images/added.svg"
-                  width={30}
-                  height={30}
-                  alt="location"
-                />
+              {userDetails.isVerified ? (
+                <div className="flex py-5 items-center gap-3   ">
+                  <Image
+                    src="/images/added.svg"
+                    width={30}
+                    height={30}
+                    alt="location"
+                  />
 
-                <p className="text-sm text-gray-300"> information provided</p>
-              </div>
-              <button className=" bg-gradient-to-t text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
-                Verfy ID
-              </button>
+                  <p className="text-sm text-gray-300"> You are verified! </p>
+                </div>
+              ) : (
+                <Link
+                  href={"/kyc"}
+                  className=" bg-gradient-to-t text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg"
+                >
+                  Verfy ID
+                </Link>
+              )}
             </div>
             <div className=" p-5 rounded-xl max-w-[17rem] 2xl:max-w-xs bg-[#372F2FB2] border border-[#372F2F]">
               <p className=" mb-3 2xl:text-sm text-xs">

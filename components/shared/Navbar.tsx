@@ -4,7 +4,7 @@ import Image from "next/image";
 import { navlinks } from "@/lib/constants";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { GoPeople } from "react-icons/go";
 import { FaRegQuestionCircle } from "react-icons/fa";
 
@@ -30,13 +30,15 @@ import { useSession, signOut } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
+import { formUrlQuery } from "@/lib/utils";
 const mostSearchedCities = ["oslo", "denver", "new york"]; // Example most searched cities
 
 const Navbar = () => {
   const session = useSession();
   const router = useRouter();
 
-  const [date, setDate] = React.useState<Date>();
+  const [fromDate, setFromDate] = React.useState<Date>();
+  const [toDate, setToDate] = React.useState<Date>();
   const [toggleSearch, setToggleSearch] = React.useState(false);
   const [searchCity, setSearchCity] = React.useState("");
   const [debouncedCity, setDebouncedCity] = useState(""); // Debounced city
@@ -79,6 +81,46 @@ const Navbar = () => {
   const handleCitySelect = (city: string) => {
     setSearchCity(city); // Set the city from dropdown
     setDebouncedCity(city); // Immediately set debouncedCity
+  };
+
+  const searchParams = useSearchParams();
+
+  const handleDateFilter = () => {
+    if (!fromDate || !toDate) {
+      toast.error("Please select dates to filter!", {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff0000",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+
+    if (fromDate > toDate) {
+      toast.error("Please add a valid period!", {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff0000",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+
+    // Format the dates using local time (avoiding timezone offset)
+    const formattedFromDate = fromDate!.toLocaleDateString("en-CA"); // "YYYY-MM-DD"
+    const formattedToDate = toDate!.toLocaleDateString("en-CA"); // "YYYY-MM-DD"
+
+    // Create query for the date range
+    const updatedUrlWithDateFilter = formUrlQuery({
+      params: searchParams.toString(),
+      key: "dateFilter",
+      value: `${formattedFromDate}-${formattedToDate}`,
+    });
+
+    // Push the new URL with the query params
+    router.push(updatedUrlWithDateFilter, { scroll: false });
   };
 
   return (
@@ -138,8 +180,8 @@ const Navbar = () => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Popover>
-          <PopoverTrigger asChild>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <button
               className={
                 " inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500 dark:bg-transparent "
@@ -151,26 +193,92 @@ const Navbar = () => {
                 height={17}
                 alt="logo"
               />{" "}
-              {date ? (
-                format(date, "PPP")
-              ) : (
-                <span
-                  className={`${toggleSearch ? "hidden" : "block"}  text-white`}
-                >
-                  Add Dates +
-                </span>
-              )}
+              <span
+                className={`${toggleSearch ? "hidden" : "block"}  text-white`}
+              >
+                Add Dates +
+              </span>
             </button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="mt-4 bg-[#2A2A2A] flex flex-col gap-4  rounded-md border-none   py-4 ">
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className={
+                    " inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm  px-2.5 border-gray-500 dark:bg-transparent "
+                  }
+                >
+                  <Image
+                    src={"/images/calendar.svg"}
+                    width={17}
+                    height={17}
+                    alt="logo"
+                  />{" "}
+                  {fromDate ? (
+                    format(fromDate, "PPP")
+                  ) : (
+                    <span
+                      className={`${
+                        toggleSearch ? "hidden" : "block"
+                      }  text-white`}
+                    >
+                      From Date...
+                    </span>
+                  )}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={fromDate}
+                  onSelect={setFromDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className={
+                    " inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm  px-2.5 border-gray-500 dark:bg-transparent "
+                  }
+                >
+                  <Image
+                    src={"/images/calendar.svg"}
+                    width={17}
+                    height={17}
+                    alt="logo"
+                  />{" "}
+                  {toDate ? (
+                    format(toDate, "PPP")
+                  ) : (
+                    <span
+                      className={`${
+                        toggleSearch ? "hidden" : "block"
+                      }  text-white`}
+                    >
+                      To Date...
+                    </span>
+                  )}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={toDate}
+                  onSelect={setToDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+            <button
+              onClick={handleDateFilter}
+              className=" w-[90%] mx-auto  tracking-widest py-2 rounded-lg bg-primary-50/25 text-xs text-white font-semibold"
+            >
+              Set Filter
+            </button>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
           <Image src={"/images/guest.svg"} width={18} height={18} alt="logo" />

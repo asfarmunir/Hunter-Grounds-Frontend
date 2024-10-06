@@ -9,10 +9,11 @@ import {
 import Pagination from "@/components/shared/Pagination";
 import PriceRangeSlider from "@/components/shared/PriceRangeSlider";
 import CityFilter from "@/components/shared/CityFilter";
+import DateFilter from "@/components/shared/DateFilter";
 
 type SearchParamProps = {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | undefined };
 };
 const Home = async ({ searchParams }: SearchParamProps) => {
   const page = Number(searchParams?.page) || 1;
@@ -21,8 +22,12 @@ const Home = async ({ searchParams }: SearchParamProps) => {
     ? searchParams?.priceRange[0] // Use the first element if it's an array
     : searchParams?.priceRange;
   const priceRange = priceRangeParam?.split("-");
-  const huntgrounds = await getAllPropertiesLocation();
+  const dateFilter = searchParams?.dateFilter || "";
 
+  const fromDate = dateFilter.slice(0, 10);
+  const toDate = dateFilter.slice(11);
+
+  const huntgrounds = await getAllPropertiesLocation();
   const properties = await getAllProperties({
     limit: 6,
     page,
@@ -30,6 +35,8 @@ const Home = async ({ searchParams }: SearchParamProps) => {
     priceRange: priceRange
       ? { min: Number(priceRange[0]), max: Number(priceRange[1]) }
       : null,
+    fromDate,
+    toDate,
   });
 
   return (
@@ -45,15 +52,15 @@ const Home = async ({ searchParams }: SearchParamProps) => {
             {properties.totalProperties || 0} Places
           </h2>
           {city && <CityFilter city={city} />}
-
+          {fromDate && toDate && <DateFilter from={fromDate} to={toDate} />}
           {priceRange && (
-            <p>
+            <p className=" italic mt-2">
               showing properties from price range{" "}
-              <span className="text-primary-50 font-bold">
+              <span className=" not-italic text-primary-50 font-bold">
                 CA${priceRange?.[0]}
               </span>{" "}
               -{" "}
-              <span className="text-primary-50 font-bold">
+              <span className=" not-italic text-primary-50 font-bold">
                 CA$
                 {priceRange?.[1]}{" "}
               </span>{" "}

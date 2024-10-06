@@ -22,6 +22,7 @@ const UserSchema = new Schema(
     country: { type: String, required: false }, // Optional country
     phone: { type: String, required: false }, // Optional
     suitNumber: { type: String, required: false }, // Optional
+    isVerified: { type: Boolean, required: false }, // Optional
 
   },
   { timestamps: true }

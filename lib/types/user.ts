@@ -22,4 +22,5 @@ export interface IUser {
   suitNumber?: string; // Optional suite number
   createdAt?: Date;
   updatedAt?: Date;
+  isVerified?: boolean; // Optional
 }

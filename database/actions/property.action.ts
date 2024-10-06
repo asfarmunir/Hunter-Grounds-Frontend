@@ -52,10 +52,15 @@ export const getAllProperties = async ({
   page,
   city,
   priceRange,
+  fromDate,
+  toDate,
+  
 }: {
   limit: number;
   page: number;
   city?: string;
+  fromDate?: string;
+  toDate?: string;
   priceRange?: { min: number; max: number } | null; // Add priceRange parameter
 }) => {
   try {
@@ -70,9 +75,22 @@ export const getAllProperties = async ({
         $lte: priceRange.max,
       };
     }
+
     if (city) {
       query.city = city.toLowerCase().replace(/\s+/g, ''); // Format city to match your requirement
     }
+
+    if (fromDate && toDate) {
+      query.bookedDates = {
+        $not: {
+          $elemMatch: {
+            $gte: new Date(fromDate), // From date
+            $lte: new Date(toDate),   // To date
+          },
+        },
+      };
+    }
+
     const properties = await Property.find(query)
       .skip(skipAmount)
       .limit(limit);
