@@ -10,25 +10,48 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import PaymentSuccess from "@/components/shared/PaymentSuccess";
 import toast from "react-hot-toast";
+import { IProperty } from "@/lib/types/property";
 
 // Load Stripe outside of the component to avoid reinitializing it on every render
 const stripePromise: Promise<Stripe | null> = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
-const page = () => {
+const page = ({
+  propertyDetails,
+  from,
+  to,
+  userId,
+}: {
+  propertyDetails: IProperty;
+  from: string;
+  to: string;
+  userId: string;
+}) => {
   const [clientSecret, setClientSecret] = useState<string>("");
   const [dpmCheckerLink, setDpmCheckerLink] = useState<string>("");
   const [confirmed, setConfirmed] = useState<string | null>(null);
   const [paymentBegan, setPaymentBegan] = useState<boolean>(false);
+  const [totalDays, setTotalDays] = useState<number>(0);
+
+  const parseDate = (dateStr: string) => {
+    const [month, day] = dateStr.split("-").map(Number);
+    return new Date(new Date().getFullYear(), month - 1, day);
+  };
+  const checkIn = parseDate(from);
+  const checkOut = parseDate(to);
 
   const [bookingDetails, setBookingDetails] = useState<any>({
-    bookingFirstname: "test",
-    bookingLastname: "user",
+    bookingFirstname: "poyon",
+    bookingLastname: "Oil",
     bookingEmail: "test@test.com",
-    areaCode: "923",
-    phone: "232332323",
-    totalAmount: 269,
+    areaCode: "92",
+    phone: "320873564",
+    totalAmount: 0,
+    property: propertyDetails._id,
+    user: userId,
+    checkIn: checkIn,
+    checkOut: checkOut,
   });
 
   useEffect(() => {
@@ -36,21 +59,40 @@ const page = () => {
       "payment_intent_client_secret"
     );
     setConfirmed(confirmedPayment);
+    const daysBetween = calculateDays(from, to);
+    setTotalDays(daysBetween);
   }, []);
 
-  // const clicked = () => {
-  //   axios
-  //     .post("/api/stripe/create-payment-intent", {
-  //       items: [{ id: "xl-tshirt" }],
-  //     })
-  //     .then((res) => {
-  //       setClientSecret(res.data.clientSecret);
-  //       setDpmCheckerLink(res.data.dpmCheckerLink);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error creating payment intent:", error);
-  //     });
-  // };
+  const formatDateRange = (fromDate: string, toDate: string) => {
+    const parseDate = (dateStr: string) => {
+      const [month, day] = dateStr.split("-").map(Number);
+      return new Date(new Date().getFullYear(), month - 1, day);
+    };
+
+    const fromDateObj = parseDate(fromDate);
+    const toDateObj = parseDate(toDate);
+
+    const fromMonth = fromDateObj.toLocaleDateString("en-US", {
+      month: "short",
+    });
+    const toMonth = toDateObj.toLocaleDateString("en-US", { month: "short" });
+
+    return `${fromMonth} ${fromDateObj.getDate()} - ${toMonth} ${toDateObj.getDate()}`;
+  };
+
+  const calculateDays = (fromDate: string, toDate: string) => {
+    const [fromMonth, fromDay] = fromDate.split("-").map(Number);
+    const [toMonth, toDay] = toDate.split("-").map(Number);
+
+    const year = new Date().getFullYear(); // Use the current year
+    const from = new Date(year, fromMonth - 1, fromDay); // month is 0-indexed
+    const to = new Date(year, toMonth - 1, toDay);
+
+    const timeDiff = to.getTime() - from.getTime();
+    const daysDiff = timeDiff / (1000 * 3600 * 24);
+    return daysDiff;
+  };
+
   const appearance = {
     theme: "night",
     fonts: "poppinw",
@@ -84,20 +126,27 @@ const page = () => {
       bookingLastname: bookingDetails.bookingLastname,
       bookingEmail: bookingDetails.bookingEmail,
       bookingPhone: bookingDetails.areaCode + bookingDetails.phone,
-      totalAmount: bookingDetails.totalAmount,
+      property: bookingDetails.property,
+      user: bookingDetails.user,
+      checkIn: bookingDetails.checkIn,
+      checkOut: bookingDetails.checkOut,
+      totalAmount:
+        propertyDetails.pricePerNight * totalDays +
+        propertyDetails.pricePerNight * totalDays * 0.15,
     };
-    axios
-      .post("/api/stripe/create-payment-intent", {
-        data,
-      })
-      .then((res) => {
-        setClientSecret(res.data.clientSecret);
-        setDpmCheckerLink(res.data.dpmCheckerLink);
-      })
-      .catch((error) => {
-        toast.error("Error creating payment intent");
-        console.error("Error creating payment intent:", error);
-      });
+    console.log("🚀 ~ data:", data);
+    // axios
+    //   .post("/api/stripe/create-payment-intent", {
+    //     data,
+    //   })
+    //   .then((res) => {
+    //     setClientSecret(res.data.clientSecret);
+    //     setDpmCheckerLink(res.data.dpmCheckerLink);
+    //   })
+    //   .catch((error) => {
+    //     toast.error("Error creating payment intent");
+    //     console.error("Error creating payment intent:", error);
+    //   });
   };
 
   return (
@@ -203,12 +252,6 @@ const page = () => {
         {paymentBegan && (
           <div className=" my-6 w-full bg-[#121312c0] space-y-2 flex flex-col items-center rounded-xl p-5 border border-[#2a2c2a21]">
             <h3 className=" mx-auto 2xl:text-lg mb-5 ">Payment Details</h3>
-            {/* <button
-            onClick={clicked}
-            className=" bg-blue-400 px-4 py-2 rounded-lg"
-          >
-            lesgo
-          </button> */}
 
             {clientSecret && (
               //@ts-ignore
@@ -314,9 +357,13 @@ const page = () => {
             className="rounded-xl  "
           />
           <div className="flex flex-col">
-            <h4 className="font-bold 2xl:text-lg mb-2">Braine Le Chateau</h4>
-            <p className="text-sm mb-1">Aug 30-Sept 4</p>
-            <p className="text-sm">800 acres Harrington, QC</p>
+            <h4 className="font-bold 2xl:text-lg mb-2">
+              {propertyDetails.name}
+            </h4>
+            <p className="text-sm mb-1">{formatDateRange(from, to)}</p>
+            <p className="text-sm">
+              {propertyDetails.acres} acres in {propertyDetails.city}
+            </p>
 
             <p className="text-xs mt-4 mb-2">Coupon (optional)</p>
             <input
@@ -330,20 +377,35 @@ const page = () => {
           The Hunt Begins...
         </h2>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
-          <p>CA$125 x 4 nights</p>
-          <p>CA$488.96</p>
+          <p>
+            Service fee{" "}
+            <span className="text-xs text-slate-300 px-1 italic">
+              per night
+            </span>
+          </p>
+          <p className="text-lg">CA${propertyDetails.pricePerNight}</p>
         </div>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
-          <p>Service fee</p>
-          <p>CA$488.96</p>
+          <p>
+            CA${propertyDetails.pricePerNight} x {totalDays} nights
+          </p>
+          <p className="text-lg">
+            CA$
+            {propertyDetails.pricePerNight * totalDays}
+          </p>
         </div>
+
         <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>Taxes</p>
-          <p>CA$488.96</p>
+          <p>CA${propertyDetails.pricePerNight * totalDays * 0.15}</p>
         </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
           <p className="font-bold">Total Amount</p>
-          <p className="font-bold">CA$488.96</p>
+          <p className="font-bold">
+            CA$
+            {propertyDetails.pricePerNight * totalDays +
+              propertyDetails.pricePerNight * totalDays * 0.15}
+          </p>
         </div>
         <p className="text-xs 2xl:text-sm max-w-md 2xl:max-w-lg font-normal my-3 2xl:my-5 tracking-wide text-gray-200">
           By selecting the button below, I agree to pay the total amount shown,
@@ -351,9 +413,9 @@ const page = () => {
           Cancellation Policy,  the host's rules, HuntGrounds Terms of Use, and
           HuntGrounds Privacy Policy.{" "}
         </p>
-        <button className=" w-[96%] px-12 py-3 mt-4 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold ">
+        {/* <button className=" w-[96%] px-12 py-3 mt-4 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold ">
           I agree and book now
-        </button>
+        </button> */}
       </div>
     </div>
   );

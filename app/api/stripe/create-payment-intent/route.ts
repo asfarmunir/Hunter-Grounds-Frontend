@@ -17,6 +17,7 @@ export async function POST(req : NextRequest) {
    description: 'hunterground payment intent', 
   shipping: {
     name: data.bookingFirstname + ' ' + data.bookingLastname,
+    // address for payment intent is mendatory in indian region 
     address: {
       line1: '510 Townsend St',
       postal_code: '98140',

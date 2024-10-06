@@ -11,9 +11,7 @@ const bookingSchema = new Schema({
     checkIn: { type: Date,  },
     checkOut: { type: Date,  },
     guests: { type: Number,  },
-    paymentStatus: { type: String, enum: ['pending', 'completed'], default: 'pending' },
-    
-    event: { type: Schema.Types.ObjectId, ref: 'Event' }
+    paymentStatus: { type: String, enum: ['pending', 'completed'], default: 'pending' },    
 }, { timestamps: true });
 
 const Booking = models.Booking || model('Booking', bookingSchema);

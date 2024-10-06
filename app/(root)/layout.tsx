@@ -15,22 +15,24 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const backgroundImage =
     pathname === "/"
-      ? "url('/images/bg-hero.svg')" // Change this to the desired background image
+      ? "url('/images/bg-hero.svg')" // Background for the homepage
       : pathname === "/start-hosting"
-      ? "url('/images/bg-hero2.svg')" // Another condition
-      : pathname === "/pre-booking"
-      ? "url('/images/bg-hero2.svg')" // Another condition
+      ? "url('/images/bg-hero2.svg')" // Background for the start-hosting page
+      : pathname.includes("/pre-booking") &&
+        !pathname.includes("/payment") &&
+        !pathname.includes("/success")
+      ? "url('/images/bg-hero2.svg')" // Background for pre-booking (excluding payment and success)
+      : pathname.includes("/pre-booking") && pathname.includes("/payment")
+      ? "url('/images/bg-hero3.svg')" // Background for payment pages under pre-booking
+      : pathname.includes("/pre-booking") && pathname.includes("/success")
+      ? "url('/images/bg-hero4.svg')" // Background for success pages under pre-booking
       : pathname === "/booking"
-      ? "url('/images/bg-hero.svg')" // Another condition
+      ? "url('/images/bg-hero.svg')" // Background for booking page
       : pathname === "/account/inbox"
-      ? "url('/images/bg-hero.svg')" // Another condition
-      : pathname === "/pre-booking/payment"
-      ? "url('/images/bg-hero3.svg')" // Another condition
-      : pathname === "/pre-booking/success"
-      ? "url('/images/bg-hero4.svg')" // Another condition
+      ? "url('/images/bg-hero.svg')" // Background for account inbox page
       : pathname === "/no-bg"
-      ? ""
-      : "";
+      ? "" // No background for specific page
+      : ""; // Default to no background for other pages
 
   // if (session.status === "authenticated") {
   //   const tokenProvider = useCallback( async () => {

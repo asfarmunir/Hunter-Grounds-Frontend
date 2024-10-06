@@ -46,3 +46,68 @@ export const getAllPropertiesLocation = async () => {
     return JSON.parse(JSON.stringify({error,status: 500}));
   }
 }
+export const getAllProperties = async ({
+  limit,
+  page,
+  city,
+  priceRange,
+}: {
+  limit: number;
+  page: number;
+  city?: string;
+  priceRange?: { min: number; max: number } | null; // Add priceRange parameter
+}) => {
+  try {
+    await connectToDatabase();
+    const skipAmount = (Number(page) - 1) * limit;
+
+    const query: any = {}; // Initialize an empty query object
+
+    if (priceRange) {
+      query.pricePerNight = {
+        $gte: priceRange.min,
+        $lte: priceRange.max,
+      };
+    }
+    if (city) {
+      query.city = city.toLowerCase().replace(/\s+/g, ''); // Format city to match your requirement
+    }
+    const properties = await Property.find(query)
+      .skip(skipAmount)
+      .limit(limit);
+
+    if (!properties) {
+      return JSON.parse(JSON.stringify({ error: "Properties not found", status: 404 }));
+    }
+
+    const propertyCount = await Property.countDocuments(query); // Count based on the same query
+    return JSON.parse(
+      JSON.stringify({
+        properties,
+        status: 200,
+        totalProperties: propertyCount,
+        totalPages: Math.ceil(propertyCount / limit),
+      })
+    );
+  } catch (error) {
+    console.log("Error in getAllProperties: ", error);
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }
+};
+
+export const getPropertyById = async (id: string) => {
+  try {
+    await connectToDatabase();
+
+    const property = await Property.findById(id);
+
+    if (!property) {
+      return JSON.parse(JSON.stringify({ error: "Property not found", status: 404 }));
+    }
+
+    return JSON.parse(JSON.stringify({ property, status: 200 }));
+  } catch (error) {
+    console.log("Error in getPropertyById: ", error);
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }
+}

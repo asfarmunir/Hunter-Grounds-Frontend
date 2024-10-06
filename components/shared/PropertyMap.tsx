@@ -206,7 +206,6 @@ type property = {
   location: { latitude: number; longitude: number };
 };
 const PropertyMap = ({ properties }: { properties: property[] }) => {
-  console.log("🚀 ~ properties:", properties);
   const [popupInfo, setPopupInfo] = useState<property | null>(null);
 
   return (

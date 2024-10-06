@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { navlinks } from "@/lib/constants";
 
@@ -29,13 +29,18 @@ import SignupModal from "@/components/shared/SignupModal";
 import { useSession, signOut } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { IUser } from "@/lib/types/user";
+import { FiSearch } from "react-icons/fi";
+const mostSearchedCities = ["oslo", "denver", "new york"]; // Example most searched cities
+
 const Navbar = () => {
   const session = useSession();
   const router = useRouter();
 
   const [date, setDate] = React.useState<Date>();
   const [toggleSearch, setToggleSearch] = React.useState(false);
+  const [searchCity, setSearchCity] = React.useState("");
+  const [debouncedCity, setDebouncedCity] = useState(""); // Debounced city
+
   const pathname = usePathname();
 
   const signOutUser = async () => {
@@ -46,6 +51,34 @@ const Navbar = () => {
     toast.success("Signed out successfully");
     router.refresh();
     router.replace("/");
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedCity(searchCity); // Update debounced city after 500ms
+    }, 500);
+
+    return () => {
+      clearTimeout(handler); // Clean up the timeout
+    };
+  }, [searchCity]);
+  useEffect(() => {
+    if (debouncedCity) {
+      const queryParams = new URLSearchParams();
+      queryParams.set("city", debouncedCity);
+      router.push(`?${queryParams.toString()}`, undefined);
+    }
+  }, [debouncedCity]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedCity = e.target.value.toLowerCase().replace(/\s+/g, "");
+    setSearchCity(formattedCity);
+  };
+
+  // Handle city selection from dropdown
+  const handleCitySelect = (city: string) => {
+    setSearchCity(city); // Set the city from dropdown
+    setDebouncedCity(city); // Immediately set debouncedCity
   };
 
   return (
@@ -78,33 +111,31 @@ const Navbar = () => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="mt-4 bg-[#2A2A2A]  rounded-md border-none ">
-            <DropdownMenuItem className="text-slate-50 hover:text-white py-3 items-center gap-1.5 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
-              <Image
-                src={"/images/map.svg"}
-                width={19}
-                height={19}
-                alt="logo"
+            <div className="text-slate-50 flex w-fit  hover:text-white py-3 items-center gap-2 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
+              <FiSearch className="text-lg text-primary-50/50" />
+              <input
+                type="text"
+                placeholder="city..."
+                // value={searchCity}
+                onChange={handleInputChange}
+                className=" bg-transparent focus:outline-none "
               />
-              Lagos
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-slate-50 hover:text-white py-3 items-center gap-1.5 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
-              <Image
-                src={"/images/map.svg"}
-                width={19}
-                height={19}
-                alt="logo"
-              />
-              Oslo
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-slate-50 hover:text-white py-3 items-center gap-1.5 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
-              <Image
-                src={"/images/map.svg"}
-                width={19}
-                height={19}
-                alt="logo"
-              />
-              Denver
-            </DropdownMenuItem>
+            </div>
+            {mostSearchedCities.map((city, index) => (
+              <DropdownMenuItem
+                key={index}
+                onClick={() => handleCitySelect(city)}
+                className="cursor-pointer px-3 inline-flex items-center gap-2 capitalize py-2 hover:bg-primary-50/20 text-white w-full"
+              >
+                <Image
+                  src={"/images/location.svg"}
+                  width={13}
+                  height={13}
+                  alt="logo"
+                />
+                {city}
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
         <Popover>
