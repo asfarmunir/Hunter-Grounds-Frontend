@@ -231,6 +231,7 @@ const Navbar = () => {
                     src={session.data.user?.image || "/images/avatar.svg"}
                     width={60}
                     alt="avatar"
+                    priority
                     height={60}
                   />
                 </div>

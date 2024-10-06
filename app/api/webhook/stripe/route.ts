@@ -1,6 +1,7 @@
 import stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createBooking } from "@/database/actions/booking.action";
+import Property from "@/database/property.model";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -18,17 +19,12 @@ export async function POST(request: Request) {
 
   // Get the ID and type
   const eventType = event.type;
-  console.log("🚀 ~ POST ~ eventType:", eventType)
 
-  // CREATE
   if (eventType === "checkout.session.completed") {
     const { id, amount_total, metadata } = event.data.object;
     console.log("🚀 ~ POST ~ metadata:", metadata)
     console.log("🚀 ~ POST ~ amount_total:", amount_total)
     console.log("🚀 ~ POST ~ id:", id)
-
-    
-
     return NextResponse.json({ message: "OK",});
   }
 
@@ -37,12 +33,51 @@ export async function POST(request: Request) {
     const bookingDetails = {
       totalAmount: amount,
       bookingEmail: metadata.customer_email,
+      user : metadata.user,
+      property: metadata.property,
+      bookingFirstname: metadata.bookingFirstname,
+      bookingLastname: metadata.bookingLastname,
+      bookingPhone: metadata.bookingPhone,
+      checkIn: metadata.checkIn,
+      checkOut: metadata.checkOut,
+      // guests: metadata.guests,
+      paymentStatus: "completed",
     }
 
     const booking = await createBooking(bookingDetails);
+ // Update the property with the booked dates
+    await updatePropertyWithBookedDates(metadata.property, metadata.checkIn, metadata.checkOut);
 
     return NextResponse.json({ message: "OK", booking});
   }
 
   return new Response("", { status: 200 });
+}
+
+
+async function updatePropertyWithBookedDates(propertyId: string, checkIn: string, checkOut: string) {
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+
+  // Get all dates between checkIn and checkOut
+  const bookedDates = getDatesInRange(checkInDate, checkOutDate);
+
+  // Update the property document
+  await Property.updateOne(
+    { _id: propertyId },
+    { $push: { bookedDates: { $each: bookedDates } } }
+  );
+}
+
+// Helper function to generate all dates between checkIn and checkOut
+function getDatesInRange(startDate: Date, endDate: Date): Date[] {
+  const dates: Date[] = [];
+  let currentDate = startDate;
+
+  while (currentDate <= endDate) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dates;
 }

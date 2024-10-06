@@ -206,7 +206,22 @@ type property = {
   location: { latitude: number; longitude: number };
 };
 const PropertyMap = ({ properties }: { properties: property[] }) => {
+  console.log("🚀 ~ PropertyMap ~ properties:", properties);
   const [popupInfo, setPopupInfo] = useState<property | null>(null);
+
+  if (!properties || !properties.length)
+    return (
+      <Map
+        mapboxAccessToken="pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"
+        initialViewState={{
+          longitude: -73.9385,
+          latitude: 40.6643,
+          zoom: 11,
+        }}
+        style={{ width: 600, height: 700 }}
+        mapStyle="mapbox://styles/mapbox/dark-v10"
+      />
+    );
 
   return (
     <Map

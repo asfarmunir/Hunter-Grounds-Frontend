@@ -135,18 +135,18 @@ const page = ({
         propertyDetails.pricePerNight * totalDays * 0.15,
     };
     console.log("🚀 ~ data:", data);
-    // axios
-    //   .post("/api/stripe/create-payment-intent", {
-    //     data,
-    //   })
-    //   .then((res) => {
-    //     setClientSecret(res.data.clientSecret);
-    //     setDpmCheckerLink(res.data.dpmCheckerLink);
-    //   })
-    //   .catch((error) => {
-    //     toast.error("Error creating payment intent");
-    //     console.error("Error creating payment intent:", error);
-    //   });
+    axios
+      .post("/api/stripe/create-payment-intent", {
+        data,
+      })
+      .then((res) => {
+        setClientSecret(res.data.clientSecret);
+        setDpmCheckerLink(res.data.dpmCheckerLink);
+      })
+      .catch((error) => {
+        toast.error("Error creating payment intent");
+        console.error("Error creating payment intent:", error);
+      });
   };
 
   return (
