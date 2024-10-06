@@ -56,8 +56,15 @@ export async function POST(request: Request) {
 
 
 async function updatePropertyWithBookedDates(propertyId: string, checkIn: string, checkOut: string) {
+  // Create date objects for checkIn and checkOut
   const checkInDate = new Date(checkIn);
   const checkOutDate = new Date(checkOut);
+
+  // Set checkIn to start of the day (midnight)
+  checkInDate.setUTCHours(0, 0, 0, 0);
+  
+  // Set checkOut to end of the day (23:59:59)
+  checkOutDate.setUTCHours(23, 59, 59, 999);
 
   // Get all dates between checkIn and checkOut
   const bookedDates = getDatesInRange(checkInDate, checkOutDate);
@@ -72,11 +79,12 @@ async function updatePropertyWithBookedDates(propertyId: string, checkIn: string
 // Helper function to generate all dates between checkIn and checkOut
 function getDatesInRange(startDate: Date, endDate: Date): Date[] {
   const dates: Date[] = [];
-  let currentDate = startDate;
+  let currentDate = new Date(startDate);
 
   while (currentDate <= endDate) {
+    // Push a copy of the current date to avoid mutation
     dates.push(new Date(currentDate));
-    currentDate.setDate(currentDate.getDate() + 1);
+    currentDate.setUTCDate(currentDate.getUTCDate() + 1);
   }
 
   return dates;
