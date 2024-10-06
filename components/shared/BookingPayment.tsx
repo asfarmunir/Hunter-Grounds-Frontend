@@ -121,6 +121,7 @@ const page = ({
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPaymentBegan(true);
+
     const data = {
       bookingFirstname: bookingDetails.bookingFirstname,
       bookingLastname: bookingDetails.bookingLastname,
@@ -128,8 +129,8 @@ const page = ({
       bookingPhone: bookingDetails.areaCode + bookingDetails.phone,
       property: bookingDetails.property,
       user: bookingDetails.user,
-      checkIn: bookingDetails.checkIn,
-      checkOut: bookingDetails.checkOut,
+      checkIn: from,
+      checkOut: to,
       totalAmount:
         propertyDetails.pricePerNight * totalDays +
         propertyDetails.pricePerNight * totalDays * 0.15,

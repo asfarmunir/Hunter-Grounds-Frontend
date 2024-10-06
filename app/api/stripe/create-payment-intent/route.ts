@@ -11,7 +11,17 @@ const calculateOrderAmount = (items:any) => {
 
 export async function POST(req : NextRequest) {
   const { data } = await req.json();
-  console.log("🚀 ~ POST ~ data:", data)
+ const currentYear = new Date().getFullYear();
+  
+  // Construct proper Date objects
+  const checkInDate = new Date(`${currentYear}-${data.checkIn}`);
+  const checkOutDate = new Date(`${currentYear}-${data.checkOut}`);
+
+  // Convert dates to ISO format or any format you prefer
+  const checkInISO = checkInDate.toISOString();
+  console.log("🚀 ~ POST ~ checkInISO:", checkInISO)
+  const checkOutISO = checkOutDate.toISOString();
+  console.log("🚀 ~ POST ~ checkOutISO:", checkOutISO)
 
   const paymentIntent = await stripe.paymentIntents.create({
    description: 'hunterground payment intent', 
@@ -32,7 +42,9 @@ export async function POST(req : NextRequest) {
       enabled: true,
     },
     metadata: {
-        ...data
+        ...data,
+        checkIn: checkInISO,
+        checkOut: checkOutISO,
         },
   });
 
