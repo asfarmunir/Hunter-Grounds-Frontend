@@ -4,7 +4,7 @@ import { connectToDatabase } from "..";
 import { IProperty } from "../../lib/types/property";
 import Property from '@/database/property.model'
 
-export const createProperty = async (property: IProperty) => {
+export const createProperty = async (property: any) => {
   try {
     await connectToDatabase();
 
@@ -36,6 +36,7 @@ export const getAllPropertiesLocation = async () => {
       return {
         name: property.name,
         location: property.location,
+        pricePerNight: property.pricePerNight,
       }});
 
 
@@ -108,6 +109,23 @@ export const getPropertyById = async (id: string) => {
     return JSON.parse(JSON.stringify({ property, status: 200 }));
   } catch (error) {
     console.log("Error in getPropertyById: ", error);
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }
+}
+
+export const getUserProperties = async (userId: string) => {
+  try {
+    await connectToDatabase();
+
+    const properties = await Property.find({ owner: userId });
+
+    if (!properties) {
+      return JSON.parse(JSON.stringify({ error: "Properties not found", status: 404 }));
+    }
+
+    return JSON.parse(JSON.stringify({ properties, status: 200 }));
+  } catch (error) {
+    console.log("Error in getUserProperties: ", error);
     return JSON.parse(JSON.stringify({ error, status: 500 }));
   }
 }

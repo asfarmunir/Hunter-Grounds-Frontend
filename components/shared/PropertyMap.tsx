@@ -204,6 +204,7 @@ import Image from "next/image";
 type property = {
   name: string;
   location: { latitude: number; longitude: number };
+  pricePerNight: number;
 };
 const PropertyMap = ({ properties }: { properties: property[] }) => {
   console.log("🚀 ~ PropertyMap ~ properties:", properties);
@@ -263,7 +264,7 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
               alt="logo"
               className=" absolute -z-10 right-[30%] "
             />
-            CA $120
+            CA ${property.pricePerNight}
           </div>
         </Marker>
       ))}

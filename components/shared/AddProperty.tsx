@@ -194,6 +194,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     }
   };
 
+  const router = useRouter();
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -210,7 +211,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     //   toast.error("Please fill all the required fields");
     //   return;
     // }
-    console.log("🚀 ~ submitHandler ~ propertyDetails:", propertyDetails);
 
     if (files.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
@@ -233,7 +233,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     });
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);
-      console.log("🚀 ~ submitHandler ~ uploadedImages:", uploadedImages);
       if (!uploadedImages) {
         return;
       }
@@ -241,11 +240,11 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     }
     toast.dismiss();
 
-    console.log("🚀 ~ submitHandler ~ uploadedImages:", uploadedImagesUrl);
     const data = {
       ...propertyDetails,
       pricePerNight: propertyDetails.price,
       photos: uploadedImagesUrl,
+      owner: userDetails._id,
       city: propertyDetails.city.trim().replace(/\s+/g, "").toLowerCase(), // Remove spaces and convert to lowercase
     };
     const res = await createProperty(data);
@@ -261,6 +260,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
         color: "#fff",
       },
     });
+    router.push("/dashboard");
     setLoading(false);
   };
 

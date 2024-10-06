@@ -49,7 +49,7 @@ const PriceRangeSlider = () => {
       });
 
       router.push(updatedUrlWithPageReset, { scroll: false });
-    }, 500); // 500ms debounce delay
+    }, 200); // 500ms debounce delay
   };
   const handleRemovePriceRange = () => {
     const newUrl = removeKeysFromQuery({

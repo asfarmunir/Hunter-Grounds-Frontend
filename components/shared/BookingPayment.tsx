@@ -398,7 +398,9 @@ const page = ({
 
         <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>Taxes</p>
-          <p>CA${propertyDetails.pricePerNight * totalDays * 0.15}</p>
+          <p>
+            CA${(propertyDetails.pricePerNight * totalDays * 0.15).toFixed(2)}
+          </p>
         </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
           <p className="font-bold">Total Amount</p>
