@@ -54,10 +54,17 @@ export async function POST(request: Request) {
   return new Response("", { status: 200 });
 }
 
+
 async function updatePropertyWithBookedDates(propertyId: string, checkIn: string, checkOut: string) {
-  // Parse the date strings without time zone conversion
-  const checkInDate = new Date(`${checkIn}T00:00:00.000Z`);
-  const checkOutDate = new Date(`${checkOut}T23:59:59.999Z`);
+  // Create date objects for checkIn and checkOut
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+
+  // Set checkIn to start of the day (midnight)
+  checkInDate.setUTCHours(0, 0, 0, 0);
+  
+  // Set checkOut to end of the day (23:59:59)
+  checkOutDate.setUTCHours(23, 59, 59, 999);
 
   // Get all dates between checkIn and checkOut
   const bookedDates = getDatesInRange(checkInDate, checkOutDate);
