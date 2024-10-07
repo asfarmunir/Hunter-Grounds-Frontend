@@ -50,7 +50,7 @@ const Page = () => {
         />
         <div className="absolute bottom-[30%] md:bottom-[40%] flex items-center justify-center py-4 w-full">
           <div className="p-2 rounded-lg border flex items-center bg-[#372F2F33] gap-3 border-primary-200">
-            <p className="bg-[#372F2F]/50 border text-xs md:text-base border-[#372F2F] p-3 rounded-lg px-4 md:px-8">
+            <p className="bg-[#372F2F]/50 truncate max-w-64 md:max-w-96 2xl:max-w-[34rem] border text-xs md:text-base border-[#372F2F] p-3 rounded-lg px-4 md:px-8">
               {urlText || "generating referal link..."}{" "}
             </p>
             <button

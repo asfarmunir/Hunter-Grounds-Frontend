@@ -78,7 +78,6 @@ function getDatesInRange(startDate: Date, endDate: Date): Date[] {
   return dates;
 }
 
-// New function to handle referral rewards
 async function handleReferralReward(userId: string, bookingAmount: number) {
   // Find the user who made the booking
   const user = await User.findById(userId);
@@ -91,11 +90,22 @@ async function handleReferralReward(userId: string, bookingAmount: number) {
       // Calculate 15% of the total booking amount
       const rewardAmount = bookingAmount * 0.15;
 
-      // Update the referring user's referral amount
-      referringUser.referalAmount += rewardAmount;
+      // Create a new referral earning object
+      const referralEarning = {
+        amount: rewardAmount,              // 15% of booking amount
+        referId: user._id,                 // ID of the user who booked (the referred user)
+        description: `Referral reward for booking made by ${user.firstname} ${user.lastname}`,
+        status: 'pending',                 // Status of the reward (can be updated to 'paid' later)
+        date: new Date(),                  // Date of the referral
+      };
+
+      // Add the referral earning to the referring user's `referralEarnings` array
+      referringUser.referralEarnings.push(referralEarning);
+
+      // Save the referring user with the new referral earning
       await referringUser.save();
 
-      // Mark referral as used
+      // Mark the referred user's referral as used
       user.referalUsed = true;
       await user.save();
 

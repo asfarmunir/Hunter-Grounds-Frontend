@@ -1,5 +1,14 @@
 import { Schema, model, models } from "mongoose";
 
+// Define a sub-schema for referral earnings
+const ReferralEarningSchema = new Schema({
+  amount: { type: Number, required: true },              // Amount earned through referral
+  referId: { type: Schema.Types.ObjectId, ref: "User", required: true },  // The user who referred
+  description: { type: String, required: false },        // Optional description for the referral
+  status: { type: String, enum: ['pending', 'paid'], default: 'pending' }, // Status of the earning
+  date: { type: Date, default: Date.now },               // Date when the referral was made
+});
+
 const UserSchema = new Schema(
   {
     email: { type: String, required: true, unique: true },
@@ -15,7 +24,7 @@ const UserSchema = new Schema(
     twitterHandle: { type: String, required: false },
     personalUrl: { type: String, required: false }, // Personal URL for public display
     publicLocation: { type: String, required: false }, // Optional public location
-    huntgroundBio : { type: String, required: false }, // Optional bio
+    huntgroundBio: { type: String, required: false }, // Optional bio
     address: { type: String, required: false }, // Optional address
     city: { type: String, required: false }, // Optional city
     state: { type: String, required: false }, // Optional state
@@ -23,14 +32,13 @@ const UserSchema = new Schema(
     phone: { type: String, required: false }, // Optional
     suitNumber: { type: String, required: false }, // Optional
     isVerified: { type: Boolean, required: false }, // Optional
-    referalAmount: { type: Number, required: false, default:0 }, // Optional
-    referedUsers: { type: [{
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    }], required: false }, 
+
+    // Changed referalAmount to referralEarnings array
+    referralEarnings: { type: [ReferralEarningSchema], default: [] }, 
+
+    referedUsers: [{ type: Schema.Types.ObjectId, ref: "User", required: false }],
     referedBy: { type: Schema.Types.ObjectId, ref: "User", required: false }, 
     referalUsed: { type: Boolean, default: false }, 
-
   },
   { timestamps: true }
 );
