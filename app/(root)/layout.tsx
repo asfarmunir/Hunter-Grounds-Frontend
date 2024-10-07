@@ -28,6 +28,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       ? "url('/images/bg-hero4.svg')" // Background for success pages under pre-booking
       : pathname === "/booking"
       ? "url('/images/bg-hero.svg')" // Background for booking page
+      : pathname === "/refer-and-earn"
+      ? "url('/images/hunt-bg.svg')" // Background for booking page
       : pathname === "/account/inbox"
       ? "url('/images/bg-hero.svg')" // Background for account inbox page
       : pathname === "/no-bg"

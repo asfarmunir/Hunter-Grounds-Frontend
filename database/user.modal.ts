@@ -23,6 +23,13 @@ const UserSchema = new Schema(
     phone: { type: String, required: false }, // Optional
     suitNumber: { type: String, required: false }, // Optional
     isVerified: { type: Boolean, required: false }, // Optional
+    referalAmount: { type: Number, required: false, default:0 }, // Optional
+    referedUsers: { type: [{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }], required: false }, 
+    referedBy: { type: Schema.Types.ObjectId, ref: "User", required: false }, 
+    referalUsed: { type: Boolean, default: false }, 
 
   },
   { timestamps: true }

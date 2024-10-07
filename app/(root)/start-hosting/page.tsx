@@ -1,13 +1,6 @@
 "use client";
 
 import React from "react";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 
 import { IoMdAdd } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { IoArrowBack, IoCloseSharp } from "react-icons/io5";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
 import codes from "country-calling-code";
@@ -46,7 +39,9 @@ const formSchema = z.object({
 const page = () => {
   const [countryCode, setCountryCode] = React.useState("+1");
   const [loading, setLoading] = React.useState<boolean>(false);
-
+  const params = useSearchParams();
+  const referalCode = params.get("referalCode");
+  console.log("🚀 ~ page ~ referalCode:", referalCode);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -70,6 +65,7 @@ const page = () => {
         zip: values.zipCode,
         email: values.email,
         password: values.password,
+        referalCode: referalCode || "",
       };
 
       const response = await axios.post("/api/auth/signup", data);

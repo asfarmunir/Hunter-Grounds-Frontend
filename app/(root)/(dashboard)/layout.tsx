@@ -22,6 +22,10 @@ const links = [
     name: "Inbox",
     href: "/dashboard",
   },
+  {
+    name: "hunt cash",
+    href: "/refer-and-earn",
+  },
 ];
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

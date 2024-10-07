@@ -8,7 +8,7 @@ const links = [
   },
   {
     name: "inbox",
-    href: "/account/inbox",
+    href: "/chat",
   },
 ];
 const layout = ({ children }: { children: React.ReactNode }) => {

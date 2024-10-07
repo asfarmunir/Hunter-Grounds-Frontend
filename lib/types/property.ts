@@ -9,6 +9,7 @@ export interface IProperty {
   gameAvailable: string;
   pricePerNight: number;
   city: string;
+  owner: string;
   bookedDates: string[];
   location: { latitude: number; longitude: number };
 }

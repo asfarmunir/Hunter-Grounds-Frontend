@@ -28,12 +28,15 @@ import { StreamChat } from "stream-chat";
 import { useSearchParams } from "next/navigation";
 
 import "stream-chat-react/dist/css/v2/index.css";
+import Image from "next/image";
 // import "./layout.css";
 
 const Chats = ({ userData }: { userData: ISessionUser }) => {
   const [channel, setChannel] = useState<StreamChannel>();
   const searchParams = useSearchParams();
+
   const userId = searchParams.get("id");
+  const propertyName = searchParams.get("propertyName");
   const streamUser = {
     id: userData.id,
     name: userData.name,
@@ -52,26 +55,27 @@ const Chats = ({ userData }: { userData: ISessionUser }) => {
 
   const createChannel = async () => {
     if (!client) return;
-    const response = await client.queryUsers({
-      id: { $in: ["66f46e6c4ec7d951720cc09b"] },
-    });
-    if (response.users.length === 0) {
-      const newUser = await createNewStreamUser(
-        "66f46e6c4ec7d951720cc09b",
-        "test",
-        "https://getstream.io/random_png/?name=test"
-      );
-    }
-    const newChannel = client.channel("messaging", "he232", {
+    // const response = await client.queryUsers({
+    //   id: { $in: ["66f46e6c4ec7d951720cc09b"] },
+    // });
+    // if (response.users.length === 0) {
+    //   const newUser = await createNewStreamUser(
+    //     "66f46e6c4ec7d951720cc09b",
+    //     "test",
+    //     "https://getstream.io/random_png/?name=test"
+    //   );
+    // }
+    const channelId = `${userId}${userData.id}`;
+    const newChannel = client.channel("messaging", channelId, {
       image: "https://getstream.io/random_png/?name=react",
-      name: "test2232",
-      members: ["66f414368b1494d49d97e75f", "66f46e6c4ec7d951720cc09b"],
+      name: `${propertyName}`,
+      members: [userId!, userData.id],
     });
 
     await newChannel.watch();
   };
   useEffect(() => {
-    if (userId) {
+    if (userId && propertyName) {
       createChannel();
     }
   }, [client]);
@@ -79,13 +83,28 @@ const Chats = ({ userData }: { userData: ISessionUser }) => {
   const sort: ChannelSort = { last_message_at: -1 };
   const filters: ChannelFilters = {
     type: "messaging",
-    // members: { $in: [userData.id] },
+    members: { $in: [userData.id] },
   };
   const options: ChannelOptions = {
     limit: 10,
   };
 
-  if (!client) return <div>Loading...</div>;
+  if (!client)
+    return (
+      <div className=" w-full flex  items-center pt-20 flex-col justify-center">
+        <Image
+          src="/images/logoIcon.svg"
+          alt="coming soon"
+          width={80}
+          height={80}
+          className=" mb-6 pr-5"
+        />
+        <p className="text-xl mb-2 font-semibold tracking-widest animate-pulse">
+          Loading Chats...
+        </p>
+        <p className="text-primary-50 text-sm font-semibold">Please Wait</p>
+      </div>
+    );
 
   const CustomListItem = (props: any) => {
     const { children } = props;

@@ -12,3 +12,14 @@ export async function createBooking(data:any) {
         return JSON.parse(JSON.stringify({status: 400, message: "Error creating booking"}));
     }
 }
+
+export const getUserBookings = async (userId: string) => {
+    try {
+        await connectToDatabase();
+        const bookings = await Booking.find({user: userId}).populate('property');
+        return JSON.parse(JSON.stringify({bookings, status: 200}));
+    } catch (error) {
+        console.error("Error getting user bookings", error);
+        return JSON.parse(JSON.stringify({status: 400, message: "Error getting user bookings"}));
+    }
+}

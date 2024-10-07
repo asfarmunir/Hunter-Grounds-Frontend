@@ -2,8 +2,15 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IUser } from "@/lib/types/user";
+import { IBooking } from "@/lib/types/booking";
 
-const UserProfile = ({ userDetails }: { userDetails: IUser }) => {
+const UserProfile = ({
+  userDetails,
+  userBookings,
+}: {
+  userDetails: IUser;
+  userBookings: IBooking[];
+}) => {
   const date = new Date(userDetails.createdAt!);
   const month = date.toLocaleString("default", { month: "long" });
   const year = date.getFullYear();
@@ -98,7 +105,7 @@ const UserProfile = ({ userDetails }: { userDetails: IUser }) => {
       <div className=" w-full md:w-[65%]  ">
         <div className=" w-full px-3 pt-3 rounded-2xl bg-[#161313] flex gap-3  ">
           <button className=" border-b pb-3 border-primary-50 px-3">
-            01 <br />
+            {userBookings && userBookings.length} <br />
             Trip
           </button>
           <button className=" border-b pb-3 border-primary-50 px-3">
@@ -118,7 +125,55 @@ const UserProfile = ({ userDetails }: { userDetails: IUser }) => {
             alt="user"
             className="w-full rounded-xl"
           />
-          <p className="border rounded-full px-3 py-1.5 text-sm mt-2 w-fit ml-4  bg-primary-100">
+          <p className="border rounded-full px-3 mt-4 py-1.5 text-sm  w-fit ml-4  bg-primary-100">
+            Booked Trips
+          </p>
+          {userBookings.map((booking) => {
+            // const fromDate = new Date(booking.checkIn);
+            // const toDate = new Date(booking.checkOut);
+            return (
+              <div className="flex w-full px-4 items-center justify-between flex-col md:flex-row">
+                <div>
+                  <p className="mt-4 mb-2 px-3 text-xl font-semibold">
+                    {booking.property.name}
+                  </p>
+                  <p className="text-sm px-3 text-gray-400 mb-4">
+                    in {booking.property.address} from{" "}
+                    {new Date(booking.checkIn).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}{" "}
+                    to{" "}
+                    {new Date(booking.checkOut).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+                {booking.property.owner !== userDetails._id && (
+                  <Link
+                    href={`/chat?id=${
+                      booking.property.owner
+                    }&propertyName=${encodeURIComponent(
+                      booking.property.name
+                    )}`}
+                  >
+                    Contact Owner
+                  </Link>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <div className=" w-full bg-[#372F2F33] my-4 pb-6 pt-2 ">
+          {/* <Image
+            src={"/images/scene.svg"}
+            width={900}
+            height={400}
+            alt="user"
+            className="w-full rounded-xl"
+          /> */}
+          <p className="border  rounded-full px-3 py-1.5 text-sm mt-2 w-fit ml-4  bg-primary-100">
             Past Trips
           </p>
           <p className="mt-4 mb-2 px-3 text-xl font-semibold">
