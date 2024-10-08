@@ -73,7 +73,7 @@ const AddClient = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        className={`text-sm 2xl:text-base font-thin hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5 }`}
+        className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5 }`}
       >
         Login
       </AlertDialogTrigger>

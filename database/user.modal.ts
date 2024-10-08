@@ -39,6 +39,7 @@ const UserSchema = new Schema(
     referedUsers: [{ type: Schema.Types.ObjectId, ref: "User", required: false }],
     referedBy: { type: Schema.Types.ObjectId, ref: "User", required: false }, 
     referalUsed: { type: Boolean, default: false }, 
+    withdrawableAmount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

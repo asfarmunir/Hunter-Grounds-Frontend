@@ -88,7 +88,7 @@ async function handleReferralReward(userId: string, bookingAmount: number) {
 
     if (referringUser) {
       // Calculate 15% of the total booking amount
-      const rewardAmount = bookingAmount * 0.15;
+      const rewardAmount = bookingAmount * 0.10;
 
       // Create a new referral earning object
       const referralEarning = {

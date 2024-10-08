@@ -23,4 +23,18 @@ export interface IUser {
   createdAt?: Date;
   updatedAt?: Date;
   isVerified?: boolean; // Optional
+  referralEarnings?: IReferralEarning[];
+  referedUsers?: string[];
+  referedBy?: string;
+  referalUsed?: boolean;
+
+}
+
+
+interface IReferralEarning {
+  amount: number;
+  referId: string;
+  description?: string;
+  status: 'pending' | 'paid';
+  date: Date;
 }

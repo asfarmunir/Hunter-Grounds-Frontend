@@ -65,6 +65,9 @@ const Chats = ({ userData }: { userData: ISessionUser }) => {
     //     "https://getstream.io/random_png/?name=test"
     //   );
     // }
+
+    // here the same channel is being used for all properties from the same owner because the channel id is the same.
+    // This means that the owner can only chat with one user, if want to change then the channel id should be unique.
     const channelId = `${userId}${userData.id}`;
     const newChannel = client.channel("messaging", channelId, {
       image: "https://getstream.io/random_png/?name=react",

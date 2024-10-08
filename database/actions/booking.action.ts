@@ -23,3 +23,46 @@ export const getUserBookings = async (userId: string) => {
         return JSON.parse(JSON.stringify({status: 400, message: "Error getting user bookings"}));
     }
 }
+
+
+export const getTopCitiesWithMostBookings = async () => {
+  try {
+    // Perform the aggregation
+    const topCities = await Booking.aggregate([
+      {
+        // Lookup to join the Booking with the Property collection based on property ID
+        $lookup: {
+          from: "properties", // The collection name in MongoDB (should be lowercase of Property model)
+          localField: "property", // Field in Booking schema that refers to the Property
+          foreignField: "_id", // Field in Property schema that is the ObjectId
+          as: "propertyDetails", // Output array with property details
+        },
+      },
+      {
+        // Unwind the propertyDetails array to have one document per booking/property
+        $unwind: "$propertyDetails",
+      },
+      {
+        // Group by city and count the number of bookings for each city
+        $group: {
+          _id: "$propertyDetails.city", // Group by the city field in the Property schema
+          totalBookings: { $sum: 1 }, // Count the number of bookings for each city
+        },
+      },
+      {
+        // Sort the cities by the total bookings in descending order
+        $sort: { totalBookings: -1 },
+      },
+      {
+        // Limit the result to the top 3 cities
+        $limit: 3,
+      },
+    ]);
+
+    // Return the top cities
+    return { topCities, status: 200 };
+  } catch (error) {
+    console.error("Error fetching top cities with most bookings: ", error);
+    return { message: "Internal Server Error", status: 500 };
+  }
+};
