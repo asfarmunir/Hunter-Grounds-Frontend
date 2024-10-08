@@ -8,7 +8,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { format, differenceInDays, isPast, isAfter } from "date-fns";
+import {
+  format,
+  differenceInDays,
+  isPast,
+  isAfter,
+  isWithinInterval,
+} from "date-fns";
 import { toast } from "react-hot-toast"; // Import toast
 import { formUrlQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -19,6 +25,10 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
   const [fromDate, setFromDate] = React.useState<Date>();
   const [toDate, setToDate] = React.useState<Date>();
   const [nights, setNights] = React.useState<number | null>(null);
+
+  const [fromDateOpen, setFromDateOpen] = React.useState(false);
+  const [toDateOpen, setToDateOpen] = React.useState(false);
+
   // Validate and calculate number of nights
   React.useEffect(() => {
     if (fromDate && toDate) {
@@ -29,22 +39,13 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
 
   // Handle form submission
   const router = useRouter();
+
   const handleSubmit = () => {
     if (!fromDate || !toDate) {
       toast.error("Please select booking dates.");
       return;
     }
-    // if (isPast(fromDate)) {
-    //   toast.error("Please add valid date.");
-    //   setFromDate(undefined);
-    //   setNights(null);
-    //   return;
-    // } else if (isAfter(fromDate, toDate)) {
-    //   toast.error("Please add valid date.");
-    //   setToDate(undefined);
-    //   setNights(null);
-    //   return;
-    // }
+
     // Adjust dates to noon to avoid time zone shift
     const adjustedFromDate = new Date(fromDate);
     adjustedFromDate.setHours(12, 0, 0, 0);
@@ -52,22 +53,45 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
     const adjustedToDate = new Date(toDate);
     adjustedToDate.setHours(12, 0, 0, 0);
 
-    const formattedFromDate = format(fromDate, "MM-dd");
-    const formattedToDate = format(toDate, "MM-dd");
+    // Check if any of the bookedDates fall within the selected range
+    const isDateBooked = propertyDetails.bookedDates.some((bookedDate) => {
+      const date = new Date(bookedDate); // Convert ISO date if necessary
+      return isWithinInterval(date, {
+        start: adjustedFromDate,
+        end: adjustedToDate,
+      });
+    });
 
+    if (isDateBooked) {
+      toast.error("One or more of the selected dates are already booked.", {
+        duration: 5000,
+        style: {
+          backgroundColor: "#FF0000",
+          color: "#fff",
+        },
+      });
+      return; // Prevent further actions
+    }
+
+    // Format the dates for query params
+    const formattedFromDate = format(adjustedFromDate, "MM-dd");
+    const formattedToDate = format(adjustedToDate, "MM-dd");
+
+    // Prepare URL params
     const params = new URLSearchParams();
-    // params.set("bookingDates", `${formattedFromDate}-${formattedToDate}`);
-    params.set("fromDate", `${formattedFromDate}`);
-    params.set("toDate", `${formattedToDate}`);
+    params.set("fromDate", formattedFromDate);
+    params.set("toDate", formattedToDate);
 
+    // Redirect to payment page with booking details
     router.push(
       `/pre-booking/${propertyDetails._id}/payment?` + params.toString()
     );
+
     toast.success("Booking details saved successfully.");
   };
 
   return (
-    <div className=" w-full flex flex-col-reverse md:flex-row gap-4 justify-between p-4 md:pl-14 md:pr-20">
+    <div className=" w-full flex flex-col-reverse md:flex-row gap-4 justify-between p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
       <div className="flex flex-col gap-2">
         <h2 className="text-2xl 2xl:text-4xl font-bold">Add Extras</h2>
         <p className="text-sm 2xl:text-base mb-4">
@@ -164,28 +188,24 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
             )}
           </div>
           <div className="flex flex-col">
-            <h4 className="font-bold 2xl:text-lg mb-2">
+            <h4 className="font-bold 2xl:text-xl mb-2">
               {propertyDetails.name}
             </h4>
-            <p className="text-sm">
+            <p className="text-sm 2xl:text-base font-semibold">
               {propertyDetails.acres} acres in {propertyDetails.city}{" "}
             </p>
-            <p className="font-semibold my-2">Booking Dates</p>
+            <p className="font-semibold my-2 2xl:text-lg">Booking Dates</p>
 
             {/* From Date Popover */}
-            <Popover>
+            <Popover open={fromDateOpen} onOpenChange={setFromDateOpen}>
               <PopoverTrigger asChild>
-                <button
-                  className={
-                    "inline-flex items-center gap-2 text-xs 2xl:text-sm border-r border-gray-500 dark:bg-transparent"
-                  }
-                >
+                <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r border-gray-500 dark:bg-transparent">
                   <Image
                     src={"/images/calendar.svg"}
                     width={17}
                     height={17}
                     alt="logo"
-                  />{" "}
+                  />
                   {fromDate ? (
                     format(fromDate, "PPP")
                   ) : (
@@ -197,7 +217,10 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
                 <Calendar
                   mode="single"
                   selected={fromDate}
-                  onSelect={setFromDate}
+                  onSelect={(date) => {
+                    setFromDate(date);
+                    setFromDateOpen(false);
+                  }}
                   initialFocus
                 />
               </PopoverContent>
@@ -207,19 +230,15 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
             <div className="h-4 bg-primary-50/40 rounded-md w-0.5 ml-1.5 p-0.5 my-0.5"></div>
 
             {/* To Date Popover */}
-            <Popover>
+            <Popover open={toDateOpen} onOpenChange={setToDateOpen}>
               <PopoverTrigger asChild>
-                <button
-                  className={
-                    "inline-flex items-center gap-2 text-xs 2xl:text-sm border-r border-gray-500 dark:bg-transparent"
-                  }
-                >
+                <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r border-gray-500 dark:bg-transparent">
                   <Image
                     src={"/images/calendar.svg"}
                     width={17}
                     height={17}
                     alt="logo"
-                  />{" "}
+                  />
                   {toDate ? format(toDate, "PPP") : <span>To date...</span>}
                 </button>
               </PopoverTrigger>
@@ -227,7 +246,10 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
                 <Calendar
                   mode="single"
                   selected={toDate}
-                  onSelect={setToDate}
+                  onSelect={(date) => {
+                    setToDate(date);
+                    setToDateOpen(false);
+                  }}
                   initialFocus
                 />
               </PopoverContent>

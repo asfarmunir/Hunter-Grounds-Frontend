@@ -35,7 +35,7 @@ const CityFilter = ({ from, to }: { from: string; to: string }) => {
         <span className=" font-bold text-primary-50 capitalize text-sm  not-italic px-1">
           {formattedFromDate}
         </span>
-        to{" "}
+        to
         <span className=" font-bold text-primary-50 capitalize text-sm  not-italic px-1">
           {formattedToDate}
         </span>

@@ -9,12 +9,6 @@ export async function POST(req:NextRequest, res:NextResponse ){
         await connectToDatabase();
         const {email, password, firstname,lastname,zip, referalCode } = await req.json();
 
-      console.log("values",
-        referalCode
-        )
-
-
-
 
         const existingUser = await User.findOne({email});
         if(existingUser){

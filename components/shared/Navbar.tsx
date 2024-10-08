@@ -42,7 +42,18 @@ const Navbar = () => {
   const [toggleSearch, setToggleSearch] = React.useState(false);
   const [searchCity, setSearchCity] = React.useState("");
   const [debouncedCity, setDebouncedCity] = useState(""); // Debounced city
+  const [fromPopoverOpen, setFromPopoverOpen] = useState(false);
+  const [toPopoverOpen, setToPopoverOpen] = useState(false);
 
+  const handleFromDateSelect = (date: Date | undefined) => {
+    setFromDate(date);
+    setFromPopoverOpen(false); // Close the popover after selecting a date
+  };
+
+  const handleToDateSelect = (date: Date | undefined) => {
+    setToDate(date);
+    setToPopoverOpen(false); // Close the popover after selecting a date
+  };
   const pathname = usePathname();
 
   const signOutUser = async () => {
@@ -134,172 +145,194 @@ const Navbar = () => {
           className=" w-36 2xl:w-48  "
         />
       </Link>
-
-      <div
-        className=" bg-[#2A2A2A] px-2  min-w-[540px] 
+      {pathname === "/" && (
+        <div
+          className=" bg-[#2A2A2A] px-2  min-w-[540px] 
        py-2  hidden md:flex items-center gap-2 rounded-lg"
-      >
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
-              <Image
-                src={"/images/where.svg"}
-                width={18}
-                height={18}
-                alt="logo"
-              />
-
-              {!toggleSearch && <span>Where+</span>}
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mt-4 bg-[#2A2A2A]  rounded-md border-none ">
-            <div className="text-slate-50 flex w-fit  hover:text-white py-3 items-center gap-2 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
-              <FiSearch className="text-lg text-primary-50/50" />
-              <input
-                type="text"
-                placeholder="city..."
-                // value={searchCity}
-                onChange={handleInputChange}
-                className=" bg-transparent focus:outline-none "
-              />
-            </div>
-            {mostSearchedCities.map((city, index) => (
-              <DropdownMenuItem
-                key={index}
-                onClick={() => handleCitySelect(city)}
-                className="cursor-pointer px-3 inline-flex items-center gap-2 capitalize py-2 hover:bg-primary-50/20 text-white w-full"
-              >
+        >
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
                 <Image
-                  src={"/images/location.svg"}
-                  width={13}
-                  height={13}
+                  src={"/images/where.svg"}
+                  width={18}
+                  height={18}
                   alt="logo"
                 />
-                {city}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button
-              className={
-                " inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500 dark:bg-transparent "
-              }
-            >
-              <Image
-                src={"/images/calendar.svg"}
-                width={17}
-                height={17}
-                alt="logo"
-              />{" "}
-              <span
-                className={`${toggleSearch ? "hidden" : "block"}  text-white`}
+
+                {!toggleSearch && <span>Where+</span>}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="mt-4 bg-[#2A2A2A]  rounded-md border-none ">
+              <div className="text-slate-50 flex w-fit  hover:text-white py-3 items-center gap-2 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
+                <FiSearch className="text-lg text-primary-50/50" />
+                <input
+                  type="text"
+                  placeholder="city..."
+                  // value={searchCity}
+                  onChange={handleInputChange}
+                  className=" bg-transparent focus:outline-none "
+                />
+              </div>
+              {mostSearchedCities.map((city, index) => (
+                <DropdownMenuItem
+                  key={index}
+                  onClick={() => handleCitySelect(city)}
+                  className="cursor-pointer px-3 inline-flex items-center gap-2 capitalize py-2 hover:bg-primary-50/20 text-white w-full"
+                >
+                  <Image
+                    src={"/images/location.svg"}
+                    width={13}
+                    height={13}
+                    alt="logo"
+                  />
+                  {city}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={
+                  " inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500 dark:bg-transparent "
+                }
               >
-                Add Dates +
-              </span>
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mt-4 bg-[#2A2A2A] flex flex-col gap-4  rounded-md border-none   py-4 ">
-            <Popover>
-              <PopoverTrigger asChild>
-                <button
-                  className={
-                    " inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm  px-2.5 border-gray-500 dark:bg-transparent "
-                  }
+                <Image
+                  src={"/images/calendar.svg"}
+                  width={17}
+                  height={17}
+                  alt="logo"
+                />{" "}
+                <span
+                  className={`${toggleSearch ? "hidden" : "block"}  text-white`}
                 >
-                  <Image
-                    src={"/images/calendar.svg"}
-                    width={17}
-                    height={17}
-                    alt="logo"
-                  />{" "}
-                  {fromDate ? (
-                    format(fromDate, "PPP")
-                  ) : (
-                    <span
-                      className={`${
-                        toggleSearch ? "hidden" : "block"
-                      }  text-white`}
-                    >
-                      From Date...
-                    </span>
-                  )}
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={fromDate}
-                  onSelect={setFromDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-            <Popover>
-              <PopoverTrigger asChild>
-                <button
-                  className={
-                    " inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm  px-2.5 border-gray-500 dark:bg-transparent "
-                  }
-                >
-                  <Image
-                    src={"/images/calendar.svg"}
-                    width={17}
-                    height={17}
-                    alt="logo"
-                  />{" "}
-                  {toDate ? (
-                    format(toDate, "PPP")
-                  ) : (
-                    <span
-                      className={`${
-                        toggleSearch ? "hidden" : "block"
-                      }  text-white`}
-                    >
-                      To Date...
-                    </span>
-                  )}
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={toDate}
-                  onSelect={setToDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-            <button
-              onClick={handleDateFilter}
-              className=" w-[90%] mx-auto  tracking-widest py-2 rounded-lg bg-primary-50/25 text-xs text-white font-semibold"
-            >
-              Set Filter
-            </button>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                  Add Dates +
+                </span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="mt-4 bg-[#2A2A2A] flex flex-col gap-4  rounded-md border-none   py-4 ">
+              {/* <Popover >
+                <PopoverTrigger asChild>
+                  <button
+                    className={
+                      " inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm  px-2.5 border-gray-500 dark:bg-transparent "
+                    }
+                  >
+                    <Image
+                      src={"/images/calendar.svg"}
+                      width={17}
+                      height={17}
+                      alt="logo"
+                    />{" "}
+                    {fromDate ? (
+                      format(fromDate, "PPP")
+                    ) : (
+                      <span
+                        className={`${
+                          toggleSearch ? "hidden" : "block"
+                        }  text-white`}
+                      >
+                        From Date...
+                      </span>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={fromDate}
+                    onSelect={setFromDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover> */}
+              <Popover open={fromPopoverOpen} onOpenChange={setFromPopoverOpen}>
+                <PopoverTrigger asChild>
+                  <button className="inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm px-2.5 border-gray-500 dark:bg-transparent">
+                    <Image
+                      src={"/images/calendar.svg"}
+                      width={17}
+                      height={17}
+                      alt="logo"
+                    />
+                    {fromDate ? (
+                      format(fromDate, "PPP")
+                    ) : (
+                      <span className="text-white">From Date...</span>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={fromDate}
+                    onSelect={handleFromDateSelect}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <Popover open={toPopoverOpen} onOpenChange={setToPopoverOpen}>
+                <PopoverTrigger asChild>
+                  <button className="inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm px-2.5 border-gray-500 dark:bg-transparent">
+                    <Image
+                      src={"/images/calendar.svg"}
+                      width={17}
+                      height={17}
+                      alt="logo"
+                    />
+                    {toDate ? (
+                      format(toDate, "PPP")
+                    ) : (
+                      <span className="text-white">To Date...</span>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={toDate}
+                    onSelect={handleToDateSelect}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <button
+                onClick={handleDateFilter}
+                className=" w-[90%] mx-auto  tracking-widest py-2 rounded-lg bg-primary-50/25 text-xs text-white font-semibold"
+              >
+                Set Filter
+              </button>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-        <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
-          <Image src={"/images/guest.svg"} width={18} height={18} alt="logo" />
-          {!toggleSearch && <span> Add Guests +</span>}
-        </button>
-        <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
-          <Image src={"/images/map.svg"} width={18} height={18} alt="logo" />
-          {!toggleSearch && <span>Map Area</span>}
-        </button>
-        <input
-          type="text"
-          placeholder="search"
-          className={` ${
-            toggleSearch ? "block" : "hidden"
-          } bg-transparent border border-primary-50/30 flex-grow p-2 transition-all  rounded-full text-xs px-4`}
-        />
+          <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
+            <Image
+              src={"/images/guest.svg"}
+              width={18}
+              height={18}
+              alt="logo"
+            />
+            {!toggleSearch && <span> Add Guests +</span>}
+          </button>
+          <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
+            <Image src={"/images/map.svg"} width={18} height={18} alt="logo" />
+            {!toggleSearch && <span>Map Area</span>}
+          </button>
+          <input
+            type="text"
+            placeholder="search"
+            className={` ${
+              toggleSearch ? "block" : "hidden"
+            } bg-transparent border border-primary-50/30 flex-grow p-2 transition-all  rounded-full text-xs px-4`}
+          />
 
-        <button onClick={() => setToggleSearch(!toggleSearch)}>
-          <IoMdSearch className=" bg-gradient-to-b from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
-        </button>
-      </div>
+          <button onClick={() => setToggleSearch(!toggleSearch)}>
+            <IoMdSearch className=" bg-gradient-to-b from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
+          </button>
+        </div>
+      )}
+
       <div className=" hidden md:flex items-center gap-4">
         {navlinks.map((link, index) => (
           <Link

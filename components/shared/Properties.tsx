@@ -14,7 +14,7 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
           initial="initial"
           viewport={{ once: true }}
           whileInView="animate"
-          className="grid grid-cols-1  w-full  sm:grid-cols-2 gap-y-10 place-items-center  max-w-xl 2xl:max-w-2xl gap-4  lg:grid-cols-3"
+          className="grid grid-cols-1  w-full  sm:grid-cols-2 gap-y-10 place-items-start  max-w-xl 2xl:max-w-2xl gap-4  lg:grid-cols-3"
         >
           {properties.map((property, index) => (
             <motion.div
