@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     await handleReferralReward(metadata.user, amount);
 
     // Add booking payment to the owner's account
-    await addBookingPaymentToOwner(metadata.property, amount, booking._id);
+    await addBookingPaymentToOwner(metadata.property, amount, booking.booking._id);
 
     return NextResponse.json({ message: "OK", booking });
   }
