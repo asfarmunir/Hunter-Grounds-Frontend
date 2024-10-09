@@ -15,7 +15,7 @@ const BookingPaymentSchema = new Schema({
   bookingRefId: { type: Schema.Types.ObjectId, ref: "Booking", required: true }, // Reference to the booking
   status: { type: String, enum: ['pending', 'paid'], default: 'pending' },  // Payment status
   date: { type: Date, default: Date.now },               // Date when the payment entry was created
-  releaseDate: { type: Date, required: true },           // Date when the payment will be released (after 30 days)
+  // releaseDate: { type: Date, required: true },           // Date when the payment will be released (after 30 days)
 });
 
 const UserSchema = new Schema(
