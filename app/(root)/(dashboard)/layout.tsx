@@ -20,11 +20,11 @@ const links = [
   },
   {
     name: "Inbox",
-    href: "/dashboard",
+    href: "/chat",
   },
   {
     name: "hunt cash",
-    href: "/refer-and-earn",
+    href: "/hunt-cash",
   },
 ];
 const layout = ({ children }: { children: React.ReactNode }) => {

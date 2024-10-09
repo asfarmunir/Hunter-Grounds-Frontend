@@ -10,6 +10,7 @@ const nextConfig = {
     },
     images: {
         remotePatterns: ["images.unsplash.com"],
+        domains: ['res.cloudinary.com'],
         remotePatterns: [
             {
                 protocol: "https",

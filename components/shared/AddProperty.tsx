@@ -31,7 +31,7 @@ const initialSettings = [
 const page = ({ userDetails }: { userDetails: IUser }) => {
   console.log("🚀 ~ page ~ userDetails:", userDetails);
   const [propertyDetails, setPropertyDetails] = useState({
-    address: " 20, los angeles",
+    address: "i-8 markaz islamabad ",
     acres: 20,
     city: "los angeles",
     name: "bolo bolo bolo",
@@ -48,8 +48,32 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
   });
 
   const [settings, setSettings] = useState(initialSettings);
-  const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  //-------------
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 3 || selectedFiles.length + files.length > 3) {
+      alert("You can only upload a maximum of 3 images.");
+      return;
+    }
+    setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    setImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+  };
+
+  const removeImage = (index: number) => {
+    setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setImagePreviews((prevPreviews) =>
+      prevPreviews.filter((_, i) => i !== index)
+    );
+  };
+
+  //-------------
+
   // Function to update the status based on user input
   const updateStatus = useCallback(() => {
     setSettings((prevSettings) =>
@@ -85,7 +109,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           case "Photos":
             return {
               ...s,
-              status: files.length > 0 ? "completed" : "pending",
+              status: imagePreviews.length > 0 ? "completed" : "pending",
             };
           case "Profile Picture":
             return {
@@ -107,70 +131,11 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
         }
       })
     );
-  }, [propertyDetails, files, userDetails]);
+  }, [propertyDetails, imagePreviews, userDetails]);
 
   useEffect(() => {
     updateStatus();
-  }, [propertyDetails, files, updateStatus]);
-
-  let uploadedImageUrl: string[] = [];
-  if (files.length > 0) {
-    files.forEach((file) => {
-      const url = convertFileToUrl(file);
-      uploadedImageUrl.push(url);
-    });
-  }
-
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
-  }, []);
-
-  const { startUpload, routeConfig } = useUploadThing("imageUploader", {
-    onClientUploadComplete: (res) => {
-      console.log("🚀 ~ page ~ res:", res);
-      setFiles([]);
-      uploadedImageUrl = [];
-    },
-    onUploadError: (error) => {
-      toast.dismiss();
-      if (error.message === "Invalid config: FileCountMismatch")
-        toast.error("You can only upload 3 images", {
-          duration: 5000,
-          style: {
-            backgroundColor: "#ff0000",
-            color: "#fff",
-          },
-        });
-      else if (error.message === "Invalid config: FileSizeMismatch")
-        toast.error("File size should be less than 08MB", {
-          duration: 5000,
-          style: {
-            backgroundColor: "#ff0000",
-            color: "#fff",
-          },
-        });
-      else {
-        toast.error("Something went wrong while uploading images", {
-          duration: 5000,
-          style: {
-            backgroundColor: "#ff0000",
-            color: "#fff",
-          },
-        });
-      }
-
-      //   setTimeout(() => {
-      //     toast.dismiss();
-      //   }, 5000);
-    },
-  });
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: generateClientDropzoneAccept(
-      generatePermittedFileTypes(routeConfig).fileTypes
-    ),
-  });
+  }, [propertyDetails, imagePreviews, updateStatus]);
 
   const getCoordinatesFromMapbox = async (address: string) => {
     const accessToken =
@@ -199,11 +164,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (settings.some((s) => s.status === "pending")) {
-      toast.error("Please fill all the required fields");
-      setLoading(false);
-      return;
-    }
 
     const coordinates = await getCoordinatesFromMapbox(propertyDetails.address);
     if (!coordinates) {
@@ -211,10 +171,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       setLoading(false);
       return;
     }
-    console.log("🚀 ~ submitHandler ~ coordinates:", coordinates);
     propertyDetails.location = coordinates;
 
-    if (files.length === 0) {
+    if (selectedFiles.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
         duration: 5000,
         style: {
@@ -225,45 +184,57 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       setLoading(false);
       return;
     }
-
-    let uploadedImagesUrl: string[] = [];
     toast.loading(" Making your property live....", {
       style: {
         backgroundColor: "#000",
         color: "#fff",
       },
     });
-    if (files.length > 0) {
-      const uploadedImages = await startUpload(files);
-      if (!uploadedImages) {
+
+    try {
+      const uploadPromises = selectedFiles.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await axios.post("/api/cloudinary/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        return response.data.imgUrl;
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+      toast.dismiss();
+      const data = {
+        ...propertyDetails,
+        pricePerNight: propertyDetails.price,
+        photos: uploadedUrls,
+        owner: userDetails._id,
+        city: propertyDetails.city.trim().replace(/\s+/g, "").toLowerCase(), // Remove spaces and convert to lowercase
+      };
+      const res = await createProperty(data);
+      if (res.status !== 200) {
+        toast.error("Something went wrong while creating property");
+        setLoading(false);
         return;
       }
-      uploadedImages.map((img) => uploadedImagesUrl.push(img.url));
+      toast.success("Property Listed Successfully! ", {
+        duration: 3000,
+        style: {
+          backgroundColor: "green",
+          color: "#fff",
+        },
+      });
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      toast.dismiss();
+      toast.error("something went wrond!");
+    } finally {
+      setUploading(false);
     }
-    toast.dismiss();
-
-    const data = {
-      ...propertyDetails,
-      pricePerNight: propertyDetails.price,
-      photos: uploadedImagesUrl,
-      owner: userDetails._id,
-      city: propertyDetails.city.trim().replace(/\s+/g, "").toLowerCase(), // Remove spaces and convert to lowercase
-    };
-    const res = await createProperty(data);
-    if (res.status !== 200) {
-      toast.error("Something went wrong while creating property");
-      setLoading(false);
-      return;
-    }
-    toast.success("Property Listed Successfully! ", {
-      duration: 3000,
-      style: {
-        backgroundColor: "green",
-        color: "#fff",
-      },
-    });
-    router.push("/dashboard");
-    setLoading(false);
   };
 
   return (
@@ -505,34 +476,58 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
             <p className="text-sm  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
-              {uploadedImageUrl.length} Photos Added
+              {imagePreviews.length} Photos Added
             </p>
             <div className=" w-full flex flex-col gap-4 md:flex-row justify-between">
-              <div className="flex items-center justify-center md:justify-start flex-wrap gap-4 ">
-                {uploadedImageUrl.length > 0 &&
-                  uploadedImageUrl.map((url, index) => (
+              <div className=" w-full flex items-center gap-4  ">
+                {imagePreviews.length > 0 ? (
+                  imagePreviews.map((preview, index) => (
                     <div
                       key={index}
-                      className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden"
+                      className="flex relative items-center flex-wrap w-28 2xl:w-36 h-28 overflow-hidden object-cover object-center  gap-4 mb-4"
                     >
                       <Image
-                        src={url}
-                        width={100}
-                        height={100}
-                        alt="location"
+                        src={preview}
+                        alt={`Selected Image ${index + 1}`}
+                        width={150}
+                        height={150}
+                        className="rounded"
                       />
-                      <RiDeleteBinLine className="absolute top-1 right-1 text-primary-50" />
+                      {/* Button to remove image */}
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 text-xs flex items-center justify-center p-0.5 rounded-full"
+                      >
+                        X
+                      </button>
                     </div>
-                  ))}
-                {uploadedImageUrl.length < 3 && (
-                  <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
-                    <p className="text-7xl text-primary-200">+</p>
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center md:justify-start flex-wrap gap-4 ">
+                    <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
+                      <p className="text-7xl text-primary-200">+</p>
+                    </div>
+                    <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
+                      <p className="text-7xl text-primary-200">+</p>
+                    </div>
+                    <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
+                      <p className="text-7xl text-primary-200">+</p>
+                    </div>
                   </div>
                 )}
               </div>
-              <div {...getRootProps()}>
-                <input {...getInputProps()} className=" bg-red-400" />
-                <p className=" w-fit h-fit text-xs md:text-sm bg-gradient-to-t hover:cursor-pointer from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
+
+              <div className=" relative  ">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleFileChange}
+                  className=" absolute top-2 opacity-0"
+                  disabled={selectedFiles.length >= 3 || uploading} // Disable if already 3 images or uploading
+                />
+                <p className=" w-fit h-fit  text-nowrap  text-xs md:text-sm bg-gradient-to-t hover:cursor-wait from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 md:px-12 py-2.5 text-black font-semibold 2xl:text-lg">
                   Add or edit photos
                 </p>
               </div>

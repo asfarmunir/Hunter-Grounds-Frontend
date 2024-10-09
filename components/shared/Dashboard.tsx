@@ -151,7 +151,9 @@ const page = ({
               </div>
             ))
           ) : (
-            <p className="text-sm text-gray-300">No data available</p>
+            <p className="text-sm text-gray-300  2xl:text-base font-semibold">
+              No data available
+            </p>
           )}
         </div>
       </div>

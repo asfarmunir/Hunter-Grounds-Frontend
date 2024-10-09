@@ -6,14 +6,14 @@ import {
   getUserDetails,
   getWithdrawableReferralAmount,
 } from "@/database/actions/user.action";
-import { getTopCitiesWithMostBookings } from "@/database/actions/booking.action";
+import { getTopCitiesWithMostBookingsForUser } from "@/database/actions/booking.action";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
   const data = await getUserDetails(session.user.email);
   const available = await getWithdrawableReferralAmount(session.user.id);
-  console.log("🚀 ~ page ~ available:", available);
-  const topCities = await getTopCitiesWithMostBookings();
+  const topCities = await getTopCitiesWithMostBookingsForUser(session.user.id);
+  console.log("🚀 ~ page ~ topCities:", topCities);
 
   return (
     <Dashboard

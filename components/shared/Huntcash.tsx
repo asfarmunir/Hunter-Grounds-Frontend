@@ -296,7 +296,7 @@ const page = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {userDetails.referralEarnings!.length &&
+            {userDetails.referralEarnings!.length ? (
               userDetails.referralEarnings!.map((referral, i) => {
                 const date = new Date(referral.date);
                 const formattedDate = date.toLocaleDateString("en-US", {
@@ -332,7 +332,14 @@ const page = ({
                     </TableCell>
                   </TableRow>
                 );
-              })}
+              })
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center">
+                  No Referral Earnings
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>

@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import toast from "react-hot-toast";
 
 const socials = [
   {
@@ -19,7 +21,33 @@ const socials = [
     img: "tiktok",
   },
 ];
+
 const Footer = () => {
+  const [email, setEmail] = React.useState("");
+
+  const submit = () => {
+    if (!email || !email.includes("@")) {
+      return toast.error("Please enter a valid email!", {
+        icon: "😢",
+        style: {
+          borderRadius: "40px",
+          background: "black",
+          color: "#fff",
+        },
+        duration: 5000,
+      });
+    }
+    toast.success("Subscribed Successfully!", {
+      icon: "😊",
+      style: {
+        borderRadius: "40px",
+        background: "green",
+        color: "#fff",
+      },
+      duration: 5000,
+    });
+  };
+
   return (
     <div className=" w-full flex items-center bg-[#000214]  justify-between px-6 pb-12  md:pl-10 2xl:pl-16 md:pr-0 md:h-[35rem] 2xl:h-[40rem] mt-16  overflow-hidden">
       <div className="flex flex-col md:flex-row gap-10 pt-12 md:pt-32 md:pl-8 pb-12 ">
@@ -35,9 +63,14 @@ const Footer = () => {
             <input
               type="text"
               placeholder="Enter your email"
-              className=" bg-transparent"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className=" bg-transparent focus:outline-none "
             />
-            <button className=" bg-gradient-to-r 2xl:hover:px-14 hover:px-10 transition-all hover:shadow-inner shadow-orange-400 from-[#FF9900] to-[#FFFFFF] text-xs md:text-sm rounded-3xl px-8 2xl:px-12 py-4  font-semibold 2xl:text-lg">
+            <button
+              onClick={submit}
+              className=" bg-gradient-to-r 2xl:hover:px-14 hover:px-10 transition-all hover:shadow-inner shadow-orange-400 from-[#FF9900] to-[#FFFFFF] text-xs md:text-sm rounded-3xl px-8 2xl:px-12 py-4  font-semibold 2xl:text-lg"
+            >
               Subscribe
             </button>
           </div>
@@ -98,23 +131,20 @@ const Footer = () => {
           </Link>
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"/"}
+            href={"/policies/terms"}
           >
             Terms Of Service
           </Link>
 
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"/"}
+            href={"/policies/privacy-policy"}
           >
             Privacy Policy
           </Link>
-          <Link
-            className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"/"}
-          >
+          <button className=" 2xl:text-xl text-start font-thin hover:text-primary-50 transition-all">
             Write to Us
-          </Link>
+          </button>
           <p className=" text-pretty justify-center bg-[#05D6FF1A] inline-flex text-sm 2xl:text-base text-primary-50 border border-primary-50 px-3 py-2 rounded-full items-center gap-3">
             <Image src={"/images/mail.svg"} alt="bg" width={25} height={25} />
             Help@HuntGrounds.com
@@ -123,25 +153,25 @@ const Footer = () => {
         <div className="flex flex-col gap-6">
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"/"}
+            href={"policies/cookie-policy"}
           >
             Cookie Policy
           </Link>
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"/"}
+            href={"policies/refund-policy"}
           >
             Refund Policy
           </Link>
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"/"}
+            href={"policies/gun-policy"}
           >
             Gun Safety
           </Link>
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"/"}
+            href={"policies/risk-disclosure"}
           >
             Risk Disclosure
           </Link>

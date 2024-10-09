@@ -43,8 +43,8 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
                 </span>
               </h4>
               <p className=" font-thin  text-slate-50 capitalize  text-sm">
-                11 sites Lodging {property.acres} acres {property.city} from
-                only{" "}
+                <span className=" font-semibold">{property.acres}</span> acres
+                huntground in {property.city} from only{" "}
                 <span className=" font-semibold">
                   {" "}
                   CA${property.pricePerNight}

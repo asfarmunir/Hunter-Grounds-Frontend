@@ -9,6 +9,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { linkSync } from "fs";
 import { signOut, useSession } from "next-auth/react";
 import ImageUploader from "@/components/shared/ImageUploader";
+import AvatarUpload from "@/components/shared/AvatarUpload";
 import {
   getUserDetails,
   updateUserDetails,
@@ -138,18 +139,6 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
     instagramHandle: data.instagramHandle || "",
     huntgroundBio: data.huntgroundBio || "",
   });
-  const [files, setFiles] = useState<File[]>([]);
-  //   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
-  let uploadedImageUrl: string[] = [];
-  if (files.length > 0) {
-    files.forEach((file) => {
-      const url = convertFileToUrl(file);
-      uploadedImageUrl.push(url);
-    });
-  }
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
-  }, []);
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -158,38 +147,6 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
     toast.dismiss();
     toast.success("Details updated successfully");
   };
-
-  const updateImage = async (profileImage: string) => {
-    const res = await updateUserProfileImage(userData.email, profileImage);
-    if (res.status !== 200) {
-      toast.error("An error occured while updating your profile image");
-      return;
-    }
-  };
-
-  const { startUpload, routeConfig } = useUploadThing("imageUploader", {
-    onClientUploadComplete: (res) => {
-      console.log("Files: ", res);
-      setUserData((prev) => ({ ...prev, profileImage: res[0].url }));
-      setFiles([]);
-      uploadedImageUrl = [];
-      updateImage(res[0].url);
-      toast.dismiss();
-      toast.success("Updated successfully!");
-    },
-    onUploadError: () => {
-      toast.error("Something went wrong while updating, please try again");
-    },
-    onUploadBegin: () => {
-      toast.loading("Updating your profile picture");
-    },
-  });
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: generateClientDropzoneAccept(
-      generatePermittedFileTypes(routeConfig).fileTypes
-    ),
-  });
 
   return (
     <div className=" w-full  bg-[#16131399] p-4 ">
@@ -204,74 +161,10 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
           <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className=" min-w-16 md:min-w-36">Profile Picture</p>
             <div className="flex flex-col gap-3 mb-3">
-              <div className="flex gap-4 items-center">
-                <div className="flex items-center gap-6">
-                  <div {...getRootProps()} className="flex items-center gap-3">
-                    {uploadedImageUrl.length ? (
-                      <div className="w-[50px] h-[50px] rounded-full flex overflow-hidden  items-center object-contain object-center justify-center">
-                        <Image
-                          src={uploadedImageUrl[0]}
-                          alt="uploaded image"
-                          width={60}
-                          height={60}
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-[50px] h-[50px] rounded-full flex overflow-hidden  items-center object-contain object-center justify-center">
-                        <Image
-                          src={userData.profileImage || "/images/avatar.svg"}
-                          width={60}
-                          alt="avatar"
-                          height={60}
-                        />
-                      </div>
-                    )}
-                    {uploadedImageUrl.length > 0 ? (
-                      <>
-                        <div className=" ">
-                          {files.length > 0 && (
-                            <button
-                              type="button"
-                              className={`text-xs  2xl:text-sm font-semibold bg-gradient-to-b
-                     hover:bg-gradient-to-br transition-all duration-500 from-[#FF9900]
-                      to-[#10111080] px-4 py-2 rounded-lg
-                }`}
-                              onClick={() => startUpload(files)}
-                            >
-                              Upload Photo
-                            </button>
-                          )}
-                        </div>
-                        <button
-                          type="button"
-                          className={`text-xs  2xl:text-sm font-semibold bg-red-600
-                      transition-all duration-500 
-                       px-4 py-2 rounded-lg
-                }`}
-                          onClick={() => {
-                            setFiles([]);
-                            uploadedImageUrl = [];
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <input {...getInputProps()} className=" bg-red-400" />
-                        <p
-                          className={`text-xs  2xl:text-sm cursor-pointer font-semibold bg-gradient-to-b
-                     hover:bg-gradient-to-br transition-all duration-500 from-[#FF9900]
-                      to-[#10111080] px-4 py-2 rounded-lg
-                }`}
-                        >
-                          Choose Profile Picture
-                        </p>{" "}
-                      </>
-                    )}
-                  </div>
-                </div>{" "}
-              </div>
+              <AvatarUpload
+                userProfile={userData.profileImage || "/images/avatar.svg"}
+                userEmail={userData.email}
+              />
               <p className="text-xs md:text-sm text-gray-400 max-w-3xl font-thin tracking-wide">
                 Please upload a profile picture where your face is clearly
                 visible. Sharing a clear image of yourself helps to build trust
@@ -304,7 +197,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          {/* <div className="flex py-8 border-b border-primary-50/15  gap-16">
             <p className=" min-w-16 md:min-w-36">Facebook</p>
             <button
               className={`text-sm 2xl:text-base font-semibold bg-[#05D6FF80] px-4 py-2 rounded-lg
@@ -312,7 +205,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             >
               + Connect Facebook
             </button>{" "}
-          </div>
+          </div> */}
           <div className="flex py-8 border-b border-primary-50/15  gap-16">
             <p className=" min-w-16 md:min-w-36">Email</p>
             <p className="">{userData.email}</p>

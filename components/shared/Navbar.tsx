@@ -147,7 +147,7 @@ const Navbar = () => {
       </Link>
       {pathname === "/" && (
         <div
-          className=" bg-[#2A2A2A] px-2  min-w-[540px] 
+          className=" bg-[#2A2A2A] px-4  
        py-2  hidden md:flex items-center gap-2 rounded-lg"
         >
           <DropdownMenu>
@@ -306,7 +306,7 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
+          {/* <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
             <Image
               src={"/images/guest.svg"}
               width={18}
@@ -314,21 +314,22 @@ const Navbar = () => {
               alt="logo"
             />
             {!toggleSearch && <span> Add Guests +</span>}
-          </button>
-          <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
+          </button> */}
+          {/* <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
             <Image src={"/images/map.svg"} width={18} height={18} alt="logo" />
             {!toggleSearch && <span>Map Area</span>}
-          </button>
-          <input
+          </button> */}
+          {/* <input
             type="text"
             placeholder="search"
             className={` ${
               toggleSearch ? "block" : "hidden"
             } bg-transparent border border-primary-50/30 flex-grow p-2 transition-all  rounded-full text-xs px-4`}
-          />
+          /> */}
 
-          <button onClick={() => setToggleSearch(!toggleSearch)}>
-            <IoMdSearch className=" bg-gradient-to-b from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
+          {/* <button onClick={() => setToggleSearch(!toggleSearch)}> */}
+          <button>
+            <IoMdSearch className=" bg-gradient-to-b cursor-default from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
           </button>
         </div>
       )}
@@ -370,7 +371,7 @@ const Navbar = () => {
                   />
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="mr-8 mt-2 p-2 rounded-xl border border-primary-50/6- ">
+              <DropdownMenuContent className="mr-8 flex flex-col mt-2 p-2 rounded-xl border border-primary-50/6- ">
                 <Link href={"/account"}>
                   {" "}
                   <DropdownMenuItem className=" inline-flex items-center gap-2 px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
@@ -378,22 +379,33 @@ const Navbar = () => {
                     Accounts
                   </DropdownMenuItem>
                 </Link>
-                <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                  <FaRegQuestionCircle className="text-lg text-primary-50" />
-                  Trip
-                </DropdownMenuItem>
+                <Link href={"/dashboard"}>
+                  {" "}
+                  <DropdownMenuItem className=" inline-flex items-center gap-2 px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    <GoPeople className="text-lg text-primary-50" />
+                    Dashboard
+                  </DropdownMenuItem>
+                </Link>
+                <Link href={"/account"}>
+                  <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    <FaRegQuestionCircle className="text-lg text-primary-50" />
+                    Trip
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
                   <FaRegQuestionCircle className="text-lg text-primary-50" />
                   Help and FAQ
                 </DropdownMenuItem>
-                <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                {/* <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
                   <FaRegQuestionCircle className="text-lg text-primary-50" />
                   Store
-                </DropdownMenuItem>
-                <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                  <FaRegQuestionCircle className="text-lg text-primary-50" />
-                  Earn CA$100
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
+                <Link href={"/refer-and-earn"}>
+                  <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    <FaRegQuestionCircle className="text-lg text-primary-50" />
+                    Earn CA$100
+                  </DropdownMenuItem>
+                </Link>
               </DropdownMenuContent>
             </DropdownMenu>
           </>

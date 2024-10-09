@@ -80,26 +80,31 @@ const UserProfile = ({
             />
             <span className="text-sm">Email Adress</span>
           </p>
-          <p className="mt-b  inline-flex items-center gap-2">
-            <Image
-              src={"/images/check2.svg"}
-              width={17}
-              height={17}
-              alt="mail"
-            />
-            <span className="text-sm">Facebook</span>
-          </p>
+          {userDetails.isVerified && (
+            <p className="mt-b  inline-flex items-center gap-2">
+              <Image
+                src={"/images/check2.svg"}
+                width={17}
+                height={17}
+                alt="mail"
+              />
+              <span className="text-sm">Kyc Verified</span>
+            </p>
+          )}
         </div>
         <div className=" p-5 rounded-xl flex flex-col bg-gradient-to-b from-primary to-orange-500/20 ">
           <div className="flex items-center gap-3">
             <p className=" border border-primary-50/60 px-4 py-1 text-sm rounded-full text-primary-50/60">
-              CA% 0
+              CA% 10
             </p>
             <p className="text-sm text-gray-400">Balance</p>
           </div>
-          <button className=" w-[96%] px-12 py-2 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold mt-8">
+          <Link
+            href={"/refer-and-earn"}
+            className=" w-[96%] px-12 py-2  text-center rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold mt-8"
+          >
             Earn Huntcash
-          </button>
+          </Link>
         </div>
       </div>
       <div className=" w-full md:w-[65%]  ">
@@ -113,7 +118,7 @@ const UserProfile = ({
             Saves
           </button>
           <button className=" border-b pb-3 border-primary-50 px-3">
-            01 <br />
+            0 <br />
             Review
           </button>
         </div>
