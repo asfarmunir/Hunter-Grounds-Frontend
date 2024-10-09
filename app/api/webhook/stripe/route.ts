@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     const { id, amount, metadata } = event.data.object;
     const bookingDetails = {
       totalAmount: amount,
-      bookingEmail: metadata.customer_email,
+      bookingEmail: metadata.bookingEmail,
       user: metadata.user,
       property: metadata.property,
       bookingFirstname: metadata.bookingFirstname,
@@ -38,6 +38,7 @@ export async function POST(request: Request) {
 
     // Create the booking
     const booking = await createBooking(bookingDetails);
+    console.log("🚀 ~ POST ~ booking:", booking)
 
     // Update the property with the booked dates
     await updatePropertyWithBookedDates(metadata.property, metadata.checkIn, metadata.checkOut);
@@ -53,6 +54,7 @@ export async function POST(request: Request) {
 
   return new Response("", { status: 200 });
 }
+
 async function addBookingPaymentToOwner(propertyId: string, bookingAmount: number, bookingId: string) {
   // Find the property by its ID
   const property = await Property.findById(propertyId);

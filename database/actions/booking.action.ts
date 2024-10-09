@@ -5,6 +5,7 @@ export async function createBooking(data:any) {
     try {
         await connectToDatabase();
         const booking = new Booking(data);
+        console.log("🚀 ~ createBooking ~ booking:", booking)
         await booking.save();
         return JSON.parse(JSON.stringify({booking, status: 200}));
     } catch (error) {
