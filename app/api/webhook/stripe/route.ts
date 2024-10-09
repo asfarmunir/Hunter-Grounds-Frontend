@@ -53,29 +53,32 @@ export async function POST(request: Request) {
 
   return new Response("", { status: 200 });
 }
-
 async function addBookingPaymentToOwner(propertyId: string, bookingAmount: number, bookingId: string) {
   // Find the property by its ID
-  const property = await Property.findById(propertyId).populate('owner'); // Assuming 'owner' is a reference field in the Property schema
+  const property = await Property.findById(propertyId);
 
-  if (property && property.owner) {
-    const owner = property.owner;
+  if (property) {
+    // Assuming 'owner' is a reference to the User model (property owner)
+    const owner = await User.findById(property.owner);
 
-    // Create a new booking payment object
-    const bookingPayment = {
-      amount: bookingAmount,              // The amount paid for the booking
-      bookingId: bookingId,               // Reference to the booking ID
-      status: 'pending',                  // Status of the payment (can be updated to 'paid' after 30 days)
-      date: new Date(),                   // Date of the booking payment
-    };
+    if (owner) {
+      // Create a new booking payment object
+      const bookingPayment = {
+        amount: bookingAmount,            // Booking amount
+        bookingRefId: bookingId,          // Reference to the booking ID
+        status: 'pending',                // Status (can change to 'paid' later)
+        date: new Date(),                 // Payment date
+      };
 
-    // Add the booking payment to the owner's `bookingPayments` array
-    owner.bookingPayments.push(bookingPayment);
+      owner.bookingPayments.push(bookingPayment);
+      await owner.save();
 
-    // Save the owner with the new booking payment
-    await owner.save();
-
-    console.log(`Booking payment of ${bookingAmount} added to property owner ${owner.email}`);
+      console.log(`Booking payment of ${bookingAmount} added to property owner ${owner.email}`);
+    } else {
+      console.error(`Owner not found for property ID: ${propertyId}`);
+    }
+  } else {
+    console.error(`Property not found with ID: ${propertyId}`);
   }
 }
 
