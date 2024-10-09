@@ -16,8 +16,7 @@ import {
   isWithinInterval,
 } from "date-fns";
 import { toast } from "react-hot-toast"; // Import toast
-import { formUrlQuery } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { IProperty } from "@/lib/types/property";
 
 const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
@@ -274,11 +273,11 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
             </h2>
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
               <p>
-                CA${propertyDetails.pricePerNight} x {nights} night
+                CA${propertyDetails.pricePerNight} x {nights + 1} night
                 {nights > 1 ? "s" : ""}
               </p>
               <p className="text-lg">
-                CA${(propertyDetails.pricePerNight * nights).toFixed(2)}
+                CA${(propertyDetails.pricePerNight * (nights + 1)).toFixed(2)}
               </p>
             </div>
 
@@ -292,7 +291,7 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
               <p className="text-lg">
                 CA$
                 {(
-                  (propertyDetails.pricePerNight * nights! || 0) * 0.15
+                  (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.15
                 ).toFixed(2)}
               </p>
             </div>
@@ -300,7 +299,9 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
               <p className="font-bold">Total</p>
               <p className="font-bold text-lg">
                 CA$
-                {(propertyDetails.pricePerNight * nights! * 1.15).toFixed(2)}
+                {(propertyDetails.pricePerNight * (nights! + 1) * 1.15).toFixed(
+                  2
+                )}
               </p>
             </div>
           </>

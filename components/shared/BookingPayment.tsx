@@ -132,10 +132,9 @@ const page = ({
       checkIn: from,
       checkOut: to,
       totalAmount:
-        propertyDetails.pricePerNight * totalDays +
-        propertyDetails.pricePerNight * totalDays * 0.15,
+        propertyDetails.pricePerNight * (totalDays + 1) +
+        propertyDetails.pricePerNight * (totalDays + 1) * 0.15,
     };
-    console.log("🚀 ~ data:", data);
     axios
       .post("/api/stripe/create-payment-intent", {
         data,
@@ -388,26 +387,29 @@ const page = ({
         </div>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
-            CA${propertyDetails.pricePerNight} x {totalDays} nights
+            CA${propertyDetails.pricePerNight} x {totalDays + 1} nights
           </p>
           <p className="text-lg">
             CA$
-            {propertyDetails.pricePerNight * totalDays}
+            {propertyDetails.pricePerNight * (totalDays + 1)}
           </p>
         </div>
 
         <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>Taxes</p>
           <p>
-            CA${(propertyDetails.pricePerNight * totalDays * 0.15).toFixed(2)}
+            CA$
+            {(propertyDetails.pricePerNight * (totalDays + 1) * 0.15).toFixed(
+              2
+            )}
           </p>
         </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
           <p className="font-bold">Total Amount</p>
           <p className="font-bold">
             CA$
-            {propertyDetails.pricePerNight * totalDays +
-              propertyDetails.pricePerNight * totalDays * 0.15}
+            {propertyDetails.pricePerNight * (totalDays + 1) +
+              propertyDetails.pricePerNight * (totalDays + 1) * 0.15}
           </p>
         </div>
         <p className="text-xs 2xl:text-sm max-w-md 2xl:max-w-lg font-normal my-3 2xl:my-5 tracking-wide text-gray-200">

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { navlinks } from "@/lib/constants";
 
@@ -44,6 +44,8 @@ const Navbar = () => {
   const [debouncedCity, setDebouncedCity] = useState(""); // Debounced city
   const [fromPopoverOpen, setFromPopoverOpen] = useState(false);
   const [toPopoverOpen, setToPopoverOpen] = useState(false);
+  const loginModalRef = useRef(null);
+  const signupModalRef = useRef(null);
 
   const handleFromDateSelect = (date: Date | undefined) => {
     setFromDate(date);
@@ -411,8 +413,8 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <LoginModal />
-            <SignupModal />
+            <LoginModal loginRef={loginModalRef} signupRef={signupModalRef} />
+            <SignupModal loginRef={loginModalRef} signupRef={signupModalRef} />
           </>
         )}
 
@@ -480,8 +482,14 @@ const Navbar = () => {
               </div>
             ) : (
               <div className=" mt-5 gap-4 flex flex-col">
-                <LoginModal />
-                <SignupModal />
+                <LoginModal
+                  loginRef={loginModalRef}
+                  signupRef={signupModalRef}
+                />
+                <SignupModal
+                  loginRef={loginModalRef}
+                  signupRef={signupModalRef}
+                />
               </div>
             )}
           </div>

@@ -45,10 +45,38 @@ export async function POST(request: Request) {
     // Handle referral rewards
     await handleReferralReward(metadata.user, amount);
 
+    // Add booking payment to the owner's account
+    await addBookingPaymentToOwner(metadata.property, amount, booking._id);
+
     return NextResponse.json({ message: "OK", booking });
   }
 
   return new Response("", { status: 200 });
+}
+
+async function addBookingPaymentToOwner(propertyId: string, bookingAmount: number, bookingId: string) {
+  // Find the property by its ID
+  const property = await Property.findById(propertyId).populate('owner'); // Assuming 'owner' is a reference field in the Property schema
+
+  if (property && property.owner) {
+    const owner = property.owner;
+
+    // Create a new booking payment object
+    const bookingPayment = {
+      amount: bookingAmount,              // The amount paid for the booking
+      bookingId: bookingId,               // Reference to the booking ID
+      status: 'pending',                  // Status of the payment (can be updated to 'paid' after 30 days)
+      date: new Date(),                   // Date of the booking payment
+    };
+
+    // Add the booking payment to the owner's `bookingPayments` array
+    owner.bookingPayments.push(bookingPayment);
+
+    // Save the owner with the new booking payment
+    await owner.save();
+
+    console.log(`Booking payment of ${bookingAmount} added to property owner ${owner.email}`);
+  }
 }
 
 async function updatePropertyWithBookedDates(propertyId: string, checkIn: string, checkOut: string) {
@@ -87,12 +115,12 @@ async function handleReferralReward(userId: string, bookingAmount: number) {
     const referringUser = await User.findById(user.referedBy);
 
     if (referringUser) {
-      // Calculate 15% of the total booking amount
+      // Calculate 10% of the total booking amount
       const rewardAmount = bookingAmount * 0.10;
 
       // Create a new referral earning object
       const referralEarning = {
-        amount: rewardAmount,              // 15% of booking amount
+        amount: rewardAmount,              // 10% of booking amount
         referId: user._id,                 // ID of the user who booked (the referred user)
         description: `Referral reward for booking made by ${user.firstname} ${user.lastname}`,
         status: 'pending',                 // Status of the reward (can be updated to 'paid' later)

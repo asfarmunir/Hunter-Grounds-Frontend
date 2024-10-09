@@ -307,16 +307,35 @@ const page = ({
 
                 return (
                   <TableRow key={i}>
-                    <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
+                    <TableCell className=" border-b  pb-4 text-emerald text-xs 2xl:text-sm font-semibold border-primary-50/15">
                       {referral.referId.slice(0, 8)}
                     </TableCell>
-                    <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
+                    <TableCell
+                      className={`${
+                        referral.status === "paid"
+                          ? "text-emerald-100 "
+                          : "text-white"
+                      }border-b  pb-4  text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                    >
                       ${referral.amount / 100}
                     </TableCell>
-                    <TableCell className=" border-b truncate max-w-[150px]  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
+                    <TableCell
+                      className={`${
+                        referral.status === "paid"
+                          ? "text-emerald-200"
+                          : "text-white"
+                      }
+                    border-b truncate max-w-[150px]  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                    >
                       {referral.description}
                     </TableCell>
-                    <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
+                    <TableCell
+                      className={`${
+                        referral.status === "paid"
+                          ? "text-emerald-100 "
+                          : "text-white"
+                      }border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                    >
                       {referral.status === "paid" ? (
                         <p className=" px-4 py-1.5 text-xs  border-2 border-[#00c88c70] text-[#00c88cad] w-fit rounded-full bg-[#00C88C1A]">
                           Paid
@@ -327,7 +346,13 @@ const page = ({
                         </p>
                       )}
                     </TableCell>
-                    <TableCell className=" border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15">
+                    <TableCell
+                      className={`${
+                        referral.status === "paid"
+                          ? "text-emerald-100 "
+                          : "text-white"
+                      }border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                    >
                       {formattedDate}
                     </TableCell>
                   </TableRow>

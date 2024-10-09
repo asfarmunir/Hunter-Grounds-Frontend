@@ -124,7 +124,7 @@ const Chats = ({ userData }: { userData: ISessionUser }) => {
     );
   };
   return (
-    <div className=" p-4 md:p-8 md:pr-16 w-full flex flex-col md:flex-row justify-center gap-12 ">
+    <div className=" p-4 md:p-8 md:pr-16 w-full flex flex-col md:flex-row justify-center  items-center gap-12 ">
       <Chat client={client} theme="str-chat__theme-dark ">
         <ChannelList
           filters={filters}

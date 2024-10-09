@@ -39,7 +39,13 @@ const formSchema = z.object({
   password: z.string().min(2, { message: "Password is required" }),
 });
 
-const AddClient = () => {
+const AddClient = ({
+  loginRef,
+  signupRef,
+}: {
+  loginRef: React.LegacyRef<HTMLButtonElement>;
+  signupRef: React.LegacyRef<HTMLButtonElement>;
+}) => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const form = useForm({
@@ -73,6 +79,7 @@ const AddClient = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
+        ref={loginRef}
         className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5 }`}
       >
         Login
@@ -195,7 +202,18 @@ const AddClient = () => {
                 </Button>
                 <p className="text-xs 2xl:text-sm text-slate-400 font-thin w-full text-center">
                   Dont already have an account? <br /> Click Here To{" "}
-                  <span className="text-white font-semibold">Sign up</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // @ts-ignore
+                      if (loginRef.current) loginRef.current.click();
+                      // @ts-ignore
+                      if (signupRef.current) signupRef.current.click();
+                    }}
+                    className="text-white font-semibold"
+                  >
+                    Sign up
+                  </button>
                 </p>
                 <Image
                   src="/images/or.svg"
@@ -225,13 +243,29 @@ const AddClient = () => {
                 </div>
                 <p className="text-[0.7rem] 2xl:text-sm mt-6 text-slate-400 font-thin w-full text-center">
                   This site is protected reCAPTCHA and the Google <br />
-                  <span className="text-white font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // @ts-ignore
+                      if (loginRef.current) loginRef.current.click();
+                      router.push("/policies/privacy-policy");
+                    }}
+                    className="text-white font-semibold"
+                  >
                     Privacy Policy
-                  </span>{" "}
+                  </button>{" "}
                   and{" "}
-                  <span className="text-white font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // @ts-ignore
+                      if (loginRef.current) loginRef.current.click();
+                      router.push("/policies/terms");
+                    }}
+                    className="text-white font-semibold"
+                  >
                     Terms of Service
-                  </span>{" "}
+                  </button>{" "}
                   apply.{" "}
                 </p>
               </div>

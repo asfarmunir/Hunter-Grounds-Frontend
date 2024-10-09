@@ -9,6 +9,15 @@ const ReferralEarningSchema = new Schema({
   date: { type: Date, default: Date.now },               // Date when the referral was made
 });
 
+
+const BookingPaymentSchema = new Schema({
+  amount: { type: Number, required: true },               // Amount to be paid for booking
+  bookingRefId: { type: Schema.Types.ObjectId, ref: "Booking", required: true }, // Reference to the booking
+  status: { type: String, enum: ['pending', 'paid'], default: 'pending' },  // Payment status
+  date: { type: Date, default: Date.now },               // Date when the payment entry was created
+  releaseDate: { type: Date, required: true },           // Date when the payment will be released (after 30 days)
+});
+
 const UserSchema = new Schema(
   {
     email: { type: String, required: true, unique: true },
@@ -35,6 +44,7 @@ const UserSchema = new Schema(
 
     // Changed referalAmount to referralEarnings array
     referralEarnings: { type: [ReferralEarningSchema], default: [] }, 
+    bookingPayments: { type: [BookingPaymentSchema], default: [] },
 
     referedUsers: [{ type: Schema.Types.ObjectId, ref: "User", required: false }],
     referedBy: { type: Schema.Types.ObjectId, ref: "User", required: false }, 
