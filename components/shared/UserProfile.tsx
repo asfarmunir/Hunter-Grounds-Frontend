@@ -133,6 +133,11 @@ const UserProfile = ({
           <p className="border rounded-full px-3 mt-4 py-1.5 text-sm  w-fit ml-4  bg-primary-100">
             Booked Trips
           </p>
+          {userBookings.length === 0 && (
+            <p className="text-center text-gray-400 mt-4">
+              You have not booked any trips yet
+            </p>
+          )}
           {userBookings.map((booking) => {
             // const fromDate = new Date(booking.checkIn);
             // const toDate = new Date(booking.checkOut);
