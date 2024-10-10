@@ -1,17 +1,29 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IUser } from "@/lib/types/user";
 import { IBooking } from "@/lib/types/booking";
+import { IProperty } from "@/lib/types/property";
+import { MdBookmarkRemove } from "react-icons/md";
+import { removeSavedProperty } from "@/database/actions/user.action";
+import toast from "react-hot-toast";
+import { useSearchParams } from "next/navigation";
 
 const UserProfile = ({
   userDetails,
   userBookings,
+  savedProperties,
 }: {
   userDetails: IUser;
   userBookings: IBooking[];
+  savedProperties: IProperty[];
 }) => {
+  const searchParams = useSearchParams();
+  const defaultTab = searchParams.get("tab") || "trips";
+  const [tab, setTab] = React.useState(defaultTab);
   const date = new Date(userDetails.createdAt!);
+  const [loading, setLoading] = React.useState(false);
   const month = date.toLocaleString("default", { month: "long" });
   const year = date.getFullYear();
   return (
@@ -109,90 +121,193 @@ const UserProfile = ({
       </div>
       <div className=" w-full md:w-[65%]  ">
         <div className=" w-full px-3 pt-3 rounded-2xl bg-[#161313] flex gap-3  ">
-          <button className=" border-b pb-3 border-primary-50 px-3">
+          <button
+            onClick={() => setTab("trips")}
+            className={`${
+              tab === "trips" ? "border-primary-50 border-b-2  " : ""
+            }px-3.5 pb-3`}
+          >
             {userBookings && userBookings.length} <br />
             Trip
           </button>
-          <button className=" border-b pb-3 border-primary-50 px-3">
-            0 <br />
+          <button
+            onClick={() => setTab("saved")}
+            className={`${
+              tab === "saved" ? "border-primary-50 border-b-2 " : ""
+            }px-3.5 pb-3`}
+          >
+            {userDetails.savedProperties && userDetails.savedProperties.length}{" "}
+            <br />
             Saves
           </button>
-          <button className=" border-b pb-3 border-primary-50 px-3">
+          <button className=" pb-3  px-3">
             0 <br />
             Review
           </button>
         </div>
-        <div className=" w-full bg-[#372F2F33] my-4 pb-6 ">
-          <Image
-            src={"/images/scene.svg"}
-            width={900}
-            height={400}
-            alt="user"
-            className="w-full rounded-xl"
-          />
-          <p className="border rounded-full px-3 mt-4 py-1.5 text-sm  w-fit ml-4  bg-primary-100">
-            Booked Trips
-          </p>
-          {userBookings.length === 0 && (
-            <p className="text-center text-gray-400 mt-4">
-              You have not booked any trips yet
-            </p>
-          )}
-          {userBookings.map((booking) => {
-            // const fromDate = new Date(booking.checkIn);
-            // const toDate = new Date(booking.checkOut);
-            return (
-              <div className="flex w-full px-4 items-center justify-between flex-col md:flex-row">
-                <div>
-                  <p className="mt-4 mb-2 px-3 text-xl font-semibold">
-                    {booking.property.name}
-                  </p>
-                  <p className="text-sm px-3 text-gray-400 mb-4">
-                    in {booking.property.address} from{" "}
-                    {new Date(booking.checkIn).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })}{" "}
-                    to{" "}
-                    {new Date(booking.checkOut).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </p>
-                </div>
-                {booking.property.owner !== userDetails._id && (
-                  <Link
-                    href={`/chat?id=${
-                      booking.property.owner
-                    }&propertyName=${encodeURIComponent(
-                      booking.property.name
-                    )}`}
-                  >
-                    Contact Owner
+        {tab === "saved" ? (
+          <>
+            {" "}
+            {!savedProperties.length && (
+              <p className="text-center w-full mt-12 text-lg 2xl:text-xl  mx-auto text-gray-400 ">
+                You have not saved any <br /> properties yet! <br />
+                <span className="text-sm font-semibold underline pt-4">
+                  <Link href={"/"} className="text-primary-50">
+                    Explore Properties
                   </Link>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        <div className=" w-full bg-[#372F2F33] my-4 pb-6 pt-2 ">
-          {/* <Image
+                </span>
+              </p>
+            )}
+            <div className="grid px-4 mt-8 w-full  grid-cols-1  sm:grid-cols-2 gap-y-10 place-items-start   gap-4 lg:grid-cols-3">
+              {savedProperties.map((property, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center px-6 md:px-0 md:max-w-[12rem] 2xl:max-w-full w-full"
+                >
+                  {/* <Link href={`/pre-booking/${property._id}`}> */}
+                  <div className="w-[220px] h-[180px] relative 2xl:h-[210px] bg-red-50 flex items-center hover:shadow-lg hover:shadow-primary-50/50 transition-all justify-center object-cover object-center mb-4 rounded-xl">
+                    <Image
+                      src={property.photos[0]}
+                      width={250}
+                      priority
+                      className="rounded-lg w-full h-full object-cover"
+                      height={250}
+                      alt="property image"
+                    />
+                    <button
+                      disabled={loading}
+                      type="button"
+                      onClick={async () => {
+                        setLoading(true);
+                        const res = await removeSavedProperty(
+                          userDetails._id!,
+                          property._id
+                        );
+                        if (res.status !== 200) {
+                          toast.error(res.message, {
+                            duration: 4000,
+                            style: {
+                              background: "#333",
+                              color: "#fff",
+                            },
+                          });
+                          setLoading(false);
+                          return;
+                        }
+                        toast.success("Property Removed successfully", {
+                          duration: 4000,
+                          style: {
+                            background: "#333",
+                            color: "#fff",
+                          },
+                        });
+                        setLoading(false);
+                      }}
+                      className="absolute disabled:cursor-wait top-2 right-2 bg-red-500 transition-all rounded-full p-2"
+                    >
+                      <MdBookmarkRemove className="" />
+                    </button>
+                  </div>
+                  {/* </Link> */}
+                  <Link
+                    href={`/pre-booking/${property._id}`}
+                    className="text-center"
+                  >
+                    <h4 className="font-bold mx-auto text-sm 2xl:text-lg capitalize text-nowrap mb-3">
+                      {property.name}
+                      <span className="bg-primary-50 text-xs p-1 rounded ml-2">
+                        9.0
+                      </span>
+                    </h4>
+                    <p className="font-thin text-slate-50 capitalize text-sm">
+                      <span className="font-semibold">{property.acres}</span>{" "}
+                      acres huntground in {property.city} from only{" "}
+                      <span className="font-semibold">
+                        CA${property.pricePerNight}
+                      </span>{" "}
+                      / night
+                    </p>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div>
+            <div className=" w-full bg-[#372F2F33] my-4 pb-6 ">
+              <Image
+                src={"/images/scene.svg"}
+                width={900}
+                height={400}
+                alt="user"
+                className="w-full rounded-xl"
+              />
+              <p className="border rounded-full px-3 mt-4 py-1.5 text-sm  w-fit ml-4  bg-primary-100">
+                Booked Trips
+              </p>
+              {userBookings.length === 0 && (
+                <p className="text-center text-gray-400 mt-4">
+                  You have not booked any trips yet
+                </p>
+              )}
+              {userBookings.map((booking) => {
+                // const fromDate = new Date(booking.checkIn);
+                // const toDate = new Date(booking.checkOut);
+                return (
+                  <div className="flex w-full px-4 items-center justify-between flex-col md:flex-row">
+                    <div>
+                      <p className="mt-4 mb-2 px-3 text-xl font-semibold">
+                        {booking.property.name}
+                      </p>
+                      <p className="text-sm px-3 text-gray-400 mb-4">
+                        in {booking.property.address} from{" "}
+                        {new Date(booking.checkIn).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                        })}{" "}
+                        to{" "}
+                        {new Date(booking.checkOut).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )}
+                      </p>
+                    </div>
+                    {booking.property.owner !== userDetails._id && (
+                      <Link
+                        href={`/chat?id=${
+                          booking.property.owner
+                        }&propertyName=${encodeURIComponent(
+                          booking.property.name
+                        )}`}
+                      >
+                        Chat with owner
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div className=" w-full bg-[#372F2F33] my-4 pb-6 pt-2 ">
+              {/* <Image
             src={"/images/scene.svg"}
             width={900}
             height={400}
             alt="user"
             className="w-full rounded-xl"
           /> */}
-          <p className="border  rounded-full px-3 py-1.5 text-sm mt-2 w-fit ml-4  bg-primary-100">
-            Past Trips
-          </p>
-          <p className="mt-4 mb-2 px-3 text-xl font-semibold">
-            Paradis d’artistes 3 Baysie
-          </p>
-          <p className="text-sm px-3 text-gray-400 mb-4">
-            in Paradis d’Artistes , Quebec
-          </p>
-          <div className="flex items-center gap-5 px-5 mx-4 py-4 rounded-xl bg-[#372F2F80] justify-between flex-col-reverse md:flex-row p-3">
+              <p className="border  rounded-full px-3 py-1.5 text-sm mt-2 w-fit ml-4  bg-primary-100">
+                Past Trips
+              </p>
+              <p className="mt-4 mb-2 px-3 text-xl font-semibold">
+                Paradis d’artistes 3 Baysie
+              </p>
+              <p className="text-sm px-3 text-gray-400 mb-4">
+                in Paradis d’Artistes , Quebec
+              </p>
+              {/* <div className="flex items-center gap-5 px-5 mx-4 py-4 rounded-xl bg-[#372F2F80] justify-between flex-col-reverse md:flex-row p-3">
             <div className=" space-y-3">
               <h3 className="text-lg text-primary-50">
                 An exceptional experience
@@ -221,60 +336,62 @@ const UserProfile = ({
               alt="mail"
               className="rounded-xl "
             />
-          </div>
-          <div className="w-full items-center justify-between flex gap-4 flex-col md:flex-row">
-            <div className="flex items-center mx-4 my-4 px-5 rounded-xl bg-[#372F2F80] gap-3 w-full md:w-fit  p-3">
-              <p className="font-normal">Share trip</p>
-              <button>
-                <Image
-                  src={"/images/messenger.svg"}
-                  width={35}
-                  height={35}
-                  alt="mail"
-                />
-              </button>
-              <button>
-                <Image
-                  src={"/images/facebook2.svg"}
-                  width={35}
-                  height={35}
-                  alt="mail"
-                />
-              </button>
-              <button>
-                <Image
-                  src={"/images/pintrest.svg"}
-                  width={35}
-                  height={35}
-                  alt="mail"
-                />
-              </button>
-              <button>
-                <Image
-                  src={"/images/twitter.svg"}
-                  width={35}
-                  height={35}
-                  alt="mail"
-                />
-              </button>
-              <button>
-                <Image
-                  src={"/images/link.svg"}
-                  width={27}
-                  height={27}
-                  alt="mail"
-                />
-              </button>
+          </div> */}
+              <div className="w-full items-center justify-between flex gap-4 flex-col md:flex-row">
+                <div className="flex items-center mx-4 my-4 px-5 rounded-xl bg-[#372F2F80] gap-3 w-full md:w-fit  p-3">
+                  <p className="font-normal">Share trip</p>
+                  <button>
+                    <Image
+                      src={"/images/messenger.svg"}
+                      width={35}
+                      height={35}
+                      alt="mail"
+                    />
+                  </button>
+                  <button>
+                    <Image
+                      src={"/images/facebook2.svg"}
+                      width={35}
+                      height={35}
+                      alt="mail"
+                    />
+                  </button>
+                  <button>
+                    <Image
+                      src={"/images/pintrest.svg"}
+                      width={35}
+                      height={35}
+                      alt="mail"
+                    />
+                  </button>
+                  <button>
+                    <Image
+                      src={"/images/twitter.svg"}
+                      width={35}
+                      height={35}
+                      alt="mail"
+                    />
+                  </button>
+                  <button>
+                    <Image
+                      src={"/images/link.svg"}
+                      width={27}
+                      height={27}
+                      alt="mail"
+                    />
+                  </button>
+                </div>
+                <Link
+                  href={"/"}
+                  className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
+                >
+                  {" "}
+                  Trips Page
+                </Link>
+              </div>
             </div>
-            <Link
-              href={"/"}
-              className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
-            >
-              {" "}
-              Trips Page
-            </Link>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

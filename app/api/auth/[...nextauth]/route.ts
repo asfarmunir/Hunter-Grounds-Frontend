@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import * as bcrypt from "bcryptjs";
 import { connectToDatabase } from "@/database";
 import User from "@/database/user.modal";
+import { sendEmail } from "@/lib/sendEmail";
 
 export const authOptions = {
   providers: [
@@ -33,7 +34,19 @@ export const authOptions = {
                 if (!user) throw new Error("Invalid Credentials");
                     const isValid = await bcrypt.compare(password, user.password);
                    if (!isValid) throw new Error("Invalid Credentials");
-                return user;
+        const htmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">
+          <h2 style="color: #333;">Hello ${user.firstname || 'User'},</h2>
+          <p style="color: #555;">You have successfully logged into your account.</p>
+          <p style="color: #555;">If this wasn't you, please secure your account immediately.</p>
+          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+          <p style="color: #999; font-size: 12px;">This is an automated message. Please do not reply.</p>
+        </div>
+      `;
+
+      // Send login notification email
+      await sendEmail(user.email, "Login Notification", htmlContent);
+                   return user;
              } catch (error:any) {
                 console.error("Login failed", error);                         
                 throw new Error(error.message);

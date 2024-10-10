@@ -72,7 +72,7 @@ const AddClient = ({
       return;
     }
     toast.success("Logged in successfully");
-    // router.push("/");
+    router.push("/account");
     setLoading(false);
   }
 
@@ -181,12 +181,17 @@ const AddClient = ({
                     Remember password
                   </p>
                 </div>
-                <Link
-                  href={"/reset-password"}
+                <button
+                  type="button"
+                  onClick={() => {
+                    // @ts-ignore
+                    if (loginRef.current) loginRef.current.click();
+                    router.push("/reset-password");
+                  }}
                   className="text-xs 2xl:text-sm font-semibold"
                 >
                   Forgot Password?
-                </Link>
+                </button>
               </div>
 
               <div className="flex flex-col w-full mt-2 items-center justify-center">

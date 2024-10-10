@@ -55,6 +55,9 @@ const page = () => {
   });
   const session = useSession();
   const router = useRouter();
+  if (session.status === "authenticated") {
+    router.push("/account");
+  }
   async function onSubmit(values: any) {
     try {
       setLoading(true);

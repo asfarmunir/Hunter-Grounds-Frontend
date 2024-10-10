@@ -137,46 +137,13 @@ export const getReferralEarningsOfLastMonth = async (userId: string) => {
       return acc + earning.amount;
     }, 0);
 
-    return { amount: totalEarnings, status: 200 };
+    return JSON.parse(JSON.stringify({ amount: totalEarnings, status: 200 }));
   } catch (error) {
     console.error("Error fetching referral earnings of the last 30 days: ", error);
     return { message: "Internal Server Error", status: 500 };
   }
 };
 
-
-// export const getWithdrawableReferralAmount = async (userId: string) => {
-//   try {
-//     // Connect to the database
-//     await connectToDatabase();
-
-//     // Fetch the user by ID
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       return { message: "User not found", status: 404 };
-//     }
-
-//     // Get the current date and calculate the date 30 days ago (withdrawable period)
-//     const currentDate = new Date();
-//     const oneMonthAgo = new Date(currentDate);
-//     oneMonthAgo.setDate(currentDate.getDate() - 30); // Set the date to 30 days ago
-
-//     // Filter referral earnings that are older than one month and have status 'paid'
-//     const withdrawableEarnings = user.referralEarnings.filter((earning:any) => {
-//       return earning.date <= oneMonthAgo;
-//     });
-
-//     // Calculate the total withdrawable amount
-//     const totalWithdrawableAmount = withdrawableEarnings.reduce((acc:any, earning:any) => {
-//       return acc + earning.amount;
-//     }, 0);
-
-//     return { amount: totalWithdrawableAmount, status: 200 };
-//   } catch (error) {
-//     console.error("Error fetching withdrawable referral amount: ", error);
-//     return { message: "Internal Server Error", status: 500 };
-//   }
-// };
 
 export const getWithdrawableReferralAmount = async (userId: string) => {
   try {
@@ -216,9 +183,77 @@ export const getWithdrawableReferralAmount = async (userId: string) => {
     // Save the updated user document
     await user.save();
 
-    return { message: "Withdrawable amount updated", amount: user.withdrawableAmount, status: 200 };
+    return JSON.parse(JSON.stringify({ amount: newWithdrawableAmount, status: 200 }));
   } catch (error) {
     console.error("Error fetching withdrawable referral amount: ", error);
     return { message: "Internal Server Error", status: 500 };
   }
 };
+
+
+export const addSavedProperty = async (userId: string, propertyId: string) => {
+  try {
+    await connectToDatabase();
+    const user = await User.findById(userId);
+    if (!user) {
+      return { message: "User not found", status: 404 };
+    }
+
+    const isPropertySaved = user.savedProperties && user.savedProperties.includes(propertyId);
+    if (isPropertySaved) {
+      return { message: "Property already saved!", status: 400 };
+    }
+
+    user.savedProperties.push(propertyId);
+    await user.save();
+    revalidatePath('/');
+    return JSON.parse(JSON.stringify({ message: "Property saved successfully", status: 200 }));
+
+
+  } catch (error) {
+
+    console.error("Error saving property: ", error);
+    return { message: "Internal Server Error", status: 500 };
+  }
+
+}
+
+export const removeSavedProperty = async (userId: string, propertyId: string) => {
+  try {
+    await connectToDatabase();
+    const user = await User.findById(userId);
+    if (!user) {
+      return { message: "User not found", status: 404 };
+    }
+
+    const isPropertySaved = user.savedProperties && user.savedProperties.includes(propertyId);
+    if (!isPropertySaved) {
+      return { message: "Property not saved!", status: 400 };
+    }
+    user.savedProperties = user.savedProperties.filter((id: string) => {
+      id !== propertyId.toString();
+    });
+    await user.save();
+    revalidatePath('/account');
+    return JSON.parse(JSON.stringify({ message: "Property removed successfully", status: 200 }));
+  } catch (error) {
+    console.error("Error removing property: ", error);
+    return { message: "Internal Server Error", status: 500 };
+  }
+}
+
+
+export const getUserSavedProperties = async (userId: string) => {
+  try {
+    await connectToDatabase();
+    const user = await User.findById(userId).populate('savedProperties');
+    if (!user) {
+      return { message: "User not found", status: 404 };
+    }
+
+    return JSON.parse(JSON.stringify({ properties: user.savedProperties, status: 200 }));
+  } catch (error) {
+    console.error("Error fetching saved properties: ", error);
+    return { message: "Internal Server Error", status: 500 };
+  }
+}

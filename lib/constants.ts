@@ -5,17 +5,12 @@ export const navlinks = [
     },
     {
         name: "Trips",
-        href: "#",
+        href: "/account?tab=trips",
     },
     {
         name: "Saved",
-        href: "#",
+        href: "/account?tab=saved",
     },
-    {
-        name: "Start hosting",
-        href: "/start-hosting",
-    },
-
    
    
 ]

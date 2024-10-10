@@ -3,23 +3,53 @@
 import { connectToDatabase } from "..";
 import { IProperty } from "../../lib/types/property";
 import Property from '@/database/property.model'
+import User from "../user.modal";
+import { sendEmail } from "@/lib/sendEmail";
+import { revalidatePath } from "next/cache";
 
 export const createProperty = async (property: any) => {
   try {
     await connectToDatabase();
 
+    // Create the property in the database
     const newProperty = new Property(property);
     await newProperty.save();
     if (!newProperty) {
-      return JSON.parse(JSON.stringify({error: "Property not created",status: 400}));
+      return JSON.parse(JSON.stringify({ error: "Property not created", status: 400 }));
     }
 
-    return JSON.parse(JSON.stringify({newProperty,status: 200}));
+    // Fetch user details based on the property owner ID
+    const user = await User.findById(property.owner);
+    if (!user) {
+      return JSON.parse(JSON.stringify({ error: "Owner not found", status: 404 }));
+    }
 
+    // Prepare email HTML content
+    const htmlContent = `
+      <div style="font-family: Arial, sans-serif; color: #333;">
+        <h1>Property Created Successfully</h1>
+        <p>Hello ${user.firstname},</p>
+        <p>Congratulations! Your property <strong>${newProperty.name}</strong> has been successfully listed on our platform.</p>
+        <p>Here are the details of your new property:</p>
+        <ul>
+          <li><strong>Name:</strong> ${newProperty.name}</li>
+          <li><strong>Location:</strong> ${newProperty.address}</li>
+          <li><strong>Price Per Night:</strong> $${newProperty.pricePerNight}</li>
+        </ul>
+        <p>Thank you for choosing our platform!</p>
+        <p>Best regards,</p>
+        <p>Your Platform Team</p>
+      </div>
+    `;
+
+    // Send an email notification to the property owner
+    await sendEmail(user.email, "Property Created Successfully", htmlContent);
+    revalidatePath('/');
+    return JSON.parse(JSON.stringify({ newProperty, status: 200 }));
 
   } catch (error) {
     console.log("Error in createProperty: ", error);
-    return JSON.parse(JSON.stringify({error,status: 500}));
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
   }
 };
 

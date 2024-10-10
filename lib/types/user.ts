@@ -27,6 +27,7 @@ export interface IUser {
   referedUsers?: string[];
   referedBy?: string;
   referalUsed?: boolean;
+  savedProperties?: string[];
 
 }
 

@@ -9,12 +9,13 @@ const Page = () => {
   const [urlText, setUrlText] = useState<string>("");
 
   // Set the URL text when the session is authenticated
+
   useEffect(() => {
     // @ts-ignore
     if (status === "authenticated" && session?.user?.id) {
       setUrlText(
         // @ts-ignore
-        `http://localhost:3000/start-hosting?referalCode=${session.user.id}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/start-hosting?referalCode=${session.user.id}`
       );
     }
   }, [status, session]);

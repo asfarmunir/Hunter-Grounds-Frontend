@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import User from '@/database/user.modal';
 import { connectToDatabase } from '@/database';
-import { sendEmail } from '@/lib/sendgrid';
+import { resetEmail } from '@/lib/resetEmail';
 
 export async function POST(req: NextRequest) {
   try {
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
     console.log("🚀 ~ POST ~ resetLink:", resetLink)
     // Send the email with the reset link
-      await sendEmail(email, "Password Reset", resetLink);  
+      await resetEmail(email, "Password Reset", resetLink);  
 
     return NextResponse.json({ message: 'Reset email sent successfully' }, { status: 200 });
   } catch (error) {
