@@ -20,7 +20,6 @@ const page = ({
   userDetails: IUser;
   lastMonthEarning: number;
 }) => {
-  console.log("🚀 ~ page ~ userDetails:", userDetails);
   const router = useRouter();
   if (!userDetails) {
     router.push("/");
@@ -161,38 +160,25 @@ const page = ({
               </div>
             </div>
           </div>
-          {/* <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
-            <h2 className="flex items-center mb-6 text-sm text-gray-200 gap-2">
-              <Image
-                src={"/images/visit.svg"}
-                width={22}
-                height={22}
-                alt="withdraw"
-              />
-              Visits
-            </h2>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <p className="text-2xl 2xl:text-5xl font-semibold ">131</p>
-              </div>
-              <button className=" text-black font-semibold  px-4 text-sm py-2 rounded-full bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
-                View All
-              </button>{" "}
-            </div>
-          </div> */}
+
           <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
             <h2 className="flex items-center mb-6 text-sm text-gray-200 gap-2">
               <Image
-                src={"/images/rate.svg"}
+                src={"/images/dollar-circle.svg"}
                 width={22}
                 height={22}
                 alt="withdraw"
               />
-              Conversion Rate
+              Withdraw Amount
             </h2>
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <p className="text-2xl 2xl:text-5xl font-semibold ">10%</p>
+                <p className="text-2xl 2xl:text-5xl font-semibold ">
+                  $
+                  {userDetails.referalWithdrawableAmount
+                    ? userDetails.referalWithdrawableAmount / 100
+                    : 0}
+                </p>
               </div>
             </div>
           </div>
@@ -315,7 +301,7 @@ const page = ({
                         referral.status === "paid"
                           ? "text-emerald-100 "
                           : "text-white"
-                      }border-b  pb-4  text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                      } border-b  pb-4  text-xs 2xl:text-sm font-semibold border-primary-50/15`}
                     >
                       ${referral.amount / 100}
                     </TableCell>
@@ -334,7 +320,7 @@ const page = ({
                         referral.status === "paid"
                           ? "text-emerald-100 "
                           : "text-white"
-                      }border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                      } border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
                     >
                       {referral.status === "paid" ? (
                         <p className=" px-4 py-1.5 text-xs  border-2 border-[#00c88c70] text-[#00c88cad] w-fit rounded-full bg-[#00C88C1A]">
@@ -351,7 +337,7 @@ const page = ({
                         referral.status === "paid"
                           ? "text-emerald-100 "
                           : "text-white"
-                      }border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                      } border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
                     >
                       {formattedDate}
                     </TableCell>

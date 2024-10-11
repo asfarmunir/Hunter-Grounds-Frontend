@@ -4,24 +4,16 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import {
   getUserDetails,
-  getWithdrawableReferralAmount,
+  updateBookingWithdrawableAmount,
 } from "@/database/actions/user.action";
 import { getTopCitiesWithMostBookingsForUser } from "@/database/actions/booking.action";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
   const data = await getUserDetails(session.user.email);
-  const available = await getWithdrawableReferralAmount(session.user.id);
+  await updateBookingWithdrawableAmount(session.user.id);
   const topCities = await getTopCitiesWithMostBookingsForUser(session.user.id);
-  console.log("🚀 ~ page ~ topCities:", topCities);
-
-  return (
-    <Dashboard
-      userData={data}
-      available={available.amount}
-      topCities={topCities.topCities}
-    />
-  );
+  return <Dashboard userData={data} topCities={topCities.topCities} />;
 };
 
 export default page;

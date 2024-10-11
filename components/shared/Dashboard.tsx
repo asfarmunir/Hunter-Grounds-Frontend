@@ -5,17 +5,15 @@ import WithdrawFunds from "@/components/shared/WithdrawFunds";
 import { IUser } from "@/lib/types/user";
 const page = ({
   userData,
-  available,
   topCities,
 }: {
   userData: IUser;
-  available: number;
   topCities?: {
     _id?: string;
     totalBookings?: number;
   }[];
 }) => {
-  const totalEarnings = userData.referralEarnings?.reduce(
+  const totalEarnings = userData.bookingPayments?.reduce(
     (acc: any, curr: any) => acc + curr.amount,
     0
   );
@@ -71,9 +69,14 @@ const page = ({
             </p>
             <div className="flex items-center gap-6">
               <p className="text-2xl 2xl:text-5xl font-semibold">
-                ${available / 100}
+                $
+                {userData.withdrawableAmount! > 0
+                  ? userData.withdrawableAmount! / 100
+                  : 0}
               </p>
-              {available > 0 && <WithdrawFunds userId={userData._id!} />}
+              {userData.withdrawableAmount! > 0 && (
+                <WithdrawFunds userId={userData._id!} />
+              )}
             </div>
           </div>
         </div>

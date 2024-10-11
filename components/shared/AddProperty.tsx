@@ -29,7 +29,6 @@ const initialSettings = [
 ];
 
 const page = ({ userDetails }: { userDetails: IUser }) => {
-  console.log("🚀 ~ page ~ userDetails:", userDetails);
   const [propertyDetails, setPropertyDetails] = useState({
     address: "i-8 markaz islamabad ",
     acres: 20,

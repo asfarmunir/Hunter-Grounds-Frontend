@@ -20,7 +20,7 @@ const page = () => {
           Your trip information will be emailed
         </p>
         <Link
-          href={"/"}
+          href={"/account?tab=trips"}
           className=" w-3/4 bg-gradient-to-r text-center hover:cursor-pointer text-black my-4 from-[#FF9900] to-[#FFE7A9] rounded-xl py-3 font-semibold"
         >
           View Trip Details

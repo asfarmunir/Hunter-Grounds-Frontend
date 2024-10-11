@@ -9,6 +9,7 @@ import { MdBookmarkRemove } from "react-icons/md";
 import { removeSavedProperty } from "@/database/actions/user.action";
 import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
+import { IoChatboxEllipses } from "react-icons/io5";
 
 const UserProfile = ({
   userDetails,
@@ -109,7 +110,6 @@ const UserProfile = ({
             <p className=" border border-primary-50/60 px-4 py-1 text-sm rounded-full text-primary-50/60">
               CA% 10
             </p>
-            <p className="text-sm text-gray-400">Balance</p>
           </div>
           <Link
             href={"/refer-and-earn"}
@@ -149,14 +149,23 @@ const UserProfile = ({
           <>
             {" "}
             {!savedProperties.length && (
-              <p className="text-center w-full mt-12 text-lg 2xl:text-xl  mx-auto text-gray-400 ">
-                You have not saved any <br /> properties yet! <br />
-                <span className="text-sm font-semibold underline pt-4">
-                  <Link href={"/"} className="text-primary-50">
-                    Explore Properties
-                  </Link>
-                </span>
-              </p>
+              <div className="flex flex-col items-center  mt-12 2xl:mt-16 2xl:gap-2">
+                <Image
+                  src="/images/logoIcon.svg"
+                  alt="coming soon"
+                  width={80}
+                  height={80}
+                  className=" mb-6 pr-5"
+                />
+                <p className="text-center w-full text-lg 2xl:text-xl  mx-auto text-gray-400 ">
+                  You have not saved any <br /> properties yet! <br />
+                  <span className="text-sm font-semibold underline pt-4">
+                    <Link href={"/"} className="text-primary-50">
+                      Explore Properties
+                    </Link>
+                  </span>
+                </p>
+              </div>
             )}
             <div className="grid px-4 mt-8 w-full  grid-cols-1  sm:grid-cols-2 gap-y-10 place-items-start   gap-4 lg:grid-cols-3">
               {savedProperties.map((property, index) => (
@@ -256,10 +265,10 @@ const UserProfile = ({
                 return (
                   <div className="flex w-full px-4 items-center justify-between flex-col md:flex-row">
                     <div>
-                      <p className="mt-4 mb-2 px-3 text-xl font-semibold">
+                      <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
                         {booking.property.name}
                       </p>
-                      <p className="text-sm px-3 text-gray-400 mb-4">
+                      <p className="text-sm px-3 capitalize text-gray-400 mb-4">
                         in {booking.property.address} from{" "}
                         {new Date(booking.checkIn).toLocaleDateString("en-US", {
                           month: "short",
@@ -282,7 +291,9 @@ const UserProfile = ({
                         }&propertyName=${encodeURIComponent(
                           booking.property.name
                         )}`}
+                        className="flex items-center gap-2 text-sm"
                       >
+                        <IoChatboxEllipses className="text-2xl mt-0.5 text-primary-50" />
                         Chat with owner
                       </Link>
                     )}

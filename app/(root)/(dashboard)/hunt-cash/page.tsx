@@ -5,10 +5,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import {
   getReferralEarningsOfLastMonth,
   getUserDetails,
+  updateWithdrawableReferralAmount,
 } from "@/database/actions/user.action";
 const page = async () => {
   const session = await getServerSession(authOptions);
   const data = await getUserDetails(session.user.email);
+  await updateWithdrawableReferralAmount(session.user.id);
   const lastMonthEarnings = await getReferralEarningsOfLastMonth(
     session.user.id
   );

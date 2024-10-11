@@ -36,18 +36,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       ? "" // No background for specific page
       : ""; // Default to no background for other pages
 
-  // if (session.status === "authenticated") {
-  //   const tokenProvider = useCallback( async () => {
-  //     return await createStreamUserToken(session.data.user!.id);
-  //   }, [session.data.user!.id, createStreamUserToken]);
-
-  //   const client = useCreateChatClient({
-  //     apiKey: process.env.NEXT_PUBLIC_STREAM_API_KEY!,
-  //     tokenOrProvider: tokenProvider,
-  //     userData: session.data.user!.id,
-  //   });
-  // }
-
   return (
     <main
       className={`relative h-screen overflow-hidden bg-[#000214]  bg-cover bg-center bg-no-repeat ${

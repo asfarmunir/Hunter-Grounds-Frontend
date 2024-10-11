@@ -65,7 +65,7 @@ async function addBookingPaymentToOwner(propertyId: string, bookingDays: number,
     if (owner) {
       // Create a new booking payment object
       const bookingPayment = {
-        amount: bookingDays * property.pricePerNight,          // Booking amount
+        amount: bookingDays * property.pricePerNight * 100,          // Booking amount
         bookingRefId: bookingId,          // Reference to the booking ID
         status: 'pending',                // Status (can change to 'paid' later)
         date: new Date(),                 // Payment date

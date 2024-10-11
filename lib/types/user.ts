@@ -28,9 +28,19 @@ export interface IUser {
   referedBy?: string;
   referalUsed?: boolean;
   savedProperties?: string[];
+  withdrawableAmount?: number;
+  referalWithdrawableAmount?: number;
+  bookingPayments?: IBookingPayment[];
 
 }
 
+interface IBookingPayment {
+  amount: number;
+  bookingRefId: string;
+  status: 'pending' | 'paid';
+  date: Date;
+  // releaseDate: Date;
+}
 
 interface IReferralEarning {
   amount: number;

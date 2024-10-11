@@ -145,7 +145,7 @@ export const getReferralEarningsOfLastMonth = async (userId: string) => {
 };
 
 
-export const getWithdrawableReferralAmount = async (userId: string) => {
+export const updateWithdrawableReferralAmount = async (userId: string) => {
   try {
     // Connect to the database
     await connectToDatabase();
@@ -153,23 +153,25 @@ export const getWithdrawableReferralAmount = async (userId: string) => {
     // Fetch the user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return { message: "User not found", status: 404 };
+      console.error(`User with ID ${userId} not found.`);
+      return;
     }
 
     // Get the current date and calculate the date 30 days ago (withdrawable period)
     const currentDate = new Date();
     const oneMonthAgo = new Date(currentDate);
-    oneMonthAgo.setDate(currentDate.getDate() - 30); // Set the date to 30 days ago
+    oneMonthAgo.setDate(currentDate.getDate() - 14); // Set the date to 30 days ago
 
     // Initialize a variable to accumulate the new withdrawable amount
     let newWithdrawableAmount = 0;
 
     // Loop through referral earnings and find the ones older than one month
+    let earningsUpdated = false;
     user.referralEarnings = user.referralEarnings.map((earning: any) => {
       if (earning.date <= oneMonthAgo && earning.status === "pending") {
-    //   if ( earning.status === "pending") {
         // Update the status to 'paid'
         earning.status = "paid";
+        earningsUpdated = true;
 
         // Add this earning's amount to the new withdrawable amount
         newWithdrawableAmount += earning.amount;
@@ -177,18 +179,88 @@ export const getWithdrawableReferralAmount = async (userId: string) => {
       return earning;
     });
 
+    // If no new earnings are updated, don't proceed with saving
+    if (!earningsUpdated) {
+      console.log(`No withdrawable referral earnings for user ID ${userId}.`);
+    revalidatePath('/hunt-cash');
+
+      return;
+    }
+
     // Update the user's withdrawableAmount by adding the new amount
-    user.withdrawableAmount += newWithdrawableAmount;
+    user.referalWithdrawableAmount += newWithdrawableAmount;
 
     // Save the updated user document
     await user.save();
+    revalidatePath('/hunt-cash');
 
-    return JSON.parse(JSON.stringify({ amount: newWithdrawableAmount, status: 200 }));
+
+    console.log(`User ID ${userId} withdrawable amount updated by ${newWithdrawableAmount}`);
+    
   } catch (error) {
-    console.error("Error fetching withdrawable referral amount: ", error);
-    return { message: "Internal Server Error", status: 500 };
+    console.error("Error updating withdrawable referral amount: ", error);
   }
 };
+
+export const updateBookingWithdrawableAmount = async (userId: string) => {
+  try {
+    // Connect to the database
+    await connectToDatabase();
+
+    // Fetch the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      console.error(`User with ID ${userId} not found.`);
+      return;
+    }
+
+    // Get the current date and calculate the date 30 days ago (withdrawable period)
+    const currentDate = new Date();
+    const oneMonthAgo = new Date(currentDate);
+    oneMonthAgo.setDate(currentDate.getDate() - 14); // Set the date to 30 days ago
+
+    // Initialize a variable to accumulate the new withdrawable amount from booking payments
+    let newBookingWithdrawableAmount = 0;
+
+    // Flag to track if any updates were made
+    let paymentsUpdated = false;
+
+    // Loop through booking payments and find the ones older than one month
+    user.bookingPayments = user.bookingPayments.map((payment: any) => {
+      if (payment.date <= oneMonthAgo && payment.status === "pending") {
+        // Update the status to 'paid'
+        payment.status = "paid";
+        paymentsUpdated = true;
+
+        // Add this payment's amount to the new withdrawable amount
+        newBookingWithdrawableAmount += payment.amount;
+      }
+      return payment;
+    });
+
+    // If no payments were updated, no need to save the user
+    if (!paymentsUpdated) {
+      console.log(`No withdrawable booking payments for user ID ${userId}.`);
+    revalidatePath('/dashboard');
+
+      return;
+    }
+
+    // Update the user's withdrawableAmount by adding the new amount from booking payments
+    user.withdrawableAmount += newBookingWithdrawableAmount;
+
+    // Save the updated user document
+    await user.save();
+    revalidatePath('/dashboard');
+
+
+    console.log(`User ID ${userId} withdrawable amount updated from booking payments: ${newBookingWithdrawableAmount}`);
+    
+  } catch (error) {
+    console.error("Error updating booking withdrawable amount: ", error);
+  }
+};
+
 
 
 export const addSavedProperty = async (userId: string, propertyId: string) => {
