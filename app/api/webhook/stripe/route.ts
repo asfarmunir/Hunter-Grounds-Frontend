@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   const eventType = event.type;
 
   if (eventType === "payment_intent.succeeded") {
-    const { id, amount, metadata } = event.data.object;
+    const {  amount, metadata } = event.data.object;
     const bookingDetails = {
       totalAmount: amount,
       bookingEmail: metadata.bookingEmail,
@@ -38,7 +38,6 @@ export async function POST(request: Request) {
 
     // Create the booking
     const booking = await createBooking(bookingDetails);
-    console.log("🚀 ~ POST ~ booking:", booking)
 
     // Update the property with the booked dates
     await updatePropertyWithBookedDates(metadata.property, metadata.checkIn, metadata.checkOut);
@@ -46,8 +45,8 @@ export async function POST(request: Request) {
     // Handle referral rewards
     await handleReferralReward(metadata.user, amount);
 
-    // Add booking payment to the owner's account
-    await addBookingPaymentToOwner(metadata.property, amount, booking.booking._id);
+    // @ts-ignore
+    await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id);
 
     return NextResponse.json({ message: "OK", booking });
   }
@@ -55,7 +54,7 @@ export async function POST(request: Request) {
   return new Response("", { status: 200 });
 }
 
-async function addBookingPaymentToOwner(propertyId: string, bookingAmount: number, bookingId: string) {
+async function addBookingPaymentToOwner(propertyId: string, bookingDays: number, bookingId: string) {
   // Find the property by its ID
   const property = await Property.findById(propertyId);
 
@@ -66,7 +65,7 @@ async function addBookingPaymentToOwner(propertyId: string, bookingAmount: numbe
     if (owner) {
       // Create a new booking payment object
       const bookingPayment = {
-        amount: bookingAmount,            // Booking amount
+        amount: bookingDays * property.pricePerNight,          // Booking amount
         bookingRefId: bookingId,          // Reference to the booking ID
         status: 'pending',                // Status (can change to 'paid' later)
         date: new Date(),                 // Payment date
@@ -75,7 +74,6 @@ async function addBookingPaymentToOwner(propertyId: string, bookingAmount: numbe
       owner.bookingPayments.push(bookingPayment);
       await owner.save();
 
-      console.log(`Booking payment of ${bookingAmount} added to property owner ${owner.email}`);
     } else {
       console.error(`Owner not found for property ID: ${propertyId}`);
     }

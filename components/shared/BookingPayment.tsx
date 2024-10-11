@@ -129,6 +129,7 @@ const page = ({
       bookingPhone: bookingDetails.areaCode + bookingDetails.phone,
       property: bookingDetails.property,
       user: bookingDetails.user,
+      bookingDays: totalDays + 1,
       checkIn: from,
       checkOut: to,
       totalAmount:
