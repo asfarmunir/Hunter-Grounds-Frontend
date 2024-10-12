@@ -53,7 +53,17 @@ const PropertySchema = new Schema(
     owner:{
       type: Schema.Types.ObjectId,
       ref: "User",
-    }
+    },
+    reviews: {
+      type: [
+        {
+          user: { type: Schema.Types.ObjectId, ref: "User" },
+          review: { type: String },
+          rating: { type: Number },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: true }
 );

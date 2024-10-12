@@ -10,4 +10,5 @@ export interface IBooking {
     totalAmount: number;
     createdAt?: Date;
     updatedAt?: Date;
+    reviewed?: boolean;
     }

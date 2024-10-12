@@ -11,6 +11,7 @@ const bookingSchema = new Schema({
     checkIn: { type: Date,  },
     checkOut: { type: Date,  },
     guests: { type: Number,  },
+    reviewed: { type: Boolean, default: false },
     paymentStatus: { type: String, enum: ['pending', 'completed'], default: 'pending' },    
 }, { timestamps: true });
 

@@ -64,6 +64,7 @@ export const getAllPropertiesLocation = async () => {
     }
     const propertiesLocation = properties.map((property) => {
       return {
+        id: property._id,
         name: property.name,
         location: property.location,
         pricePerNight: property.pricePerNight,

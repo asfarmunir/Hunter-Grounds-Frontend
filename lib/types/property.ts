@@ -12,4 +12,5 @@ export interface IProperty {
   owner: string;
   bookedDates: string[];
   location: { latitude: number; longitude: number };
+  reviews: { user: string; review: string, rating:number }[];
 }

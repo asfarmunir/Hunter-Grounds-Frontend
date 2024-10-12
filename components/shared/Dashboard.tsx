@@ -41,12 +41,7 @@ const page = ({
       <div className=" w-full grid grid-cols-1 gap-4 md:grid-cols-3  lg:grid-col-3">
         <div className="flex flex-col gap-3">
           <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
-            <p className="textlg 2xl:text-xl mb-6 text-gray-300">
-              Total Sales
-              <span className="text-xs italic px-2 text-gray-200">
-                (referals and bookings)
-              </span>
-            </p>
+            <p className="textlg 2xl:text-xl mb-6 text-gray-300">Total Sales</p>
             <div className="flex items-center gap-4">
               <p className="text-2xl 2xl:text-5xl font-semibold">
                 ${totalEarnings / 100}
@@ -75,7 +70,11 @@ const page = ({
                   : 0}
               </p>
               {userData.withdrawableAmount! > 0 && (
-                <WithdrawFunds userId={userData._id!} />
+                <WithdrawFunds
+                  userId={userData._id!}
+                  type={"booking"}
+                  path={"/dashboard"}
+                />
               )}
             </div>
           </div>

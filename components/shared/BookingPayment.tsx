@@ -337,11 +337,11 @@ const page = ({
                 Save my payment information so checkout easy in next time
               </p>
             </div>
-            <div className=" w-full flex justify-start">
+            {/* <div className=" w-full flex justify-start">
               <button className=" px-3 py-2 text-xs 2xl:text-sm rounded-lg w-fit text-[#00C88C] border border-[#00c88c3c] bg-[#00C88C]/10">
                 Use Added Card
               </button>
-            </div>
+            </div> */}
           </div>
         )}
       </div>

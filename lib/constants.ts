@@ -1,7 +1,7 @@
 export const navlinks = [
     {
         name: "Near Me",
-        href: "#",
+        href: "/",
     },
     {
         name: "Trips",

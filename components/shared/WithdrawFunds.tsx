@@ -25,11 +25,20 @@ interface WithdrawFundsProps {
   userId: string;
 }
 
-const WithdrawFunds: React.FC<WithdrawFundsProps> = ({ userId }) => {
+const WithdrawFunds = ({
+  userId,
+  type,
+  path,
+}: {
+  userId: string;
+  type: string;
+  path: string;
+}) => {
   const [withdrawAmount, setWithdrawAmount] = useState<number>(0);
   const [paypalEmail, setPaypalEmail] = useState<string>("");
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
+  const [loading, setLoading] = useState<boolean>(false);
   const modalRef = useRef(null);
 
   // Simple email validation
@@ -64,12 +73,15 @@ const WithdrawFunds: React.FC<WithdrawFundsProps> = ({ userId }) => {
         paypalEmail,
       });
 
+      setLoading(true);
+
       const data = {
         user: userId,
         amount: withdrawAmount,
         accountEmail: paypalEmail,
+        type: type,
       };
-      const res = await createPayout(data);
+      const res = await createPayout(data, path);
       console.log("Payout response:", res);
       if (res.status !== 200) {
         toast.error(res.message, {
@@ -79,11 +91,18 @@ const WithdrawFunds: React.FC<WithdrawFundsProps> = ({ userId }) => {
             color: "#fff",
           },
         });
+        setErrors({});
+        setLoading(false);
         return;
       }
 
       toast.success("Payout Requested successfully!", {
         duration: 5000,
+        icon: "🎉",
+        style: {
+          backgroundColor: "green",
+          color: "#fff",
+        },
       });
       if (modalRef.current) {
         // @ts-ignore
@@ -91,8 +110,14 @@ const WithdrawFunds: React.FC<WithdrawFundsProps> = ({ userId }) => {
       }
       // Reset form (you can also show a success message here)
 
+      setLoading(false);
+      setWithdrawAmount(0);
+      setPaypalEmail("");
+      setTermsAccepted(false);
       setErrors({});
     } else {
+      // Show
+      setLoading(false);
       setErrors(formErrors);
     }
   };
@@ -105,7 +130,7 @@ const WithdrawFunds: React.FC<WithdrawFundsProps> = ({ userId }) => {
       >
         Withdraw Funds
       </AlertDialogTrigger>
-      <AlertDialogContent className="p-0 dark:bg-[#161313CC] border-none 2xl:min-w-[600px]">
+      <AlertDialogContent className="p-0 pb-10 transition-all dark:bg-[#161313CC] border-none 2xl:min-w-[600px]">
         <AlertDialogCancel className="w-fit absolute right-3 rounded-full border-none dark:bg-[#161313CC] top-3">
           <IoCloseSharp className="text-white bg-primary-200 p-1 text-3xl rounded-full" />
         </AlertDialogCancel>
@@ -176,10 +201,26 @@ const WithdrawFunds: React.FC<WithdrawFundsProps> = ({ userId }) => {
           {/* Submit Button */}
           <button
             onClick={handleWithdraw}
-            className="w-fit px-12 py-3 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold my-4"
+            disabled={loading}
+            className={`
+            ${loading ? "cursor-wait opacity-50" : "cursor-pointer opacity-100"}
+              w-fit px-12 py-3 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold my-4`}
           >
             Withdraw
           </button>
+          {withdrawAmount &&
+          paypalEmail &&
+          termsAccepted &&
+          !errors.amount &&
+          !errors.email &&
+          !errors.terms ? (
+            <p className="text-sm italic mt-4 px-12 text-center ">
+              *Please note that the withdrawal process may take up to 3-5
+              business days.{" "}
+              <span className="text-primary-50 font-bold">15%</span> of the
+              total amount will be deducted as a service fee. Thank you!
+            </p>
+          ) : null}
         </div>
       </AlertDialogContent>
     </AlertDialog>

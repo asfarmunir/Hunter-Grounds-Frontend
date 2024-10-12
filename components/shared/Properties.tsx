@@ -83,9 +83,16 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
               >
                 <h4 className="font-bold mx-auto text-sm 2xl:text-lg capitalize text-nowrap mb-3">
                   {property.name}
-                  <span className="bg-primary-50 text-xs p-1 rounded ml-2">
-                    9.0
-                  </span>
+                  {property.reviews && property.reviews.length > 0 && (
+                    <span className="bg-primary-50 text-xs p-1 rounded ml-2">
+                      {property.reviews &&
+                        property.reviews.reduce(
+                          (acc, curr) => acc + curr.rating,
+                          0
+                        ) / property.reviews.length}
+                      .0
+                    </span>
+                  )}
                 </h4>
                 <p className="font-thin text-slate-50 capitalize text-sm">
                   <span className="font-semibold">{property.acres}</span> acres

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { IUser } from "@/lib/types/user";
 import { useRouter } from "next/navigation";
+import WithdrawFunds from "./WithdrawFunds";
 
 const page = ({
   userDetails,
@@ -138,7 +139,7 @@ const page = ({
       </div>
       <div className=" my-7 w-full ">
         <h3 className="text-xl mb-4">All Time</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-4 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-3 w-full">
           <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
             <h2 className="flex items-center mb-6 text-sm text-gray-200 gap-2">
               <Image
@@ -179,6 +180,13 @@ const page = ({
                     ? userDetails.referalWithdrawableAmount / 100
                     : 0}
                 </p>
+                {userDetails.referalWithdrawableAmount! > 0 && (
+                  <WithdrawFunds
+                    userId={userDetails._id!}
+                    type={"referal"}
+                    path={"/hunt-cash"}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -239,7 +247,7 @@ const page = ({
               </button>{" "}
             </div>
           </div> */}
-          <div className=" bg-[#16131399] p-8 md:col-span-2 border border-[#372F2F] rounded-xl">
+          <div className=" bg-[#16131399] p-8  border border-[#372F2F] rounded-xl">
             <h2 className="flex items-center mb-6 text-sm text-gray-200 gap-2">
               <Image
                 src={"/images/dollar-circle.svg"}

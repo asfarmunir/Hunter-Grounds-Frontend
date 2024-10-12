@@ -8,6 +8,11 @@ const PayoutSchema = new Schema(
     accountEmail: { type: String, required: true },
     status: { type: String, enum: ['pending', 'completed'], default: 'pending' },
     date: { type: Date, default: Date.now },
+    type : {
+      type: String,
+      enum: ['booking', 'referal'],
+      required : true
+    }
 
   },
   { timestamps: true }

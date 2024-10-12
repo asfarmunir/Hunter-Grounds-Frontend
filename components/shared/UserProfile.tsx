@@ -10,6 +10,8 @@ import { removeSavedProperty } from "@/database/actions/user.action";
 import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 import { IoChatboxEllipses } from "react-icons/io5";
+import ReviewMaker from "./Review";
+import { addRatings } from "@/database/actions/booking.action";
 
 const UserProfile = ({
   userDetails,
@@ -27,6 +29,17 @@ const UserProfile = ({
   const [loading, setLoading] = React.useState(false);
   const month = date.toLocaleString("default", { month: "long" });
   const year = date.getFullYear();
+
+  const onRatingSubmit = async (rating: number, bookingId: string) => {
+    console.log("🚀 ~ onRatingSubmit ~ bookingId:", bookingId);
+    console.log(rating);
+    toast.promise(addRatings(bookingId, rating, userDetails._id!), {
+      loading: "Submitting rating...",
+      success: "Rating submitted successfully",
+      error: "Failed to submit rating",
+    });
+  };
+
   return (
     <div className=" p-5 md:px-20 py-12 w-full flex flex-col md:flex-row gap-6">
       <div className="w-full md:w-[25%] flex flex-col gap-5">
@@ -254,52 +267,59 @@ const UserProfile = ({
               <p className="border rounded-full px-3 mt-4 py-1.5 text-sm  w-fit ml-4  bg-primary-100">
                 Booked Trips
               </p>
-              {userBookings.length === 0 && (
+              {userBookings && userBookings.length === 0 && (
                 <p className="text-center text-gray-400 mt-4">
                   You have not booked any trips yet
                 </p>
               )}
-              {userBookings.map((booking) => {
-                // const fromDate = new Date(booking.checkIn);
-                // const toDate = new Date(booking.checkOut);
-                return (
-                  <div className="flex w-full px-4 items-center justify-between flex-col md:flex-row">
-                    <div>
-                      <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
-                        {booking.property.name}
-                      </p>
-                      <p className="text-sm px-3 capitalize text-gray-400 mb-4">
-                        in {booking.property.address} from{" "}
-                        {new Date(booking.checkIn).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                        })}{" "}
-                        to{" "}
-                        {new Date(booking.checkOut).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "numeric",
-                          }
-                        )}
-                      </p>
-                    </div>
-                    {booking.property.owner !== userDetails._id && (
-                      <Link
-                        href={`/chat?id=${
-                          booking.property.owner
-                        }&propertyName=${encodeURIComponent(
-                          booking.property.name
-                        )}`}
-                        className="flex items-center gap-2 text-sm"
+              {userBookings &&
+                userBookings
+                  .filter((booking) => new Date(booking.checkOut) >= new Date()) // Filter to show only future bookings
+                  .map((booking) => {
+                    return (
+                      <div
+                        className="flex w-full px-4 items-center justify-between flex-col md:flex-row"
+                        key={booking._id}
                       >
-                        <IoChatboxEllipses className="text-2xl mt-0.5 text-primary-50" />
-                        Chat with owner
-                      </Link>
-                    )}
-                  </div>
-                );
-              })}
+                        <div>
+                          <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
+                            {booking.property.name}
+                          </p>
+                          <p className="text-sm px-3 capitalize text-gray-400 mb-4">
+                            in {booking.property.address} from{" "}
+                            {new Date(booking.checkIn).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}{" "}
+                            to{" "}
+                            {new Date(booking.checkOut).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
+                          </p>
+                        </div>
+                        {booking.property.owner !== userDetails._id && (
+                          <Link
+                            href={`/chat?id=${
+                              booking.property.owner
+                            }&propertyName=${encodeURIComponent(
+                              booking.property.name
+                            )}`}
+                            className="flex items-center gap-2 text-sm"
+                          >
+                            <IoChatboxEllipses className="text-2xl mt-0.5 text-primary-50" />
+                            Chat with owner
+                          </Link>
+                        )}
+                      </div>
+                    );
+                  })}
             </div>
             <div className=" w-full bg-[#372F2F33] my-4 pb-6 pt-2 ">
               {/* <Image
@@ -309,15 +329,59 @@ const UserProfile = ({
             alt="user"
             className="w-full rounded-xl"
           /> */}
-              <p className="border  rounded-full px-3 py-1.5 text-sm mt-2 w-fit ml-4  bg-primary-100">
-                Past Trips
-              </p>
-              <p className="mt-4 mb-2 px-3 text-xl font-semibold">
-                Paradis d’artistes 3 Baysie
-              </p>
-              <p className="text-sm px-3 text-gray-400 mb-4">
-                in Paradis d’Artistes , Quebec
-              </p>
+              {userBookings &&
+                userBookings
+                  .filter((booking) => new Date(booking.checkOut) < new Date()) // Filter to show only past bookings
+                  .map((booking) => {
+                    console.log(booking.property.reviews);
+                    console.log(userDetails._id);
+                    const existingReview = booking.property.reviews.find(
+                      (review) => review.user === userDetails._id // Ensure `userId` is available in your context
+                    );
+                    console.log("🚀 ~ .map ~ existingReview:", existingReview);
+
+                    // Get the rating if the review exists, otherwise set default to 0 or null
+                    const defaultRating = existingReview
+                      ? existingReview.rating
+                      : 0;
+
+                    return (
+                      <div
+                        className="flex w-full px-4 items-center justify-between flex-col md:flex-row"
+                        key={booking._id}
+                      >
+                        <div>
+                          <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
+                            {booking.property.name}
+                          </p>
+                          <p className="text-sm px-3 capitalize text-gray-400 mb-4">
+                            in {booking.property.address} from{" "}
+                            {new Date(booking.checkIn).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}{" "}
+                            to{" "}
+                            {new Date(booking.checkOut).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
+                          </p>
+                        </div>
+                        <ReviewMaker
+                          defaultRating={defaultRating} // Pass the existing rating to ReviewMaker
+                          onRatingSubmit={(rating) =>
+                            onRatingSubmit(rating, booking._id!)
+                          }
+                        />
+                      </div>
+                    );
+                  })}
               {/* <div className="flex items-center gap-5 px-5 mx-4 py-4 rounded-xl bg-[#372F2F80] justify-between flex-col-reverse md:flex-row p-3">
             <div className=" space-y-3">
               <h3 className="text-lg text-primary-50">
@@ -397,7 +461,7 @@ const UserProfile = ({
                   className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
                 >
                   {" "}
-                  Trips Page
+                  Huntgrounds Page
                 </Link>
               </div>
             </div>
