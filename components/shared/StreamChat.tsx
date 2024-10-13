@@ -1,8 +1,5 @@
 "use client";
-import {
-  createNewStreamUser,
-  createStreamUserToken,
-} from "@/database/actions/user.action";
+import { createStreamUserToken } from "@/database/actions/user.action";
 import { ISessionUser } from "@/lib/types/sessionUser";
 
 import React, { use, useCallback, useEffect, useState } from "react";
@@ -24,15 +21,12 @@ import {
   Thread,
   Window,
 } from "stream-chat-react";
-import { StreamChat } from "stream-chat";
 import { useSearchParams } from "next/navigation";
 
 import "stream-chat-react/dist/css/v2/index.css";
 import Image from "next/image";
-// import "./layout.css";
 
 const Chats = ({ userData }: { userData: ISessionUser }) => {
-  const [channel, setChannel] = useState<StreamChannel>();
   const searchParams = useSearchParams();
 
   const userId = searchParams.get("id");
@@ -55,16 +49,6 @@ const Chats = ({ userData }: { userData: ISessionUser }) => {
 
   const createChannel = async () => {
     if (!client) return;
-    // const response = await client.queryUsers({
-    //   id: { $in: ["66f46e6c4ec7d951720cc09b"] },
-    // });
-    // if (response.users.length === 0) {
-    //   const newUser = await createNewStreamUser(
-    //     "66f46e6c4ec7d951720cc09b",
-    //     "test",
-    //     "https://getstream.io/random_png/?name=test"
-    //   );
-    // }
 
     // here the same channel is being used for all properties from the same owner because the channel id is the same.
     // This means that the owner can only chat with one user, if want to change then the channel id should be unique.
@@ -132,7 +116,6 @@ const Chats = ({ userData }: { userData: ISessionUser }) => {
           options={options}
           List={CustomListItem}
         />
-        {/* <Channel channel={channel}> */}
         <Channel>
           <Window>
             <ChannelHeader />

@@ -100,7 +100,7 @@ const PropertyCalendar = ({ data }: { data: IProperty[] }) => {
             className="text-2xl p-0.5 border border-primary-50/30 rounded-full cursor-pointer"
           />
         </div>
-        <div className="hidden md:flex items-center gap-3">
+        {/* <div className="hidden md:flex items-center gap-3">
           <button className=" px-4 text-sm py-2 rounded-full shadow-inner shadow-gray-800 inline-flex gap-2 ">
             <Image
               src={"/images/setting.svg"}
@@ -113,7 +113,7 @@ const PropertyCalendar = ({ data }: { data: IProperty[] }) => {
           <button className=" text-black font-semibold  px-4 text-sm py-2 rounded-full bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
             Bulk Edit
           </button>
-        </div>
+        </div> */}
       </div>
       <div className=" w-full my-10">
         <div className=" w-full bg-[#161313]  p-1 py-6 md:p-6 rounded-xl flex-col md:flex-row flex items-center justify-between">
@@ -132,16 +132,7 @@ const PropertyCalendar = ({ data }: { data: IProperty[] }) => {
               {getMonthlyBookingsCount() <= 1 ? "" : "s"}
             </p>
           </div>
-          <button className="px-4 py-2 hidden rounded-full bg-white text-black text-sm md:inline-flex items-center gap-2">
-            <Image
-              src={"/images/setting.svg"}
-              width={22}
-              className=" invert"
-              height={22}
-              alt="setting"
-            />
-            CA$20
-          </button>
+          <p className=" text-sm font-bold tracking-wider">Live Stats</p>
         </div>
         <div className=" w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {daysInMonth.map((day, i) => {

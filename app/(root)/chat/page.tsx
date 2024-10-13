@@ -24,7 +24,7 @@ const page = async () => {
   return (
     <>
       <Topbar links={links} />
-      <StreamChat userData={userDetails.user} />;
+      <StreamChat userData={userDetails.user} />
     </>
   );
 };
