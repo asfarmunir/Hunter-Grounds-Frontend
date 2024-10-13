@@ -282,7 +282,7 @@ const Signup = ({
                     Login
                   </button>
                 </p>
-                <Image
+                {/* <Image
                   src="/images/or.svg"
                   alt="line"
                   width={250}
@@ -307,7 +307,7 @@ const Signup = ({
                       height={28}
                     />
                   </button>
-                </div>
+                </div> */}
                 <p className="text-[0.7rem] 2xl:text-sm mt-6 text-slate-400 font-thin w-full text-center">
                   This site is protected reCAPTCHA and the Google <br />
                   <button

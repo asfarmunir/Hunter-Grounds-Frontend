@@ -329,3 +329,13 @@ export const getUserSavedProperties = async (userId: string) => {
     return { message: "Internal Server Error", status: 500 };
   }
 }
+
+
+
+// --------------------------
+
+
+
+
+
+

@@ -220,14 +220,14 @@ const AddClient = ({
                     Sign up
                   </button>
                 </p>
-                <Image
+                {/* <Image
                   src="/images/or.svg"
                   alt="line"
                   width={250}
                   height={250}
                   className=" my-1 2xl:my-3"
-                />
-                <div className="flex w-full items-center gap-5 justify-center ">
+                /> */}
+                {/* <div className="flex w-full items-center gap-5 justify-center ">
                   <GoogleLogin />
                   <button>
                     <Image
@@ -245,7 +245,7 @@ const AddClient = ({
                       height={28}
                     />
                   </button>
-                </div>
+                </div> */}
                 <p className="text-[0.7rem] 2xl:text-sm mt-6 text-slate-400 font-thin w-full text-center">
                   This site is protected reCAPTCHA and the Google <br />
                   <button

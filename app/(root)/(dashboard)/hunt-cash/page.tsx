@@ -7,9 +7,11 @@ import {
   getUserDetails,
   updateWithdrawableReferralAmount,
 } from "@/database/actions/user.action";
+import { handleRejectedPayouts } from "@/database/actions/payout.action";
 const page = async () => {
   const session = await getServerSession(authOptions);
   const data = await getUserDetails(session.user.email);
+  await handleRejectedPayouts();
   await updateWithdrawableReferralAmount(session.user.id);
   const lastMonthEarnings = await getReferralEarningsOfLastMonth(
     session.user.id

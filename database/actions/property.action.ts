@@ -178,3 +178,32 @@ export const getUserProperties = async (userId: string) => {
     return JSON.parse(JSON.stringify({ error, status: 500 }));
   }
 }
+
+export const countUserReviews = async (userId:string) => {
+  try {
+    // Initialize the review count
+    let reviewCount = 0
+
+    // Find all properties
+    const properties = await Property.find({});
+
+    // Iterate over each property and check the reviews
+    properties.forEach(property => {
+      property.reviews.forEach((review:any) => {
+        if (review.user.toString() === userId.toString()) {
+          reviewCount++;
+        }
+      });
+    });
+
+    // Return the total review count for the user
+    return reviewCount;
+  } catch (error) {
+    console.error('Error counting user reviews:', error);
+    throw error;
+  }
+};
+
+
+
+

@@ -17,8 +17,10 @@ const UserProfile = ({
   userDetails,
   userBookings,
   savedProperties,
+  userReviews,
 }: {
   userDetails: IUser;
+  userReviews: number;
   userBookings: IBooking[];
   savedProperties: IProperty[];
 }) => {
@@ -154,7 +156,7 @@ const UserProfile = ({
             Saves
           </button>
           <button className=" pb-3  px-3">
-            0 <br />
+            {userReviews ? userReviews : 0} <br />
             Review
           </button>
         </div>
@@ -333,12 +335,9 @@ const UserProfile = ({
                 userBookings
                   .filter((booking) => new Date(booking.checkOut) < new Date()) // Filter to show only past bookings
                   .map((booking) => {
-                    console.log(booking.property.reviews);
-                    console.log(userDetails._id);
                     const existingReview = booking.property.reviews.find(
                       (review) => review.user === userDetails._id // Ensure `userId` is available in your context
                     );
-                    console.log("🚀 ~ .map ~ existingReview:", existingReview);
 
                     // Get the rating if the review exists, otherwise set default to 0 or null
                     const defaultRating = existingReview

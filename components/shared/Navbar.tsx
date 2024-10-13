@@ -337,17 +337,18 @@ const Navbar = () => {
       )}
 
       <div className=" hidden md:flex items-center gap-4">
-        {navlinks.map((link, index) => (
-          <Link
-            key={index}
-            className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5
+        {session.status === "authenticated" &&
+          navlinks.map((link, index) => (
+            <Link
+              key={index}
+              className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5
             ${pathname === link.href ? "border-b-2 px-2 border-primary-50" : ""}
         `}
-            href={link.href}
-          >
-            {link.name}
-          </Link>
-        ))}
+              href={link.href}
+            >
+              {link.name}
+            </Link>
+          ))}
         <Link
           className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
           href={

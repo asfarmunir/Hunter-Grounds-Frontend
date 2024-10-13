@@ -153,25 +153,25 @@ const Footer = () => {
         <div className="flex flex-col gap-6">
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"policies/cookie-policy"}
+            href={"/policies/cookie-policy"}
           >
             Cookie Policy
           </Link>
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"policies/refund-policy"}
+            href={"/policies/refund-policy"}
           >
             Refund Policy
           </Link>
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"policies/gun-policy"}
+            href={"/policies/gun-policy"}
           >
             Gun Safety
           </Link>
           <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"policies/risk-disclosure"}
+            href={"/policies/risk-disclosure"}
           >
             Risk Disclosure
           </Link>

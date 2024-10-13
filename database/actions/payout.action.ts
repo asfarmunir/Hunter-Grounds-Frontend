@@ -54,7 +54,8 @@ export const createPayout = async (data: any, path: string) => {
         // Send a confirmation email
         const emailSubject = `Payout Confirmation - ${data.type} Payment`;
         const emailBody = generateEmailTemplate(user.firstname, data.amount, data.type);
-        await sendEmail('asfarma2815@gmail.com', emailSubject, emailBody);
+        await sendEmail( 
+            user.email  , emailSubject, emailBody);
 
         return JSON.parse(JSON.stringify({ status: 200 }));
     } catch (error) {
@@ -96,4 +97,37 @@ const generateEmailTemplate = (userName: string, amount: number, type: string) =
         </div>
     </div>
   `;
+};
+
+export const handleRejectedPayouts = async () => {
+  try {
+    // Find all rejected payouts
+    const rejectedPayouts = await Payout.find({ status: 'rejected' });
+
+    // Iterate over each rejected payout
+    for (const payout of rejectedPayouts) {
+      // Find the user associated with the payout
+      const user = await User.findById(payout.user);
+
+      if (user) {
+        // Add the payout amount back to the user's withdrawable amount
+        // Multiply the payout amount by 100 to convert to cents
+        const amountInCents = payout.amount * 100;
+
+        // Add the payout amount (in cents) back to the user's withdrawable amount
+        user.withdrawableAmount += amountInCents;
+
+        // Save the updated user
+        await user.save();
+        // Delete the processed payout
+        await Payout.findByIdAndDelete(payout._id);
+      } else {
+        console.log(`User not found for payout ${payout._id}`);
+      }
+    }
+
+    console.log('Processed all rejected payouts');
+  } catch (error) {
+    console.error('Error processing rejected payouts:', error);
+  }
 };
