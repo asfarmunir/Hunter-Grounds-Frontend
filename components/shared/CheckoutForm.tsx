@@ -31,7 +31,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ dpmCheckerLink }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/pre-booking/success",
+        return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pre-booking/success`,
       },
     });
 
