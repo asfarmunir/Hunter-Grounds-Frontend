@@ -349,16 +349,16 @@ const page = ({
         <h2 className="text-2xl font-bold 2xl:text-4xl text-center md:text-start mb-8">
           Booking Summary
         </h2>
-        <div className="  gap-4 flex flex-col md:flex-row pb-4 items-center md:items-start border-b border-primary-50/30">
+        <div className="  gap-8 flex flex-col md:flex-row pb-4 items-center md:items-start border-b border-primary-50/30">
           <Image
             src={"/images/place1.svg"}
             width={165}
             height={165}
             alt="mail"
-            className="rounded-xl  "
+            className="rounded-xl w-full sm:w-44 px-8 sm:px-0 h-full "
           />
-          <div className="flex flex-col">
-            <h4 className="font-bold 2xl:text-lg mb-2">
+          <div className="flex flex-col w-full md:w-fit px-8 sm:px-0">
+            <h4 className="font-bold text-xl md:text-base 2xl:text-lg mb-2">
               {propertyDetails.name}
             </h4>
             <p className="text-sm mb-1">{formatDateRange(from, to)}</p>
@@ -375,17 +375,8 @@ const page = ({
           </div>
         </div>
         <h2 className="text-xl font-bold 2xl:text-3xl my-4">
-          The Hunt Begins...
+          The Fun Begins...
         </h2>
-        <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
-          <p>
-            Service fee{" "}
-            <span className="text-xs text-slate-300 px-1 italic">
-              per night
-            </span>
-          </p>
-          <p className="text-lg">CA${propertyDetails.pricePerNight}</p>
-        </div>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
             CA${propertyDetails.pricePerNight} x {totalDays + 1} nights
@@ -395,7 +386,15 @@ const page = ({
             {propertyDetails.pricePerNight * (totalDays + 1)}
           </p>
         </div>
-
+        <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+          <p>
+            Service fee{" "}
+            {/* <span className="text-xs text-slate-300 px-1 italic">
+              per night
+            </span> */}
+          </p>
+          <p className="text-lg">CA${propertyDetails.pricePerNight}</p>
+        </div>
         <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>Taxes</p>
           <p>

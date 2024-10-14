@@ -37,11 +37,6 @@ const links = [
 
 import { IUser } from "@/lib/types/user";
 import toast from "react-hot-toast";
-import { useDropzone } from "@uploadthing/react";
-import { generateClientDropzoneAccept } from "uploadthing/client";
-import { generatePermittedFileTypes } from "uploadthing/client";
-import { useUploadThing } from "@/lib/uploadthing";
-import { convertFileToUrl } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 const page = ({ userDetails }: { userDetails: IUser }) => {
@@ -169,7 +164,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
                 Please upload a profile picture where your face is clearly
                 visible. Sharing a clear image of yourself helps to build trust
                 within the Hipcamp Community, and helps Hosts and Hipcampers
-                recognize each other when meeting on properties. Max size: 08 Mb
+                recognize each other when meeting on properties. Max size: 10 Mb
               </p>
             </div>
           </div>
@@ -177,7 +172,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className=" min-w-16 md:min-w-36">First Name</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               required
               value={userData.firstname}
               onChange={(e) =>
@@ -189,7 +184,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className=" min-w-16 md:min-w-36">Last Name</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               required
               value={userData.lastname}
               onChange={(e) =>
@@ -219,7 +214,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">Street Address</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.address}
               placeholder="Optional"
               onChange={(e) =>
@@ -228,10 +223,10 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             />
           </div>
           <div className="flex py-8 border-b border-primary-50/15  gap-16">
-            <p className="  min-w-16 md:min-w-36">Apt or suite number</p>
+            <p className="  min-w-16 md:min-w-36">Suite Number</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.suitNumber}
               placeholder="Optional"
               onChange={(e) =>
@@ -243,7 +238,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">City</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.city}
               placeholder="Optional"
               onChange={(e) =>
@@ -255,7 +250,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">State</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.state}
               placeholder="Optional"
               onChange={(e) =>
@@ -267,7 +262,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">Country</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.country}
               placeholder="Optional"
               onChange={(e) =>
@@ -279,7 +274,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">Zip Code</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               required
               value={userData.zip}
               placeholder="zip code"
@@ -292,7 +287,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">Phone Number</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.phone}
               placeholder="Optional"
               onChange={(e) =>
@@ -306,9 +301,17 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
         </p>
         <div className=" w-full     bg-[#352e2e33] border border-[#372F2F] p-6 rounded-xl shadow-md">
           <div className="flex py-8 border-b border-primary-50/15  gap-16">
-            <p className="  min-w-16 md:min-w-36">HuntGrounds Bio</p>
+            <p className="  min-w-16 md:min-w-36">HuntGrounds URL</p>
             <textarea
-              className=" bg-transparent px-3 w-full"
+              className=" py-2 bg-transparent  px-3 w-full text-sm  focus:outline-none rounded-lg "
+              placeholder="Heads up! Changing your Hipcamp URL will break any referral, invite, or profile links you've shared in the past.
+            Previously earned referral credit will not be lost by changing your URL.              "
+            />
+          </div>
+          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+            <p className="  min-w-16 md:min-w-36">HuntGrounds URL</p>
+            <textarea
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200 w-full  focus:outline-none rounded-lg "
               value={userData.huntgroundBio}
               placeholder="
               A short description of yourself as a Hunt Grounder
@@ -325,7 +328,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">public location</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.publicLocation}
               placeholder="Optional"
               onChange={(e) =>
@@ -340,7 +343,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">Personal URL</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.personalUrl}
               placeholder="Optional"
               onChange={(e) =>
@@ -355,7 +358,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">Instagram Handle</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.instagramHandle}
               placeholder="Optional"
               onChange={(e) =>
@@ -370,7 +373,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">Twitter Handle</p>
             <input
               type="text"
-              className=" bg-transparent px-3"
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.twitterHandle}
               placeholder="Optional"
               onChange={(e) =>
@@ -399,6 +402,7 @@ const ChangePassword = ({ email }: { email: string }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
+  const [currentPassword, setCurrentPassword] = useState<string>("");
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -409,12 +413,17 @@ const ChangePassword = ({ email }: { email: string }) => {
       return;
     }
 
-    const res = await updateUserPassword(email, password);
+    const res = await updateUserPassword(email, password, currentPassword);
     if (res.status !== 200) {
-      toast.error("An error occured while updating your password");
+      toast.error(
+        res.message || "An error occured while updating your password"
+      );
       return;
     }
     toast.success("Password updated successfully");
+    setPassword("");
+    setNewPassword("");
+    setCurrentPassword("");
   };
 
   return (
@@ -429,13 +438,42 @@ const ChangePassword = ({ email }: { email: string }) => {
         Change your password
       </p>
       <div className=" w-full bg-[#352e2e33] space-y-4 border border-[#372F2F] p-6 rounded-xl shadow-md">
-        {/* <div className=" border-b pb-3 border-primary-50/30">
+        <div className=" border-b pb-3 flex items-center justify-between  w-full gap-4  border-primary-50/15">
           <Input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Enter your current password"
-            className=" border-none lg:text-lg text-sm border-b pb-4 border-primary-50/15"
+            required
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className=" border-none lg:text-lg text-sm border-b  pb-4 border-primary-50/15"
           />
-        </div> */}
+
+          <p>
+            {showPassword ? (
+              <button
+                onClick={() => setShowPassword(false)}
+                className="cursor-pointer"
+                type="button"
+              >
+                <Image
+                  src="/images/eye.svg"
+                  className="invert"
+                  width={20}
+                  height={20}
+                  alt="eye"
+                />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowPassword(true)}
+                className="cursor-pointer"
+              >
+                <Image src="/images/eye.svg" width={20} height={20} alt="eye" />
+              </button>
+            )}
+          </p>
+        </div>
         <div className=" border-b pb-3 flex items-center justify-between  w-full gap-4  border-primary-50/15">
           <Input
             type={showPassword ? "text" : "password"}
@@ -622,7 +660,7 @@ const EmailsAndSms = () => {
             <Checkbox />
           </div>
           <div className="flex flex-col gap-1 pl-6">
-            <p className="font-semibold">Personalized Recommendations</p>
+            <p className="font-semibold">New Messages</p>
             <p className="text-xs 2xl:text-sm text-gray-400">
               Sent to shares huntgrounds you might like
             </p>
@@ -636,7 +674,7 @@ const EmailsAndSms = () => {
             <Checkbox />
           </div>
           <div className="flex flex-col gap-1 pl-6">
-            <p className="font-semibold">Exclusive offers, news and tips</p>
+            <p className="font-semibold">Booking Request notifications</p>
             <p className="text-xs 2xl:text-sm text-gray-400">
               Sent to shares huntgrounds you might like
             </p>
@@ -650,7 +688,7 @@ const EmailsAndSms = () => {
             <Checkbox />
           </div>
           <div className="flex flex-col gap-1 pl-6">
-            <p className="font-semibold">New features announcement</p>
+            <p className="font-semibold">Booking confirmation notification</p>
             <p className="text-xs 2xl:text-sm text-gray-400">
               Sent to shares huntgrounds you might like
             </p>
@@ -664,7 +702,9 @@ const EmailsAndSms = () => {
             <Checkbox />
           </div>
           <div className="flex flex-col gap-1 pl-6">
-            <p className="font-semibold">Feedback and surveys</p>
+            <p className="font-semibold">
+              Booking cancellation and modification notifications
+            </p>
             <p className="text-xs 2xl:text-sm text-gray-400">
               Sent to shares huntgrounds you might like
             </p>
@@ -678,19 +718,119 @@ const EmailsAndSms = () => {
             <Checkbox />
           </div>
           <div className="flex flex-col gap-1 pl-6">
-            <p className="font-semibold">Safety tips and reminders</p>
+            <p className="font-semibold">Booking reminder notifications</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Review trip reminder notifrications</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Account support</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Booking request notifications</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Booking confirmation notifications</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">
+              Booking cancellation and modification notifications
+            </p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Booking reminder notifications</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Review trip reminder notification </p>
             <p className="text-xs 2xl:text-sm text-gray-400">
               Sent to shares huntgrounds you might like
             </p>
           </div>
         </div>
       </div>
-      {/* 
+
       <div className=" w-full flex justify-end my-4">
         <button className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 py-3 text-black font-semibold 2xl:text-lg">
           Save Changes
         </button>
-      </div> */}
+      </div>
       <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
         <div className="flex items-center border-b border-primary-50/10 pb-4 gap-3">
           <div className="w-16 flex justify-center  ">

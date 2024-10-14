@@ -1,26 +1,15 @@
 import React from "react";
 import Topbar from "@/components/shared/Topbar";
+import { usePathname } from "next/navigation";
 
 const links = [
   {
-    name: "dashboard",
-    href: "/dashboard",
+    name: "Hunt Cash",
+    href: "/refer-and-earn",
   },
   {
-    name: "Bookings",
-    href: "/booking",
-  },
-  // {
-  //   name: "Property",
-  //   href: "#",
-  // },
-  {
-    name: "Calendar",
-    href: "/calendar",
-  },
-  {
-    name: "Inbox",
-    href: "/chat",
+    name: "Overview",
+    href: "/hunt-cash",
   },
 ];
 const layout = ({ children }: { children: React.ReactNode }) => {

@@ -30,11 +30,11 @@ const initialSettings = [
 
 const page = ({ userDetails }: { userDetails: IUser }) => {
   const [propertyDetails, setPropertyDetails] = useState({
-    address: "i-8 markaz islamabad ",
-    acres: 20,
-    city: "los angeles",
-    name: "bolo bolo bolo",
-    description: "lesgoooo",
+    address: "",
+    acres: 0,
+    city: "",
+    name: "",
+    description: "",
     photos: [] as string[],
     profilePicture: "",
     location: {
@@ -42,7 +42,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       latitude: 0,
     },
     insurance: "",
-    price: 200,
+    price: 0,
     gameAvailable: "",
   });
 
@@ -163,6 +163,12 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (settings.some((s) => s.status === "pending")) {
+      toast.error("Please complete all the fields before submitting");
+      setLoading(false);
+      return;
+    }
 
     const coordinates = await getCoordinatesFromMapbox(propertyDetails.address);
     if (!coordinates) {
@@ -297,7 +303,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             Property Address
           </p>
           <div className=" w-full dark:bg-[#372F2F33] border flex flex-col items-center md:items-start border-[#372F2F] p-6 rounded-xl shadow-md">
-            <p className="text-sm  tracking-wide text-[#FFFFFF80] mb-2">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] mb-2">
               Where is your property located? This will be shown on your
               listing!
             </p>
@@ -360,8 +366,8 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Acres
           </p>
-          <div className=" w-full dark:bg-[#372F2F33] border border-[#372F2F] p-6 rounded-xl shadow-md">
-            <p className="text-sm  tracking-wide text-[#FFFFFF80] mb-2">
+          <div className=" w-full dark:bg-[#372F2F33] border border-[#372F2F] px-6 pt-6 pb-3 rounded-xl shadow-md">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] mb-2">
               A rough estimate is ok! This helps guests know what to expect.
             </p>
             <div className="  pb-3  my-3">
@@ -378,13 +384,16 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                 }
                 className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 2xl:p-6 dark:bg-[#372f2f67] "
               />
+              <p className="text-xs  tracking-wide text-[#FF9900] mt-4">
+                * this is required
+              </p>
             </div>
           </div>
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Price Per Night
           </p>
           <div className=" w-full dark:bg-[#372F2F33] border border-[#372F2F] p-6 rounded-xl shadow-md">
-            <p className="text-sm  tracking-wide text-[#FFFFFF80] mb-2">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] mb-2">
               How much do you want to charge per night? This can be changed
               later.
             </p>
@@ -406,9 +415,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Property Name
           </p>
-          <div className=" w-full dark:bg-[#372F2F33] flex items-center gap-6 flex-col md:flex-row justify-between border border-[#372F2F] p-6 rounded-xl shadow-md">
+          <div className=" w-full dark:bg-[#372F2F33] flex items-center gap-6 flex-col md:flex-row justify-between border border-[#372F2F] px-6 pt-6 pb-4 rounded-xl shadow-md">
             <div className="flex flex-col">
-              <p className="text-sm  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
+              <p className="text-sm 2xl:text-base tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
                 Give your property a special name. Be creative and capture its
                 essence to attract more guests!
               </p>
@@ -426,22 +435,25 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   }
                   className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 2xl:p-6 dark:bg-[#372f2f67] "
                 />
+                <p className="text-xs  tracking-wide text-[#FF9900] mt-4">
+                  * this is required
+                </p>
               </div>
             </div>
             <div className=" p-5 rounded-xl max-w-[17rem] 2xl:max-w-xs bg-[#372F2FB2] border border-[#372F2F]">
               <p className="font-semibold mb-3 2xl:text-sm text-xs">
                 A formula that does well:
               </p>
-              <p className="text-gray-50 2xl:text-sm text-xs">
+              <p className="text-[#FFFFFF80] 2xl:text-sm text-xs">
                 [point of interest, location or activity] + [accommodation
                 type/s]
               </p>
               <ul className=" list-disc my-3">
-                <li className="text-gray-50 text-sm">1. The Lakehouse</li>
-                <li className="text-gray-50 text-sm">
+                <li className="text-[#FFFFFF80] text-sm">1. The Lakehouse</li>
+                <li className="text-[#FFFFFF80] text-sm">
                   2. The Cabin in the Woods
                 </li>
-                <li className="text-gray-50 text-sm">
+                <li className="text-[#FFFFFF80] text-sm">
                   3. The Treehouse Retreat
                 </li>
               </ul>
@@ -451,7 +463,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             Property Description
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
-            <p className="text-sm  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
               Provide a bit more details about what guests see, do and expect
               here.
             </p>
@@ -478,43 +490,48 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               {imagePreviews.length} Photos Added
             </p>
             <div className=" w-full flex flex-col gap-4 md:flex-row justify-between">
-              <div className=" w-full flex items-center gap-4  ">
-                {imagePreviews.length > 0 ? (
-                  imagePreviews.map((preview, index) => (
-                    <div
-                      key={index}
-                      className="flex relative items-center flex-wrap w-28 2xl:w-36 h-28 overflow-hidden object-cover object-center  gap-4 mb-4"
-                    >
-                      <Image
-                        src={preview}
-                        alt={`Selected Image ${index + 1}`}
-                        width={150}
-                        height={150}
-                        className="rounded"
-                      />
-                      {/* Button to remove image */}
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 text-xs flex items-center justify-center p-0.5 rounded-full"
+              <div className="flex flex-col gap-2 w-full">
+                <div className=" w-full flex items-center gap-4  ">
+                  {imagePreviews.length > 0 ? (
+                    imagePreviews.map((preview, index) => (
+                      <div
+                        key={index}
+                        className="flex relative items-center flex-wrap w-28 2xl:w-36 h-28 overflow-hidden object-cover object-center  gap-4 mb-4"
                       >
-                        X
-                      </button>
+                        <Image
+                          src={preview}
+                          alt={`Selected Image ${index + 1}`}
+                          width={150}
+                          height={150}
+                          className="rounded"
+                        />
+                        {/* Button to remove image */}
+                        <button
+                          type="button"
+                          onClick={() => removeImage(index)}
+                          className="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 text-xs flex items-center justify-center p-0.5 rounded-full"
+                        >
+                          X
+                        </button>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="flex items-center justify-center md:justify-start flex-wrap gap-4 ">
+                      <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
+                        <p className="text-7xl text-primary-200">+</p>
+                      </div>
+                      <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
+                        <p className="text-7xl text-primary-200">+</p>
+                      </div>
+                      <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
+                        <p className="text-7xl text-primary-200">+</p>
+                      </div>
                     </div>
-                  ))
-                ) : (
-                  <div className="flex items-center justify-center md:justify-start flex-wrap gap-4 ">
-                    <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
-                      <p className="text-7xl text-primary-200">+</p>
-                    </div>
-                    <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
-                      <p className="text-7xl text-primary-200">+</p>
-                    </div>
-                    <div className=" w-28 2xl:w-36 h-28 border flex items-center justify-center border-primary-200/55 2xl:h-36 object-cover object-center rounded-lg overflow-hidden">
-                      <p className="text-7xl text-primary-200">+</p>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
+                <p className="text-xs  tracking-wide text-[#FF9900] mt-4">
+                  3 images required
+                </p>
               </div>
 
               <div className=" relative  ">
@@ -537,7 +554,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           </p>
           <div className=" w-full dark:bg-[#372F2F33] flex items-center gap-6 flex-col md:flex-row justify-between border border-[#372F2F] p-7 rounded-xl shadow-md">
             <div className="flex flex-col items-center md:items-start">
-              <p className="text-sm  tracking-wide text-[#FFFFFF80] max-w-lg mb-4">
+              <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-4">
                 Add a profile picture
               </p>
               {userDetails.profileImage ? (
@@ -559,7 +576,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               )}
             </div>
             <div className=" p-5 rounded-xl max-w-[17rem] 2xl:max-w-xs bg-[#372F2FB2] border border-[#372F2F]">
-              <p className=" mb-3 2xl:text-sm text-xs">
+              <p className=" mb-3 2xl:text-sm text-xs text-[#FFFFFF80]">
                 please upload a photo that clearly shows your face. A profile
                 photo immediately builds trust with hunters viewing your
                 listing. which makes them more likely to book with you.
@@ -580,7 +597,10 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                     alt="location"
                   />
 
-                  <p className="text-sm text-gray-300"> You are verified! </p>
+                  <p className="text-sm text-[#FFFFFF80]">
+                    {" "}
+                    You are verified!{" "}
+                  </p>
                 </div>
               ) : (
                 <Link
@@ -592,7 +612,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               )}
             </div>
             <div className=" p-5 rounded-xl max-w-[17rem] 2xl:max-w-xs bg-[#372F2FB2] border border-[#372F2F]">
-              <p className=" mb-3 2xl:text-sm text-xs">
+              <p className=" mb-3 2xl:text-sm text-xs text-[#FFFFFF80]">
                 Here’s how we have your back with every booking :
               </p>
               <Link
@@ -603,7 +623,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               </Link>
             </div>
           </div>
-          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+          <p className="text-lg  font-normal text-[#FFFFFF80] mt-8 mb-2.5">
             Insurance
           </p>
           <div className=" w-full dark:bg-[#372F2F33] border flex items-center justify-between gap-4 flex-col md:flex-row border-[#372F2F] p-6 rounded-xl shadow-md">
@@ -616,7 +636,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   alt="location"
                 />
 
-                <p className="text-xs md:text-sm text-gray-300">
+                <p className="text-xs 2xl:text-base md:text-sm text-[#FFFFFF80]">
                   {" "}
                   You are not currently covered under the huntgrounds insurance
                   policy <br /> Enrollment period: undefined - undefined
@@ -627,7 +647,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               </button>
             </div>
             <div className=" p-5 rounded-xl max-w-[17rem] 2xl:max-w-xs bg-[#372F2FB2] border border-[#372F2F]">
-              <p className=" mb-3 2xl:text-sm text-xs">
+              <p className=" mb-3 2xl:text-sm text-xs text-[#FFFFFF80]">
                 Here’s how we have your back with every booking :
               </p>
               <Link
@@ -637,6 +657,11 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                 Show More
               </Link>
             </div>
+          </div>
+          <div className=" w-full flex justify-end mr-4">
+            <button className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-bold  px-6 py-2.5 text-sm mt-8 ">
+              Continue to sites
+            </button>
           </div>
         </div>
       </form>

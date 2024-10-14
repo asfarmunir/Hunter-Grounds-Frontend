@@ -12,7 +12,7 @@ const PriceRangeSlider = () => {
   const price = searchParams.get("priceRange");
   const [priceRange, setPriceRange] = useState<[number, number]>([
     price ? parseInt(price.split("-")[0]) : 4,
-    price ? parseInt(price.split("-")[1]) : 196,
+    price ? parseInt(price.split("-")[1]) : 960,
   ]);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -56,7 +56,7 @@ const PriceRangeSlider = () => {
       keysToRemove: ["priceRange"],
     });
     router.push(newUrl, { scroll: false });
-    setPriceRange([4, 196]);
+    setPriceRange([4, 960]);
   };
 
   return (
@@ -80,7 +80,7 @@ const PriceRangeSlider = () => {
       </div>
       <Slider
         defaultValue={priceRange}
-        max={200}
+        max={1000}
         className="max-w-xs 2xl:max-w-sm mx-auto"
         step={1}
         onValueChange={onPriceRangeChange}

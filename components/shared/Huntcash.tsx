@@ -32,7 +32,7 @@ const page = ({
   );
 
   return (
-    <div className="p-4 md:p-20 w-full space-y-8 ">
+    <div className="p-4 md:px-20 md:pb-20 md:pt-8 w-full space-y-8 ">
       <div className=" w-full flex items-center justify-between">
         <h3 className="text-xl md:text-3xl 2xl:text-4xl font-bold">HuntCash</h3>
         <div className="flex items-center gap-3">

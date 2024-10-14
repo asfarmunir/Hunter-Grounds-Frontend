@@ -18,6 +18,7 @@ import {
 import { toast } from "react-hot-toast"; // Import toast
 import { useRouter } from "next/navigation";
 import { IProperty } from "@/lib/types/property";
+import { CgLock } from "react-icons/cg";
 
 const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
   console.log("🚀 ~ page ~ propertyDetails:", propertyDetails);
@@ -181,7 +182,7 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
           Booking Details
         </h2>
         <div className="gap-4 flex flex-col md:flex-row pb-4 items-center md:items-start border-b border-primary-50/30">
-          <div className=" w-[165px] h-[165px] flex items-center justify-center object-cover object-center">
+          <div className=" w-full px-6 sm:px-0 sm:w-[165px] sm:h-[165px] flex items-center justify-center object-cover object-center">
             {propertyDetails.photos ? (
               <Image
                 src={propertyDetails.photos[0] || "/images/property1.jpg"}
@@ -200,11 +201,11 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
               />
             )}
           </div>
-          <div className="flex flex-col">
-            <h4 className="font-bold capitalize 2xl:text-xl mb-2">
+          <div className="flex flex-col w-full sm:w-fit px-6 md:px-0  ">
+            <h4 className="font-bold capitalize text-xl sm:text-base 2xl:text-xl mb-2">
               {propertyDetails.name}
             </h4>
-            <p className="text-sm 2xl:text-base font-semibold">
+            <p className="text-base sm:text-sm 2xl:text-base font-semibold">
               {propertyDetails.acres} acres in {propertyDetails.city}{" "}
             </p>
             <p className="font-semibold my-2 2xl:text-lg">Booking Dates</p>
@@ -270,15 +271,6 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
           </div>
         </div>
 
-        <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
-          <p>
-            Service fee{" "}
-            <span className="text-xs text-slate-300 px-1 italic">
-              per night
-            </span>
-          </p>
-          <p className="text-lg">CA${propertyDetails.pricePerNight}</p>
-        </div>
         {/* Display total nights */}
         {nights !== null && (
           <>
@@ -294,7 +286,15 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
                 CA${(propertyDetails.pricePerNight * (nights + 1)).toFixed(2)}
               </p>
             </div>
-
+            <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+              <p>
+                Service fee{" "}
+                {/* <span className="text-xs text-slate-300 px-1 italic">
+                  per night
+                </span> */}
+              </p>
+              <p className="text-lg">CA${propertyDetails.pricePerNight}</p>
+            </div>
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
               <p>
                 Taxes
@@ -324,13 +324,19 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
         <button
           onClick={handleSubmit}
           type="button"
-          className="w-[96%] px-12 py-3 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold mt-8"
+          className=" w-full sm:w-[96%] px-12 py-3 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold mt-8"
         >
           Continue
         </button>
-        <p className="text-xs font-normal my-3 tracking-wide text-gray-200">
+        <p className="text-xs 2xl:text-sm font-normal my-5 sm:my-3 tracking-wide text-gray-200">
           Don't worry, you won’t be charged yet.
         </p>
+        <div className="  flex items-center justify-center gap-1 my-3">
+          <CgLock className="text-lg text-primary-50" />
+          <p className="2xl:text-sm  gap-2 text-xs font-normal tracking-wide text-gray-200">
+            Secure checkout.
+          </p>
+        </div>
       </div>
     </div>
   );

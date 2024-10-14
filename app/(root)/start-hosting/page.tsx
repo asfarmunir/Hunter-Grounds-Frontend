@@ -40,6 +40,7 @@ const page = () => {
   const [countryCode, setCountryCode] = React.useState("+1");
   const [loading, setLoading] = React.useState<boolean>(false);
   const params = useSearchParams();
+  const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const referalCode = params.get("referalCode");
   console.log("🚀 ~ page ~ referalCode:", referalCode);
   const form = useForm({
@@ -239,6 +240,7 @@ const page = () => {
                             />
                             <Input
                               placeholder="Password* "
+                              type={showPassword ? "text" : "password"}
                               {...field}
                               className="   border-none bg-red-50 focus:ring-1  outline-offset-1 
                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
@@ -246,13 +248,19 @@ const page = () => {
 
                           "
                             />
-                            <Image
-                              src="/images/eye.svg"
-                              width={30}
-                              className=" border-l pl-2 border-primary-50/50"
-                              height={30}
-                              alt="email"
-                            />
+                            <button
+                              className="border-l pl-2 border-primary-50/50"
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              <Image
+                                src="/images/eye.svg"
+                                width={30}
+                                className=" "
+                                height={30}
+                                alt="email"
+                              />
+                            </button>
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -723,6 +731,7 @@ const page = () => {
                             />
                             <Input
                               placeholder="Password* "
+                              type={showPassword ? "text" : "password"}
                               {...field}
                               className="   border-none bg-red-50 focus:ring-1  outline-offset-1 
                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
@@ -730,13 +739,19 @@ const page = () => {
 
                           "
                             />
-                            <Image
-                              src="/images/eye.svg"
-                              width={30}
-                              className=" border-l pl-2 border-primary-50/50"
-                              height={30}
-                              alt="email"
-                            />
+                            <button
+                              className="border-l pl-2 border-primary-50/50"
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              <Image
+                                src="/images/eye.svg"
+                                width={30}
+                                className=" "
+                                height={30}
+                                alt="email"
+                              />
+                            </button>
                           </div>
                         </FormControl>
                         <FormMessage />

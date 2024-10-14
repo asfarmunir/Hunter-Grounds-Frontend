@@ -28,7 +28,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       : pathname.includes("/pre-booking") &&
         !pathname.includes("/payment") &&
         !pathname.includes("/success")
-      ? "url('/images/bg-hero2.svg')" // Background for pre-booking (excluding payment and success)
+      ? "url('/images/bg-hero3.svg')" // Background for pre-booking (excluding payment and success)
       : pathname.includes("/pre-booking") && pathname.includes("/payment")
       ? "url('/images/bg-hero3.svg')" // Background for payment pages under pre-booking
       : pathname.includes("/pre-booking") && pathname.includes("/success")

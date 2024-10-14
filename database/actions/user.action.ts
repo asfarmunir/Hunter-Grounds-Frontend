@@ -39,16 +39,23 @@ export const updateUserDetails = async (email: string, data: any, path:string) =
     }
 }
 
-export const updateUserPassword = async (email: string, password: string) => {
+export const updateUserPassword = async (email: string, password: string, currentPassword:string) => {
     try {
         await connectToDatabase();
-        const salt = await bcrypt.genSalt(10);
-        password = await bcrypt.hash(password, salt);
-        const user = await User.findOneAndUpdate({ email }, { password }, { new: true });
+     
+        const user = await User.findOne({ email });
         if (!user) {
-
-            throw new Error('User not found');
+            return JSON.parse(JSON.stringify({ message: 'User not found', status: 404 }));
         }
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return JSON.parse(JSON.stringify({ message: 'Invalid current password', status: 400 }));
+        }
+           const salt = await bcrypt.genSalt(10);
+        password = await bcrypt.hash(password, salt);
+        user.password = password;
+        await user.save();
+        
         revalidatePath('/account/settings')
         return JSON.parse(JSON.stringify({user,status:200}));
     } catch (error:any) {

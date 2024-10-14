@@ -38,8 +38,8 @@ const Navbar = ({
   return (
     <div
       className={` ${
-        pathname === "/account/inbox" ? "" : "bg-[#FF99001A]"
-      } w-full   px-2 md:px-6 md:pl-14 2xl:pl-16 2xl:px-5  flex items-center gap-2 md:gap-8 overflow-x-auto pb-1 md:pb-0  `}
+        pathname === "/hunt-cash" ? "hidden" : "bg-[#FF99001A] flex"
+      } w-full   px-2 md:px-6 md:pl-14 2xl:pl-16 2xl:px-5  items-center gap-2 md:gap-8 overflow-x-auto pb-1 md:pb-0  `}
     >
       {links.map((link, index) => (
         <Link

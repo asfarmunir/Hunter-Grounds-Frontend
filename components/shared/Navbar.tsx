@@ -352,9 +352,7 @@ const Navbar = () => {
         <Link
           className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
           href={
-            session.status === "authenticated"
-              ? "/dashboard/add-property"
-              : "/start-hosting"
+            session.status === "authenticated" ? "/booking" : "/start-hosting"
           }
         >
           Start Hosting
@@ -435,88 +433,97 @@ const Navbar = () => {
         </SheetTrigger>
         <SheetContent className=" dark:bg-primary p-4 border-none">
           <Image src={"/images/logo.svg"} width={137} height={137} alt="logo" />
-          <div className="flex flex-col-reverse items-center -mt-16 justify-center h-full gap-2">
-            {navlinks.map((link, index) => (
-              <Link
-                key={index}
-                className={`text-sm 2xl:text-base font-semibold pb-1.5 mt-1.5
-            ${pathname === link.href ? "border-b-2 px-2 border-primary-50" : ""}
-        `}
-                href={link.href}
-              >
-                {link.name}
-              </Link>
-            ))}
-
-            {pathname !== "/start-hosting" ? (
-              <div className=" mt-5 flex flex-col-reverse items-center gap-4">
-                <button
-                  className={`text-sm bg-primary-50 w-full text-clip px-6 py-2 rounded-lg 2xl:text-base font-semibold mt-2 mb-5 
-
-        `}
-                >
-                  Sign Out
-                </button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
+          <div className=" flex flex-col items-center gap-2">
+            {session.status === "authenticated" ? (
+              <div className=" flex flex-col items-center  w-full gap-4 text-left mt-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-[50px] h-[50px] rounded-full flex overflow-hidden  items-center object-contain object-center justify-center">
                     <Image
-                      src={"/images/avatar.svg"}
-                      width={45}
-                      height={45}
-                      alt="logo"
-                      className="rounded-full"
+                      src={session.data.user?.image || "/images/avatar.svg"}
+                      width={60}
+                      alt="avatar"
+                      priority
+                      height={60}
                     />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="mr-8 mt-2  rounded-xl border border-primary-50 ">
-                    <Link href={"/account"}>
-                      {" "}
-                      <DropdownMenuItem className=" inline-flex items-center gap-2 px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                        <GoPeople className="text-lg text-primary-50" />
-                        Accounts
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link href={"/dashboard"}>
-                      {" "}
-                      <DropdownMenuItem className=" inline-flex items-center gap-2 px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                        <GoPeople className="text-lg text-primary-50" />
-                        Dashboard
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link href={"/account"}>
-                      <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                        <FaRegQuestionCircle className="text-lg text-primary-50" />
-                        Trip
-                      </DropdownMenuItem>
-                    </Link>
-                    <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                      <FaRegQuestionCircle className="text-lg text-primary-50" />
-                      Help and FAQ
-                    </DropdownMenuItem>
-                    {/* <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                  <FaRegQuestionCircle className="text-lg text-primary-50" />
-                  Store
-                </DropdownMenuItem> */}
-                    <Link href={"/refer-and-earn"}>
-                      <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                        <FaRegQuestionCircle className="text-lg text-primary-50" />
-                        Hunt Cash
-                      </DropdownMenuItem>
-                    </Link>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                  </div>
+
+                  <button
+                    onClick={signOutUser}
+                    className={`text-sm 2xl:text-base shadow-inner shadow-gray-600 bg-primary-50 px-6 py-2 rounded-lg transition-all hover:border-b-2 border-primary-50 hover:-translate-y-1 font-semibold text-black
+
+        `}
+                  >
+                    Sign Out
+                  </button>
+                </div>
+
+                <Link href={"/account"}>
+                  {" "}
+                  <p className=" inline-flex items-center gap-2 px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    Accounts
+                  </p>
+                </Link>
+                <Link href={"/dashboard"}>
+                  {" "}
+                  <p className=" inline-flex items-center gap-2 px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    Dashboard
+                  </p>
+                </Link>
+                <Link href={"/account"}>
+                  <p className=" gap-2 inline-flex items-center hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    Trip
+                  </p>
+                </Link>
+                <Link href={"https://help.huntgrounds.com"}>
+                  <p className=" gap-2 inline-flex items-center hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    Help and FAQ
+                  </p>
+                </Link>
+                <Link href={"/refer-and-earn"}>
+                  <p className=" gap-2 inline-flex items-center hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
+                    Hunt Cash
+                  </p>
+                </Link>
               </div>
             ) : (
-              <div className=" mt-5 gap-4 flex flex-col">
-                <LoginModal
+              <div className="mt-8 flex flex-col gap-4">
+                <SignupModal
                   loginRef={loginModalRef}
                   signupRef={signupModalRef}
                 />
-                <SignupModal
+                <LoginModal
                   loginRef={loginModalRef}
                   signupRef={signupModalRef}
                 />
               </div>
             )}
+            {session.status === "authenticated" &&
+              navlinks.map((link, index) => (
+                <Link
+                  key={index}
+                  className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5
+            ${pathname === link.href ? "border-b-2 px-2 border-primary-50" : ""}
+        `}
+                  href={link.href}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            <Link
+              className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
+              href={
+                session.status === "authenticated"
+                  ? "/booking"
+                  : "/start-hosting"
+              }
+            >
+              Start Hosting
+            </Link>
+            {/* <button className="text-sm 2xl:text-base font-semibold">
+          Sign Out
+        </button> */}
+
+            {/* <Image src={"/images/avatar.svg"} width={37} height={37} alt="logo" /> */}
           </div>
         </SheetContent>
       </Sheet>

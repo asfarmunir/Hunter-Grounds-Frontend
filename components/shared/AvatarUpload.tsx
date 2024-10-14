@@ -127,7 +127,7 @@ const ImageUpload = ({
                      hover:bg-gradient-to-br transition-all duration-500 from-[#ba3131]
                       to-[#8c150a80] px-4 py-2 rounded-lg"
               >
-                Cancle
+                Cancel
               </button>
             </div>
           )}

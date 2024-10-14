@@ -84,12 +84,12 @@ const UserProfile = ({
             </p>
           )}
 
-          <div className="flex gap-3 mb-5 mt-2 items-start ">
+          {/* <div className="flex gap-3 mb-5 mt-2 items-start ">
             <h3 className="font-bold">Intro:</h3>
             <p className="text-xs 2xl:text-sm mt-0.5">
               {userDetails.huntgroundBio || "No bio provided"}
             </p>
-          </div>
+          </div> */}
           <Link
             href={"/account/settings"}
             className=" px-20 text-sm py-3 text-center rounded-xl  bg-[#372F2F] "
@@ -125,6 +125,7 @@ const UserProfile = ({
             <p className=" border border-primary-50/60 px-4 py-1 text-sm rounded-full text-primary-50/60">
               CA% 10
             </p>
+            <p className="text-gray-200">Balance</p>
           </div>
           <Link
             href={"/refer-and-earn"}
@@ -457,7 +458,7 @@ const UserProfile = ({
                   className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
                 >
                   {" "}
-                  Huntgrounds Page
+                  Trip Page
                 </Link>
               </div>
             </div>
