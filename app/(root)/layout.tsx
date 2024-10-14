@@ -11,11 +11,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { status } = useSession();
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/");
-    }
-  }, [status, router]);
+  // useEffect(() => {
+  //   if (status === "unauthenticated") {
+  //     router.push("/");
+  //   }
+  // }, [status, router]);
 
   const pathname = usePathname();
   const [hideCookieWarning, setHideCookieWarning] = useState(true);

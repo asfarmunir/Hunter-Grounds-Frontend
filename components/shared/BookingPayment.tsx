@@ -42,11 +42,11 @@ const page = ({
   const checkOut = parseDate(to);
 
   const [bookingDetails, setBookingDetails] = useState<any>({
-    bookingFirstname: "poyon",
-    bookingLastname: "Oil",
-    bookingEmail: "test@test.com",
-    areaCode: "92",
-    phone: "320873564",
+    bookingFirstname: "",
+    bookingLastname: "",
+    bookingEmail: "",
+    areaCode: "",
+    phone: "",
     totalAmount: 0,
     property: propertyDetails._id,
     user: userId,

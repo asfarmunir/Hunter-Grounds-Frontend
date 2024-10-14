@@ -1,17 +1,37 @@
-export { default } from "next-auth/middleware"
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+export default function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  // Get the session token cookie
+const sessionToken =
+    req.cookies.get('__Secure-next-auth.session-token')?.value || 
+    req.cookies.get('next-auth.session-token')?.value;
+  // If the session token is present, allow access to all routes in matcher
+  if (sessionToken) {
+    return NextResponse.next();
+  }
 
+  // If no session token, allow access only to the root route
+  if (pathname === '/') {
+    return NextResponse.next();
+  }
+
+  // Redirect to the root path if trying to access any other route without the session token
+  return NextResponse.redirect(new URL('/', req.url));
+}
+
+// Define which routes to protect
 export const config = {
   matcher: [
-    // '/pre-booking/[id]',
-    // '/pre-booking/[id]/payment',
-    // '/pre-booking/success', 
-    // '/dashboard',
-    // '/booking',
-    // '/dashboard/add-property', 
-    // '/calendar',
-    // '/hunt-cash',
-    // '/account',
-    // '/account/settings',   
-    // '/account/inbox',    
+    '/dashboard',
+    '/booking',
+    '/dashboard/add-property',
+    '/calendar',
+    '/hunt-cash',
+    '/account',
+    '/account/settings',
+    '/account/inbox',
+    '/pre-booking/:path*',
+    '/pre-booking/success',
   ],
-}
+};

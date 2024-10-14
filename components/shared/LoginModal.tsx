@@ -51,8 +51,8 @@ const AddClient = ({
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "test@gmail.com",
-      password: "testtest",
+      email: "",
+      password: "",
     },
   });
 

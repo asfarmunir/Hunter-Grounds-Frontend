@@ -6,8 +6,6 @@ import { getUserDetails } from "@/database/actions/user.action";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
-  console.log("🚀 ~ page ~ session:", session);
-
   const userDetails = await getUserDetails(session.user.email);
   return <GeneralUserSettings userDetails={userDetails} />;
 };

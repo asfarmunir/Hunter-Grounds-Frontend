@@ -29,10 +29,10 @@ const links = [
     name: "Emails & SMS",
     link: "emails-sms",
   },
-  {
-    name: "Payment Details",
-    link: "payment-details",
-  },
+  // {
+  //   name: "Payment Details",
+  //   link: "payment-details",
+  // },
 ];
 
 import { IUser } from "@/lib/types/user";
@@ -108,7 +108,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           {
             "edit-profile": <GeneralSettings data={userDetails} />,
             "change-password": <ChangePassword email={userDetails.email} />,
-            // "emails-sms": <EmailsAndSms />,
+            "emails-sms": <EmailsAndSms />,
             // "payment-details": <PaymentDetails />,
           }[tab]
         }
@@ -520,240 +520,240 @@ const ChangePassword = ({ email }: { email: string }) => {
     </form>
   );
 };
-// const EmailsAndSms = () => {
-//   return (
-//     <div className=" w-full  bg-[#16131399] p-4 ">
-//       <h2 className=" w-full p-5 text-2xl rounded-lg font-bold bg-[#161313]">
-//         Email & SMS{" "}
-//       </h2>
+const EmailsAndSms = () => {
+  return (
+    <div className=" w-full  bg-[#16131399] p-4 ">
+      <h2 className=" w-full p-5 text-2xl rounded-lg font-bold bg-[#161313]">
+        Email & SMS{" "}
+      </h2>
 
-//       <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
-//         <div className="flex items-center gap-3">
-//           <div className="w-16 flex justify-center ">
-//             <Image
-//               src="/images/email2.svg"
-//               width={30}
-//               height={30}
-//               alt="email"
-//             />
-//           </div>
-//           <p className="text-primary-50 md:pl-6 text-xs font-bold md:text-lg">
-//             Optional communication from the Huntground team
-//           </p>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/15 pb-3">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Personalized Recommendations</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/15 pb-3">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Exclusive offers, news and tips</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/15 pb-3">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">New features announcement</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/15 pb-3">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Feedback and surveys</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/15 pb-3">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Safety tips and reminders</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-//       <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
-//         <div className="flex items-center border-b border-primary-50/10 pb-4 gap-2">
-//           <div className="w-16 flex justify-center ">
-//             <Image
-//               src="/images/email2.svg"
-//               width={30}
-//               height={30}
-//               alt="email"
-//             />
-//           </div>
-//           <div className="w-16 flex justify-center ">
-//             <Image src="/images/phone.svg" width={30} height={30} alt="email" />
-//           </div>
-//           <p className="text-primary-50 md:pl-6 text-xs md:text-lg font-bold">
-//             Huntground experience communications
-//           </p>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Personalized Recommendations</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Exclusive offers, news and tips</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">New features announcement</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Feedback and surveys</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="w-16 flex justify-center">
-//             <Checkbox />
-//           </div>
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Safety tips and reminders</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-
-//       <div className=" w-full flex justify-end my-4">
-//         <button className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 py-3 text-black font-semibold 2xl:text-lg">
-//           Save Changes
-//         </button>
-//       </div>
-//       <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
-//         <div className="flex items-center border-b border-primary-50/10 pb-4 gap-3">
-//           <div className="w-16 flex justify-center  ">
-//             <Image
-//               src="/images/email2.svg"
-//               width={30}
-//               height={30}
-//               alt="email"
-//             />
-//           </div>
-//           <div className="w-16 flex justify-center ">
-//             <Image src="/images/phone.svg" width={30} height={30} alt="email" />
-//           </div>
-//           <p className="text-primary-50 md:pl-6 text-sm md:text-lg font-bold">
-//             Optional communication from the Huntground team
-//           </p>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Referral notification</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Invite to trip notification</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Gift card notification</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">
-//               Huntground photographer notifications
-//             </p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//         <div className="flex items-center border-b border-primary-50/10 pb-4">
-//           <div className="flex flex-col gap-1 pl-6">
-//             <p className="font-semibold">Forgot your password notification</p>
-//             <p className="text-xs 2xl:text-sm text-gray-400">
-//               Sent to shares huntgrounds you might like
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+      <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="w-16 flex justify-center ">
+            <Image
+              src="/images/email2.svg"
+              width={30}
+              height={30}
+              alt="email"
+            />
+          </div>
+          <p className="text-primary-50 md:pl-6 text-xs font-bold md:text-lg">
+            Optional communication from the Huntground team
+          </p>
+        </div>
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Personalized Recommendations</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Exclusive offers, news and tips</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">New features announcement</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Feedback and surveys</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Safety tips and reminders</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
+        <div className="flex items-center border-b border-primary-50/10 pb-4 gap-2">
+          <div className="w-16 flex justify-center ">
+            <Image
+              src="/images/email2.svg"
+              width={30}
+              height={30}
+              alt="email"
+            />
+          </div>
+          <div className="w-16 flex justify-center ">
+            <Image src="/images/phone.svg" width={30} height={30} alt="email" />
+          </div>
+          <p className="text-primary-50 md:pl-6 text-xs md:text-lg font-bold">
+            Huntground experience communications
+          </p>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Personalized Recommendations</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Exclusive offers, news and tips</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">New features announcement</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Feedback and surveys</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="w-16 flex justify-center">
+            <Checkbox />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Safety tips and reminders</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* 
+      <div className=" w-full flex justify-end my-4">
+        <button className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 py-3 text-black font-semibold 2xl:text-lg">
+          Save Changes
+        </button>
+      </div> */}
+      <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
+        <div className="flex items-center border-b border-primary-50/10 pb-4 gap-3">
+          <div className="w-16 flex justify-center  ">
+            <Image
+              src="/images/email2.svg"
+              width={30}
+              height={30}
+              alt="email"
+            />
+          </div>
+          <div className="w-16 flex justify-center ">
+            <Image src="/images/phone.svg" width={30} height={30} alt="email" />
+          </div>
+          <p className="text-primary-50 md:pl-6 text-sm md:text-lg font-bold">
+            Optional communication from the Huntground team
+          </p>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Referral notification</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Invite to trip notification</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Gift card notification</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">
+              Huntground photographer notifications
+            </p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center border-b border-primary-50/10 pb-4">
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Forgot your password notification</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // const PaymentDetails = () => {
 //   const [toggle, setToggle] = React.useState(false);

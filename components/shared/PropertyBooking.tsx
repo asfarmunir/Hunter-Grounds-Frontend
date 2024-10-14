@@ -31,6 +31,10 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
   // Validate and calculate number of nights
   React.useEffect(() => {
     if (fromDate && toDate) {
+      if (isPast(fromDate) || isPast(toDate)) {
+        toast.error("Please select valid future date.");
+        return;
+      }
       const totalNights = differenceInDays(toDate, fromDate);
       setNights(totalNights);
     }
@@ -42,6 +46,16 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
   const handleSubmit = () => {
     if (!fromDate || !toDate) {
       toast.error("Please select booking dates.");
+      return;
+    }
+    if (fromDate > toDate) {
+      toast.error("Please add a valid period!", {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff0000",
+          color: "#fff",
+        },
+      });
       return;
     }
 
@@ -187,7 +201,7 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
             )}
           </div>
           <div className="flex flex-col">
-            <h4 className="font-bold 2xl:text-xl mb-2">
+            <h4 className="font-bold capitalize 2xl:text-xl mb-2">
               {propertyDetails.name}
             </h4>
             <p className="text-sm 2xl:text-base font-semibold">

@@ -20,7 +20,6 @@ type property = {
   id: string;
 };
 const PropertyMap = ({ properties }: { properties: property[] }) => {
-  console.log("🚀 ~ PropertyMap ~ properties:", properties);
   const [popupInfo, setPopupInfo] = useState<property | null>(null);
 
   if (!properties || !properties.length)

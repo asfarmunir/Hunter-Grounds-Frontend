@@ -10,7 +10,6 @@ const PriceRangeSlider = () => {
   const searchParams = useSearchParams();
 
   const price = searchParams.get("priceRange");
-  console.log("🚀 ~ PriceRangeSlider ~ price:", price);
   const [priceRange, setPriceRange] = useState<[number, number]>([
     price ? parseInt(price.split("-")[0]) : 4,
     price ? parseInt(price.split("-")[1]) : 196,

@@ -52,11 +52,11 @@ const Signup = ({
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "test@gmail.com",
-      password: "testtest",
-      firstname: "test",
-      lastname: "user",
-      zip: "12345",
+      email: "",
+      password: "",
+      firstname: "",
+      lastname: "",
+      zip: "",
     },
   });
 
