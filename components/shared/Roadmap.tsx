@@ -73,7 +73,7 @@ export default function Roadmap() {
                 <p className="text-sm 2xl:text-base max-w-xl   text-slate-300 font-normal">
                   HuntGrounds helps you collect the necessary occupancy taxes
                   from your bookings. It's easy to add the required amount based
-                  on your province or district.
+                  on your province or state.
                 </p>
               </div>
             </div>
@@ -157,7 +157,7 @@ export default function Roadmap() {
                 <p className="text-sm 2xl:text-base max-w-xl  text-end text-slate-300 font-normal">
                   HuntGrounds helps you collect the necessary occupancy taxes
                   from your bookings. It's easy to add the required amount based
-                  on your province or district.
+                  on your province or state.
                 </p>
               </div>
             </div>

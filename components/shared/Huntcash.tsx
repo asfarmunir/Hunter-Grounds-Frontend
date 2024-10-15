@@ -35,7 +35,7 @@ const page = ({
     <div className="p-4 md:px-20 md:pb-20 md:pt-8 w-full space-y-8 ">
       <div className=" w-full flex items-center justify-between">
         <h3 className="text-xl md:text-3xl 2xl:text-4xl font-bold">HuntCash</h3>
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <button className=" px-4 text-sm py-2 rounded-full shadow-inner shadow-gray-800 inline-flex gap-2 ">
             <Image
               src={"/images/setting.svg"}
@@ -48,7 +48,7 @@ const page = ({
           <button className=" text-black font-semibold  px-4 text-sm py-2 rounded-full bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
             Bulk Edit
           </button>
-        </div>
+        </div> */}
       </div>
       <div className=" my-7 w-full ">
         <h3 className="text-xl mb-4">Last 30 Days</h3>

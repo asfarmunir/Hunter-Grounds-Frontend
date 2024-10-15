@@ -5,21 +5,21 @@ import React from "react";
 import toast from "react-hot-toast";
 
 const socials = [
-  {
-    img: "yt",
-  },
+  // {
+  //   img: "yt",
+  // },
   {
     img: "insta",
   },
   {
     img: "x",
   },
-  {
-    img: "discord",
-  },
-  {
-    img: "tiktok",
-  },
+  // {
+  //   img: "discord",
+  // },
+  // {
+  //   img: "tiktok",
+  // },
 ];
 
 const Footer = () => {
@@ -119,7 +119,7 @@ const Footer = () => {
             </div>
           </div> */}
           <p className="text-sm 2xl:text-base font-semibold mt-3 mb-6">
-            2024 ©️ HuntGrounds All Rights Reserved.
+            2024 © HuntGrounds Inc. All Rights Reserved.
           </p>
         </div>
         <div className="flex flex-col gap-6">

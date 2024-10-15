@@ -5,18 +5,17 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import toast from "react-hot-toast";
-import { useDropzone } from "@uploadthing/react";
-import { generateClientDropzoneAccept } from "uploadthing/client";
-import { generatePermittedFileTypes } from "uploadthing/client";
-import { useUploadThing } from "@/lib/uploadthing";
-import { convertFileToUrl } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { IUser } from "@/lib/types/user";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { createProperty } from "@/database/actions/property.action";
+import {
+  createProperty,
+  updateProperty,
+} from "@/database/actions/property.action";
 import axios from "axios";
 import { Checkbox } from "../ui/checkbox";
 import { gameOptions } from "@/lib/constants";
+import { IProperty } from "@/lib/types/property";
 const initialSettings = [
   { name: "Property Address", status: "pending" },
   { name: "Acres", status: "pending" },
@@ -29,25 +28,31 @@ const initialSettings = [
   { name: "Game Available", status: "pending" },
 ];
 
-const page = ({ userDetails }: { userDetails: IUser }) => {
+const page = ({
+  userDetails,
+  property,
+}: {
+  userDetails: IUser;
+  property: IProperty;
+}) => {
   const [propertyDetails, setPropertyDetails] = useState({
-    address: "",
-    acres: 0,
-    city: "",
-    name: "",
-    description: "",
-    photos: [] as string[],
-    profilePicture: "",
-    location: {
-      longitude: 0,
+    address: property.address || "",
+    acres: property.acres || 0,
+    price: property.pricePerNight || 0,
+    name: property.name || "",
+    description: property.description || "",
+    city: property.city || "",
+    location: property.location || {
       latitude: 0,
+      longitude: 0,
     },
-    insurance: "",
-    price: 0,
+    gameAvailable: property.gameAvailable || [],
+    profilePicture: userDetails.profileImage || "",
   });
 
-  const [selectedGames, setSelectedGames] = useState<string[]>([]);
-  console.log("🚀 ~ page ~ selectedGames:", selectedGames);
+  const [selectedGames, setSelectedGames] = useState<string[]>(
+    property.gameAvailable || []
+  );
 
   const handleCheckboxChange = (game: string) => {
     console.log("🚀 ~ handleCheckboxChange ~ game:", game);
@@ -63,7 +68,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
   const [loading, setLoading] = useState<boolean>(false);
   //-------------
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>(
+    property.photos || []
+  );
   const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,7 +205,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     }
     propertyDetails.location = coordinates;
 
-    if (selectedFiles.length === 0) {
+    if (imagePreviews.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
         duration: 5000,
         style: {
@@ -209,7 +216,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       setLoading(false);
       return;
     }
-    toast.loading(" Making your property live....", {
+    toast.loading(" Updating Your Land....", {
       style: {
         backgroundColor: "#000",
         color: "#fff",
@@ -217,43 +224,50 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     });
 
     try {
-      const uploadPromises = selectedFiles.map(async (file) => {
-        const formData = new FormData();
-        formData.append("file", file);
+      let uploadedUrls = [];
 
-        const response = await axios.post("/api/cloudinary/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      if (selectedFiles.length > 0) {
+        const uploadPromises = selectedFiles.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await axios.post(
+            "/api/cloudinary/upload",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+
+          return response.data.imgUrl;
         });
-
-        return response.data.imgUrl;
-      });
-
-      const uploadedUrls = await Promise.all(uploadPromises);
+        uploadedUrls = await Promise.all(uploadPromises);
+      }
       toast.dismiss();
       const data = {
         ...propertyDetails,
         pricePerNight: propertyDetails.price,
-        photos: uploadedUrls,
+        photos: uploadedUrls.length ? uploadedUrls : property.photos,
         owner: userDetails._id,
         city: propertyDetails.city.trim().replace(/\s+/g, "").toLowerCase(),
         gameAvailable: selectedGames,
       };
-      const res = await createProperty(data);
+      const res = await updateProperty(property._id, data);
       if (res.status !== 200) {
         toast.error("Something went wrong while creating property");
         setLoading(false);
         return;
       }
-      toast.success("Property Listed Successfully! ", {
+      toast.success("Property Updated Successfully! ", {
         duration: 3000,
         style: {
           backgroundColor: "green",
           color: "#fff",
         },
       });
-      router.push("/dashboard");
+      router.push("/user-properties");
     } catch (error) {
       console.error("Error uploading images:", error);
       toast.dismiss();
@@ -312,13 +326,13 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               disabled={loading}
               className="bg-gradient-to-b disabled:cursor-not-allowed text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg"
             >
-              Add Property
+              Update Property
             </button>
           </div>
         </div>
         <div className=" w-full bg-[#16131399] p-4 ">
           <h2 className=" w-full p-5 text-2xl rounded-lg font-bold bg-[#161313]">
-            Add Your Property
+            Edit Your Property
           </h2>
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Property Address

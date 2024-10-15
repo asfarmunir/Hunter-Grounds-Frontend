@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import { connectToDatabase } from '@/database';
 import { revalidatePath } from 'next/cache';
 import { StreamChat } from 'stream-chat';
+import { sendEmail } from '@/lib/sendEmail';
 export const getUserDetails = async (email: string) => {
     try {
         await connectToDatabase();
@@ -18,6 +19,22 @@ export const getUserDetails = async (email: string) => {
         return { message: 'Internal Server Error' };
     }
 }
+
+export const getUserbyId = async (id: string) => {
+    try {
+        await connectToDatabase();
+        const user = await User.findById(id);
+        if (!user) {
+            return { message: 'User not found' };
+        }
+        return JSON.parse(JSON.stringify(user));
+    } catch (error) {
+        console.error('Get user details error: ', error);
+        return { message: 'Internal Server Error' };
+    }
+
+  }
+  
     
 export const updateUserDetails = async (email: string, data: any, path:string) => {
     console.log("🚀 ~ updateUserDetails ~ data:", data)
@@ -57,6 +74,9 @@ export const updateUserPassword = async (email: string, password: string, curren
         await user.save();
         
         revalidatePath('/account/settings')
+
+      await  sendEmail(user.email, 'Password Updated', 'Your password has been updated successfully!');
+
         return JSON.parse(JSON.stringify({user,status:200}));
     } catch (error:any) {
         console.error('Update user password error: ', error);

@@ -10,12 +10,14 @@ import Pagination from "@/components/shared/Pagination";
 import PriceRangeSlider from "@/components/shared/PriceRangeSlider";
 import CityFilter from "@/components/shared/CityFilter";
 import DateFilter from "@/components/shared/DateFilter";
+import RemoveGame from "@/components/shared/RemoveGame";
 
 type SearchParamProps = {
   params: { id: string };
   searchParams: { [key: string]: string | undefined };
 };
 const Home = async ({ searchParams }: SearchParamProps) => {
+  const games = searchParams?.games ? searchParams.games.split(",") : [];
   const page = Number(searchParams?.page) || 1;
   const city = (searchParams?.city as string) || "";
   const priceRangeParam = Array.isArray(searchParams?.priceRange)
@@ -37,6 +39,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
       : null,
     fromDate,
     toDate,
+    games,
   });
 
   return (
@@ -52,6 +55,8 @@ const Home = async ({ searchParams }: SearchParamProps) => {
             {properties.totalProperties || 0} Places
           </h2>
           {city && <CityFilter city={city} />}
+          {games.length > 0 && <RemoveGame games={games} />}
+
           {fromDate && toDate && <DateFilter from={fromDate} to={toDate} />}
           {priceRange && (
             <p className=" italic mt-2">
@@ -71,7 +76,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
         <Properties properties={properties.properties} />
         <Pagination page={page} totalPages={properties.totalPages} />
       </div>
-      <div className="md:w-[75%] pt-12 rounded-md overflow-hidden ">
+      <div className=" md:w-[75%] pt-12 rounded-md overflow-hidden ">
         <PropertyMap properties={huntgrounds.propertiesLocation} />
       </div>
     </div>

@@ -6,7 +6,7 @@ export interface IProperty {
   description: string;
   photos: string[];
   insurance: string;
-  gameAvailable: string;
+  gameAvailable: string[];
   pricePerNight: number;
   city: string;
   owner: string;

@@ -53,6 +53,29 @@ export const createProperty = async (property: any) => {
   }
 };
 
+export const updateProperty = async (id: string, property: any) => {
+  try {
+    await connectToDatabase();
+
+    const updatedProperty = await Property.findByIdAndUpdate(id, property, { 
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedProperty) {
+      return JSON.parse(JSON.stringify({ error: "Property not found", status: 404 }));
+    }
+
+    revalidatePath('/user-properties');
+    return JSON.parse(JSON.stringify({ updatedProperty, status: 200 }));
+
+
+
+  }catch (error) {
+    console.log("Error in updateProperty: ", error);
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }}
+
 export const getAllPropertiesLocation = async () => {
   try {
     await connectToDatabase();
@@ -85,6 +108,7 @@ export const getAllProperties = async ({
   priceRange,
   fromDate,
   toDate,
+  games,
   
 }: {
   limit: number;
@@ -93,6 +117,7 @@ export const getAllProperties = async ({
   fromDate?: string;
   toDate?: string;
   priceRange?: { min: number; max: number } | null; // Add priceRange parameter
+  games?: string[];
 }) => {
   try {
     await connectToDatabase();
@@ -121,6 +146,13 @@ export const getAllProperties = async ({
         },
       };
     }
+
+    if (games?.length) {
+      query.gameAvailable = {
+        $all: games,
+      };
+    }
+
 
     const properties = await Property.find(query)
       .skip(skipAmount)

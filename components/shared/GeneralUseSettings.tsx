@@ -576,7 +576,7 @@ const EmailsAndSms = () => {
             />
           </div>
           <p className="text-primary-50 md:pl-6 text-xs font-bold md:text-lg">
-            Optional communication from the Huntground team
+            Optional communication from the Huntgrounds team
           </p>
         </div>
         <div className="flex items-center border-b border-primary-50/15 pb-3">
@@ -649,7 +649,7 @@ const EmailsAndSms = () => {
             <Image src="/images/phone.svg" width={30} height={30} alt="email" />
           </div>
           <p className="text-primary-50 md:pl-6 text-xs md:text-lg font-bold">
-            Huntground experience communications
+            Huntgrounds experience communications
           </p>
         </div>
         <div className="flex items-center border-b border-primary-50/10 pb-4">

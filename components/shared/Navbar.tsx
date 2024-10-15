@@ -32,7 +32,7 @@ import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
 import { formUrlQuery } from "@/lib/utils";
 const mostSearchedCities = ["oslo", "denver", "new york"]; // Example most searched cities
-
+import GameFilter from "@/components/shared/GamesFilter";
 const Navbar = () => {
   const session = useSession();
   const router = useRouter();
@@ -193,6 +193,7 @@ const Navbar = () => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          <GameFilter />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button

@@ -156,7 +156,12 @@ const UserProfile = ({
             <br />
             Saves
           </button>
-          <button className=" pb-3  px-3">
+          <button
+            onClick={() => setTab("review")}
+            className={`${
+              tab === "saved" ? "border-primary-50 border-b-2 " : ""
+            }px-3.5 pb-3`}
+          >
             {userReviews ? userReviews : 0} <br />
             Review
           </button>
@@ -254,132 +259,128 @@ const UserProfile = ({
               ))}
             </div>
           </>
-        ) : (
-          <div>
-            <div className=" w-full bg-[#372F2F33] my-4 pb-6 ">
-              <Image
-                src={"/images/scene.svg"}
-                width={900}
-                height={400}
-                alt="user"
-                className="w-full rounded-xl"
-              />
-              <p className="border rounded-full px-3 mt-4 py-1.5 text-sm  w-fit ml-4  bg-primary-100">
-                Booked Trips
+        ) : tab === "trips" ? (
+          <div className=" w-full bg-[#372F2F33] my-4 pb-6 ">
+            <Image
+              src={"/images/scene.svg"}
+              width={900}
+              height={400}
+              alt="user"
+              className="w-full rounded-xl"
+            />
+            <p className="border rounded-full px-3 mt-4 py-1.5 text-sm  w-fit ml-4  bg-primary-100">
+              Booked Trips
+            </p>
+            {userBookings && userBookings.length === 0 && (
+              <p className="text-center text-gray-400 mt-4">
+                You have not booked any trips yet
               </p>
-              {userBookings && userBookings.length === 0 && (
-                <p className="text-center text-gray-400 mt-4">
-                  You have not booked any trips yet
-                </p>
-              )}
-              {userBookings &&
-                userBookings
-                  .filter((booking) => new Date(booking.checkOut) >= new Date()) // Filter to show only future bookings
-                  .map((booking) => {
-                    return (
-                      <div
-                        className="flex w-full px-4 items-center justify-between flex-col md:flex-row"
-                        key={booking._id}
-                      >
-                        <div>
-                          <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
-                            {booking.property.name}
-                          </p>
-                          <p className="text-sm px-3 capitalize text-gray-400 mb-4">
-                            in {booking.property.address} from{" "}
-                            {new Date(booking.checkIn).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                              }
-                            )}{" "}
-                            to{" "}
-                            {new Date(booking.checkOut).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                              }
-                            )}
-                          </p>
-                        </div>
-                        {booking.property.owner !== userDetails._id && (
-                          <Link
-                            href={`/chat?id=${
-                              booking.property.owner
-                            }&propertyName=${encodeURIComponent(
-                              booking.property.name
-                            )}`}
-                            className="flex items-center gap-2 text-sm"
-                          >
-                            <IoChatboxEllipses className="text-2xl mt-0.5 text-primary-50" />
-                            Chat with owner
-                          </Link>
-                        )}
+            )}
+            {userBookings &&
+              userBookings
+                .filter((booking) => new Date(booking.checkOut) >= new Date()) // Filter to show only future bookings
+                .map((booking) => {
+                  return (
+                    <div
+                      className="flex w-full px-4 items-center justify-between flex-col md:flex-row"
+                      key={booking._id}
+                    >
+                      <div>
+                        <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
+                          {booking.property.name}
+                        </p>
+                        <p className="text-sm px-3 capitalize text-gray-400 mb-4">
+                          in {booking.property.address} from{" "}
+                          {new Date(booking.checkIn).toLocaleDateString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "numeric",
+                            }
+                          )}{" "}
+                          to{" "}
+                          {new Date(booking.checkOut).toLocaleDateString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "numeric",
+                            }
+                          )}
+                        </p>
                       </div>
-                    );
-                  })}
-            </div>
-            <div className=" w-full bg-[#372F2F33] my-4 pb-6 pt-2 ">
-              {/* <Image
-            src={"/images/scene.svg"}
-            width={900}
-            height={400}
-            alt="user"
-            className="w-full rounded-xl"
-          /> */}
-              {userBookings &&
-                userBookings
-                  .filter((booking) => new Date(booking.checkOut) < new Date()) // Filter to show only past bookings
-                  .map((booking) => {
-                    const existingReview = booking.property.reviews.find(
-                      (review) => review.user === userDetails._id // Ensure `userId` is available in your context
-                    );
+                      {booking.property.owner !== userDetails._id && (
+                        <Link
+                          href={`/chat?id=${
+                            booking.property.owner
+                          }&propertyName=${encodeURIComponent(
+                            booking.property.name
+                          )}`}
+                          className="flex items-center gap-2 text-sm"
+                        >
+                          <IoChatboxEllipses className="text-2xl mt-0.5 text-primary-50" />
+                          Chat with owner
+                        </Link>
+                      )}
+                    </div>
+                  );
+                })}
+          </div>
+        ) : (
+          <div className=" w-full bg-[#372F2F33] my-4 pb-6 pt-2 ">
+            <p className="border rounded-full px-3 mt-4 py-1.5 text-sm  w-fit ml-4  bg-primary-100">
+              Completed Trips
+            </p>
+            {userBookings &&
+              userBookings
+                .filter((booking) => new Date(booking.checkOut) < new Date()) // Filter to show only past bookings
+                .map((booking) => {
+                  const existingReview = booking.property.reviews.find(
+                    (review) => review.user === userDetails._id // Ensure `userId` is available in your context
+                  );
 
-                    // Get the rating if the review exists, otherwise set default to 0 or null
-                    const defaultRating = existingReview
-                      ? existingReview.rating
-                      : 0;
+                  // Get the rating if the review exists, otherwise set default to 0 or null
+                  const defaultRating = existingReview
+                    ? existingReview.rating
+                    : 0;
 
-                    return (
-                      <div
-                        className="flex w-full px-4 items-center justify-between flex-col md:flex-row"
-                        key={booking._id}
-                      >
-                        <div>
-                          <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
-                            {booking.property.name}
-                          </p>
-                          <p className="text-sm px-3 capitalize text-gray-400 mb-4">
-                            in {booking.property.address} from{" "}
-                            {new Date(booking.checkIn).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                              }
-                            )}{" "}
-                            to{" "}
-                            {new Date(booking.checkOut).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                              }
-                            )}
-                          </p>
-                        </div>
-                        <ReviewMaker
-                          defaultRating={defaultRating} // Pass the existing rating to ReviewMaker
-                          onRatingSubmit={(rating) =>
-                            onRatingSubmit(rating, booking._id!)
-                          }
-                        />
+                  return (
+                    <div
+                      className="flex w-full px-4 items-center justify-between flex-col md:flex-row"
+                      key={booking._id}
+                    >
+                      <div>
+                        <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
+                          {booking.property.name}
+                        </p>
+                        <p className="text-sm px-3 capitalize text-gray-400 mb-4">
+                          in {booking.property.address} from{" "}
+                          {new Date(booking.checkIn).toLocaleDateString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "numeric",
+                            }
+                          )}{" "}
+                          to{" "}
+                          {new Date(booking.checkOut).toLocaleDateString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "numeric",
+                            }
+                          )}
+                        </p>
                       </div>
-                    );
-                  })}
-              {/* <div className="flex items-center gap-5 px-5 mx-4 py-4 rounded-xl bg-[#372F2F80] justify-between flex-col-reverse md:flex-row p-3">
+                      <ReviewMaker
+                        defaultRating={defaultRating} // Pass the existing rating to ReviewMaker
+                        onRatingSubmit={(rating) =>
+                          onRatingSubmit(rating, booking._id!)
+                        }
+                      />
+                    </div>
+                  );
+                })}
+            {/* <div className="flex items-center gap-5 px-5 mx-4 py-4 rounded-xl bg-[#372F2F80] justify-between flex-col-reverse md:flex-row p-3">
             <div className=" space-y-3">
               <h3 className="text-lg text-primary-50">
                 An exceptional experience
@@ -409,58 +410,57 @@ const UserProfile = ({
               className="rounded-xl "
             />
           </div> */}
-              <div className="w-full items-center justify-between flex gap-4 flex-col md:flex-row">
-                <div className="flex items-center mx-4 my-4 px-5 rounded-xl bg-[#372F2F80] gap-3 w-full md:w-fit  p-3">
-                  <p className="font-normal">Share trip</p>
-                  <button>
-                    <Image
-                      src={"/images/messenger.svg"}
-                      width={35}
-                      height={35}
-                      alt="mail"
-                    />
-                  </button>
-                  <button>
-                    <Image
-                      src={"/images/facebook2.svg"}
-                      width={35}
-                      height={35}
-                      alt="mail"
-                    />
-                  </button>
-                  <button>
-                    <Image
-                      src={"/images/pintrest.svg"}
-                      width={35}
-                      height={35}
-                      alt="mail"
-                    />
-                  </button>
-                  <button>
-                    <Image
-                      src={"/images/twitter.svg"}
-                      width={35}
-                      height={35}
-                      alt="mail"
-                    />
-                  </button>
-                  <button>
-                    <Image
-                      src={"/images/link.svg"}
-                      width={27}
-                      height={27}
-                      alt="mail"
-                    />
-                  </button>
-                </div>
-                <Link
-                  href={"/"}
-                  className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
-                >
-                  {" "}
-                  Trip Page
-                </Link>
+            <div className="w-full items-center justify-between flex gap-4 flex-col md:flex-row">
+              <div className="flex items-center mx-4 my-4 px-5 rounded-xl bg-[#372F2F80] gap-3 w-full md:w-fit  p-3">
+                <p className="font-normal">Share trip</p>
+                <button>
+                  <Image
+                    src={"/images/messenger.svg"}
+                    width={35}
+                    height={35}
+                    alt="mail"
+                  />
+                </button>
+                <button>
+                  <Image
+                    src={"/images/facebook2.svg"}
+                    width={35}
+                    height={35}
+                    alt="mail"
+                  />
+                </button>
+                <button>
+                  <Image
+                    src={"/images/pintrest.svg"}
+                    width={35}
+                    height={35}
+                    alt="mail"
+                  />
+                </button>
+                <button>
+                  <Image
+                    src={"/images/twitter.svg"}
+                    width={35}
+                    height={35}
+                    alt="mail"
+                  />
+                </button>
+                <button>
+                  <Image
+                    src={"/images/link.svg"}
+                    width={27}
+                    height={27}
+                    alt="mail"
+                  />
+                </button>
               </div>
+              <Link
+                href={"/"}
+                className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
+              >
+                {" "}
+                Trip Page
+              </Link>
             </div>
           </div>
         )}

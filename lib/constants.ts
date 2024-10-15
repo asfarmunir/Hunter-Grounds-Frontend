@@ -14,3 +14,30 @@ export const navlinks = [
    
    
 ]
+
+
+
+export const gameOptions = [
+  "Moose",
+  "Grizzly Bear",
+  "Black Bear",
+  "Caribou",
+  "Mountain Goat",
+  "Dall Sheep",
+  "Stone Sheep",
+  "Bighorn Sheep",
+  "Whitetail Deer",
+  "Elk",
+  "Puma",
+  "Bobcat",
+  "Lynx",
+  "Wolf",
+  "Wolverine",
+  "Sitka Deer",
+  "Turkey",
+  "Bison",
+  "Wild Pigs",
+  "Gators",
+  "Fox",
+  "Other Small Game",
+];

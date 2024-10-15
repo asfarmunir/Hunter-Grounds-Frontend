@@ -10,10 +10,10 @@ const links = [
     name: "Bookings",
     href: "/booking",
   },
-  // {
-  //   name: "Property",
-  //   href: "#",
-  // },
+  {
+    name: "Property",
+    href: "/user-properties",
+  },
   {
     name: "Calendar",
     href: "/calendar",

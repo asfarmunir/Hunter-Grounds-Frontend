@@ -97,7 +97,7 @@ const RefundPolicyPage = () => {
       </p>
       <p className="text-sm 2xl:text-base">
         HuntGrounds.com <br />
-        Email: Legal@HuntGrounds.com
+        Email: Help@HuntGrounds.com
       </p>
       <p className="text-sm 2xl:text-base font-bold">
         7. Acknowledgment of Terms

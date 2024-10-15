@@ -25,8 +25,9 @@ const PropertySchema = new Schema(
     insurance: {
       type: String,
     },
-    gameAvailable: {
-      type: String, // Specify the type or name of the game available
+   gameAvailable: {
+      type: [String],
+      default: [],
     },
     pricePerNight: {
       type: Number,
