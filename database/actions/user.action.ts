@@ -358,6 +358,23 @@ export const getUserSavedProperties = async (userId: string) => {
 }
 
 
+export const updateUserPreferences = async (userId: string, preferences: any) => {
+  try {
+    await connectToDatabase();
+    const user = await User.findById(userId);
+    if (!user) {
+      return { message: "User not found", status: 404 };
+    }
+
+    user.preferences = preferences;
+    await user.save();
+    revalidatePath('/account/settings');
+    return JSON.parse(JSON.stringify({ message: "Preferences updated successfully", status: 200 }));
+  } catch (error) {
+    console.error("Error updating user preferences: ", error);
+    return { message: "Internal Server Error", status: 500 };
+  }
+}
 
 // --------------------------
 

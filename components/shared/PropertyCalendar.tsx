@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import CalendarFilter from "./CalendarFilter";
 
 // Helper function to generate the days of the month in UTC
 const generateDaysInMonth = (year: number, month: number) => {
@@ -30,19 +31,30 @@ const formatDate = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
-const PropertyCalendar = ({ data }: { data: IProperty[] }) => {
-  console.log("🚀 ~ PropertyCalendar ~ data:", data);
-
-  // Create a mapping of booked dates to property names
-  const bookedDatesMap: Record<string, string[]> = {};
+const PropertyCalendar = ({
+  data,
+  propertyNames,
+}: {
+  data: IProperty[];
+  propertyNames: {
+    name: string;
+    _id: string;
+  }[];
+}) => {
+  // Create a mapping of booked dates to property details
+  const bookedDatesMap: Record<
+    string,
+    { totalEarnings: number; propertyNames: string[] }
+  > = {}; // Map date to total earnings and property names
 
   data.forEach((property) => {
     property.bookedDates.forEach((date) => {
       const formattedDate = date.split("T")[0]; // Get the date part of the string
       if (!bookedDatesMap[formattedDate]) {
-        bookedDatesMap[formattedDate] = [];
+        bookedDatesMap[formattedDate] = { totalEarnings: 0, propertyNames: [] };
       }
-      bookedDatesMap[formattedDate].push(property.name); // Map property name to the booked date
+      bookedDatesMap[formattedDate].totalEarnings += property.pricePerNight; // Add pricePerNight to total earnings
+      bookedDatesMap[formattedDate].propertyNames.push(property.name); // Add property name to the list
     });
   });
 
@@ -81,9 +93,10 @@ const PropertyCalendar = ({ data }: { data: IProperty[] }) => {
           <h3 className="text-xl md:text-3xl 2xl:text-5xl font-bold">
             Calendar
           </h3>
+          <CalendarFilter properties={propertyNames} />
           <div className="flex items-center gap-3 border border-primary-50/30 px-3 rounded-full">
             <p className=" w-2 h-2 bg-primary-50 rounded-full"></p>
-            <p className=" py-2 text-sm">Today</p>
+            <p className=" py-2.5 text-sm">Today</p>
           </div>
           <FaChevronLeft
             onClick={goToPreviousMonth}
@@ -100,20 +113,6 @@ const PropertyCalendar = ({ data }: { data: IProperty[] }) => {
             className="text-2xl p-0.5 border border-primary-50/30 rounded-full cursor-pointer"
           />
         </div>
-        {/* <div className="hidden md:flex items-center gap-3">
-          <button className=" px-4 text-sm py-2 rounded-full shadow-inner shadow-gray-800 inline-flex gap-2 ">
-            <Image
-              src={"/images/setting.svg"}
-              alt="bg"
-              width={18}
-              height={18}
-            />
-            Options
-          </button>
-          <button className=" text-black font-semibold  px-4 text-sm py-2 rounded-full bg-gradient-to-t from-[#FF9900] to-[#FFE7A9]  ">
-            Bulk Edit
-          </button>
-        </div> */}
       </div>
       <div className=" w-full my-10">
         <div className=" w-full bg-[#161313]  p-1 py-6 md:p-6 rounded-xl flex-col md:flex-row flex items-center justify-between">
@@ -137,13 +136,15 @@ const PropertyCalendar = ({ data }: { data: IProperty[] }) => {
         <div className=" w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {daysInMonth.map((day, i) => {
             const formattedDay = formatDate(day);
-            const isBooked = bookedDatesMap[formattedDay];
+            const bookingData = bookedDatesMap[formattedDay];
+            const totalEarnings = bookingData?.totalEarnings || 0;
+            const propertyNames = bookingData?.propertyNames || [];
 
             return (
               <div
                 key={i}
                 className={`p-6 ${
-                  isBooked
+                  totalEarnings
                     ? "bg-[#FF990033] border-b text-primary-50 border-b-primary-50/50"
                     : "bg-[#372F2F33] text-gray-300  "
                 } hover:border-b hover:border-r-0 hover:border-l-0 border  border-[#372F2F]/50    flex flex-col items-start justify-between`}
@@ -159,31 +160,34 @@ const PropertyCalendar = ({ data }: { data: IProperty[] }) => {
                       </p>
                       <p
                         className={`px-3 py-1.5 rounded-full ${
-                          isBooked
+                          totalEarnings
                             ? "bg-primary-50/60 text-white"
                             : "bg-[#FFFFFF33] text-white"
                         }`}
                       >
-                        {isBooked ? "Booked" : "Available"}
+                        {totalEarnings
+                          ? `$${totalEarnings.toLocaleString()}`
+                          : "Available"}
                       </p>
                     </TooltipTrigger>{" "}
                     <TooltipContent className=" min-w-40 px-4 pb-3 pt-1 rounded-lg">
-                      {isBooked && (
-                        <ul className="text-sm border-2 border-primary-50/45 p-5 px-10 rounded-lg mt-2 text-white">
-                          {bookedDatesMap[formattedDay].map(
-                            (propertyName, index) => (
-                              <li key={index} className="text-lg">
-                                {index + 1}. {propertyName}
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      )}{" "}
+                      {totalEarnings ? (
+                        <div className="text-sm border-2 border-primary-50/45 p-5 px-10 rounded-lg mt-2 text-white">
+                          <p>Properties Booked:</p>
+                          <ul>
+                            {propertyNames.map((name, index) => (
+                              <li key={index}>- {name}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : (
+                        <div className="text-sm border-2 border-gray-400 p-5 px-10 rounded-lg mt-2 text-white">
+                          No bookings on this date.
+                        </div>
+                      )}
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-
-                {/* Display property names if booked */}
               </div>
             );
           })}

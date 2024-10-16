@@ -410,58 +410,82 @@ const UserProfile = ({
               className="rounded-xl "
             />
           </div> */}
-            <div className="w-full items-center justify-between flex gap-4 flex-col md:flex-row">
-              <div className="flex items-center mx-4 my-4 px-5 rounded-xl bg-[#372F2F80] gap-3 w-full md:w-fit  p-3">
-                <p className="font-normal">Share trip</p>
-                <button>
-                  <Image
-                    src={"/images/messenger.svg"}
-                    width={35}
-                    height={35}
-                    alt="mail"
-                  />
-                </button>
-                <button>
-                  <Image
-                    src={"/images/facebook2.svg"}
-                    width={35}
-                    height={35}
-                    alt="mail"
-                  />
-                </button>
-                <button>
-                  <Image
-                    src={"/images/pintrest.svg"}
-                    width={35}
-                    height={35}
-                    alt="mail"
-                  />
-                </button>
-                <button>
-                  <Image
-                    src={"/images/twitter.svg"}
-                    width={35}
-                    height={35}
-                    alt="mail"
-                  />
-                </button>
-                <button>
-                  <Image
-                    src={"/images/link.svg"}
-                    width={27}
-                    height={27}
-                    alt="mail"
-                  />
-                </button>
+            {userBookings && (
+              <div className="w-full items-center justify-between flex gap-4 flex-col md:flex-row">
+                <div className="flex items-center mx-4 my-4 px-5 rounded-xl bg-[#372F2F80] gap-3 w-full md:w-fit  p-3">
+                  <p className="font-normal">Share trip</p>
+                  <button>
+                    <Image
+                      src={"/images/messenger.svg"}
+                      width={35}
+                      height={35}
+                      alt="mail"
+                    />
+                  </button>
+                  <button>
+                    <Image
+                      src={"/images/facebook2.svg"}
+                      width={35}
+                      height={35}
+                      alt="mail"
+                    />
+                  </button>
+                  <button>
+                    <Image
+                      src={"/images/pintrest.svg"}
+                      width={35}
+                      height={35}
+                      alt="mail"
+                    />
+                  </button>
+                  <button>
+                    <Image
+                      src={"/images/twitter.svg"}
+                      width={35}
+                      height={35}
+                      alt="mail"
+                    />
+                  </button>
+                  <button>
+                    <Image
+                      src={"/images/link.svg"}
+                      width={27}
+                      height={27}
+                      alt="mail"
+                    />
+                  </button>
+                </div>
+                <Link
+                  href={"/"}
+                  className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
+                >
+                  {" "}
+                  Trip Page
+                </Link>
               </div>
-              <Link
-                href={"/"}
-                className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
-              >
-                {" "}
-                Trip Page
-              </Link>
-            </div>
+            )}
+
+            {!userBookings.length && (
+              <>
+                <div className="flex flex-col items-center  mt-12 2xl:mt-16 2xl:gap-2">
+                  <Image
+                    src="/images/logoIcon.svg"
+                    alt="coming soon"
+                    width={80}
+                    height={80}
+                    className=" mb-6 pr-5"
+                  />
+                  <p className="text-center w-full text-lg 2xl:text-xl  mx-auto text-gray-400 ">
+                    You have not Booked any <br /> huntground yet! <br />
+                    <span className="text-sm font-semibold underline pt-8">
+                      <Link href={"/"} className="text-primary-50">
+                        Explore Huntgrounds
+                      </Link>
+                    </span>
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

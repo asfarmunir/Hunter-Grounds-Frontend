@@ -31,6 +31,7 @@ export interface IUser {
   withdrawableAmount?: number;
   referalWithdrawableAmount?: number;
   bookingPayments?: IBookingPayment[];
+  preferences?: IPreferences;
 
 }
 
@@ -48,4 +49,21 @@ interface IReferralEarning {
   description?: string;
   status: 'pending' | 'paid';
   date: Date;
+}
+
+interface IPreferences {
+  personalizedRecommendations: boolean;
+  exclusiveOffers: boolean;
+  newFeatures: boolean;
+  feedbackSurveys: boolean;
+  safetyTips: boolean;
+
+  // Adding notification preferences
+  newMessages: boolean;
+  bookingRequestNotifications: boolean;
+  bookingConfirmationNotification: boolean;
+  bookingCancellationModificationNotifications: boolean;
+  bookingReminderNotifications: boolean;
+  reviewTripReminderNotifications: boolean;
+  accountSupport: boolean;
 }

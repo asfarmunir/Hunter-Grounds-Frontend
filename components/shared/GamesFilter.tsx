@@ -59,7 +59,7 @@ const GameFilter = () => {
         </AlertDialogCancel>
 
         <div className=" w-full bg-primary-100/50  gap-6  border border-primary-50/30 px-4 py-8 md:p-6  2xl:p-10 rounded-xl shadow-md">
-          <p className="text-sm 2xl:text-lg  tracking-wide text-[#FFFFFF] max-w-lg mb-2">
+          <p className="text-sm 2xl:text-lg border-b-2 pb-3 border-primary-50/20 w-full px-3  tracking-wide text-[#FFFFFF]  mb-2">
             Select the games you are interested in.
           </p>
           <div className="grid grid-cols-2 px-4 py-6  md:p-8  md:grid-cols-3 2xl:grid-cols-4 md:mt-4 2xl:mt-7 gap-4 2xl:gap-6">

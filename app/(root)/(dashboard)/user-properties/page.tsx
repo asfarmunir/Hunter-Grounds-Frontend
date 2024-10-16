@@ -42,6 +42,9 @@ const page = async () => {
                 href={`/user-properties/${property._id}`}
                 className="text-center"
               >
+                <h4 className="font-bold mx-auto text-sm 2xl:text-lg capitalize text-nowrap mb-3">
+                  {property.name}
+                </h4>
                 <p className="font-thin text-slate-50 capitalize text-sm">
                   <span className="font-semibold">{property.acres}</span> acres
                   huntground in {property.city} from only{" "}

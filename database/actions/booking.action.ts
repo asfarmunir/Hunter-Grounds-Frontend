@@ -3,6 +3,7 @@ import Booking from '@/database/booking.model';
 import { connectToDatabase } from '..';
 import Property from '../property.model';
 import { revalidatePath } from 'next/cache';
+import { subHours, subDays, subWeeks, startOfDay, endOfDay } from 'date-fns';
 
 export async function createBooking(data:any) {
     try {
@@ -103,96 +104,74 @@ export const getTopPropertiesByOwner = async (userId: string) => {
   }
 };
 
-// export const getTopCitiesWithMostBookingsForUser = async (userId:string) => {
+// export const getUserBookingsByTimeFrame = async (userId: string, timeFrame: string) => {
 //   try {
-//     // Perform the aggregation with an additional filter for the owner's userId
-//     const topCities = await Booking.aggregate([
-//       {
-//         // Lookup to join the Booking with the Property collection based on property ID
-//         $lookup: {
-//           from: "properties", // The collection name in MongoDB (lowercase of Property model)
-//           localField: "property", // Field in Booking schema that refers to the Property
-//           foreignField: "_id", // Field in Property schema that is the ObjectId
-//           as: "propertyDetails", // Output array with property details
-//         },
-//       },
-//       {
-//         // Unwind the propertyDetails array to have one document per booking/property
-//         $unwind: "$propertyDetails",
-//       },
-//       {
-//         // Match only the properties where the owner matches the provided userId
-//         $match: {
-//           "propertyDetails.owner": userId, // Filter by the owner field in the Property schema
-//         },
-//       },
-//       {
-//         // Group by city and count the number of bookings for each city
-//         $group: {
-//           _id: "$propertyDetails.city", // Group by the city field in the Property schema
-//           totalBookings: { $sum: 1 }, // Count the number of bookings for each city
-//         },
-//       },
-//       {
-//         // Sort the cities by the total bookings in descending order
-//         $sort: { totalBookings: -1 },
-//       },
-//       {
-//         // Limit the result to the top 3 cities
-//         $limit: 3,
-//       },
-//     ]);
+//     await connectToDatabase();
 
-//     // Return the top cities for the specific user's properties
-//     return { topCities, status: 200 };
+//     // Fetch the properties owned by the user
+//     const properties = await Property.find({ owner: userId }).select('_id');
+//     const propertyIds = properties.map((property) => property._id);
+
+//     // Determine the time frame filter
+//     let dateFilter;
+//     const now = new Date();
+//     if (timeFrame === '12h') {
+//       dateFilter = subHours(now, 12);
+//     } else if (timeFrame === '24h') {
+//       dateFilter = subHours(now, 24);
+//     } else if (timeFrame === 'week') {
+//       dateFilter = subDays(now, 7);
+//     } else if (timeFrame === 'month') {
+//       dateFilter = subWeeks(now, 4); // Approximate month by 4 weeks
+//     } else {
+//       dateFilter = startOfDay(new Date());
+//     }
+
+//     // Fetch the bookings within the time frame
+//     const bookings = await Booking.find({
+//       property: { $in: propertyIds },
+//       createdAt: { $gte: dateFilter, $lte: now },
+//     });
+
+//     return JSON.parse(JSON.stringify({ bookings, status: 200 }));
 //   } catch (error) {
-//     console.error("Error fetching top cities with most bookings for user: ", error);
-//     return { message: "Internal Server Error", status: 500 };
+//     console.log('Error fetching bookings by time frame:', error);
+//     return JSON.parse(JSON.stringify({ error, status: 500 }));
 //   }
 // };
 
+export const getBookingCountByTimeFrame = async (userId: string, timeFrame?: string) => {
+  try {
+    await connectToDatabase();
 
+    // Fetch the properties owned by the user
+    const properties = await Property.find({ owner: userId }).select('_id');
+    const propertyIds = properties.map((property) => property._id);
 
+    // Determine the time frame filter
+    let dateFilter;
+    const now = new Date();
+    if (timeFrame === '12h') {
+      dateFilter = subHours(now, 12);
+    } else if (timeFrame === '24h') {
+      dateFilter = subHours(now, 24);
+    } else if (timeFrame === 'week') {
+      dateFilter = subDays(now, 7);
+    } else if (timeFrame === 'month') {
+      dateFilter = subWeeks(now, 4); // Approximate month by 4 weeks
+    } else {
+      dateFilter = subDays(now, 1); // Default to last 24 hours
+    }
 
+    // Count the bookings within the time frame
+    const bookingCount = await Booking.countDocuments({
+      property: { $in: propertyIds },
+      createdAt: { $gte: dateFilter, $lte: now },
+    });
 
-// export const getTopCitiesWithMostBookings = async () => {
-//   try {
-//     // Perform the aggregation
-//     const topCities = await Booking.aggregate([
-//       {
-//         // Lookup to join the Booking with the Property collection based on property ID
-//         $lookup: {
-//           from: "properties", // The collection name in MongoDB (should be lowercase of Property model)
-//           localField: "property", // Field in Booking schema that refers to the Property
-//           foreignField: "_id", // Field in Property schema that is the ObjectId
-//           as: "propertyDetails", // Output array with property details
-//         },
-//       },
-//       {
-//         // Unwind the propertyDetails array to have one document per booking/property
-//         $unwind: "$propertyDetails",
-//       },
-//       {
-//         // Group by city and count the number of bookings for each city
-//         $group: {
-//           _id: "$propertyDetails.city", // Group by the city field in the Property schema
-//           totalBookings: { $sum: 1 }, // Count the number of bookings for each city
-//         },
-//       },
-//       {
-//         // Sort the cities by the total bookings in descending order
-//         $sort: { totalBookings: -1 },
-//       },
-//       {
-//         // Limit the result to the top 3 cities
-//         $limit: 3,
-//       },
-//     ]);
-
-//     // Return the top cities
-//     return { topCities, status: 200 };
-//   } catch (error) {
-//     console.error("Error fetching top cities with most bookings: ", error);
-//     return { message: "Internal Server Error", status: 500 };
-//   }
-// };
+    return JSON.parse(JSON.stringify({ bookingCount, status: 200 }));
+  } catch (error) {
+    console.log('Error fetching booking count by time frame:', error);
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }
+};

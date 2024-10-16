@@ -24,7 +24,8 @@ const initialSettings = [
   { name: "Property Name", status: "pending" },
   { name: "Property Description", status: "pending" },
   { name: "Photos", status: "pending" },
-  { name: "Profile Picture", status: "completed" },
+  { name: "Profile Picture", status: "pending" },
+  // { name: "Verification", status: "pending" },
   // { name: "Insurance", status: "pending" },
   { name: "Game Available", status: "pending" },
 ];
@@ -128,6 +129,12 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               ...s,
               status: userDetails.profileImage ? "completed" : "pending",
             };
+
+          // case "Verification":
+          //   return {
+          //     ...s,
+          //     status: userDetails.isVerified ? "completed" : "pending",
+          //   };
           // case "Insurance":
           //   return {
           //     ...s,
@@ -394,9 +401,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             <div className="  pb-3  my-3">
               <Input
                 type="number"
-                placeholder="10 acres"
+                placeholder="100 acres"
                 required
-                value={propertyDetails.acres}
+                value={propertyDetails.acres === 0 ? "" : propertyDetails.acres}
                 onChange={(e) =>
                   setPropertyDetails({
                     ...propertyDetails,
@@ -421,8 +428,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             <div className="  pb-3  my-3">
               <Input
                 type="number"
+                placeholder="50$ per night"
                 required
-                value={propertyDetails.price}
+                value={propertyDetails.price === 0 ? "" : propertyDetails.price}
                 onChange={(e) =>
                   setPropertyDetails({
                     ...propertyDetails,

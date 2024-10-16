@@ -211,6 +211,54 @@ export const getUserProperties = async (userId: string) => {
   }
 }
 
+export const getPropertiesCalendar = async (
+  userId: string, 
+  propertyName?: string // Optional parameter
+) => {
+  console.log("🚀 ~ propertyName:", propertyName)
+  try {
+    await connectToDatabase();
+
+    // Construct the query conditionally based on propertyName
+    const query: any = { owner: userId }; 
+
+    // If propertyName is provided and not empty, add it to the query
+    if (propertyName && propertyName.trim() !== "") {
+      query.name = propertyName;
+    }
+
+    // Find properties based on the query
+    const properties = await Property.find(query);
+
+    // Check if properties exist
+    if (!properties || properties.length === 0) {
+      return JSON.parse(JSON.stringify({ error: "Properties not found", status: 404 }));
+    }
+
+    // Return the found properties
+    return JSON.parse(JSON.stringify({ properties, status: 200 }));
+  } catch (error) {
+    console.log("Error in getPropertiesCalendar: ", error);
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }
+}
+
+export const getUserPropertyNames = async (userId: string) => {
+  try {
+    await connectToDatabase();
+
+    const propertyNames = await Property.find({ owner: userId }).select("name");
+    if (!propertyNames || propertyNames.length === 0) {
+      return JSON.parse(JSON.stringify({ error: "No properties found", status: 404 }));
+    }
+    return JSON.parse(JSON.stringify({ propertyNames, status: 200 }));
+  } catch (error) {
+    console.log("Error in getUserPropertyNames: ", error);
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }
+};
+
+
 export const countUserReviews = async (userId:string) => {
   try {
     // Initialize the review count

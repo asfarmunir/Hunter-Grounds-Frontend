@@ -1,18 +1,37 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import WithdrawFunds from "@/components/shared/WithdrawFunds";
 import { IUser } from "@/lib/types/user";
+import { useRouter, useSearchParams } from "next/navigation";
+import { formUrlQuery } from "@/lib/utils";
 const page = ({
   userData,
   topCities,
+  totalBookings,
 }: {
   userData: IUser;
   topCities?: {
     _id?: string;
     totalBookings?: number;
   }[];
+  totalBookings?: number;
 }) => {
+  const [timeFrame, setTimeFrame] = useState("24h"); // Default to '24h'
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const handleFilterChange = (time: string) => {
+    setTimeFrame(time);
+
+    const queryString = formUrlQuery({
+      params: searchParams.toString(),
+      key: "timeframe",
+      value: time,
+    });
+
+    router.push(queryString, { scroll: false });
+  };
+
   const totalEarnings = userData.bookingPayments?.reduce(
     (acc: any, curr: any) => acc + curr.amount,
     0
@@ -43,18 +62,21 @@ const page = ({
           <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
             <p className="textlg 2xl:text-xl mb-6 text-gray-300">Total Sales</p>
             <div className="flex items-center gap-4">
-              <p className="text-2xl 2xl:text-5xl font-semibold">
+              <p className="text-3xl 2xl:text-5xl font-semibold">
                 ${totalEarnings / 100}
               </p>
-              <p className="flex items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
-                <Image
-                  src={"/images/up.svg"}
-                  width={15}
-                  height={15}
-                  alt="arrow"
-                />
-                +15%
-              </p>
+              {userData.bookingPayments?.length! > 0 && (
+                <p className="flex items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
+                  <Image
+                    src={"/images/up.svg"}
+                    width={15}
+                    height={15}
+                    alt="arrow"
+                  />
+                  +{userData.bookingPayments?.length} Sales
+                </p>
+              )}
+
               {/* <p className="text-sm text-slate-300">vs last month</p> */}
             </div>
           </div>
@@ -63,7 +85,7 @@ const page = ({
               Withdrawable Amount
             </p>
             <div className="flex items-center gap-6">
-              <p className="text-2xl 2xl:text-5xl font-semibold">
+              <p className="text-3xl 2xl:text-5xl font-semibold">
                 $
                 {userData.withdrawableAmount! > 0
                   ? userData.withdrawableAmount! / 100
@@ -79,7 +101,7 @@ const page = ({
             </div>
           </div>
         </div>
-        <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
+        {/* <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
           <p className="textlg 2xl:text-xl mb-3 text-gray-300">User Growth</p>
           <div className="flex items-center gap-3">
             <button className="bg-[#372F2F33] text-xs text-nowrap  2xl:text-sm border border-[#312a2a7e] px-4 py-1 rounded-full">
@@ -114,6 +136,56 @@ const page = ({
             <div className=" w-full flex items-center justify-between">
               <p className="text-sm text-slate-300">Checking totally</p>
               <p className="text-sm text-slate-300">+120 Today</p>
+            </div>
+          </div>
+        </div> */}
+        <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
+          <p className="textlg 2xl:text-xl mb-3 text-gray-300">User Growth</p>
+          <div className="flex items-center gap-3">
+            {["12h", "24h", "week", "month"].map((frame) => (
+              <button
+                key={frame}
+                className={`bg-[#372F2F33] text-xs text-nowrap 2xl:text-sm border border-[#312a2a7e] px-4 py-1 rounded-full ${
+                  timeFrame === frame ? "bg-primary" : ""
+                }`}
+                onClick={() => handleFilterChange(frame)}
+              >
+                {frame === "week"
+                  ? "A Week"
+                  : frame === "month"
+                  ? "A Month"
+                  : `${frame}`}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-12 w-full">
+            <div className="w-full flex items-center justify-between">
+              <h3 className="text-3xl 2xl:text-4xl">{totalBookings}</h3>
+              {/* <p className="flex w-fit items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
+                <img src="/images/up.svg" width={12} height={12} alt="arrow" />
+                +15%
+              </p> */}
+            </div>
+            {totalBookings && (
+              <div className="w-full h-12 2xl:h-16 my-4 rounded-xl bg-[#372F2F99]">
+                {/* Dynamic progress bar logic based on bookings percentage */}
+                <div
+                  className="h-full bg-primary-50 transition-all rounded-xl shadow-sm"
+                  style={{
+                    width: `${
+                      totalBookings > 0 ? (totalBookings! / 100) * 100 : 0
+                    }%`,
+                  }} // Set the width dynamically based on percentage
+                ></div>
+              </div>
+            )}
+
+            <div className="w-full flex items-center justify-between">
+              <p className="text-sm text-slate-300">Checking totally</p>
+              <p className="text-sm text-slate-300">
+                +{totalBookings} bookings
+              </p>
             </div>
           </div>
         </div>

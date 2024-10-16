@@ -29,28 +29,33 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
               key={index}
               className="flex flex-col items-center px-6 md:px-0 md:max-w-[12rem] 2xl:max-w-full w-full"
             >
-              {/* <Link href={`/pre-booking/${property._id}`}> */}
               <div
                 className="w-full h-[180px] relative 2xl:h-[210px] bg-red-50 flex items-center hover:shadow-lg hover:shadow-primary-50/50 transition-all justify-center object-cover object-center mb-4 rounded-xl"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
-                <Image
-                  src={property.photos[0]}
-                  width={250}
-                  priority
-                  className="rounded-lg w-full h-full object-cover"
-                  height={250}
-                  alt="property image"
-                />
+                <Link
+                  href={`/pre-booking/${property._id}`}
+                  className=" w-full h-full"
+                >
+                  <Image
+                    src={property.photos[0]}
+                    width={250}
+                    priority
+                    className="rounded-lg w-full h-full object-cover"
+                    height={250}
+                    alt="property image"
+                  />
+                </Link>
+
                 {hoveredIndex === index &&
                   session.status === "authenticated" && (
                     <button
                       disabled={loading}
                       type="button"
                       onClick={async (e) => {
+                        e.stopPropagation(); // Prevent the event from bubbling up to the Link
                         setLoading(true);
-                        e.stopPropagation(); // Prevent the link from being triggered
                         const res = await addSavedProperty(
                           // @ts-ignore
                           session.data.user!.id,
@@ -76,7 +81,6 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
                     </button>
                   )}
               </div>
-              {/* </Link> */}
               <Link
                 href={`/pre-booking/${property._id}`}
                 className="text-center"

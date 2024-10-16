@@ -6,17 +6,37 @@ import {
   getUserDetails,
   updateBookingWithdrawableAmount,
 } from "@/database/actions/user.action";
-import { getTopPropertiesByOwner } from "@/database/actions/booking.action";
+import {
+  getTopPropertiesByOwner,
+  getBookingCountByTimeFrame,
+} from "@/database/actions/booking.action";
 import { handleRejectedPayouts } from "@/database/actions/payout.action";
 
-const page = async () => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) => {
   const session = await getServerSession(authOptions);
+  const timeframe = searchParams?.timeframe as string | "24h";
   const data = await getUserDetails(session.user.email);
   await updateBookingWithdrawableAmount(session.user.id);
   const topCities = await getTopPropertiesByOwner(session.user.id);
   await handleRejectedPayouts();
+  const bookingsForUser = await getBookingCountByTimeFrame(
+    session.user.id,
+    timeframe
+  );
 
-  return <Dashboard userData={data} topCities={topCities.topCities} />;
+  console.log("🚀 ~ bookingsForUser", bookingsForUser);
+
+  return (
+    <Dashboard
+      userData={data}
+      topCities={topCities.topCities}
+      totalBookings={bookingsForUser.bookingCount}
+    />
+  );
 };
 
 export default page;

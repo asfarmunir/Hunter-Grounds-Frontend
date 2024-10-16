@@ -14,6 +14,7 @@ import {
   getUserDetails,
   updateUserDetails,
   updateUserPassword,
+  updateUserPreferences,
   updateUserProfileImage,
 } from "@/database/actions/user.action";
 const links = [
@@ -103,7 +104,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           {
             "edit-profile": <GeneralSettings data={userDetails} />,
             "change-password": <ChangePassword email={userDetails.email} />,
-            "emails-sms": <EmailsAndSms />,
+            "emails-sms": <EmailsAndSms user={userDetails} />,
             // "payment-details": <PaymentDetails />,
           }[tab]
         }
@@ -558,14 +559,119 @@ const ChangePassword = ({ email }: { email: string }) => {
     </form>
   );
 };
-const EmailsAndSms = () => {
+
+const notificationOptions = [
+  { label: "New Messages", name: "newMessages" },
+  {
+    label: "Booking Request notifications",
+    name: "bookingRequestNotifications",
+  },
+  {
+    label: "Booking confirmation notifications",
+    name: "bookingConfirmationNotification",
+  },
+  {
+    label: "Booking cancellation and modification notifications",
+    name: "bookingCancellationModificationNotifications",
+  },
+  {
+    label: "Booking reminder notifications",
+    name: "bookingReminderNotifications",
+  },
+  {
+    label: "Review trip reminder notifications",
+    name: "reviewTripReminderNotifications",
+  },
+  { label: "Account support", name: "accountSupport" },
+];
+
+const preferenceOptions = [
+  {
+    name: "personalizedRecommendations",
+    label: "Personalized Recommendations",
+    description: "Sent to shares Huntgrounds you might like",
+  },
+  {
+    name: "exclusiveOffers",
+    label: "Exclusive offers, news, and tips",
+    description: "Exclusive updates from Huntgrounds",
+  },
+  {
+    name: "newFeatures",
+    label: "New Features Announcement",
+    description: "Updates on new features",
+  },
+  {
+    name: "feedbackSurveys",
+    label: "Feedback and Surveys",
+    description: "Help us improve with feedback surveys",
+  },
+  {
+    name: "safetyTips",
+    label: "Safety Tips and Reminders",
+    description: "Important safety information",
+  },
+];
+
+const EmailsAndSms = ({ user }: { user: IUser }) => {
+  const [preferences, setPreferences] = useState({
+    personalizedRecommendations:
+      user.preferences?.personalizedRecommendations || false,
+    exclusiveOffers: user.preferences?.exclusiveOffers || false,
+    newFeatures: user.preferences?.newFeatures || false,
+    feedbackSurveys: user.preferences?.feedbackSurveys || false,
+    safetyTips: user.preferences?.safetyTips || false,
+
+    // Adding notification preferences
+    newMessages: user.preferences?.newMessages || false,
+    bookingRequestNotifications:
+      user.preferences?.bookingRequestNotifications || false,
+    bookingConfirmationNotification:
+      user.preferences?.bookingConfirmationNotification || false,
+    bookingCancellationModificationNotifications:
+      user.preferences?.bookingCancellationModificationNotifications || false,
+    bookingReminderNotifications:
+      user.preferences?.bookingReminderNotifications || false,
+    reviewTripReminderNotifications:
+      user.preferences?.reviewTripReminderNotifications || false,
+    accountSupport: user.preferences?.accountSupport || false,
+  });
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    setPreferences((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
+  console.log("🚀 ~ EmailsAndSms ~ preferences:", preferences);
+  const submitHandler = async () => {
+    const res = await updateUserPreferences(user._id!, preferences);
+
+    if (res.status !== 200) {
+      toast.error(
+        res.message || "An error occurred while updating your preferences"
+      );
+      return;
+    }
+    toast.success("Preferences updated successfully", {
+      duration: 5000,
+      style: {
+        borderRadius: "10px",
+        background: "green",
+        color: "#fff",
+      },
+    });
+  };
+
   return (
     <div className=" w-full  bg-[#16131399] p-4 ">
       <h2 className=" w-full p-5 text-2xl rounded-lg font-bold bg-[#161313]">
         Email & SMS{" "}
       </h2>
 
-      <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
+      {/* <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
         <div className="flex items-center gap-3">
           <div className="w-16 flex justify-center ">
             <Image
@@ -634,8 +740,153 @@ const EmailsAndSms = () => {
             </p>
           </div>
         </div>
+      </div> */}
+      {/* <div className="w-full bg-[#352e2e33] space-y-5 border my-5 border-[#372F2F] p-6 rounded-xl shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="w-16 flex justify-center ">
+            <Image
+              src="/images/email2.svg"
+              width={30}
+              height={30}
+              alt="email"
+            />
+          </div>
+          <p className="text-primary-50 md:pl-6 text-xs font-bold md:text-lg">
+            Optional communication from the Huntgrounds team
+          </p>
+        </div>
+
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <input
+              type="checkbox"
+              className="w-4 h-4 2xl:w-5 2xl:h-5 cursor-pointer "
+              name="personalizedRecommendations"
+              checked={preferences.personalizedRecommendations}
+              onChange={handleCheckboxChange}
+            />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Personalized Recommendations</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <input
+              type="checkbox"
+              className="w-4 h-4 2xl:w-5 2xl:h-5 cursor-pointer "
+              name="exclusiveOffers"
+              checked={preferences.exclusiveOffers}
+              onChange={handleCheckboxChange}
+            />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Exclusive offers, news and tips</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <input
+              type="checkbox"
+              className="w-4 h-4 2xl:w-5 2xl:h-5 cursor-pointer "
+              name="newFeatures"
+              checked={preferences.newFeatures}
+              onChange={handleCheckboxChange}
+            />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">New features announcement</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <input
+              type="checkbox"
+              className="w-4 h-4 2xl:w-5 2xl:h-5 cursor-pointer "
+              name="feedbackSurveys"
+              checked={preferences.feedbackSurveys}
+              onChange={handleCheckboxChange}
+            />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Feedback and surveys</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center border-b border-primary-50/15 pb-3">
+          <div className="w-16 flex justify-center">
+            <input
+              type="checkbox"
+              name="safetyTips"
+              className="w-4 h-4 2xl:w-5 2xl:h-5 cursor-pointer "
+              checked={preferences.safetyTips}
+              onChange={handleCheckboxChange}
+            />
+          </div>
+          <div className="flex flex-col gap-1 pl-6">
+            <p className="font-semibold">Safety tips and reminders</p>
+            <p className="text-xs 2xl:text-sm text-gray-400">
+              Sent to shares huntgrounds you might like
+            </p>
+          </div>
+        </div>
+      </div> */}
+      <div className="w-full bg-[#352e2e33] space-y-5 border my-5 border-[#372F2F] p-6 rounded-xl shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="w-16 flex justify-center">
+            <Image
+              src="/images/email2.svg"
+              width={30}
+              height={30}
+              alt="email"
+            />
+          </div>
+          <p className="text-primary-50 md:pl-6 text-xs font-bold md:text-lg">
+            Optional communication from the Huntgrounds team
+          </p>
+        </div>
+
+        {preferenceOptions.map((option) => (
+          <div
+            key={option.name}
+            className="flex items-center border-b border-primary-50/15 pb-3"
+          >
+            <div className="w-16 flex justify-center">
+              <input
+                type="checkbox"
+                className="w-4 h-4 2xl:w-5 2xl:h-5 cursor-pointer"
+                name={option.name}
+                // @ts-ignore
+                checked={preferences[option.name]}
+                onChange={handleCheckboxChange}
+              />
+            </div>
+            <div className="flex flex-col gap-1 pl-6">
+              <p className="font-semibold">{option.label}</p>
+              <p className="text-xs 2xl:text-sm text-gray-400">
+                {option.description}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
-      <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
+
+      {/* <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
         <div className="flex items-center border-b border-primary-50/10 pb-4 gap-2">
           <div className="w-16 flex justify-center ">
             <Image
@@ -824,10 +1075,54 @@ const EmailsAndSms = () => {
             </p>
           </div>
         </div>
+      </div> */}
+
+      <div className=" w-full bg-[#352e2e33] space-y-5 border my-5  border-[#372F2F] p-6 rounded-xl shadow-md">
+        <div className="flex items-center border-b border-primary-50/10 pb-4 gap-2">
+          <div className="w-16 flex justify-center ">
+            <Image
+              src="/images/email2.svg"
+              width={30}
+              height={30}
+              alt="email"
+            />
+          </div>
+
+          <p className="text-primary-50 md:pl-6 text-xs md:text-lg font-bold">
+            Huntgrounds experience communications
+          </p>
+        </div>
+        {notificationOptions.map((option, i) => (
+          <div
+            key={i}
+            className="flex items-center border-b border-primary-50/15 pb-3"
+          >
+            <div className="w-16 flex justify-center">
+              <input
+                type="checkbox"
+                className="w-4 h-4 2xl:w-5 2xl:h-5 cursor-pointer"
+                name={option.name}
+                // @ts-ignore
+                checked={preferences[option.name]}
+                onChange={handleCheckboxChange}
+              />
+            </div>
+            <div className="flex flex-col gap-1 pl-6">
+              <p className="font-semibold">{option.label}</p>
+              <p className="text-xs 2xl:text-sm text-gray-400">
+                Sent to shares huntgrounds you might like{" "}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className=" w-full flex justify-end my-4">
-        <button className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 py-3 text-black font-semibold 2xl:text-lg">
+        <button
+          type="button"
+          onClick={submitHandler}
+          className=" bg-gradient-to-t from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 py-3 text-black font-semibold 2xl:text-lg"
+        >
           Save Changes
         </button>
       </div>

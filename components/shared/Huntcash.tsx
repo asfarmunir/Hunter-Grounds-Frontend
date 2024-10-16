@@ -71,7 +71,7 @@ const page = ({
                     ? `0${userDetails.referedUsers.length}`
                     : userDetails.referedUsers!.length}{" "}
                 </p>
-                <p className="flex items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
+                {/* <p className="flex items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
                   <Image
                     src={"/images/up.svg"}
                     width={15}
@@ -79,7 +79,7 @@ const page = ({
                     alt="arrow"
                   />
                   +15%
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
@@ -98,7 +98,7 @@ const page = ({
                 <p className="text-2xl 2xl:text-5xl font-semibold ">
                   ${lastMonthEarning / 100}
                 </p>
-                <p className="flex items-center text-sm gap-1.5 text-[#FF3B30] bg-[#FF3B30]/20 font-semibold border border-[#FF3B30] rounded-full px-3 py-2">
+                {/* <p className="flex items-center text-sm gap-1.5 text-[#FF3B30] bg-[#FF3B30]/20 font-semibold border border-[#FF3B30] rounded-full px-3 py-2">
                   <Image
                     src={"/images/down.svg"}
                     width={15}
@@ -106,7 +106,7 @@ const page = ({
                     alt="arrow"
                   />
                   +15%
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
@@ -122,8 +122,10 @@ const page = ({
             </h2>
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <p className="text-2xl 2xl:text-5xl font-semibold ">10%</p>
-                <p className="flex items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
+                <p className="text-2xl 2xl:text-5xl font-semibold ">
+                  {userDetails.referedUsers ? "10%" : "0%"}
+                </p>
+                {/* <p className="flex items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
                   <Image
                     src={"/images/up.svg"}
                     width={15}
@@ -131,7 +133,7 @@ const page = ({
                     alt="arrow"
                   />
                   +59.9%
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
