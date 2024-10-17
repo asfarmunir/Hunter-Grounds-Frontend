@@ -9,11 +9,14 @@ const socials = [
   //   img: "yt",
   // },
   {
-    img: "insta",
+    link: "https://www.instagram.com/huntgrounds/",
+    image: "/images/insta.svg",
   },
   {
-    img: "x",
+    link: "https://www.facebook.com/huntgrounds/",
+    image: "/fb2.svg",
   },
+
   // {
   //   img: "discord",
   // },
@@ -77,15 +80,15 @@ const Footer = () => {
           <h2 className="text-lg font-bold 2xl:text-2xl">Follow Us</h2>
           <div className="flex items-center gap-5 my-3">
             {socials.map((social, index) => (
-              <button key={index}>
+              <Link href={social.link} key={index}>
                 <Image
-                  src={`/images/${social.img}.svg`}
+                  src={social.image}
                   width={30}
                   height={30}
                   className=" hover:-translate-y-1 transition-all "
                   alt="social"
                 />
-              </button>
+              </Link>
             ))}
           </div>
           {/* <div className="flex items-center gap-3 my-2">

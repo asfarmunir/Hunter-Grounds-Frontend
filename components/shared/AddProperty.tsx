@@ -641,7 +641,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               </p>
             </div>
           </div>
-          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+          {/* <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             ID Verification
           </p>
           <div className=" w-full dark:bg-[#372F2F33] border flex items-center justify-between gap-4 flex-col md:flex-row border-[#372F2F] p-6 rounded-xl shadow-md">
@@ -715,11 +715,14 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                 Show More
               </Link>
             </div>
-          </div>
+          </div> */}
           <div className=" w-full flex justify-end mr-4">
-            <button className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-bold  px-6 py-2.5 text-sm mt-8 ">
+            <Link
+              href={"/user-properties"}
+              className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-bold  px-6 py-2.5 text-sm mt-8 "
+            >
               Continue to sites
-            </button>
+            </Link>
           </div>
         </div>
       </form>

@@ -24,10 +24,10 @@ const RefundPolicyPage = () => {
       </p>
       <p className="text-sm 2xl:text-base font-bold">1. Cancellation Policy</p>
       <p className="text-sm 2xl:text-base">
-        <span className="font-bold">- 48-Hour Cancellation Window:</span>
+        <span className="font-bold">- 1 Week Cancellation Window:</span>
         <br />
         You may cancel your booking up to{" "}
-        <b>48 hours before your scheduled trip</b> without being charged. If you
+        <b>1 Week before your scheduled trip</b> without being charged. If you
         cancel within this period, you will be eligible for a full refund. This
         policy gives you the flexibility to adjust your plans if necessary
         without incurring any costs.

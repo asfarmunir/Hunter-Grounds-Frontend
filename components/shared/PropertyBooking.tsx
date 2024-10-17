@@ -14,6 +14,7 @@ import {
   isPast,
   isAfter,
   isWithinInterval,
+  isSameDay,
 } from "date-fns";
 import { toast } from "react-hot-toast"; // Import toast
 import { useRouter } from "next/navigation";
@@ -88,8 +89,8 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
     }
 
     // Format the dates for query params
-    const formattedFromDate = format(adjustedFromDate, "MM-dd");
-    const formattedToDate = format(adjustedToDate, "MM-dd");
+    const formattedFromDate = format(adjustedFromDate, "yyyy-MM-dd");
+    const formattedToDate = format(adjustedToDate, "yyyy-MM-dd");
 
     // Prepare URL params
     const params = new URLSearchParams();
@@ -103,6 +104,12 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
 
     toast.success("Booking details saved successfully.");
   };
+
+  interface CalendarProps {
+    fromDate: Date | null; // start date
+    toDate: Date | null; // end date
+    bookedDates: Date[]; // array of booked dates
+  }
 
   return (
     <div className=" w-full flex flex-col-reverse md:flex-row gap-4 justify-between p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
@@ -189,7 +196,7 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
                 width={165}
                 height={165}
                 alt="mail"
-                className="rounded-xl w-full h-full"
+                className="rounded-xl object-cover object-center w-full h-full"
               />
             ) : (
               <Image
@@ -235,6 +242,14 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
                     setFromDate(date);
                     setFromDateOpen(false);
                   }}
+                  disabled={(date) => {
+                    // Disable dates that are booked or dates before `fromDate`
+                    const isBooked = propertyDetails.bookedDates.some(
+                      (bookedDate) => isSameDay(bookedDate, date)
+                    );
+
+                    return isBooked;
+                  }}
                   initialFocus
                 />
               </PopoverContent>
@@ -257,12 +272,38 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
                 </button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
+                {/* <Calendar
                   mode="single"
                   selected={toDate}
                   onSelect={(date) => {
                     setToDate(date);
                     setToDateOpen(false);
+                  }}
+                  initialFocus
+                /> */}
+                <Calendar
+                  mode="single"
+                  selected={toDate}
+                  onSelect={(date) => {
+                    if (fromDate && isAfter(date!, fromDate)) {
+                      setToDate(date);
+                      setToDateOpen(false);
+                    } else {
+                      toast.error(
+                        "Please select a valid end date after the start date."
+                      );
+                    }
+                  }}
+                  // @ts-ignore
+                  disabled={(date) => {
+                    // Disable dates that are booked or dates before `fromDate`
+                    const isBooked = propertyDetails.bookedDates.some(
+                      (bookedDate) => isSameDay(bookedDate, date)
+                    );
+                    const isBeforeFromDate =
+                      fromDate && !isAfter(date, fromDate);
+
+                    return isBooked || isBeforeFromDate;
                   }}
                   initialFocus
                 />

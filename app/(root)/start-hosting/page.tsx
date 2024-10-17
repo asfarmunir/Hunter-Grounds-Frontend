@@ -357,7 +357,7 @@ const page = () => {
               Hunt Where You Feel Free.
             </p>
           </div>
-          <motion.div
+          {/* <motion.div
             viewport={{ amount: 0.25, once: true }}
             initial={{
               opacity: 0,
@@ -379,7 +379,7 @@ const page = () => {
               Hosts on every booking for up to $1 million USD in general
               liability claims.
             </p>
-          </motion.div>
+          </motion.div> */}
         </div>
       )}
 
@@ -841,7 +841,7 @@ const page = () => {
               </div>
             </Form>
           </motion.div>
-          <motion.div
+          {/* <motion.div
             viewport={{ amount: 0.25, once: true }}
             initial={{
               opacity: 0,
@@ -863,7 +863,7 @@ const page = () => {
               Hosts on every booking for up to $1 million USD in general
               liability claims.
             </p>
-          </motion.div>
+          </motion.div> */}
         </div>
       )}
     </div>

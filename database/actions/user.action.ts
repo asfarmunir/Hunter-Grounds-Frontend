@@ -129,6 +129,7 @@ export const updateUserStatus = async (userId:string) => {
         
         user.isVerified = true;
         await user.save();
+        revalidatePath('/dashboard');
         return JSON.parse(JSON.stringify({status:200}))
         
     } catch (error) {

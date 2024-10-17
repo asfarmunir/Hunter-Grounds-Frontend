@@ -404,12 +404,12 @@ const Navbar = () => {
                     Trip
                   </DropdownMenuItem>
                 </Link>
-                <Link href={"https://help.huntgrounds.com"}>
+                {/* <Link href={"https://help.huntgrounds.com"}>
                   <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
                     <FaRegQuestionCircle className="text-lg text-primary-50" />
                     Help and FAQ
                   </DropdownMenuItem>
-                </Link>
+                </Link> */}
                 <Link href={"/refer-and-earn"}>
                   <DropdownMenuItem className=" gap-2 hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
                     <FaRegQuestionCircle className="text-lg text-primary-50" />

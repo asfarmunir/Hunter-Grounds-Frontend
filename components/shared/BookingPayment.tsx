@@ -1,11 +1,9 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "@/components/shared/CheckoutForm";
-import CompletePage from "@/components/shared/Complete";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import PaymentSuccess from "@/components/shared/PaymentSuccess";
@@ -34,10 +32,12 @@ const page = ({
   const [paymentBegan, setPaymentBegan] = useState<boolean>(false);
   const [totalDays, setTotalDays] = useState<number>(0);
 
+  // Updated parseDate to include year handling
   const parseDate = (dateStr: string) => {
-    const [month, day] = dateStr.split("-").map(Number);
-    return new Date(new Date().getFullYear(), month - 1, day);
+    const [year, month, day] = dateStr.split("-").map(Number);
+    return new Date(year, month - 1, day); // month is 0-indexed in JavaScript Date
   };
+
   const checkIn = parseDate(from);
   const checkOut = parseDate(to);
 
@@ -63,10 +63,12 @@ const page = ({
     setTotalDays(daysBetween);
   }, []);
 
+  // Updated calculateDays to handle year as well
   const formatDateRange = (fromDate: string, toDate: string) => {
+    // Updated parseDate to include the year
     const parseDate = (dateStr: string) => {
-      const [month, day] = dateStr.split("-").map(Number);
-      return new Date(new Date().getFullYear(), month - 1, day);
+      const [year, month, day] = dateStr.split("-").map(Number);
+      return new Date(year, month - 1, day); // month is 0-indexed in JavaScript Date
     };
 
     const fromDateObj = parseDate(fromDate);
@@ -81,13 +83,15 @@ const page = ({
   };
 
   const calculateDays = (fromDate: string, toDate: string) => {
-    const [fromMonth, fromDay] = fromDate.split("-").map(Number);
-    const [toMonth, toDay] = toDate.split("-").map(Number);
+    // Split fromDate and toDate into year, month, day
+    const [fromYear, fromMonth, fromDay] = fromDate.split("-").map(Number);
+    const [toYear, toMonth, toDay] = toDate.split("-").map(Number);
 
-    const year = new Date().getFullYear(); // Use the current year
-    const from = new Date(year, fromMonth - 1, fromDay); // month is 0-indexed
-    const to = new Date(year, toMonth - 1, toDay);
+    // Create Date objects with year, month, and day
+    const from = new Date(fromYear, fromMonth - 1, fromDay); // month is 0-indexed
+    const to = new Date(toYear, toMonth - 1, toDay);
 
+    // Calculate the difference in time and convert it to days
     const timeDiff = to.getTime() - from.getTime();
     const daysDiff = timeDiff / (1000 * 3600 * 24);
     return daysDiff;
@@ -379,11 +383,12 @@ const page = ({
         </h2>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
-            CA${propertyDetails.pricePerNight} x {totalDays + 1} nights
+            CA${propertyDetails.pricePerNight} x {(totalDays + 1).toFixed(0)}{" "}
+            nights
           </p>
           <p className="text-lg">
             CA$
-            {propertyDetails.pricePerNight * (totalDays + 1)}
+            {(propertyDetails.pricePerNight * (totalDays + 1)).toFixed(0)}
           </p>
         </div>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
@@ -408,8 +413,10 @@ const page = ({
           <p className="font-bold">Total Amount</p>
           <p className="font-bold">
             CA$
-            {propertyDetails.pricePerNight * (totalDays + 1) +
-              propertyDetails.pricePerNight * (totalDays + 1) * 0.15}
+            {(
+              propertyDetails.pricePerNight * (totalDays + 1) +
+              propertyDetails.pricePerNight * (totalDays + 1) * 0.15
+            ).toFixed(0)}
           </p>
         </div>
         <p className="text-xs 2xl:text-sm max-w-md 2xl:max-w-lg font-normal my-3 2xl:my-5 tracking-wide text-gray-200">

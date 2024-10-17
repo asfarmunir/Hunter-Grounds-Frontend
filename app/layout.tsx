@@ -34,8 +34,8 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <AuthSessionProvider>
-        <body className={lexend.variable}>
+      <body className={lexend.variable}>
+        <AuthSessionProvider>
           <NextTopLoader
             color="orange"
             initialPosition={0.08}
@@ -57,8 +57,8 @@ export default function RootLayout({
             <Toaster position="bottom-center" />
           </ThemeProvider>
           {/* <Toaster position="bottom-center" /> */}
-        </body>
-      </AuthSessionProvider>
+        </AuthSessionProvider>
+      </body>
     </html>
   );
 }

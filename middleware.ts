@@ -5,7 +5,11 @@ export default function middleware(req: NextRequest) {
   // Get the session token cookie
 const sessionToken =
     req.cookies.get('__Secure-next-auth.session-token')?.value || 
-    req.cookies.get('next-auth.session-token')?.value;
+    req.cookies.get('__Secure-next-auth.session-token.0')?.value || 
+    req.cookies.get('__Secure-next-auth.session-token.1')?.value || 
+    req.cookies.get('next-auth.session-token')?.value ||
+    req.cookies.get('next-auth.session-token.0')?.value ||
+    req.cookies.get('next-auth.session-token.1')?.value;
   // If the session token is present, allow access to all routes in matcher
   if (sessionToken) {
     return NextResponse.next();

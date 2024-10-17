@@ -7,8 +7,8 @@ export async function POST(req: NextRequest) {
   const currentYear = new Date().getFullYear();
 
   // Construct proper Date objects
-  const checkInDate = new Date(`${currentYear}-${data.checkIn}`);
-  const checkOutDate = new Date(`${currentYear}-${data.checkOut}`);
+  const checkInDate = new Date(data.checkIn);  
+  const checkOutDate = new Date(data.checkOut);
 
   // Convert dates to ISO format or any format you prefer
   const checkInISO = checkInDate.toISOString();

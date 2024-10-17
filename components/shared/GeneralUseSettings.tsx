@@ -1140,7 +1140,7 @@ const EmailsAndSms = ({ user }: { user: IUser }) => {
             <Image src="/images/phone.svg" width={30} height={30} alt="email" />
           </div>
           <p className="text-primary-50 md:pl-6 text-sm md:text-lg font-bold">
-            Optional communication from the Huntground team
+            Optional communication from the Huntgrounds team
           </p>
         </div>
         <div className="flex items-center border-b border-primary-50/10 pb-4">

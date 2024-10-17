@@ -95,6 +95,7 @@ const page = ({
                 <WithdrawFunds
                   userId={userData._id!}
                   type={"booking"}
+                  isVerified={userData.isVerified!}
                   path={"/dashboard"}
                 />
               )}
@@ -161,13 +162,15 @@ const page = ({
 
           <div className="mt-12 w-full">
             <div className="w-full flex items-center justify-between">
-              <h3 className="text-3xl 2xl:text-4xl">{totalBookings}</h3>
+              <h3 className="text-3xl 2xl:text-4xl">
+                {totalBookings ? totalBookings : null}
+              </h3>
               {/* <p className="flex w-fit items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
                 <img src="/images/up.svg" width={12} height={12} alt="arrow" />
                 +15%
               </p> */}
             </div>
-            {totalBookings && (
+            {totalBookings ? (
               <div className="w-full h-12 2xl:h-16 my-4 rounded-xl bg-[#372F2F99]">
                 {/* Dynamic progress bar logic based on bookings percentage */}
                 <div
@@ -178,6 +181,12 @@ const page = ({
                     }%`,
                   }} // Set the width dynamically based on percentage
                 ></div>
+              </div>
+            ) : (
+              <div className=" w-full p-3 bg-primary-50/20 mb-4  ">
+                <p className="text-sm text-gray-300 2xl:text-base w-full text-center font-semibold">
+                  No Bookings to show
+                </p>
               </div>
             )}
 

@@ -37,7 +37,7 @@ const KYCVerification = ({ userId }: { userId: string }) => {
                     color: "#fff",
                   },
                 });
-                router.push("/dashboard/add-property");
+                router.push("/dashboard");
                 break;
             }
           },
