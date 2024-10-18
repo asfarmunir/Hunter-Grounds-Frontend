@@ -37,6 +37,10 @@ const PropertySchema = new Schema(
       type: [Date], // Array to store the dates when the property is booked
       default: [],
     },
+     nonAvailableDates: {
+      type: [Date], // Array to store dates when the owner does not want to rent out the property
+      default: [],
+    },
     city:{
       type: String,
       required: true,

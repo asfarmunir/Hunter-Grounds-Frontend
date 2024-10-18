@@ -159,7 +159,7 @@ const UserProfile = ({
           <button
             onClick={() => setTab("review")}
             className={`${
-              tab === "saved" ? "border-primary-50 border-b-2 " : ""
+              tab === "review" ? "border-primary-50 border-b-2 " : ""
             }px-3.5 pb-3`}
           >
             {userReviews ? userReviews : 0} <br />

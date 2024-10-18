@@ -13,4 +13,5 @@ export interface IProperty {
   bookedDates: string[];
   location: { latitude: number; longitude: number };
   reviews: { user: string; review: string, rating:number }[];
+  nonAvailableDates: string[];
 }

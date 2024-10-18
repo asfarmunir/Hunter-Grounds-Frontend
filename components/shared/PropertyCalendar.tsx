@@ -1,7 +1,7 @@
 "use client";
 import { IProperty } from "@/lib/types/property";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { LuCalendarDays } from "react-icons/lu";
 import {
@@ -11,6 +11,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import CalendarFilter from "./CalendarFilter";
+import { toggleUnavailableDates } from "@/database/actions/property.action";
+import { RiExchangeFill } from "react-icons/ri";
+import toast from "react-hot-toast";
 
 // Helper function to generate the days of the month in UTC
 const generateDaysInMonth = (year: number, month: number) => {
@@ -41,6 +44,7 @@ const PropertyCalendar = ({
     _id: string;
   }[];
 }) => {
+  console.log("🚀 ~ data:", data);
   // Create a mapping of booked dates to property details
   const bookedDatesMap: Record<
     string,
@@ -59,6 +63,30 @@ const PropertyCalendar = ({
   });
 
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [bookedDates, setBookedDates] = useState<string[]>([]);
+  useEffect(() => {
+    // Check if data array length is 1, then set nonAvailableDates
+    if (data.length === 1 && data[0]?.nonAvailableDates) {
+      const dates = data[0].nonAvailableDates.map(
+        (date: string) => date.split("T")[0]
+      );
+      setBookedDates(dates);
+    }
+  }, [data]); // Dependency on 'data' so this effect runs when 'data' changes
+  // State to track unavailable dates
+  const [loading, setLoading] = useState(false);
+  console.log("🚀 ~ bookedDates:", bookedDates);
+
+  const handleToggleAvailability = (formattedDay: string) => {
+    setBookedDates(
+      (prev) =>
+        prev.includes(formattedDay)
+          ? prev.filter((date) => date !== formattedDay) // Remove if it's already booked
+          : [...prev, formattedDay] // Add if it's available
+    );
+  };
+  const isDateBooked = (formattedDay: string) =>
+    bookedDates.includes(formattedDay);
 
   // Get year and month for the current view
   const year = currentDate.getUTCFullYear();
@@ -84,6 +112,43 @@ const PropertyCalendar = ({
       );
     });
     return bookingsThisMonth.length;
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true); // Set loading state
+    try {
+      console.log(
+        data[0]._id, // Assuming we are updating the first property
+        bookedDates
+      );
+      const response = await toggleUnavailableDates({
+        propertyId: data[0]._id, // Assuming we are updating the first property
+        nonAvailableDates: bookedDates,
+      });
+      if (response.status === 200) {
+        console.log("Dates updated successfully", response.updatedProperty);
+        toast.success("Dates updated successfully", {
+          duration: 4000,
+          style: {
+            background: "#4B5563",
+            color: "#F9FAFB",
+          },
+        });
+      } else {
+        console.error("Error updating dates", response.error);
+        toast.error("Error updating dates", {
+          duration: 4000,
+          style: {
+            background: "red",
+            color: "white",
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Server error:", error);
+    } finally {
+      setLoading(false); // Stop loading state
+    }
   };
 
   return (
@@ -113,7 +178,26 @@ const PropertyCalendar = ({
             className="text-2xl p-0.5 border border-primary-50/30 rounded-full cursor-pointer"
           />
         </div>
+        {bookedDates.length > 0 && (
+          <button
+            onClick={handleSubmit}
+            className="px-5 py-2 bg-primary-50/80 text-white rounded-lg flex items-center gap-2"
+            disabled={loading}
+          >
+            {loading ? "Updating..." : "Update Dates"}
+            <FaChevronRight />
+          </button>
+        )}
       </div>
+      <p
+        className="
+        text-sm text-gray-300 mt-5 mb-6 2xl:text-base font-normal tracking-wide
+      "
+      >
+        {data.length === 1
+          ? "  Manage the availability of your property by selecting dates on the  calendar below. Click on a date to toggle between available and unavailable." // Show different message if multiple dates are selected
+          : "Select a property to toggle availability."}
+      </p>
       <div className=" w-full my-10">
         <div className=" w-full bg-[#161313]  p-1 py-6 md:p-6 rounded-xl flex-col md:flex-row flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -139,6 +223,7 @@ const PropertyCalendar = ({
             const bookingData = bookedDatesMap[formattedDay];
             const totalEarnings = bookingData?.totalEarnings || 0;
             const propertyNames = bookingData?.propertyNames || [];
+            const isBooked = isDateBooked(formattedDay);
 
             return (
               <div
@@ -158,17 +243,45 @@ const PropertyCalendar = ({
                           day: "numeric",
                         })}
                       </p>
-                      <p
-                        className={`px-3 py-1.5 rounded-full ${
-                          totalEarnings
-                            ? "bg-primary-50/60 text-white"
-                            : "bg-[#FFFFFF33] text-white"
-                        }`}
-                      >
-                        {totalEarnings
-                          ? `$${totalEarnings.toLocaleString()}`
-                          : "Available"}
-                      </p>
+                      {totalEarnings ? (
+                        <p
+                          className={`px-3 py-1.5 rounded-full
+                              bg-primary-50/60 text-white "
+                          `}
+                        >
+                          ${totalEarnings.toLocaleString()}
+                        </p>
+                      ) : data.length === 1 ? (
+                        isBooked ? (
+                          <button
+                            onClick={() =>
+                              handleToggleAvailability(formattedDay)
+                            }
+                            className={`px-3 py-1.5 flex items-center justify-center gap-1 rounded-full bg-primary-50/60 text-white`}
+                          >
+                            <RiExchangeFill className="text-lg 2xl:text-xl text-white" />
+                            Unavailable
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() =>
+                              handleToggleAvailability(formattedDay)
+                            }
+                            className={`px-3 py-1.5 flex items-center justify-center bg-[#FFFFFF33] gap-1 rounded-full  text-white`}
+                          >
+                            <RiExchangeFill className="text-lg 2xl:text-xl  text-primary-50" />
+                            Available
+                          </button>
+                        )
+                      ) : (
+                        <p
+                          className={`px-3 py-1.5 rounded-full
+                              bg-[#FFFFFF33] text-white
+                          `}
+                        >
+                          No booking
+                        </p>
+                      )}
                     </TooltipTrigger>{" "}
                     <TooltipContent className=" min-w-40 px-4 pb-3 pt-1 rounded-lg">
                       {totalEarnings ? (

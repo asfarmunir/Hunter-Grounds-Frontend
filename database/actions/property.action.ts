@@ -285,5 +285,115 @@ export const countUserReviews = async (userId:string) => {
 };
 
 
+// export const toggleUnavailableDates = async ({
+//   propertyId,
+//   nonAvailableDates,
+// }: {
+//   propertyId: string;
+//   nonAvailableDates: string[];
+// }) => {
+//   try {
+//     // Validate request data
+//     if (!propertyId || !nonAvailableDates || !Array.isArray(nonAvailableDates)) {
+//       return JSON.parse(
+//         JSON.stringify({ error: "Invalid data provided", status: 400 })
+//       );
+//     }
+
+//     const formattedDates = nonAvailableDates.map((date) => new Date(date));
+
+//     // Fetch the property to check existing nonAvailableDates
+//     const property = await Property.findById(propertyId);
+//     if (!property) {
+//       return JSON.parse(
+//         JSON.stringify({ error: "Property not found", status: 404 })
+//       );
+//     }
+
+//     // Identify dates to add and remove
+//     const datesToAdd = formattedDates.filter(
+//       (date) => !property.nonAvailableDates.includes(date)
+//     );
+//     console.log("🚀 ~ datesToAdd:", datesToAdd)
+//     const datesToRemove = property.nonAvailableDates.filter(
+//       (date: any) => formattedDates.includes(date)
+//     );
+//     console.log("🚀 ~ datesToRemove:", datesToRemove)
+
+//     // Step 1: Add dates using $addToSet
+//     if (datesToAdd.length > 0) {
+//       await Property.findByIdAndUpdate(propertyId, {
+//         $addToSet: { nonAvailableDates: { $each: datesToAdd } }, // Add unique dates
+//       });
+//     }
+
+//     // Step 2: Remove dates using $pull
+//     if (datesToRemove.length > 0) {
+//       await Property.findByIdAndUpdate(propertyId, {
+//         $pull: { nonAvailableDates: { $in: datesToRemove } }, // Remove dates
+//       });
+//     }
+
+//     // Revalidate the path after both updates
+//     revalidatePath("/calendar");
+
+//     // Fetch the updated property to return it
+//     const updatedProperty = await Property.findById(propertyId);
+
+//     // Return the updated property
+//     return JSON.parse(JSON.stringify({ updatedProperty, status: 200 }));
+//   } catch (error) {
+//     console.error("Error updating non-available dates:", error);
+//     return JSON.parse(JSON.stringify({ error, status: 500 }));
+//   }
+// };
+
+
+export const toggleUnavailableDates = async ({
+  propertyId,
+  nonAvailableDates,
+}: {
+  propertyId: string;
+  nonAvailableDates: string[];
+}) => {
+  try {
+    // Validate request data
+    if (!propertyId || !nonAvailableDates || !Array.isArray(nonAvailableDates)) {
+      return JSON.parse(
+        JSON.stringify({ error: "Invalid data provided", status: 400 })
+      );
+    }
+
+    // Convert input dates to ISO string format
+    const formattedDates = nonAvailableDates.map((date) =>
+      new Date(date).toISOString()
+    );
+
+    // Fetch the property to ensure it exists
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return JSON.parse(
+        JSON.stringify({ error: "Property not found", status: 404 })
+      );
+    }
+
+    // Directly update the nonAvailableDates field with the new dates
+    await Property.findByIdAndUpdate(propertyId, {
+      nonAvailableDates: formattedDates,
+    });
+
+    // Revalidate the path after updating the property
+    revalidatePath("/calendar");
+
+    // Fetch the updated property to return it
+    const updatedProperty = await Property.findById(propertyId);
+
+    // Return the updated property
+    return JSON.parse(JSON.stringify({ updatedProperty, status: 200 }));
+  } catch (error) {
+    console.error("Error updating non-available dates:", error);
+    return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }
+};
 
 

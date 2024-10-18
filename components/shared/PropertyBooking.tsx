@@ -20,12 +20,21 @@ import { toast } from "react-hot-toast"; // Import toast
 import { useRouter } from "next/navigation";
 import { IProperty } from "@/lib/types/property";
 import { CgLock } from "react-icons/cg";
+import { addSavedProperty } from "@/database/actions/user.action";
+import { FaHeart } from "react-icons/fa";
 
-const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
+const page = ({
+  propertyDetails,
+  userId,
+}: {
+  propertyDetails: IProperty;
+  userId: string;
+}) => {
   console.log("🚀 ~ page ~ propertyDetails:", propertyDetails);
   const [fromDate, setFromDate] = React.useState<Date>();
   const [toDate, setToDate] = React.useState<Date>();
   const [nights, setNights] = React.useState<number | null>(null);
+  const [loading, setLoading] = React.useState(false);
 
   const [fromDateOpen, setFromDateOpen] = React.useState(false);
   const [toDateOpen, setToDateOpen] = React.useState(false);
@@ -185,9 +194,43 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
         </div>
       </div>
       <div className="">
-        <h2 className="text-2xl font-bold 2xl:text-4xl text-center md:text-start mb-8">
-          Booking Details
-        </h2>
+        <div className=" w-full flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold 2xl:text-4xl text-center md:text-start ">
+            Booking Details
+          </h2>
+          <button
+            disabled={loading}
+            type="button"
+            onClick={async () => {
+              setLoading(true);
+              const res = await addSavedProperty(userId, propertyDetails._id);
+              if (res.status !== 200) {
+                toast.error(res.message, {
+                  duration: 4000,
+                  style: {
+                    background: "#333",
+                    color: "#fff",
+                  },
+                  icon: "⚠️",
+                });
+                setLoading(false);
+                return;
+              }
+              toast.success("Property saved successfully", {
+                duration: 4000,
+                style: {
+                  background: "#333",
+                  color: "#fff",
+                },
+                icon: "❤️",
+              });
+              setLoading(false);
+            }}
+            className="disabled:opacity-40 bg-primary-200/90 opacity-90 hover:opacity-100 transition-all rounded-full p-2"
+          >
+            <FaHeart className="text-primary-50 text-lg" />
+          </button>
+        </div>
         <div className="gap-4 flex flex-col md:flex-row pb-4 items-center md:items-start border-b border-primary-50/30">
           <div className=" w-full px-6 sm:px-0 sm:w-[165px] sm:h-[165px] flex items-center justify-center object-cover object-center">
             {propertyDetails.photos ? (
@@ -248,7 +291,12 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
                       (bookedDate) => isSameDay(bookedDate, date)
                     );
 
-                    return isBooked;
+                    const isUnavailable =
+                      propertyDetails.nonAvailableDates.some(
+                        (nonAvailableDate) => isSameDay(nonAvailableDate, date)
+                      );
+
+                    return isBooked || isUnavailable;
                   }}
                   initialFocus
                 />
@@ -300,10 +348,14 @@ const page = ({ propertyDetails }: { propertyDetails: IProperty }) => {
                     const isBooked = propertyDetails.bookedDates.some(
                       (bookedDate) => isSameDay(bookedDate, date)
                     );
+                    const isUnavailable =
+                      propertyDetails.nonAvailableDates.some(
+                        (nonAvailableDate) => isSameDay(nonAvailableDate, date)
+                      );
                     const isBeforeFromDate =
                       fromDate && !isAfter(date, fromDate);
 
-                    return isBooked || isBeforeFromDate;
+                    return isBooked || isBeforeFromDate || isUnavailable;
                   }}
                   initialFocus
                 />

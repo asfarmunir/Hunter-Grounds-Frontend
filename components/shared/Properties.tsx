@@ -9,6 +9,7 @@ import { BsSave } from "react-icons/bs";
 import { addSavedProperty } from "@/database/actions/user.action";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import { FaHeart } from "react-icons/fa";
 
 const Properties = ({ properties }: { properties: IProperty[] }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -68,16 +69,24 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
                               background: "#333",
                               color: "#fff",
                             },
+                            icon: "⚠️",
                           });
                           setLoading(false);
                           return;
                         }
-                        toast.success("Property saved successfully");
+                        toast.success("Property saved successfully", {
+                          duration: 4000,
+                          style: {
+                            background: "#333",
+                            color: "#fff",
+                          },
+                          icon: "❤️",
+                        });
                         setLoading(false);
                       }}
-                      className="absolute disabled:cursor-wait top-2 right-2 bg-primary-50/70 opacity-70 hover:opacity-100 transition-all rounded-full p-2"
+                      className="absolute disabled:cursor-wait top-2 right-2 bg-primary-200/80 opacity-80 hover:opacity-100 transition-all rounded-full p-2"
                     >
-                      <BsSave className="text-black" />
+                      <FaHeart className="text-primary-50" />
                     </button>
                   )}
               </div>

@@ -326,21 +326,32 @@ export const removeSavedProperty = async (userId: string, propertyId: string) =>
       return { message: "User not found", status: 404 };
     }
 
-    const isPropertySaved = user.savedProperties && user.savedProperties.includes(propertyId);
+    const isPropertySaved = user.savedProperties && user.savedProperties.includes(propertyId.toString());
     if (!isPropertySaved) {
       return { message: "Property not saved!", status: 400 };
     }
-    user.savedProperties = user.savedProperties.filter((id: string) => {
-      id !== propertyId.toString();
-    });
+
+    console.log("🚀 ~ removeSavedProperty ~ propertyId:", propertyId);
+
+    // Ensure all IDs are compared as strings
+    const updatesSaves = user.savedProperties.filter((id: string) => id.toString() !== propertyId.toString());
+
+    console.log("🚀 ~ removeSavedProperty ~ updatesSaves:", updatesSaves);
+    
+    user.savedProperties = updatesSaves;
     await user.save();
+
+    // Trigger revalidation after the update
     revalidatePath('/account');
-    return JSON.parse(JSON.stringify({ message: "Property removed successfully", status: 200 }));
+
+    return { message: "Property removed successfully", status: 200 };
   } catch (error) {
     console.error("Error removing property: ", error);
     return { message: "Internal Server Error", status: 500 };
   }
-}
+};
+
+
 
 
 export const getUserSavedProperties = async (userId: string) => {
