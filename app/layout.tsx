@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import AuthSessionProvider from "@/lib/AuthProvider";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
+import Script from "next/script";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -35,6 +36,10 @@ export default function RootLayout({
         />
       </head>
       <body className={lexend.variable}>
+        <Script
+          strategy="beforeInteractive"
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY}`}
+        />
         <AuthSessionProvider>
           <NextTopLoader
             color="orange"

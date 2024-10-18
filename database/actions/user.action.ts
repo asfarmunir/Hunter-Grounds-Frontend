@@ -6,6 +6,7 @@ import { connectToDatabase } from '@/database';
 import { revalidatePath } from 'next/cache';
 import { StreamChat } from 'stream-chat';
 import { sendEmail } from '@/lib/sendEmail';
+import { verifyCaptchaToken } from '@/lib/captcha';
 export const getUserDetails = async (email: string) => {
     try {
         await connectToDatabase();
@@ -390,6 +391,38 @@ export const updateUserPreferences = async (userId: string, preferences: any) =>
 
 // --------------------------
 
+export async function verifyCaptcha(
+  token: string | null,
+) {
+  if (!token) {
+    return {
+      success: false,
+      message: "Token not found",
+    };
+  }
+
+  // Verify the token
+  const captchaData = await verifyCaptchaToken(token);
+
+  if (!captchaData) {
+    return {
+      success: false,
+      message: "Captcha Verification Failed",
+    };
+  }
+
+  if (!captchaData.success || captchaData.score < 0.5) {
+    return {
+      success: false,
+      message: "Captcha Verification Failed",
+      errors: !captchaData.success ? captchaData["error-codes"] : undefined,
+    };
+  }
+  return {
+    success: true,
+    message: "verified!",
+  };
+}
 
 
 

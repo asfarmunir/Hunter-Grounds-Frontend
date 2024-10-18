@@ -72,6 +72,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/grecaptcha": "^3.0.9",
     "@types/mapbox__mapbox-gl-geocoder": "^5.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
