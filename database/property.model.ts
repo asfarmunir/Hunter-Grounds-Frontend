@@ -69,6 +69,10 @@ const PropertySchema = new Schema(
       ],
       default: [],
     },
+    extraServices: {
+      type: String,
+      default: "",
+    }
   },
   { timestamps: true }
 );

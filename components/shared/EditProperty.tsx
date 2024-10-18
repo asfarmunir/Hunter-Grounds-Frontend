@@ -41,6 +41,7 @@ const page = ({
     price: property.pricePerNight || 0,
     name: property.name || "",
     description: property.description || "",
+    extraServices: property.extraServices || "",
     city: property.city || "",
     location: property.location || {
       latitude: 0,
@@ -518,6 +519,28 @@ const page = ({
             </div>
           </div>
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+            Extra Services
+          </p>
+          <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
+              Do you offer any extra services or amenities? (Optional)
+            </p>
+            <div className="  pb-3  my-3">
+              <textarea
+                required
+                value={propertyDetails.extraServices}
+                placeholder="Please add details here...."
+                onChange={(e) =>
+                  setPropertyDetails({
+                    ...propertyDetails,
+                    extraServices: e.target.value,
+                  })
+                }
+                className=" border min-h-40 lg:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 2xl:p-5 bg-[#372f2f67] "
+              />
+            </div>
+          </div>
+          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Games Available
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
@@ -687,7 +710,7 @@ const page = ({
               </Link>
             </div>
           </div>
-          <p className="text-lg  font-normal text-[#FFFFFF80] mt-8 mb-2.5">
+          {/* <p className="text-lg  font-normal text-[#FFFFFF80] mt-8 mb-2.5">
             Insurance
           </p>
           <div className=" w-full dark:bg-[#372F2F33] border flex items-center justify-between gap-4 flex-col md:flex-row border-[#372F2F] p-6 rounded-xl shadow-md">
@@ -721,7 +744,7 @@ const page = ({
                 Show More
               </Link>
             </div>
-          </div>
+          </div> */}
           <div className=" w-full flex justify-end mr-4">
             <button className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-bold  px-6 py-2.5 text-sm mt-8 ">
               Continue to sites

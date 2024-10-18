@@ -37,6 +37,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     city: "",
     name: "",
     description: "",
+    extraServices: "",
     photos: [] as string[],
     profilePicture: "",
     location: {
@@ -48,10 +49,8 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
   });
 
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
-  console.log("🚀 ~ page ~ selectedGames:", selectedGames);
 
   const handleCheckboxChange = (game: string) => {
-    console.log("🚀 ~ handleCheckboxChange ~ game:", game);
     if (selectedGames.includes(game)) {
       setSelectedGames(
         selectedGames.filter((selectedGame) => selectedGame !== game)
@@ -170,12 +169,16 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
 
     try {
       const response = await axios.get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?country=PK&access_token=${accessToken}`
+        `https://api.mapbox.com/search/geocode/v6/forward?q=${encodedAddress}?country=CA?&access_token=${accessToken}`
       );
+      // const response = await axios.get(
+      //   `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?&access_token=${accessToken}`
+      // );
 
       if (response.data.features.length > 0) {
-        const { center } = response.data.features[0]; // `center` contains longitude and latitude
-        const [longitude, latitude] = center;
+        const { geometry } = response.data.features[0]; // `center` contains longitude and latitude
+        const latitude = geometry.coordinates[1];
+        const longitude = geometry.coordinates[0];
         return { latitude, longitude };
       } else {
         throw new Error("No results found for the given address");
@@ -203,7 +206,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       setLoading(false);
       return;
     }
-    propertyDetails.location = coordinates;
 
     if (selectedFiles.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
@@ -332,8 +334,10 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           </p>
           <div className=" w-full dark:bg-[#372F2F33] border flex flex-col items-center md:items-start border-[#372F2F] p-6 rounded-xl shadow-md">
             <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] mb-2">
-              Where is your property located? This will be shown on your
-              listing!
+              Where is your property located? Please enter the address in the
+              following format:
+              <br />
+              Street Number/Name, City, Province/State, Postal Code, Country
             </p>
             <div className="flex  py-4 items-center gap-3 w-full      ">
               <Image
@@ -349,7 +353,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
 
               <input
                 type="text"
-                required
                 placeholder="Enter your complete address"
                 className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
                 value={propertyDetails.address}
@@ -375,7 +378,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
 
               <input
                 type="text"
-                required
                 placeholder="Enter City"
                 className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
                 value={propertyDetails.city}
@@ -402,7 +404,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               <Input
                 type="number"
                 placeholder="100 acres"
-                required
                 value={propertyDetails.acres === 0 ? "" : propertyDetails.acres}
                 onChange={(e) =>
                   setPropertyDetails({
@@ -429,7 +430,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               <Input
                 type="number"
                 placeholder="50$ per night"
-                required
                 value={propertyDetails.price === 0 ? "" : propertyDetails.price}
                 onChange={(e) =>
                   setPropertyDetails({
@@ -453,7 +453,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               <div className="  pb-3  my-3">
                 <Input
                   type="text"
-                  required
                   value={propertyDetails.name}
                   placeholder="Write your property name....."
                   onChange={(e) =>
@@ -498,7 +497,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             </p>
             <div className="  pb-3  my-3">
               <textarea
-                required
                 value={propertyDetails.description}
                 placeholder="Write your property description...."
                 onChange={(e) =>
@@ -537,6 +535,28 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   </label>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+            Extra Services
+          </p>
+          <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
+              Do you offer any extra services or amenities? (Optional)
+            </p>
+            <div className="  pb-3  my-3">
+              <textarea
+                value={propertyDetails.extraServices}
+                placeholder="Please add details here...."
+                onChange={(e) =>
+                  setPropertyDetails({
+                    ...propertyDetails,
+                    extraServices: e.target.value,
+                  })
+                }
+                className=" border min-h-40 lg:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 2xl:p-5 bg-[#372f2f67] "
+              />
             </div>
           </div>
 
