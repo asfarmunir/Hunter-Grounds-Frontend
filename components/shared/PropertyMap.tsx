@@ -123,7 +123,7 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
               src={"/images/vector.svg"}
               width={28}
               height={28}
-              alt="logo"
+              alt="mar"
               className=" absolute -z-10 right-[30%] "
             />
             CA ${property.pricePerNight}
