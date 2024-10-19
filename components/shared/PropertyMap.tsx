@@ -1,12 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Map, {
   FullscreenControl,
   GeolocateControl,
   Marker,
   NavigationControl,
   Popup,
-  ScaleControl,
 } from "react-map-gl";
 import GeocoderControl from "@/components/shared/GeocoderControls";
 import Image from "next/image";
@@ -19,29 +18,82 @@ type property = {
   pricePerNight: number;
   id: string;
 };
+
 const PropertyMap = ({ properties }: { properties: property[] }) => {
   const [popupInfo, setPopupInfo] = useState<property | null>(null);
+  const [userLocation, setUserLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (!properties || !properties.length)
+  // Get user's current location on component mount
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          setIsLoading(false); // Stop loading once the location is obtained
+        },
+        (error) => {
+          setError("Unable to retrieve your location");
+          console.error(error);
+          setIsLoading(false); // Stop loading even if there's an error
+        }
+      );
+    } else {
+      setError("Geolocation is not supported by your browser");
+      setIsLoading(false); // Stop loading if geolocation is not supported
+    }
+  }, []);
+
+  // Show loading state while waiting for user's location
+  if (isLoading) {
+    return (
+      <div className=" w-full flex items-center flex-col justify-center">
+        <Image
+          src="/images/logoIcon.svg"
+          width={60}
+          height={60}
+          alt="loading"
+        />
+        <p className=" mt-2 text-lg font-bold">Loading huntgrounds...</p>
+      </div>
+    );
+  }
+
+  // Render fallback map if no properties are passed
+  if (!properties || !properties.length) {
     return (
       <Map
         mapboxAccessToken="pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"
         initialViewState={{
-          longitude: -73.9385,
-          latitude: 40.6643,
+          longitude: userLocation
+            ? userLocation.longitude
+            : properties[0].location.longitude,
+          latitude: userLocation
+            ? userLocation.latitude
+            : properties[0].location.latitude,
           zoom: 11,
         }}
         style={{ width: 600, height: 700 }}
         mapStyle="mapbox://styles/mapbox/dark-v10"
-      />
+      >
+        {error && <div className="error">{error}</div>}
+      </Map>
     );
+  }
 
   return (
     <Map
       mapboxAccessToken="pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"
       initialViewState={{
-        longitude: properties[0].location.longitude,
-        latitude: properties[0].location.latitude,
+        longitude: userLocation ? userLocation.longitude : -73.9385,
+        latitude: userLocation ? userLocation.latitude : 40.6643,
         zoom: 11,
       }}
       style={{ width: 600, height: 700 }}
@@ -51,9 +103,7 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
       <FullscreenControl position="top-right" />
       <GeolocateControl position="top-right" />
       <GeocoderControl
-        mapboxAccessToken={
-          "pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"
-        }
+        mapboxAccessToken="pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"
         position="top-left"
       />
 
