@@ -70,6 +70,11 @@ const page = ({
       return;
     }
 
+    if (isPast(fromDate) || isPast(toDate)) {
+      toast.error("Please select valid future date.");
+      return;
+    }
+
     // Adjust dates to noon to avoid time zone shift
     const adjustedFromDate = new Date(fromDate);
     adjustedFromDate.setHours(12, 0, 0, 0);
