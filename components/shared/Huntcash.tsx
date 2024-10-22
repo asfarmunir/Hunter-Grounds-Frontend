@@ -13,7 +13,7 @@ import {
 import { IUser } from "@/lib/types/user";
 import { useRouter } from "next/navigation";
 import WithdrawFunds from "./WithdrawFunds";
-
+import PayoutInfo from "./PayoutInfo";
 const page = ({
   userDetails,
   lastMonthEarning,
@@ -165,15 +165,18 @@ const page = ({
           </div>
 
           <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
-            <h2 className="flex items-center mb-6 text-sm text-gray-200 gap-2">
-              <Image
-                src={"/images/dollar-circle.svg"}
-                width={22}
-                height={22}
-                alt="withdraw"
-              />
-              Withdraw Amount
-            </h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="flex items-center text-sm text-gray-200 gap-2">
+                <Image
+                  src={"/images/dollar-circle.svg"}
+                  width={22}
+                  height={22}
+                  alt="withdraw"
+                />
+                Withdraw Amount
+              </h2>
+              <PayoutInfo />
+            </div>
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <p className="text-2xl 2xl:text-5xl font-semibold ">
@@ -187,6 +190,7 @@ const page = ({
                     userId={userDetails._id!}
                     type={"referal"}
                     path={"/hunt-cash"}
+                    isVerified={userDetails.isVerified!}
                   />
                 )}
               </div>

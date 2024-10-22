@@ -126,8 +126,8 @@ const page = ({
   }
 
   return (
-    <div className=" w-full flex flex-col-reverse md:flex-row gap-4 justify-between p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
-      <div className="flex flex-col gap-2">
+    <div className=" w-full flex flex-col-reverse md:flex-row gap-4 justify-center p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
+      {/* <div className="flex flex-col gap-2">
         <h2 className="text-2xl 2xl:text-4xl font-bold">Add Extras</h2>
         <p className="text-sm 2xl:text-base mb-4">
           Make your hunting trip even more fun by adding a little something
@@ -197,7 +197,7 @@ const page = ({
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="">
         <div className=" w-full flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold 2xl:text-4xl text-center md:text-start ">

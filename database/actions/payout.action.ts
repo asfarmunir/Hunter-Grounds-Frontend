@@ -131,3 +131,17 @@ export const handleRejectedPayouts = async () => {
     console.error('Error processing rejected payouts:', error);
   }
 };
+
+
+export const getPayoutsOfUser = async (userId: string) => {
+  try {
+    await connectToDatabase();
+
+    const payouts = await Payout.find({ user: userId });
+
+    return JSON.parse(JSON.stringify({ status: 200, data: payouts }));
+  } catch (error) {
+    console.error("Error getting payouts:", error);
+    return JSON.parse(JSON.stringify({ status: 400, message: "Error getting payouts" }));
+  }
+}

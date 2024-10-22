@@ -518,7 +518,7 @@ const page = ({
               />
             </div>
           </div>
-          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+          {/* <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Extra Services
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
@@ -539,7 +539,7 @@ const page = ({
                 className=" border min-h-40 lg:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 2xl:p-5 bg-[#372f2f67] "
               />
             </div>
-          </div>
+          </div> */}
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Games Available
           </p>

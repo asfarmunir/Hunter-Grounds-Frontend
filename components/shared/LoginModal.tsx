@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { createRef } from "react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -9,7 +9,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-import { IoMdAdd } from "react-icons/io";
+import ReCAPTCHA from "react-google-recaptcha";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -62,14 +62,37 @@ const AddClient = ({
   async function onSubmit(values: any) {
     setLoading(true);
 
-    const token = await getCaptchaToken();
+    // const token = await getCaptchaToken();
 
-    const captchaResponse = await verifyCaptcha(token);
+    // const captchaResponse = await verifyCaptcha(token);
 
-    if (!captchaResponse.success) {
-      toast.error(captchaResponse.message);
-      setLoading(false);
-      return;
+    // if (!captchaResponse.success) {
+    //   toast.error(captchaResponse.message);
+    //   setLoading(false);
+    //   return;
+    // }
+    try {
+      recaptchaRef.current.reset();
+      const token = await recaptchaRef.current?.executeAsync();
+      if (token) {
+        const apiQuery: any = await fetch(`/api/auth/verify-captcha/${token}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const { success } = await apiQuery.json();
+        console.log("🚀 ~ onSubmit ~ success:", success);
+        if (success) {
+          // toast.success("Form submitted successfully");
+        } else {
+          // toast.error("Form submission failed");
+        }
+      } else {
+        // toast.error("Error getting token");
+      }
+    } catch (error) {
+      // toast.error("Failed to verify captcha");
     }
 
     const { email, password } = values;
@@ -85,9 +108,19 @@ const AddClient = ({
       return;
     }
     toast.success("Logged in successfully");
-    router.push("/account");
+    router.replace("/account");
     setLoading(false);
   }
+
+  const recaptchaRef: any = createRef();
+
+  const onChange = () => {
+    // on captcha change
+  };
+
+  const asyncScriptOnLoad = () => {
+    // console.log("Google recaptcha loaded just fine");
+  };
 
   return (
     <AlertDialog>
@@ -97,7 +130,7 @@ const AddClient = ({
       >
         Login
       </AlertDialogTrigger>
-      <AlertDialogContent className=" p-0  bg-[#161313CC] border-none  2xl:min-w-[600px]  ">
+      <AlertDialogContent className=" p-0 overflow-hidden  bg-[#161313CC] border-none  2xl:min-w-[600px]  ">
         <AlertDialogCancel className=" w-fit absolute right-3 top-3 dark:bg-[#161313CC] border-none">
           <IoCloseSharp className="text-3xl text-white p-1 bg-[#372F2F] rounded-full " />
         </AlertDialogCancel>
@@ -206,6 +239,13 @@ const AddClient = ({
                   Forgot Password?
                 </button>
               </div>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                size="invisible"
+                sitekey="6LdnbmUqAAAAAB7lH7ly1Hj3D3HdNlXNluZo7HW7"
+                onChange={onChange}
+                asyncScriptOnLoad={asyncScriptOnLoad}
+              />
 
               <div className="flex flex-col w-full mt-2 items-center justify-center">
                 <Button

@@ -201,11 +201,20 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     }
 
     const coordinates = await getCoordinatesFromMapbox(propertyDetails.address);
+    console.log("🚀 ~ submitHandler ~ coordinates:", coordinates);
     if (!coordinates) {
       toast.error("Invalid address. Please provide a valid address");
       setLoading(false);
       return;
     }
+
+    // setPropertyDetails({
+    //   ...propertyDetails,
+    //   location: {
+    //     latitude: coordinates.latitude,
+    //     longitude: coordinates.longitude,
+    //   },
+    // });
 
     if (selectedFiles.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
@@ -248,7 +257,13 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
         owner: userDetails._id,
         city: propertyDetails.city.trim().replace(/\s+/g, "").toLowerCase(),
         gameAvailable: selectedGames,
+        location: {
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
+        },
       };
+      console.log("🚀 ~ submitHandler ~ data:", data);
+
       const res = await createProperty(data);
       if (res.status !== 200) {
         toast.error("Something went wrong while creating property");
@@ -268,6 +283,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       toast.dismiss();
       toast.error("something went wrond!");
     } finally {
+      setLoading(false);
       setUploading(false);
     }
   };
@@ -316,13 +332,13 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                 </p>
               ))}
             </div>
-            <button
+            {/* <button
               type="submit"
               disabled={loading}
               className="bg-gradient-to-b disabled:cursor-not-allowed text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg"
             >
               Add Property
-            </button>
+            </button> */}
           </div>
         </div>
         <div className=" w-full bg-[#16131399] p-4 ">
@@ -510,11 +526,11 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             </div>
           </div>
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
-            Games Available
+            Game Available
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
             <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
-              Select the games available on your property.
+              Select the game available on your property.
             </p>
             <div className="grid grid-cols-2  md:grid-cols-4 2xl:grid-col-6 mt-4 2xl:mt-7 gap-4 2xl:gap-6">
               {gameOptions.map((game) => (
@@ -537,7 +553,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               ))}
             </div>
           </div>
-
+          {/* 
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Extra Services
           </p>
@@ -558,7 +574,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                 className=" border min-h-40 lg:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 2xl:p-5 bg-[#372f2f67] "
               />
             </div>
-          </div>
+          </div> */}
 
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Add Images
@@ -736,13 +752,20 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               </Link>
             </div>
           </div> */}
-          <div className=" w-full flex justify-end mr-4">
+          <div className=" w-full flex justify-center sm:justify-end gap-3 items-center mr-5 my-8">
             <Link
               href={"/user-properties"}
-              className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-bold  px-6 py-2.5 text-sm mt-8 "
+              className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-semibold px-4  sm:px-10 py-2.5 text-sm 2xl:text-base "
             >
               Continue to sites
             </Link>
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-gradient-to-b  border-2 border-primary-50/70 disabled:cursor-not-allowed text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 sm:px-12 py-2.5 text-black font-semibold 2xl:text-base"
+            >
+              Add Property
+            </button>
           </div>
         </div>
       </form>

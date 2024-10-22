@@ -10,7 +10,10 @@ import {
   getTopPropertiesByOwner,
   getBookingCountByTimeFrame,
 } from "@/database/actions/booking.action";
-import { handleRejectedPayouts } from "@/database/actions/payout.action";
+import {
+  getPayoutsOfUser,
+  handleRejectedPayouts,
+} from "@/database/actions/payout.action";
 
 const page = async ({
   searchParams,
@@ -28,13 +31,15 @@ const page = async ({
     timeframe
   );
 
-  console.log("🚀 ~ bookingsForUser", bookingsForUser);
+  const userPayouts = await getPayoutsOfUser(session.user.id);
+  console.log("🚀 ~ userPayouts:", userPayouts);
 
   return (
     <Dashboard
       userData={data}
       topCities={topCities.topCities}
       totalBookings={bookingsForUser.bookingCount}
+      userPayouts={userPayouts.data}
     />
   );
 };

@@ -5,10 +5,21 @@ import WithdrawFunds from "@/components/shared/WithdrawFunds";
 import { IUser } from "@/lib/types/user";
 import { useRouter, useSearchParams } from "next/navigation";
 import { formUrlQuery } from "@/lib/utils";
+import PayoutInfo from "@/components/shared/PayoutInfo";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 const page = ({
   userData,
   topCities,
   totalBookings,
+  userPayouts,
 }: {
   userData: IUser;
   topCities?: {
@@ -16,6 +27,7 @@ const page = ({
     totalBookings?: number;
   }[];
   totalBookings?: number;
+  userPayouts: any;
 }) => {
   const [timeFrame, setTimeFrame] = useState("24h"); // Default to '24h'
   const router = useRouter();
@@ -81,9 +93,12 @@ const page = ({
             </div>
           </div>
           <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
-            <p className="textlg 2xl:text-xl mb-6 text-gray-300">
-              Withdrawable Amount
-            </p>
+            <div className="flex items-center justify-between mb-6">
+              <p className="textlg 2xl:text-xl  text-gray-300">
+                Withdrawable Amount
+              </p>
+              <PayoutInfo />
+            </div>
             <div className="flex items-center gap-6">
               <p className="text-3xl 2xl:text-5xl font-semibold">
                 $
@@ -244,6 +259,97 @@ const page = ({
             </p>
           )}
         </div>
+      </div>
+
+      <div className=" my-7 w-full">
+        <h3 className="text-xl 2xl:text-2xl mb-4">Payouts History</h3>
+        <Table>
+          <TableHeader className=" bg-[#161313] ">
+            <TableRow className=" border-none ">
+              <TableHead className=" uppercase text-xs 2xl:text-sm">
+                Reference
+              </TableHead>
+              <TableHead className=" uppercase text-xs 2xl:text-sm">
+                Amount
+              </TableHead>
+              <TableHead className=" uppercase text-xs 2xl:text-sm">
+                Paypal Email
+              </TableHead>
+              <TableHead className=" uppercase text-xs 2xl:text-sm">
+                Status
+              </TableHead>
+              <TableHead className=" uppercase text-xs 2xl:text-sm">
+                Date
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {userPayouts.length ? (
+              userPayouts.map((payout: any, i: number) => (
+                <TableRow key={i}>
+                  <TableCell className=" border-b  pb-4 text-emerald text-xs 2xl:text-sm font-semibold border-primary-50/15">
+                    {payout._id.slice(0, 8)}
+                  </TableCell>
+                  <TableCell
+                    className={`${
+                      payout.status === "completed"
+                        ? "text-emerald-100 "
+                        : "text-white"
+                    } border-b  pb-4  text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                  >
+                    ${payout.amount}
+                  </TableCell>
+                  <TableCell
+                    className={`${
+                      payout.status === "completed"
+                        ? "text-emerald-200"
+                        : "text-white"
+                    }
+                    border-b truncate max-w-[150px]  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                  >
+                    {payout.accountEmail}
+                  </TableCell>
+                  <TableCell
+                    className={`${
+                      payout.status === "completed"
+                        ? "text-emerald-100 "
+                        : "text-white"
+                    } border-b  pb-4 text-emerald-100 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                  >
+                    {payout.status === "completed" ? (
+                      <p className=" px-4 py-1.5 text-xs  border-2 border-[#00c88c70] text-[#00c88cad] w-fit rounded-full bg-[#00C88C1A]">
+                        Paid
+                      </p>
+                    ) : (
+                      <p className=" px-4 py-1.5 text-xs  border-2 border-yellow-600 text-yellow-600 w-fit rounded-full bg-yellow-600/30">
+                        Pending
+                      </p>
+                    )}
+                  </TableCell>
+                  <TableCell
+                    className={`${
+                      payout.status === "completed"
+                        ? "text-emerald-100 "
+                        : "text-white"
+                    } border-b  pb-4 text-xs 2xl:text-sm font-semibold border-primary-50/15`}
+                  >
+                    {new Date(payout.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center">
+                  No Payouts Requested
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

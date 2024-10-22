@@ -36,10 +36,6 @@ export default function RootLayout({
         />
       </head>
       <body className={lexend.variable}>
-        <Script
-          strategy="beforeInteractive"
-          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY}`}
-        />
         <AuthSessionProvider>
           <NextTopLoader
             color="orange"
