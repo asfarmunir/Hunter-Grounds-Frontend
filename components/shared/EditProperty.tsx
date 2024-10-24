@@ -272,7 +272,7 @@ const page = ({
     } catch (error) {
       console.error("Error uploading images:", error);
       toast.dismiss();
-      toast.error("something went wrond!");
+      toast.error("something went wrong!");
     } finally {
       setUploading(false);
     }
@@ -541,11 +541,11 @@ const page = ({
             </div>
           </div> */}
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
-            Games Available
+            Game Available
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
             <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
-              Select the games available on your property.
+              Select the game available on your property.
             </p>
             <div className="grid grid-cols-2  md:grid-cols-4 2xl:grid-col-6 mt-4 2xl:mt-7 gap-4 2xl:gap-6">
               {gameOptions.map((game) => (

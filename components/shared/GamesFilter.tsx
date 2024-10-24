@@ -60,7 +60,7 @@ const GameFilter = () => {
 
         <div className=" w-full bg-primary-100/50  gap-6  border border-primary-50/30 px-4 py-8 md:p-6  2xl:p-10 rounded-xl shadow-md">
           <p className="text-sm 2xl:text-lg border-b-2 pb-3 border-primary-50/20 w-full px-3  tracking-wide text-[#FFFFFF]  mb-2">
-            Select the games you are interested in.
+            Select the game you are interested in.
           </p>
           <div className="grid grid-cols-2 px-4 py-6  md:p-8  md:grid-cols-3 2xl:grid-cols-4 md:mt-4 2xl:mt-7 gap-4 2xl:gap-6">
             {gameOptions &&
@@ -89,7 +89,7 @@ const GameFilter = () => {
               onClick={submitHandler}
               className=" bg-gradient-to-b from-white to-primary-50 text-black px-12 font-bold py-2.5 rounded-xl"
             >
-              Set Games
+              Set Game
             </button>
           </div>
         </div>
