@@ -36,12 +36,10 @@ const Page = () => {
 
   async function onSubmit(values: any) {
     setLoading(true);
-    console.log("this is the value : ", values);
     try {
       const response = await axios.post("/api/reset-password", {
         email: values.email,
       });
-      console.log("this is the response in th page : ", response);
       if (response.status === 200) {
         toast.success("Reset link has been sent!");
       }

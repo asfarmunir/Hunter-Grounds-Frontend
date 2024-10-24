@@ -38,8 +38,6 @@ interface props {
 
 const Page = ({ params: { id }, searchParams: { token } }: props) => {
   const router = useRouter();
-  console.log("this is the id: ", id);
-  console.log("this is the searchParams: ", token);
 
   const form = useForm({
     resolver: zodResolver(formSchema),

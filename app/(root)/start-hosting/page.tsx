@@ -42,7 +42,6 @@ const page = () => {
   const params = useSearchParams();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const referalCode = params.get("referalCode");
-  console.log("🚀 ~ page ~ referalCode:", referalCode);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {

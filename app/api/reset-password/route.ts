@@ -34,7 +34,6 @@ export async function POST(req: NextRequest) {
     // Generate the password reset link (fallback link)
     const resetLink = `${process.env.APP_URL}/reset-password/${userId}?token=${resetToken}`;
 
-    console.log("🚀 ~ POST ~ resetLink:", resetLink)
     // Send the email with the reset link
       await resetEmail(email, "Password Reset", resetLink);  
 

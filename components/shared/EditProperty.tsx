@@ -56,7 +56,6 @@ const page = ({
   );
 
   const handleCheckboxChange = (game: string) => {
-    console.log("🚀 ~ handleCheckboxChange ~ game:", game);
     if (selectedGames.includes(game)) {
       setSelectedGames(
         selectedGames.filter((selectedGame) => selectedGame !== game)

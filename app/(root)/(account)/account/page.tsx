@@ -15,7 +15,6 @@ const page = async () => {
   const savedProperties = await getUserSavedProperties(session.user.id);
   const userDetails = await getUserDetails(session.user.email);
   const userReviews = await countUserReviews(session.user.id);
-  console.log("🚀 ~ page ~ userReviews:", userReviews);
   return (
     <UserProfile
       userDetails={userDetails}

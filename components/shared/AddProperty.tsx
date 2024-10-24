@@ -32,9 +32,12 @@ const initialSettings = [
 
 const page = ({ userDetails }: { userDetails: IUser }) => {
   const [propertyDetails, setPropertyDetails] = useState({
-    address: "",
+    stAddress: "",
+    state: "",
     acres: 0,
+    postalCode: "",
     city: "",
+    country: userDetails.country || "",
     name: "",
     description: "",
     extraServices: "",
@@ -95,7 +98,12 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             return {
               ...s,
               status:
-                propertyDetails.address.length > 12 ? "completed" : "pending",
+                propertyDetails.stAddress &&
+                propertyDetails.city &&
+                propertyDetails.state &&
+                propertyDetails.country
+                  ? "completed"
+                  : "pending",
             };
           case "Acres":
             return {
@@ -169,7 +177,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
 
     try {
       const response = await axios.get(
-        `https://api.mapbox.com/search/geocode/v6/forward?q=${encodedAddress}?country=CA?&access_token=${accessToken}`
+        `https://api.mapbox.com/search/geocode/v6/forward?q=${encodedAddress}?&access_token=${accessToken}`
       );
       // const response = await axios.get(
       //   `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?&access_token=${accessToken}`
@@ -200,21 +208,15 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       return;
     }
 
-    const coordinates = await getCoordinatesFromMapbox(propertyDetails.address);
+    const userAddress = `${propertyDetails.stAddress}, ${propertyDetails.city}, ${propertyDetails.state}, ${propertyDetails.postalCode}, ${propertyDetails.country}`;
+    console.log("🚀 ~ submitHandler ~ userAddress:", userAddress);
+    const coordinates = await getCoordinatesFromMapbox(userAddress);
     console.log("🚀 ~ submitHandler ~ coordinates:", coordinates);
     if (!coordinates) {
       toast.error("Invalid address. Please provide a valid address");
       setLoading(false);
       return;
     }
-
-    // setPropertyDetails({
-    //   ...propertyDetails,
-    //   location: {
-    //     latitude: coordinates.latitude,
-    //     longitude: coordinates.longitude,
-    //   },
-    // });
 
     if (selectedFiles.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
@@ -252,6 +254,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       toast.dismiss();
       const data = {
         ...propertyDetails,
+        address: `${propertyDetails.stAddress}, ${propertyDetails.city}, ${propertyDetails.state}, ${propertyDetails.postalCode}, ${propertyDetails.country}`,
         pricePerNight: propertyDetails.price,
         photos: uploadedUrls,
         owner: userDetails._id,
@@ -277,11 +280,11 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           color: "#fff",
         },
       });
-      router.push("/dashboard");
+      router.push("/user-properties");
     } catch (error) {
       console.error("Error uploading images:", error);
       toast.dismiss();
-      toast.error("something went wrond!");
+      toast.error("something went wrong!");
     } finally {
       setLoading(false);
       setUploading(false);
@@ -355,35 +358,114 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               <br />
               Street Number/Name, City, Province/State, Postal Code, Country
             </p>
-            <div className="flex  py-4 items-center gap-3 w-full      ">
-              <Image
-                src={
-                  propertyDetails.address.length > 12
-                    ? "/images/added.svg"
-                    : "/images/missing.svg"
-                }
-                width={30}
-                height={30}
-                alt="location"
-              />
+            <div className=" w-full flex items-center justify-between flex-col md:flex-row my-2">
+              <div className="flex  py-4 items-center gap-3 w-full      ">
+                <Image
+                  src={
+                    propertyDetails.stAddress.length > 5
+                      ? "/images/added.svg"
+                      : "/images/missing.svg"
+                  }
+                  width={30}
+                  height={30}
+                  alt="location"
+                />
 
-              <input
-                type="text"
-                placeholder="Enter your complete address"
-                className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
-                value={propertyDetails.address}
-                onChange={(e) =>
-                  setPropertyDetails({
-                    ...propertyDetails,
-                    address: e.target.value,
-                  })
-                }
-              />
+                <input
+                  type="text"
+                  placeholder="Enter your street address"
+                  className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
+                  value={propertyDetails.stAddress}
+                  onChange={(e) =>
+                    setPropertyDetails({
+                      ...propertyDetails,
+                      stAddress: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex  py-4 items-center gap-3 w-full      ">
+                <Image
+                  src={
+                    propertyDetails.city.length > 2
+                      ? "/images/added.svg"
+                      : "/images/missing.svg"
+                  }
+                  width={30}
+                  height={30}
+                  alt="location"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Enter City"
+                  className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
+                  value={propertyDetails.city}
+                  onChange={(e) =>
+                    setPropertyDetails({
+                      ...propertyDetails,
+                      city: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className=" w-full flex items-center justify-between flex-col md:flex-row my-2">
+              <div className="flex  py-4 items-center gap-3 w-full      ">
+                <Image
+                  src={
+                    propertyDetails.state.length > 2
+                      ? "/images/added.svg"
+                      : "/images/missing.svg"
+                  }
+                  width={30}
+                  height={30}
+                  alt="location"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Enter State "
+                  className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
+                  value={propertyDetails.state}
+                  onChange={(e) =>
+                    setPropertyDetails({
+                      ...propertyDetails,
+                      state: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex  py-4 items-center gap-3 w-full      ">
+                <Image
+                  src={
+                    propertyDetails.postalCode.length > 3
+                      ? "/images/added.svg"
+                      : "/images/missing.svg"
+                  }
+                  width={30}
+                  height={30}
+                  alt="location"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Enter Postal Code"
+                  className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
+                  value={propertyDetails.postalCode}
+                  onChange={(e) =>
+                    setPropertyDetails({
+                      ...propertyDetails,
+                      postalCode: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
             <div className="flex  py-4 items-center gap-3 w-full      ">
               <Image
                 src={
-                  propertyDetails.city.length > 3
+                  propertyDetails.country.length > 2
                     ? "/images/added.svg"
                     : "/images/missing.svg"
                 }
@@ -394,13 +476,13 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
 
               <input
                 type="text"
-                placeholder="Enter City"
+                placeholder="Enter Country"
                 className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
-                value={propertyDetails.city}
+                value={propertyDetails.country}
                 onChange={(e) =>
                   setPropertyDetails({
                     ...propertyDetails,
-                    city: e.target.value,
+                    country: e.target.value,
                   })
                 }
               />

@@ -215,7 +215,6 @@ export const getPropertiesCalendar = async (
   userId: string, 
   propertyName?: string // Optional parameter
 ) => {
-  console.log("🚀 ~ propertyName:", propertyName)
   try {
     await connectToDatabase();
 

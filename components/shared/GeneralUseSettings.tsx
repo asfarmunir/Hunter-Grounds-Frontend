@@ -409,7 +409,6 @@ const ChangePassword = ({ email }: { email: string }) => {
     e.preventDefault();
 
     if (password !== newPassword) {
-      console.log("passwords do not match");
       toast.error("Passwords do not match");
       return;
     }
@@ -645,7 +644,6 @@ const EmailsAndSms = ({ user }: { user: IUser }) => {
     }));
   };
 
-  console.log("🚀 ~ EmailsAndSms ~ preferences:", preferences);
   const submitHandler = async () => {
     const res = await updateUserPreferences(user._id!, preferences);
 

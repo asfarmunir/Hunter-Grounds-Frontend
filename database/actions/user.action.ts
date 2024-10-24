@@ -332,12 +332,10 @@ export const removeSavedProperty = async (userId: string, propertyId: string) =>
       return { message: "Property not saved!", status: 400 };
     }
 
-    console.log("🚀 ~ removeSavedProperty ~ propertyId:", propertyId);
 
     // Ensure all IDs are compared as strings
     const updatesSaves = user.savedProperties.filter((id: string) => id.toString() !== propertyId.toString());
 
-    console.log("🚀 ~ removeSavedProperty ~ updatesSaves:", updatesSaves);
     
     user.savedProperties = updatesSaves;
     await user.save();

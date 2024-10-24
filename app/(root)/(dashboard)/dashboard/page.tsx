@@ -32,7 +32,6 @@ const page = async ({
   );
 
   const userPayouts = await getPayoutsOfUser(session.user.id);
-  console.log("🚀 ~ userPayouts:", userPayouts);
 
   return (
     <Dashboard

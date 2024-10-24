@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import Topbar from "@/components/shared/Topbar";
 const page = async () => {
   const userDetails = await getServerSession(authOptions);
-  console.log(userDetails);
   if (!userDetails) {
     redirect("/");
   }

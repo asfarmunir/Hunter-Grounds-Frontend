@@ -9,7 +9,6 @@ type SearchParamProps = {
 };
 const page = async ({ params: { id }, searchParams }: SearchParamProps) => {
   const user = await getServerSession(authOptions);
-  console.log("🚀 ~ page ~ user:", user);
   const fromDate = (searchParams.fromDate as string) || "";
   const toDate = (searchParams.toDate as string) || "";
   const propertyDetails = await getPropertyById(id);

@@ -4,6 +4,7 @@ import { connectToDatabase } from '..';
 import Property from '../property.model';
 import { revalidatePath } from 'next/cache';
 import { subHours, subDays, subWeeks, startOfDay, endOfDay } from 'date-fns';
+import User from '../user.modal';
 
 export async function createBooking(data:any) {
     try {
@@ -173,5 +174,79 @@ export const getBookingCountByTimeFrame = async (userId: string, timeFrame?: str
   } catch (error) {
     console.log('Error fetching booking count by time frame:', error);
     return JSON.parse(JSON.stringify({ error, status: 500 }));
+  }
+};
+
+
+
+export const getAllBookingsForUserProperties = async (userId:string) => {
+  try {
+    // Ensure the database is connected
+    await connectToDatabase();
+
+    // Step 1: Find the user and ensure they exist
+    const user = await User.findById(userId).select('email firstname lastname');
+    if (!user) {
+      return {
+        error: "User not found.",
+        status: 404,
+      };
+    }
+
+    // Step 2: Find all properties owned by the user
+    const properties = await Property.find({ owner: userId }).select('_id name address');
+    
+    // Check if the user owns any properties
+    if (properties.length === 0) {
+      return {
+        error: "No properties found for this user.",
+        status: 404,
+      };
+    }
+
+    // Extract property IDs
+    const propertyIds = properties.map(property => property._id);
+
+    // Step 3: Find all bookings related to those properties
+    const bookings = await Booking.find({ property: { $in: propertyIds } })
+      .populate('user', 'firstname lastname email')  // Populate user details
+      .populate('property', 'name address')  // Populate property details
+      .exec();
+
+    // Step 4: Prepare the response
+    return {
+      status: 200,
+      user: {
+        email: user.email,
+        name: `${user.firstname} ${user.lastname}`,
+        preferences: user.preferences,  // Include user preferences if needed
+      },
+      bookings: bookings.map(booking => ({
+        bookingId: booking._id,
+        propertyId: booking.property._id,
+        propertyName: booking.property.name,
+        propertyAddress: booking.property.address,
+        userName: `${booking.user.firstname} ${booking.user.lastname}`,
+        userEmail: booking.user.email,
+        bookingFirstname: booking.bookingFirstname,
+        bookingLastname: booking.bookingLastname,
+        bookingEmail: booking.bookingEmail,
+        bookingPhone: booking.bookingPhone,
+        totalAmount: booking.totalAmount,
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        guests: booking.guests,
+        paymentStatus: booking.paymentStatus,
+        reviewed: booking.reviewed,
+        createdAt: booking.createdAt,
+        updatedAt: booking.updatedAt,
+      })),
+    };
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
+    return {
+      error: "Failed to fetch bookings.",
+      status: 500,
+    };
   }
 };
