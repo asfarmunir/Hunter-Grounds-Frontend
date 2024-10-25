@@ -397,13 +397,13 @@ const page = ({
               <p>
                 Taxes
                 <span className="text-xs text-slate-300 px-1 italic">
-                  (15%)
+                  (10%)
                 </span>
               </p>
               <p className="text-lg">
                 CA$
                 {(
-                  (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.15
+                  (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1
                 ).toFixed(2)}
               </p>
             </div>
@@ -411,7 +411,7 @@ const page = ({
               <p className="font-bold">Total</p>
               <p className="font-bold text-lg">
                 CA$
-                {(propertyDetails.pricePerNight * (nights! + 1) * 1.15).toFixed(
+                {(propertyDetails.pricePerNight * (nights! + 1) * 1.1).toFixed(
                   2
                 )}
               </p>

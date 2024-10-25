@@ -162,7 +162,7 @@ const Navbar = () => {
                   alt="logo"
                 />
 
-                {!toggleSearch && <span>Where+</span>}
+                {!toggleSearch && <span>Where +</span>}
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="mt-4 bg-[#2A2A2A]  rounded-md border-none ">

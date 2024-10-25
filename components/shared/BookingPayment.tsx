@@ -138,7 +138,7 @@ const page = ({
       checkOut: to,
       totalAmount:
         propertyDetails.pricePerNight * (totalDays + 1) +
-        propertyDetails.pricePerNight * (totalDays + 1) * 0.15,
+        propertyDetails.pricePerNight * (totalDays + 1) * 0.1,
     };
     axios
       .post("/api/stripe/create-payment-intent", {
@@ -404,9 +404,7 @@ const page = ({
           <p>Taxes</p>
           <p>
             CA$
-            {(propertyDetails.pricePerNight * (totalDays + 1) * 0.15).toFixed(
-              2
-            )}
+            {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)}
           </p>
         </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
@@ -415,7 +413,7 @@ const page = ({
             CA$
             {(
               propertyDetails.pricePerNight * (totalDays + 1) +
-              propertyDetails.pricePerNight * (totalDays + 1) * 0.15
+              propertyDetails.pricePerNight * (totalDays + 1) * 0.1
             ).toFixed(0)}
           </p>
         </div>

@@ -163,6 +163,29 @@ const page = ({
     selectedGames,
   ]);
 
+  // const getCoordinatesFromMapbox = async (address: string) => {
+  //   const accessToken =
+  //     "pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"; // Replace with your actual Mapbox access token
+  //   const encodedAddress = encodeURIComponent(address); // URL encode the address to ensure it's properly formatted
+
+  //   try {
+  //     const response = await axios.get(
+  //       `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?&access_token=${accessToken}`
+  //     );
+
+  //     if (response.data.features.length > 0) {
+  //       const { center } = response.data.features[0]; // `center` contains longitude and latitude
+  //       const [longitude, latitude] = center;
+  //       return { latitude, longitude };
+  //     } else {
+  //       throw new Error("No results found for the given address");
+  //     }
+  //   } catch (error) {
+  //     console.error("Geocoding error:", error);
+  //     return null;
+  //   }
+  // };
+
   const getCoordinatesFromMapbox = async (address: string) => {
     const accessToken =
       "pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"; // Replace with your actual Mapbox access token
@@ -170,12 +193,16 @@ const page = ({
 
     try {
       const response = await axios.get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?country=PK&access_token=${accessToken}`
+        `https://api.mapbox.com/search/geocode/v6/forward?q=${encodedAddress}?&access_token=${accessToken}`
       );
+      // const response = await axios.get(
+      //   `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?&access_token=${accessToken}`
+      // );
 
       if (response.data.features.length > 0) {
-        const { center } = response.data.features[0]; // `center` contains longitude and latitude
-        const [longitude, latitude] = center;
+        const { geometry } = response.data.features[0]; // `center` contains longitude and latitude
+        const latitude = geometry.coordinates[1];
+        const longitude = geometry.coordinates[0];
         return { latitude, longitude };
       } else {
         throw new Error("No results found for the given address");
@@ -203,7 +230,7 @@ const page = ({
       setLoading(false);
       return;
     }
-    propertyDetails.location = coordinates;
+    // propertyDetails.location = coordinates;
 
     if (imagePreviews.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
@@ -253,6 +280,10 @@ const page = ({
         owner: userDetails._id,
         city: propertyDetails.city.trim().replace(/\s+/g, "").toLowerCase(),
         gameAvailable: selectedGames,
+        location: {
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
+        },
       };
       const res = await updateProperty(property._id, data);
       if (res.status !== 200) {
