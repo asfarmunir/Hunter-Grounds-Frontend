@@ -391,14 +391,15 @@ const page = ({
                   per night
                 </span> */}
               </p>
-              <p className="text-lg">CA${propertyDetails.pricePerNight}</p>
+              {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
+              <p className="text-lg">10%</p>
             </div>
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
               <p>
                 Taxes
-                <span className="text-xs text-slate-300 px-1 italic">
+                {/* <span className="text-xs text-slate-300 px-1 italic">
                   (10%)
-                </span>
+                </span> */}
               </p>
               <p className="text-lg">
                 CA$

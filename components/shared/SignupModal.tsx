@@ -27,13 +27,11 @@ import { Input } from "@/components/ui/input";
 import { IoArrowBack, IoCloseSharp } from "react-icons/io5";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
 import axios from "axios";
-import GoogleLogin from "./GoogleLogin";
 import { signIn } from "next-auth/react";
 const formSchema = z.object({
-  email: z.string().min(2, { message: "Email is required" }),
+  email: z.string().min(2, { message: "Email is required" }).email(),
   password: z.string().min(2, { message: "Password is required" }),
   firstname: z.string().min(2, { message: "First Name is required" }),
   lastname: z.string().min(2, { message: "Last Name is required" }),

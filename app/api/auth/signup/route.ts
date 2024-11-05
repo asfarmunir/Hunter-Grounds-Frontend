@@ -4,6 +4,8 @@ import { connectToDatabase } from "@/database";
 import * as bcryptjs from "bcryptjs";
 import { createNewStreamUser } from "@/database/actions/user.action";
 import { sendEmail } from "@/lib/sendEmail";
+
+
 export async function POST(req:NextRequest, res:NextResponse ){
     try {
         

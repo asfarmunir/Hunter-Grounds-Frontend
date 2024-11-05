@@ -106,7 +106,7 @@ const UserProfile = ({
               height={17}
               alt="mail"
             />
-            <span className="text-sm">Email Adress</span>
+            <span className="text-sm">Email Address</span>
           </p>
           {userDetails.isVerified && (
             <p className="mt-b  inline-flex items-center gap-2">

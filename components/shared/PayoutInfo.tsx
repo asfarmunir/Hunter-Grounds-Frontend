@@ -55,7 +55,7 @@ const WithdrawFunds = () => {
             entered the correct PayPal email address.
           </p>
           <p className="text-sm text-primary-50 font-bold mt-4 text-center">
-            15% of the total amount will be deducted as a service fee.
+            10% of the total amount will be deducted as a service fee.
           </p>
         </div>
       </AlertDialogContent>

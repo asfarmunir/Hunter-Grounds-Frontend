@@ -267,12 +267,14 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       };
       console.log("🚀 ~ submitHandler ~ data:", data);
 
-      const res = await createProperty(data);
-      if (res.status !== 200) {
-        toast.error("Something went wrong while creating property");
-        setLoading(false);
-        return;
-      }
+      // console.log("🚀 ~ submitHandler ~ data:", data);
+
+      // const res = await createProperty(data);
+      // if (res.status !== 200) {
+      //   toast.error("Something went wrong while creating property");
+      //   setLoading(false);
+      //   return;
+      // }
       toast.success("Property Listed Successfully! ", {
         duration: 3000,
         style: {
@@ -280,11 +282,11 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           color: "#fff",
         },
       });
-      router.push("/user-properties");
-    } catch (error) {
+      // router.push("/user-properties");
+    } catch (error: any) {
       console.error("Error uploading images:", error);
       toast.dismiss();
-      toast.error("something went wrong!");
+      toast.error(error || "something went wrong!");
     } finally {
       setLoading(false);
       setUploading(false);
@@ -425,7 +427,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
 
                 <input
                   type="text"
-                  placeholder="Enter State "
+                  placeholder="Enter State/Province "
                   className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
                   value={propertyDetails.state}
                   onChange={(e) =>
