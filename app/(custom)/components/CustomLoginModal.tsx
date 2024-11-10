@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { createRef } from "react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -8,9 +8,8 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import toast from "react-hot-toast";
-import { MoonLoader } from "react-spinners";
-import { IoMdAdd } from "react-icons/io";
+
+import ReCAPTCHA from "react-google-recaptcha";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -27,20 +26,22 @@ import { Input } from "@/components/ui/input";
 import { IoArrowBack, IoCloseSharp } from "react-icons/io5";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
-import axios from "axios";
+import { Checkbox } from "@/components/ui/checkbox";
 import { signIn } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
+import { MoonLoader } from "react-spinners";
+import GoogleLogin from "@/components/shared/GoogleLogin";
+import { getCaptchaToken } from "@/lib/captcha";
+import { verifyCaptcha } from "@/database/actions/user.action";
 
 const formSchema = z.object({
-  email: z.string().min(2, { message: "Email is required" }).email(),
+  email: z.string().min(2, { message: "Email is required" }),
   password: z.string().min(2, { message: "Password is required" }),
-  firstname: z.string().min(2, { message: "First Name is required" }),
-  lastname: z.string().min(2, { message: "Last Name is required" }),
-  zip: z.string().min(2, { message: "Zip Code is required" }),
 });
 
-const Signup = ({
+const CustomLoginModal = ({
   loginRef,
   signupRef,
 }: {
@@ -54,57 +55,82 @@ const Signup = ({
     defaultValues: {
       email: "",
       password: "",
-      firstname: "",
-      lastname: "",
-      zip: "",
     },
   });
 
   const router = useRouter();
-  const pathname = usePathname();
-  const isStartHostingNew = pathname === "/start-hosting-new";
   async function onSubmit(values: any) {
-    console.log(values);
     setLoading(true);
 
+    // const token = await getCaptchaToken();
+
+    // const captchaResponse = await verifyCaptcha(token);
+
+    // if (!captchaResponse.success) {
+    //   toast.error(captchaResponse.message);
+    //   setLoading(false);
+    //   return;
+    // }
     try {
-      const response = await axios.post("/api/auth/signup", values);
-      console.log(response);
-      if (response.status !== 200) {
-        throw new Error("Something went wrong");
+      recaptchaRef.current.reset();
+      const token = await recaptchaRef.current?.executeAsync();
+      if (token) {
+        const apiQuery: any = await fetch(`/api/auth/verify-captcha/${token}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const { success } = await apiQuery.json();
+        console.log("🚀 ~ onSubmit ~ success:", success);
+        if (success) {
+          // toast.success("Form submitted successfully");
+        } else {
+          // toast.error("Form submission failed");
+        }
+      } else {
+        // toast.error("Error getting token");
       }
-      if (response.data.status !== 200) {
-        toast.error(response.data.message);
-        return;
-      }
-      const { email, password } = values;
-      await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-      toast.success("User created successfully");
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
+      // toast.error("Failed to verify captcha");
     }
+
+    const { email, password } = values;
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    console.log(res);
+    if (!res!.ok) {
+      toast.error(res!.error);
+      setLoading(false);
+      return;
+    }
+    toast.success("Logged in successfully");
+    router.replace("/account");
+    setLoading(false);
   }
+
+  const recaptchaRef: any = createRef();
+
+  const onChange = () => {
+    // on captcha change
+  };
+
+  const asyncScriptOnLoad = () => {
+    // console.log("Google recaptcha loaded just fine");
+  };
 
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        ref={signupRef}
-        className={`text-xs 2xl:text-sm hover:shadow-inner transition-all hover:shadow-orange-200 font-semibold px-4 py-2 rounded-lg ${
-          isStartHostingNew
-            ? "bg-black"
-            : "bg-gradient-to-b from-[#FF9900] to-[#3a3e3a6f]"
-        } ${isStartHostingNew ? "text-white" : "text-black"}`}
+        ref={loginRef}
+        className={`text-sm 2xl:text-base font-semibold bg-white px-6 py-4 rounded-full text-black hover:border-b-2   transition-all    }`}
       >
-        Sign Up
+        Reserve a Post
       </AlertDialogTrigger>
-      <AlertDialogContent className=" p-0  bg-[#161313CC] border-none  2xl:min-w-[600px]  ">
+      <AlertDialogContent className=" p-0 overflow-hidden  bg-[#161313CC] border-none  2xl:min-w-[600px]  ">
         <AlertDialogCancel className=" w-fit absolute right-3 top-3 dark:bg-[#161313CC] border-none">
           <IoCloseSharp className="text-3xl text-white p-1 bg-[#372F2F] rounded-full " />
         </AlertDialogCancel>
@@ -112,10 +138,10 @@ const Signup = ({
         <Form {...form}>
           <div
             id="first"
-            className="flex flex-col bg-[#161313CC]  items-center max-h-[95svh] overflow-auto justify-start w-full gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:pt-16 rounded-xl "
+            className="flex flex-col bg-[#161313CC]  items-center justify-center w-full gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:pt-16 rounded-xl "
           >
-            <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-semibold">
-              Signup to continue
+            <h2 className="text-3xl md:text-4xl 2xl:text-5xl font-semibold 2xl:mb-2">
+              Login to continue
             </h2>
             <p className="font-semibold mb-2 ">
               Welcome back! Let’s get you{" "}
@@ -140,72 +166,6 @@ const Signup = ({
                         />
                         <Input
                           placeholder="Email* "
-                          {...field}
-                          className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="firstname"
-                render={({ field }) => (
-                  <FormItem className="mb-4 w-full">
-                    <FormControl className="">
-                      <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                        <Input
-                          placeholder="First Name* "
-                          {...field}
-                          className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastname"
-                render={({ field }) => (
-                  <FormItem className="mb-4 w-full">
-                    <FormControl className="">
-                      <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                        <Input
-                          placeholder="Last Name* "
-                          {...field}
-                          className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
-                         shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-                          2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
-
-                          "
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="zip"
-                render={({ field }) => (
-                  <FormItem className="mb-4 w-full">
-                    <FormControl className="">
-                      <div className="flex items-center px-3 p-1 rounded-lg gap-2.5 bg-[#2A2A2A]">
-                        <Input
-                          placeholder="Zip Code* "
                           {...field}
                           className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
@@ -260,6 +220,33 @@ const Signup = ({
                   </FormItem>
                 )}
               />
+              <div className="flex justify-between pt-4 items-center w-full">
+                <div className="flex items-center gap-2">
+                  <Checkbox />
+                  <p className="text-xs 2xl:text-sm text-brown-100 font-semibold">
+                    Remember password
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    // @ts-ignore
+                    if (loginRef.current) loginRef.current.click();
+                    router.push("/reset-password");
+                  }}
+                  className="text-xs 2xl:text-sm font-semibold"
+                >
+                  Forgot Password?
+                </button>
+              </div>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                size="invisible"
+                sitekey="6LdnbmUqAAAAAB7lH7ly1Hj3D3HdNlXNluZo7HW7"
+                onChange={onChange}
+                asyncScriptOnLoad={asyncScriptOnLoad}
+              />
+
               <div className="flex flex-col w-full mt-2 items-center justify-center">
                 <Button
                   type="submit"
@@ -268,23 +255,22 @@ const Signup = ({
                   {loading ? (
                     <MoonLoader size={25} />
                   ) : (
-                    <span className=" capitalize">Sign Up</span>
+                    <span className=" capitalize">Log In</span>
                   )}
                 </Button>
                 <p className="text-xs 2xl:text-sm text-slate-400 font-thin w-full text-center">
-                  Already have an account? <br /> Click here to
+                  Dont already have an account? <br /> Click Here To{" "}
                   <button
                     type="button"
                     onClick={() => {
                       // @ts-ignore
                       if (loginRef.current) loginRef.current.click();
                       // @ts-ignore
-
                       if (signupRef.current) signupRef.current.click();
                     }}
-                    className="text-white font-semibold ml-1"
+                    className="text-white font-semibold"
                   >
-                    Login
+                    Sign up
                   </button>
                 </p>
                 {/* <Image
@@ -293,8 +279,8 @@ const Signup = ({
                   width={250}
                   height={250}
                   className=" my-1 2xl:my-3"
-                />
-                <div className="flex w-full items-center gap-5 justify-center ">
+                /> */}
+                {/* <div className="flex w-full items-center gap-5 justify-center ">
                   <GoogleLogin />
                   <button>
                     <Image
@@ -319,7 +305,7 @@ const Signup = ({
                     type="button"
                     onClick={() => {
                       // @ts-ignore
-                      if (loginRef.current) signupRef.current.click();
+                      if (loginRef.current) loginRef.current.click();
                       router.push("/policies/privacy-policy");
                     }}
                     className="text-white font-semibold"
@@ -331,7 +317,7 @@ const Signup = ({
                     type="button"
                     onClick={() => {
                       // @ts-ignore
-                      if (loginRef.current) signupRef.current.click();
+                      if (loginRef.current) loginRef.current.click();
                       router.push("/policies/terms");
                     }}
                     className="text-white font-semibold"
@@ -349,4 +335,4 @@ const Signup = ({
   );
 };
 
-export default Signup;
+export default CustomLoginModal;

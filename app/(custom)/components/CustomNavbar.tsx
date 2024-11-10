@@ -33,7 +33,8 @@ import { FiSearch } from "react-icons/fi";
 import { formUrlQuery } from "@/lib/utils";
 const mostSearchedCities = ["oslo", "denver", "new york"]; // Example most searched cities
 import GameFilter from "@/components/shared/GamesFilter";
-const Navbar = () => {
+
+const CustomNavbar = () => {
   const session = useSession();
   const router = useRouter();
 
@@ -337,7 +338,7 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className=" hidden md:flex items-center gap-4">
+      <div className=" hidden md:flex items-center gap-4 bg-white text-black p-3 rounded-full">
         {session.status === "authenticated" &&
           navlinks.map((link, index) => (
             <Link
@@ -353,12 +354,18 @@ const Navbar = () => {
         <Link
           className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
           href={
-            session.status === "authenticated"
-              ? "/booking"
-              : "/start-hosting-new"
+            session.status === "authenticated" ? "/booking" : "/start-hosting"
           }
         >
           Start Hosting
+        </Link>
+        <Link
+          className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
+          href={
+            session.status === "authenticated" ? "/booking" : "/start-hosting"
+          }
+        >
+          Get Hunting
         </Link>
         {/* <button className="text-sm 2xl:text-base font-semibold">
           Sign Out
@@ -522,6 +529,17 @@ const Navbar = () => {
             >
               Start Hosting
             </Link>
+            <Link
+              className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
+              href={
+                session.status === "authenticated"
+                  ? "/booking"
+                  : "/start-hosting"
+              }
+            >
+              Get Hunting
+            </Link>
+
             {/* <button className="text-sm 2xl:text-base font-semibold">
           Sign Out
         </button> */}
@@ -534,4 +552,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default CustomNavbar;
