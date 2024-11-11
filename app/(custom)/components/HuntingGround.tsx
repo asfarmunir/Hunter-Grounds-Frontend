@@ -62,7 +62,7 @@ const HuntingGround = () => {
               04/12
             </motion.div>
             <motion.div variants={fadeInUp} className="text-2xl font-bold">
-              Your next hunting ground awaits..
+              Your next hunt ground awaits..
             </motion.div>
             <motion.div variants={fadeInUp} className="text-lg">
               12 Km Away
