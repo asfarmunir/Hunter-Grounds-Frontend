@@ -6,8 +6,8 @@ const VideoHeroSection: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [showVideo, setShowVideo] = useState<boolean>(false);
 
-  const thumbnailImage = "/images/VideoPlayer.svg";
-  const backgroundImage = "/images/VideoPlayer.svg";
+  const thumbnailImage = "/images/VideoImage.svg";
+  const backgroundImage = "/images/VideoImage.svg";
 
   const handlePlayPause = () => {
     const video = document.getElementById(

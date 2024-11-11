@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import CustomLoginModal from "./CustomLoginModal";
+import { isAbsolute } from "path";
 
 const Hero = () => {
   // Refs for scroll detection

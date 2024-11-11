@@ -116,7 +116,7 @@ const Special = () => {
               <h3 className="text-lg md:text-xl font-medium mb-1 md:mb-2">
                 Over 50+ Game
               </h3>
-              <p className="text-blue-400 text-sm md:text-base">
+              <p className="text-[#87C1EE] text-sm md:text-base">
                 Hunt Where You Feel Good.
               </p>
             </motion.div>
@@ -203,11 +203,8 @@ const Special = () => {
         </div>
       </div>
 
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-32 bg-cover bg-center bg-no-repeat"
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 0.5 }}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[200px] bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('/images/Rectangle16.svg')",
         }}

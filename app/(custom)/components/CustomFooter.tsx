@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const CustomFooter = () => {
   return (
-    <div className="w-full py-6 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-24 2xl:px-32">
+    <div className="absolute bottom-0 w-full py-6 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-24 2xl:px-32">
       <footer className="w-full bg-black px-2 py-3 rounded-full">
         <div className="mx-auto flex items-center justify-between px-3">
           {/* Logo */}

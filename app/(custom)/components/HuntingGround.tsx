@@ -172,29 +172,27 @@ const HuntingGround = () => {
             variants={slideInRight}
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.6 }}
-            className="relative w-full max-w-md mx-auto"
+            className="relative w-full max-w-2xl mx-auto" // Changed from max-w-md to max-w-6xl
           >
             {/* Map Image */}
             <Image
-              src="/images/africa.svg"
+              src="/images/Group 2.svg"
               alt="Africa"
-              width={500}
-              height={500}
-              className="rounded-lg"
+              width={1000}
+              height={1000}
+              className="rounded-lg w-full h-auto object-contain"
             />
 
             {/* Marker and Tooltip for 'Hunt Bear' */}
             <div className="absolute top-[35%] left-[40%]">
               <div className="relative flex items-center justify-center">
-                {/* Marker */}
-                <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
                 {/* Tooltip */}
                 <motion.div
                   initial="hidden"
                   animate="visible"
                   variants={fadeInUp}
                   transition={{ duration: 0.3, delay: 0.2 }}
-                  className="absolute -top-10 left-6 bg-[#0B0E16] flex flex-col text-white text-xs py-2 px-3 rounded-md shadow-lg min-w-[100px]" // Added min-w-[100px] for wider tooltip
+                  className="absolute -top-20 left-6 bg-[#0B0E16] flex flex-col text-white text-xs py-2 px-3 rounded-md shadow-lg min-w-[150px]"
                 >
                   <p>Hunt Bear</p>
                   <p className="text-gray-400">12 km away</p>
@@ -205,15 +203,13 @@ const HuntingGround = () => {
             {/* Marker and Tooltip for 'Moose' */}
             <div className="absolute bottom-[20%] left-[50%]">
               <div className="relative flex items-center justify-center">
-                {/* Marker */}
-                <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
                 {/* Tooltip */}
                 <motion.div
                   initial="hidden"
                   animate="visible"
                   variants={fadeInUp}
                   transition={{ duration: 0.3, delay: 0.2 }}
-                  className="absolute top-8 left-6 bg-[#FF9900B5] text-white text-xs py-2 px-3 rounded-md shadow-lg min-w-[100px]" // Added min-w-[100px] for wider tooltip
+                  className="absolute left-6 bg-[#FF9900B5] text-white text-xs py-2 px-3 rounded-md shadow-lg min-w-[150px]"
                 >
                   <p>Moose</p>
                   <p className="text-gray-200">17 km away</p>
