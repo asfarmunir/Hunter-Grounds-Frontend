@@ -1,3 +1,12 @@
+import React from "react";
+import { redirect } from "next/navigation";
+const page = () => {
+  redirect("/start-hosting-new");
+  return <div>page</div>;
+};
+
+export default page;
+
 // "use client";
 
 // import React from "react";
@@ -146,9 +155,9 @@
 //                             <Input
 //                               placeholder="Email* "
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1
 //                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -168,9 +177,9 @@
 //                             <Input
 //                               placeholder="First Name* "
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1
 //                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -190,9 +199,9 @@
 //                             <Input
 //                               placeholder="Last Name* "
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1
 //                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -212,9 +221,9 @@
 //                             <Input
 //                               placeholder="Zip Code* "
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1
 //                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -241,9 +250,9 @@
 //                               placeholder="Password* "
 //                               type={showPassword ? "text" : "password"}
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1  outline-offset-1 
-//                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                               className="   border-none bg-red-50 focus:ring-1  outline-offset-1
+//                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -271,9 +280,9 @@
 //                       <select
 //                         value={countryCode}
 //                         onChange={(e) => setCountryCode(e.target.value)}
-//                         className="border-none  bg-transparent focus:ring-1 outline-offset-1 
-//                          shadow  focus:border mr-0  rounded-lg   
-//                           p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32 
+//                         className="border-none  bg-transparent focus:ring-1 outline-offset-1
+//                          shadow  focus:border mr-0  rounded-lg
+//                           p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32
 //                           "
 //                       >
 //                         {codes.map((code, index) => (
@@ -293,9 +302,9 @@
 //                               <Input
 //                                 placeholder="Phone Number* "
 //                                 {...field}
-//                                 className="   border-none bg-red-50  focus:ring-1 outline-offset-1 
-//                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                                 className="   border-none bg-red-50  focus:ring-1 outline-offset-1
+//                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                               />
@@ -637,9 +646,9 @@
 //                             <Input
 //                               placeholder="Email* "
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1
 //                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -659,9 +668,9 @@
 //                             <Input
 //                               placeholder="First Name* "
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1
 //                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -681,9 +690,9 @@
 //                             <Input
 //                               placeholder="Last Name* "
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1
 //                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -703,9 +712,9 @@
 //                             <Input
 //                               placeholder="Zip Code* "
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1 
+//                               className="   border-none bg-red-50 focus:ring-1 outline-offset-1
 //                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -732,9 +741,9 @@
 //                               placeholder="Password* "
 //                               type={showPassword ? "text" : "password"}
 //                               {...field}
-//                               className="   border-none bg-red-50 focus:ring-1  outline-offset-1 
-//                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                               className="   border-none bg-red-50 focus:ring-1  outline-offset-1
+//                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                             />
@@ -762,9 +771,9 @@
 //                       <select
 //                         value={countryCode}
 //                         onChange={(e) => setCountryCode(e.target.value)}
-//                         className="border-none  bg-transparent focus:ring-1 outline-offset-1 
-//                          shadow  focus:border mr-0  rounded-lg   
-//                           p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32 
+//                         className="border-none  bg-transparent focus:ring-1 outline-offset-1
+//                          shadow  focus:border mr-0  rounded-lg
+//                           p-3  text-[#848BAC] leading-tight truncate w-16 md:w-32
 //                           "
 //                       >
 //                         {codes.map((code, index) => (
@@ -784,9 +793,9 @@
 //                               <Input
 //                                 placeholder="Phone Number* "
 //                                 {...field}
-//                                 className="   border-none bg-red-50  focus:ring-1 outline-offset-1 
-//                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3 
-//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight 
+//                                 className="   border-none bg-red-50  focus:ring-1 outline-offset-1
+//                          shadow  focus:border mr-0 md:mr-6  rounded-lg   p-3
+//                           2xl:py-6 2xl:px-6 text-[#848BAC] leading-tight
 
 //                           "
 //                               />
