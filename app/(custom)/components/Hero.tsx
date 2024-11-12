@@ -5,6 +5,8 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import CustomLoginModal from "./CustomLoginModal";
 import { isAbsolute } from "path";
+import GradientLayer from "./GradientLayer";
+import CustomNavbar from "./CustomNavbar";
 
 const Hero = () => {
   // Refs for scroll detection
@@ -92,58 +94,71 @@ const Hero = () => {
   };
 
   return (
-    <div className="md:px-32 px-12 md:mt-[23rem] mt-[2rem] overflow-hidden">
-      <motion.div
-        ref={subtitleRef}
-        initial="hidden"
-        animate={subtitleInView ? "visible" : "hidden"}
-        variants={fadeUpVariant}
-        className="font-thin text-center md:text-left"
+    <>
+      {/* Background image section containing only navbar and hero */}
+      <div
+        className="relative bg-cover bg-bottom bg-no-repeat bg-opacity-70 z-[1]"
+        style={{
+          backgroundImage: "url('/images/bg-hero-new.svg')",
+        }}
       >
-        Discover The Great Outdoors <br /> And Everything It Has To Offer
-      </motion.div>
+        <CustomNavbar />
 
-      <motion.div
-        ref={titleRef}
-        initial="hidden"
-        animate={titleInView ? "visible" : "hidden"}
-        variants={scaleUpVariant}
-        className="mt-20 md:text-7xl text-5xl text-center md:text-left"
-      >
-        Your Adventure Begins.
-      </motion.div>
-
-      <motion.div
-        ref={contentRef}
-        initial="hidden"
-        animate={contentInView ? "visible" : "hidden"}
-        variants={contentVariant}
-        className="flex flex-col md:flex-row justify-end items-center mt-20"
-      >
-        <div className="flex flex-col md:flex-row justify-center items-center md:space-x-10 font-thin">
+        <GradientLayer color="#000000" direction="top" position="bottom" />
+        <div className="w-full flex flex-col px-10 py-10 justify-center md:justify-end min-h-[calc(100vh-90px)] ">
           <motion.div
+            ref={subtitleRef}
+            initial="hidden"
+            animate={subtitleInView ? "visible" : "hidden"}
             variants={fadeUpVariant}
-            className="text-center md:text-left"
+            className="font-thin text-center md:text-left"
           >
-            Welcome to HuntGrounds, your go-to resource for discovering prime
-            hunting land. Explore, <br /> plan, and access the perfect grounds
-            for your next adventure!
+            Discover The Great Outdoors <br /> And Everything It Has To Offer
           </motion.div>
 
           <motion.div
-            variants={buttonVariant}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-4"
+            ref={titleRef}
+            initial="hidden"
+            animate={titleInView ? "visible" : "hidden"}
+            variants={scaleUpVariant}
+            className="mt-20 md:text-7xl text-5xl text-center md:text-left"
           >
-            <CustomLoginModal
-              loginRef={loginModalRef}
-              signupRef={signupModalRef}
-            />
+            Your Adventure Begins.
+          </motion.div>
+
+          <motion.div
+            ref={contentRef}
+            initial="hidden"
+            animate={contentInView ? "visible" : "hidden"}
+            variants={contentVariant}
+            className="flex flex-col md:flex-row justify-end items-center mt-20"
+          >
+            <div className="flex flex-col md:flex-row justify-center items-center md:space-x-10 font-thin">
+              <motion.div
+                variants={fadeUpVariant}
+                className="text-center md:text-left"
+              >
+                Welcome to HuntGrounds, your go-to resource for discovering
+                prime hunting land. Explore, <br /> plan, and access the perfect
+                grounds for your next adventure!
+              </motion.div>
+
+              <motion.div
+                variants={buttonVariant}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-4"
+              >
+                <CustomLoginModal
+                  loginRef={loginModalRef}
+                  signupRef={signupModalRef}
+                />
+              </motion.div>
+            </div>
           </motion.div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </>
   );
 };
 

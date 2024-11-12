@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { motion, Variants, useInView } from "framer-motion";
+import GradientLayer from "./GradientLayer";
 
 const HuntingGround = () => {
   // Refs for scroll detection
@@ -45,7 +46,9 @@ const HuntingGround = () => {
   };
 
   return (
-    <div className="py-20 bg-[#0B0E15] overflow-x-hidden">
+    <div className="relative py-20 bg-[#0B0E15] overflow-x-hidden z-[1]">
+      <GradientLayer color="#000000" direction="bottom" position="top" />
+
       <div className="container">
         {/* Header with Stats and Navigation Buttons */}
         <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 justify-between items-center">

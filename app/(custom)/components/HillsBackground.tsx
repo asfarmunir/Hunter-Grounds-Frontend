@@ -1,4 +1,5 @@
 import React from "react";
+import GradientLayer from "./GradientLayer";
 
 const HillsBackground = () => {
   return (
@@ -8,17 +9,22 @@ const HillsBackground = () => {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('/images/HillsBackgroundNew.svg')",
-          maskImage: "linear-gradient(to top, transparent 0%, black 30%)", // Gradient mask
           WebkitMaskImage: "linear-gradient(to top, transparent 0%, black 30%)", // For Safari
         }}
       />
-
-      {/* Bottom overlay */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[400px] bg-cover bg-center bg-no-repeat opacity-90 blur-2xl"
-        style={{
-          backgroundImage: "url('/images/HillBackgroundOverlay.svg')",
-        }}
+      <GradientLayer
+        color="#ffffff"
+        direction="top"
+        position="bottom"
+        zIndex="z-10"
+        height="h-[400px]"
+      />
+      <GradientLayer
+        color="#3485C0"
+        direction="bottom"
+        position="top"
+        zIndex="z-10"
+        height="h-[400px]"
       />
     </div>
   );

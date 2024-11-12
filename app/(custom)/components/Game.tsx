@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import CustomFooter from "./CustomFooter";
+import GradientLayer from "./GradientLayer";
 
 const Game = () => {
   return (
@@ -9,15 +10,21 @@ const Game = () => {
       <div className="relative min-h-screen">
         {/* Main background image (Bear) */}
         <div
-          className=" inset-0 bg-cover h-[2000px] bg-center bg-no-repeat z-0 backdrop-blur-sm"
+          className=" inset-0 bg-cover bg-top bg-no-repeat z-0 "
           style={{
             backgroundImage: "url('/images/BeerView.svg')",
           }}
         >
-          <div className="relative z-20">
+          <GradientLayer
+            color="#ffffff"
+            direction="bottom"
+            position="top"
+            zIndex="z-10"
+            height="h-[400px]"
+          />
+          <div className="relative z-20 pt-10">
             {/* White section with text */}
             <motion.div
-              className="bg-white"
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
