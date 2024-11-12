@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Play, Pause } from "lucide-react";
+import GradientLayer from "./GradientLayer";
 
 const VideoHeroSection: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -28,6 +29,18 @@ const VideoHeroSection: React.FC = () => {
       <div className="relative w-full h-screen">
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/50 z-10" />
+        <GradientLayer
+          color="#000000"
+          direction="bottom"
+          position="top"
+          zIndex="z-10"
+        />
+        <GradientLayer
+          color="#000000"
+          direction="top"
+          position="bottom"
+          zIndex="z-10"
+        />
 
         {showVideo ? (
           // Video Player

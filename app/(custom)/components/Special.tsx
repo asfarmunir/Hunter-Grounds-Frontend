@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import GradientLayer from "./GradientLayer";
 
 const Special = () => {
   const ref = useRef(null);
@@ -76,6 +77,12 @@ const Special = () => {
         style={{
           backgroundImage: "url('/images/mountain.svg')",
         }}
+      />
+      <GradientLayer
+        color="#000000"
+        direction="bottom"
+        position="top"
+        zIndex="z-10"
       />
 
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent" />

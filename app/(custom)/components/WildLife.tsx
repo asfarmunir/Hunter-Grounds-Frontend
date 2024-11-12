@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import GradientLayer from "./GradientLayer";
 
 const WildLife = () => {
   const ref = useRef(null);
@@ -45,7 +46,20 @@ const WildLife = () => {
   };
 
   return (
-    <div className="relative w-full h-screen bg-[#0B0E15] py-4" ref={ref}>
+    <div className="relative w-full h-screen bg-[#0B0E15] py-4 " ref={ref}>
+      <GradientLayer
+        color="#000000"
+        direction="bottom"
+        position="top"
+        zIndex="z-10"
+      />
+      <GradientLayer
+        color="#000000"
+        direction="top"
+        position="bottom"
+        zIndex="z-10"
+      />
+
       <motion.div
         className="absolute inset-0 bg-cover bg-no-repeat"
         initial={{ opacity: 0 }}
@@ -56,8 +70,6 @@ const WildLife = () => {
           backgroundPosition: "center 1%",
         }}
       />
-
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent" />
 
       <motion.div
         className="relative z-10 container mx-auto px-4"
