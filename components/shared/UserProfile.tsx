@@ -181,7 +181,7 @@ const UserProfile = ({
                 <p className="text-center w-full text-lg 2xl:text-xl  mx-auto text-gray-400 ">
                   You have not saved any <br /> properties yet! <br />
                   <span className="text-sm font-semibold underline pt-4">
-                    <Link href={"/"} className="text-primary-50">
+                    <Link href={"/home"} className="text-primary-50">
                       Explore Properties
                     </Link>
                   </span>
@@ -459,7 +459,7 @@ const UserProfile = ({
                     </button>
                   </div>
                   <Link
-                    href={"/"}
+                    href={"/home"}
                     className="px-5 mr-3 w-full md:w-fit rounded-xl bg-[#372F2F80] py-3"
                   >
                     {" "}
@@ -484,7 +484,7 @@ const UserProfile = ({
                     <p className="text-center w-full text-lg 2xl:text-xl  mx-auto text-gray-400 ">
                       You have not Booked any <br /> huntground yet! <br />
                       <span className="text-sm font-semibold underline pt-8">
-                        <Link href={"/"} className="text-primary-50">
+                        <Link href={"/home"} className="text-primary-50">
                           Explore Huntgrounds
                         </Link>
                       </span>

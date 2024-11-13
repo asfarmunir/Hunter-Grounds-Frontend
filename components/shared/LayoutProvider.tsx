@@ -9,7 +9,7 @@ const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
   // const [hideCookieWarning, setHideCookieWarning] = React.useState(true);
 
   const backgroundImage =
-    pathname === "/"
+    pathname === "/home"
       ? "url('/images/bg-hero.svg')" // Change this to the desired background image
       : pathname === "/start-hosting"
       ? "url('/images/bg-hero2.svg')" // Another condition

@@ -61,11 +61,11 @@ const Navbar = () => {
   const signOutUser = async () => {
     await signOut({
       redirect: false,
-      callbackUrl: "/",
+      callbackUrl: "/home",
     });
     toast.success("Signed out successfully");
     router.refresh();
-    router.replace("/");
+    router.replace("/home");
   };
 
   useEffect(() => {
@@ -138,7 +138,7 @@ const Navbar = () => {
 
   return (
     <nav className=" w-full  rounded-full px-3 md:pl-10 2xl:pl-12 2xl:px-5 py-3.5 flex items-center justify-between">
-      <Link href={"/"}>
+      <Link href={"/home"}>
         <Image
           src="/images/logo.svg"
           alt="Logo"
@@ -147,7 +147,7 @@ const Navbar = () => {
           className=" w-36 2xl:w-48  "
         />
       </Link>
-      {pathname === "/" && (
+      {pathname === "/home" ? (
         <div
           className=" bg-[#2A2A2A] px-4  
        py-2  hidden md:flex items-center gap-2 rounded-lg"
@@ -335,7 +335,7 @@ const Navbar = () => {
             <IoMdSearch className=" bg-gradient-to-b cursor-default from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
           </button>
         </div>
-      )}
+      ) : null}
 
       <div className=" hidden md:flex items-center gap-4">
         {session.status === "authenticated" &&

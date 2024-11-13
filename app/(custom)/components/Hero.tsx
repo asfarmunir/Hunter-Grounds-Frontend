@@ -7,6 +7,7 @@ import CustomLoginModal from "./CustomLoginModal";
 import { isAbsolute } from "path";
 import GradientLayer from "./GradientLayer";
 import CustomNavbar from "./CustomNavbar";
+import Link from "next/link";
 
 const Hero = () => {
   // Refs for scroll detection
@@ -149,10 +150,12 @@ const Hero = () => {
                 whileTap={{ scale: 0.95 }}
                 className="mt-4"
               >
-                <CustomLoginModal
-                  loginRef={loginModalRef}
-                  signupRef={signupModalRef}
-                />
+                <Link
+                  href={"/home"}
+                  className={`text-sm 2xl:text-base font-semibold bg-white px-6 py-4 rounded-full text-black hover:border-b-2   transition-all    }`}
+                >
+                  Reserve a Post
+                </Link>
               </motion.div>
             </div>
           </motion.div>

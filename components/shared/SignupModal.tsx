@@ -62,7 +62,7 @@ const Signup = ({
 
   const router = useRouter();
   const pathname = usePathname();
-  const isStartHostingNew = pathname === "/start-hosting-new";
+  const isStartHostingNew = pathname === "/";
   async function onSubmit(values: any) {
     console.log(values);
     setLoading(true);
@@ -100,7 +100,7 @@ const Signup = ({
           isStartHostingNew
             ? "bg-black"
             : "bg-gradient-to-b from-[#FF9900] to-[#3a3e3a6f]"
-        } ${isStartHostingNew ? "text-white" : "text-black"}`}
+        } ${isStartHostingNew ? "text-white" : "text-white"}`}
       >
         Sign Up
       </AlertDialogTrigger>

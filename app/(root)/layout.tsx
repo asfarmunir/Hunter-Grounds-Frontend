@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [hideCookieWarning, setHideCookieWarning] = useState(true);
 
   const backgroundImage =
-    pathname === "/"
+    pathname === "/home"
       ? "url('/images/bg-hero.svg')" // Background for the homepage
       : pathname === "/start-hosting"
       ? "url('/images/bg-hero2.svg')" // Background for the start-hosting page

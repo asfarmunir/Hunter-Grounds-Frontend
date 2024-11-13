@@ -23,7 +23,7 @@ const page = ({
 }) => {
   const router = useRouter();
   if (!userDetails) {
-    router.push("/");
+    router.push("/home");
   }
 
   const totalEarnings = userDetails.referralEarnings?.reduce(

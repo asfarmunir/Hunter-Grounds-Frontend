@@ -71,7 +71,7 @@ const Page = ({ params: { id }, searchParams: { token } }: props) => {
 
       if (response.status === 200) {
         toast.success("Password reset successfully");
-        router.push("/");
+        router.push("/home");
       }
     } catch (error) {
       toast.error("An error occurred during the password reset");

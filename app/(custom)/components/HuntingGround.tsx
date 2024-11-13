@@ -73,7 +73,7 @@ const HuntingGround = () => {
           </motion.div>
 
           {/* Navigation Buttons */}
-          <motion.div
+          {/* <motion.div
             ref={buttonsRef}
             initial="hidden"
             animate={buttonsInView ? "visible" : "hidden"}
@@ -102,7 +102,7 @@ const HuntingGround = () => {
                 <ArrowRight className="h-6 w-6 text-white" />
               </Button>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
         </div>
 
         {/* Images and Map Section */}

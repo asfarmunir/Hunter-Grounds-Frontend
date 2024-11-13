@@ -62,11 +62,11 @@ const Game = () => {
                     <p className="text-black font-medium">Contact Us</p>
                     <a
                       href="mailto:help@huntgrounds.com"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-white hover:bg-black/30 transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-black hover:text-white bg-white/60 hover:bg-black/30  transition-colors"
                     >
-                      <span className="w-8 h-8 flex items-center justify-center bg-black  rounded-full">
+                      <span className="w-12 h-12 flex items-center justify-center bg-black  rounded-full">
                         <svg
-                          className="w-5 h-5 text-white"
+                          className="w-7 h-7 text-white"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -74,7 +74,7 @@ const Game = () => {
                         </svg>
                       </span>
 
-                      <span className="text-black">help@huntgrounds.com</span>
+                      <span className="">help@huntgrounds.com</span>
                     </a>
                   </div>
                 </motion.div>

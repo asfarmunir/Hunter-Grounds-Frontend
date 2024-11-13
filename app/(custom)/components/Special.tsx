@@ -97,10 +97,13 @@ const Special = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <div className="max-w-3xl mb-6 md:mb-0">
               <motion.h2
-                className="text-3xl md:text-4xl font-semibold mb-4 md:mb-6"
+                className="text-xl md:text-2xl 2xl:text-3xl capitalize font-semibold mb-4 md:mb-6"
                 variants={fadeInUpVariants}
               >
-                Wildlife Tour Experience
+                HuntGrounds enhances the hunting journey, making it more
+                accessible, enjoyable, and{" "}
+                <span className="text-primary-50 px-1">rewarding</span> for
+                hunters of all levels.
               </motion.h2>
               <motion.p
                 className="text-gray-300 leading-relaxed text-sm md:text-base"
@@ -146,7 +149,7 @@ const Special = () => {
             Scroll Down
           </motion.div>
           <motion.div
-            className="py-4"
+            className="py-4 mt-3"
             variants={fadeInUpVariants}
             animate={{
               y: [0, 10, 0],
@@ -167,11 +170,11 @@ const Special = () => {
         </motion.div>
 
         <div
-          className="flex flex-col space-y-10 justify-center items-center mt-[10rem]"
+          className="flex flex-col space-y-10 justify-center  items-center mt-[10rem]"
           ref={metricsRef}
         >
           <motion.div
-            className="text-center"
+            className="text-center z-50"
             variants={fadeInUpVariants}
             initial="hidden"
             animate={metricsInView ? "visible" : "hidden"}
@@ -190,7 +193,7 @@ const Special = () => {
             initial="hidden"
             animate={metricsInView ? "visible" : "hidden"}
           >
-            <div className="flex flex-col sm:flex-row sm:justify-between w-full max-w-6xl mx-auto gap-6 sm:gap-12 lg:gap-28">
+            <div className="flex  flex-col sm:flex-row sm:justify-between w-full max-w-6xl mx-auto gap-6 sm:gap-12 lg:gap-28">
               {metrics.map((metric, index) => (
                 <motion.div
                   key={index}

@@ -186,7 +186,7 @@ export default function CompletePage(): JSX.Element {
           </svg>
         </a>
       )}
-      <a href="/" id="retry-button">
+      <a href="/home" id="retry-button">
         Try again
       </a>
     </div>

@@ -7,7 +7,7 @@ import Topbar from "@/components/shared/Topbar";
 const page = async () => {
   const userDetails = await getServerSession(authOptions);
   if (!userDetails) {
-    redirect("/");
+    redirect("/home");
   }
   const links = [
     {

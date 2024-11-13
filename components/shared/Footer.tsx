@@ -128,7 +128,7 @@ const Footer = () => {
         <div className="flex flex-col gap-6">
           {/* <Link
             className=" 2xl:text-xl font-thin hover:text-primary-50 transition-all"
-            href={"/"}
+            href={"/home"}
           >
             FAQ
           </Link> */}

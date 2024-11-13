@@ -95,7 +95,7 @@ export default page;
 //         redirect: false,
 //       });
 //       toast.success("User created successfully");
-//       router.push("/");
+//       router.push("/home");
 //     } catch (error) {
 //       console.log(error);
 //       toast.error("Something went wrong");

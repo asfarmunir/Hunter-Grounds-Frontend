@@ -9,7 +9,7 @@ const CustomFooter = () => {
         <div className="mx-auto flex items-center justify-between px-3">
           {/* Logo */}
           <div className="flex items-center justify-center">
-            <Link href="/">
+            <Link href="/home">
               <div className="relative h-10 w-32">
                 <Image
                   src="/images/logo.svg"

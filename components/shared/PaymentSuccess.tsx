@@ -91,7 +91,7 @@ const page = () => {
 
         {status === "succeeded" && (
           <Link
-            href={"/"}
+            href={"/home"}
             className=" w-3/4 bg-gradient-to-r text-center  text-black my-4 from-[#FF9900] to-[#FFE7A9] rounded-xl py-3 font-semibold"
           >
             View Trip Details

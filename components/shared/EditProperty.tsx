@@ -733,7 +733,7 @@ const page = ({
                 Here’s how we have your back with every booking :
               </p>
               <Link
-                href={"/"}
+                href={"/home"}
                 className="underline text-primary-50 tracking-wide"
               >
                 Show More
@@ -768,7 +768,7 @@ const page = ({
                 Here’s how we have your back with every booking :
               </p>
               <Link
-                href={"/"}
+                href={"/home"}
                 className="underline text-primary-50 tracking-wide"
               >
                 Show More

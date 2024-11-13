@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import GradientLayer from "./GradientLayer";
+import Link from "next/link";
 
 const WildLife = () => {
   const ref = useRef(null);
@@ -106,9 +107,12 @@ const WildLife = () => {
           </motion.div>
 
           <motion.div variants={scaleInVariants}>
-            <button className="bg-slate-800/50 p-4 rounded-full hover:bg-slate-700/50 transition-colors">
+            <Link
+              href={"/home"}
+              className="bg-slate-800/50 p-4 rounded-full hover:bg-slate-700/50 transition-colors"
+            >
               Start Hunting
-            </button>
+            </Link>
           </motion.div>
         </div>
       </motion.div>

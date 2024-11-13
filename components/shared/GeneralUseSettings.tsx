@@ -46,11 +46,11 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
   const signoutUser = async () => {
     await signOut({
       redirect: false,
-      callbackUrl: "/",
+      callbackUrl: "/home",
     });
     toast.success("Signed out successfully");
     router.refresh();
-    router.replace("/");
+    router.replace("/home");
   };
 
   return (
