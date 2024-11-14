@@ -70,7 +70,7 @@ const Special = () => {
   return (
     <div className="relative w-full h-screen bg-black" ref={ref}>
       <motion.div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-top bg-no-repeat"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1 }}
@@ -87,14 +87,14 @@ const Special = () => {
 
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent" />
 
-      <div className="relative z-10 container mx-auto px-4">
+      <div className="relative z-50 container mx-auto px-4">
         <motion.div
           className="w-full bg-[#0E111B] text-white p-8 rounded-lg transform -translate-y-1/5 md:-translate-y-1/4 lg:-translate-y-[50%]"
           variants={boxVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+          <div className="flex flex-col md:flex-row -mt-8 justify-between items-start md:items-center">
             <div className="max-w-3xl mb-6 md:mb-0">
               <motion.h2
                 className="text-xl md:text-2xl 2xl:text-3xl capitalize font-semibold mb-4 md:mb-6"

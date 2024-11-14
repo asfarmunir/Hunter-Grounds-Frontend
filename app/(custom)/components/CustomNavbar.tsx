@@ -149,12 +149,12 @@ const CustomNavbar = () => {
         />
       </Link>
 
-      <div className=" hidden md:flex items-center gap-4 bg-white text-black p-3 rounded-full">
+      <div className=" hidden md:flex items-center gap-4 pl-5 bg-white text-black p-3 rounded-full">
         {session.status === "authenticated" &&
           navlinks.map((link, index) => (
             <Link
               key={index}
-              className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5
+              className={`text-xs 2xl:text-sm font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5
             ${pathname === link.href ? "border-b-2 px-2 border-primary-50" : ""}
         `}
               href={link.href}
@@ -163,7 +163,7 @@ const CustomNavbar = () => {
             </Link>
           ))}
         <Link
-          className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
+          className={`text-xs 2xl:text-sm font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
           href={
             session.status === "authenticated" ? "/booking" : "/start-hosting"
           }
@@ -171,19 +171,19 @@ const CustomNavbar = () => {
           Start Hosting
         </Link>
         <Link
-          className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
+          className={`text-xs 2xl:text-sm font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
           href={"/home"}
         >
           Get Hunting
         </Link>
-        {/* <button className="text-sm 2xl:text-base font-semibold">
+        {/* <button className="text-xs 2xl:text-sm font-semibold">
           Sign Out
         </button> */}
         {session.status === "authenticated" ? (
           <>
             <button
               onClick={signOutUser}
-              className={`text-sm 2xl:text-base transition-all hover:border-b-2 border-primary-50 hover:-translate-y-1 font-semibold pb-1.5 mt-1.5
+              className={`text-xs 2xl:text-sm transition-all hover:border-b-2 border-primary-50 hover:-translate-y-1 font-semibold pb-1.5 mt-1.5
 
         `}
             >

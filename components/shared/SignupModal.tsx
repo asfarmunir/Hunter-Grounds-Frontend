@@ -96,10 +96,10 @@ const Signup = ({
     <AlertDialog>
       <AlertDialogTrigger
         ref={signupRef}
-        className={`text-xs 2xl:text-sm hover:shadow-inner transition-all hover:shadow-orange-200 font-semibold px-4 py-2 rounded-lg ${
+        className={`text-xs 2xl:text-sm hover:shadow-inner transition-all hover:shadow-orange-200 font-semibold px-4 py-2  ${
           isStartHostingNew
-            ? "bg-black"
-            : "bg-gradient-to-b from-[#FF9900] to-[#3a3e3a6f]"
+            ? "bg-black rounded-full"
+            : "bg-gradient-to-b rounded-lg from-[#FF9900] to-[#3a3e3a6f]"
         } ${isStartHostingNew ? "text-white" : "text-white"}`}
       >
         Sign Up

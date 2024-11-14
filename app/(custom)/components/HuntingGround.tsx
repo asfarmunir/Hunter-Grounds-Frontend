@@ -154,9 +154,17 @@ const HuntingGround = () => {
               animate={textContentInView ? "visible" : "hidden"}
               variants={fadeInUp}
               transition={{ duration: 0.6 }}
-              className="my-16 text-white"
+              className="my-16  text-white"
             >
-              <motion.div variants={slideIn} className="text-2xl pb-4">
+              <Image
+                src="/tent.svg"
+                width={60}
+                height={60}
+                alt="icon"
+                className=" mb-4"
+              />
+
+              <motion.div variants={slideIn} className="text-2xl pb-3">
                 Hunt Where You're Able – We Make It Easy
               </motion.div>
               <motion.div variants={fadeInUp} className="text-sm font-thin">

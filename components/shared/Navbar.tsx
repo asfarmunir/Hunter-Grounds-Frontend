@@ -350,16 +350,23 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-        <Link
-          className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
-          href={
-            session.status === "authenticated"
-              ? "/booking"
-              : "/start-hosting-new"
-          }
-        >
-          Start Hosting
-        </Link>
+        {pathname === "/start-hosting" ? (
+          <Link
+            className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
+            href={"/home"}
+          >
+            Start Hunting
+          </Link>
+        ) : (
+          <Link
+            className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
+            href={
+              session.status === "authenticated" ? "/booking" : "/start-hosting"
+            }
+          >
+            Start Hosting
+          </Link>
+        )}
         {/* <button className="text-sm 2xl:text-base font-semibold">
           Sign Out
         </button> */}

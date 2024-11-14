@@ -26,7 +26,7 @@ const VideoHeroSection: React.FC = () => {
 
   return (
     <>
-      <div className="relative w-full h-screen">
+      <div className="relative w-full h-screen md:h-[150svh]">
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/50 z-10" />
         <GradientLayer
@@ -72,7 +72,7 @@ const VideoHeroSection: React.FC = () => {
         ) : (
           // Background Image
           <div
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-top"
             style={{ backgroundImage: `url(${backgroundImage})` }}
           >
             {/* Play Button on Image */}

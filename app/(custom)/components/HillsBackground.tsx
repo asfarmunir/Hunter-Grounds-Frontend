@@ -3,7 +3,7 @@ import GradientLayer from "./GradientLayer";
 
 const HillsBackground = () => {
   return (
-    <div className="relative w-full h-screen bg-black">
+    <div className="relative w-full h-screen md:h-[150svh]  bg-white">
       {/* Main background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"

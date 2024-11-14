@@ -47,7 +47,10 @@ const WildLife = () => {
   };
 
   return (
-    <div className="relative w-full h-screen bg-[#0B0E15] py-4 " ref={ref}>
+    <div
+      className="relative w-full h-screen md:h-[150svh] bg-[#0B0E15] py-4 "
+      ref={ref}
+    >
       <GradientLayer
         color="#000000"
         direction="bottom"
@@ -62,13 +65,14 @@ const WildLife = () => {
       />
 
       <motion.div
-        className="absolute inset-0 bg-cover bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-no-repeat "
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1 }}
         style={{
           backgroundImage: "url('/images/Wolf.svg')",
-          backgroundPosition: "center 1%",
+          backgroundPosition: "top",
+          backgroundSize: "cover",
         }}
       />
 
@@ -83,8 +87,8 @@ const WildLife = () => {
             <Image
               src="/images/circledeer.svg"
               alt="circledeer"
-              width={50}
-              height={50}
+              width={60}
+              height={60}
             />
           </motion.div>
 
@@ -95,7 +99,10 @@ const WildLife = () => {
             Discover Captivating Wild Life
           </motion.div>
 
-          <motion.div className="py-10 text-center" variants={fadeUpVariants}>
+          <motion.div
+            className="py-10 text-center text-[#FFFFFFCC]"
+            variants={fadeUpVariants}
+          >
             Discover Captivating Wildlife with HuntGrounds – your ultimate guide
             to finding pristine hunting <br /> lands rich with natural beauty
             and diverse wildlife. Whether you're in search of expansive forests,{" "}
@@ -109,7 +116,7 @@ const WildLife = () => {
           <motion.div variants={scaleInVariants}>
             <Link
               href={"/home"}
-              className="bg-slate-800/50 p-4 rounded-full hover:bg-slate-700/50 transition-colors"
+              className="bg-slate-800/50 px-6 py-5 rounded-full hover:bg-slate-700/50 transition-colors"
             >
               Start Hunting
             </Link>

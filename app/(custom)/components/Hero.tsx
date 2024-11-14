@@ -8,6 +8,7 @@ import { isAbsolute } from "path";
 import GradientLayer from "./GradientLayer";
 import CustomNavbar from "./CustomNavbar";
 import Link from "next/link";
+import Image from "next/image";
 
 const Hero = () => {
   // Refs for scroll detection
@@ -137,7 +138,7 @@ const Hero = () => {
             <div className="flex flex-col md:flex-row justify-center items-center md:space-x-10 font-thin">
               <motion.div
                 variants={fadeUpVariant}
-                className="text-center md:text-left"
+                className="text-center md:text-left text-[#FFFFFFCC]"
               >
                 Welcome to HuntGrounds, your go-to resource for discovering
                 prime hunting land. Explore, <br /> plan, and access the perfect

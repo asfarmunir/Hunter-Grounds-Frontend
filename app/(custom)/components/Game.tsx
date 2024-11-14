@@ -7,14 +7,14 @@ import GradientLayer from "./GradientLayer";
 const Game = () => {
   return (
     <>
-      <div className="relative min-h-screen">
+      <div
+        className="relative min-h-screen md:h-[150svh]  bg-cover bg-top bg-no-repeat z-0 inset-0"
+        style={{
+          backgroundImage: "url('/images/BeerView.svg')",
+        }}
+      >
         {/* Main background image (Bear) */}
-        <div
-          className=" inset-0 bg-cover bg-top bg-no-repeat z-0 "
-          style={{
-            backgroundImage: "url('/images/BeerView.svg')",
-          }}
-        >
+        <div className=" inset-0 ">
           <GradientLayer
             color="#ffffff"
             direction="bottom"
@@ -29,16 +29,15 @@ const Game = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              <div className="text-center">
+              <div className="flex flex-col items-center ">
                 <div className="text-4xl font-bold mb-4 text-black">
                   Your Game Starts Here.
                 </div>
-                <p className="text-lg text-black mb-8">
+                <p className="text-sm md:text-base px-3 max-w-lg text-center text-black mb-8">
                   Dive into the thrill of the wild with HuntGrounds. Discover
-                  the best <br />
-                  hunting grounds, uncover hidden landscapes, and set out on{" "}
-                  <br />
-                  adventures that connect you with nature like never before.
+                  the best hunting grounds, uncover hidden landscapes, and set
+                  out on adventures that connect you with nature like never
+                  before.
                 </p>
               </div>
             </motion.div>
