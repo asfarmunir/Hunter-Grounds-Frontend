@@ -24,7 +24,7 @@ const initialSettings = [
   { name: "Property Name", status: "pending" },
   { name: "Property Description", status: "pending" },
   { name: "Photos", status: "pending" },
-  { name: "Profile Picture", status: "pending" },
+  // { name: "Profile Picture", status: "pending" },
   // { name: "Verification", status: "pending" },
   // { name: "Insurance", status: "pending" },
   { name: "Game Available", status: "pending" },
@@ -71,8 +71,8 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (files.length > 3 || selectedFiles.length + files.length > 3) {
-      alert("You can only upload a maximum of 3 images.");
+    if (files.length > 10 || selectedFiles.length + files.length > 10) {
+      alert("You can only upload a maximum of 10 images.");
       return;
     }
     setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
@@ -134,7 +134,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           case "Profile Picture":
             return {
               ...s,
-              status: userDetails.profileImage ? "completed" : "pending",
+              status: userDetails.profileImage ? "completed" : "completed",
             };
 
           // case "Verification":
@@ -669,7 +669,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             </p>
             <div className=" w-full flex flex-col gap-4 md:flex-row justify-between">
               <div className="flex flex-col gap-2 w-full">
-                <div className=" w-full flex items-center gap-4  ">
+                <div className=" w-full flex items-center flex-wrap gap-4  ">
                   {imagePreviews.length > 0 ? (
                     imagePreviews.map((preview, index) => (
                       <div
@@ -708,7 +708,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   )}
                 </div>
                 <p className="text-xs  tracking-wide text-[#FF9900] mt-4">
-                  3 images required
+                  Upto 10 Images can be added
                 </p>
               </div>
 
@@ -719,7 +719,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   multiple
                   onChange={handleFileChange}
                   className=" absolute top-2 opacity-0"
-                  disabled={selectedFiles.length >= 3 || uploading} // Disable if already 3 images or uploading
+                  disabled={selectedFiles.length >= 10 || uploading} // Disable if already 3 images or uploading
                 />
                 <p className=" w-fit h-fit  text-nowrap  text-xs md:text-sm bg-gradient-to-t hover:cursor-wait from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 md:px-12 py-2.5 text-black font-semibold 2xl:text-lg">
                   Add or edit photos

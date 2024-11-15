@@ -76,7 +76,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
         <Properties properties={properties.properties} />
         <Pagination page={page} totalPages={properties.totalPages} />
       </div>
-      <div className=" md:w-[75%] pt-12 rounded-md overflow-hidden ">
+      <div className=" w-[100%] md:w-[75%] pt-12 rounded-md overflow-hidden ">
         <PropertyMap properties={huntgrounds.propertiesLocation} />
       </div>
     </div>

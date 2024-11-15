@@ -4,7 +4,7 @@ import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { updateUserProfileImage } from "@/database/actions/user.action";
-
+import { useRouter } from "next/navigation";
 const ImageUpload = ({
   userProfile,
   userEmail,
@@ -15,7 +15,7 @@ const ImageUpload = ({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-
+  const router = useRouter();
   // Handle image file selection event
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -67,6 +67,7 @@ const ImageUpload = ({
           },
         });
         setSelectedFile(null);
+        router.refresh();
       } else {
         toast.error("Error uploading image, Please try again later", {
           duration: 5000,
@@ -119,11 +120,12 @@ const ImageUpload = ({
               </button>
 
               <button
+                disabled={uploading}
                 onClick={() => {
                   setSelectedFile(null);
                   setImagePreview(null);
                 }}
-                className="text-xs  2xl:text-sm cursor-pointer font-semibold bg-gradient-to-b
+                className="text-xs disabled:opacity-40  2xl:text-sm cursor-pointer font-semibold bg-gradient-to-b
                      hover:bg-gradient-to-br transition-all duration-500 from-[#ba3131]
                       to-[#8c150a80] px-4 py-2 rounded-lg"
               >

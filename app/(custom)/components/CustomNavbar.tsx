@@ -139,7 +139,7 @@ const CustomNavbar = () => {
 
   return (
     <nav className=" w-full  rounded-full px-3 md:pl-10 2xl:pl-12 2xl:px-5 py-3.5 flex items-center justify-between">
-      <Link href={"/home"}>
+      <Link href={"/"}>
         <Image
           src="/images/logo.svg"
           alt="Logo"

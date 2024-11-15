@@ -1,5 +1,6 @@
 import { cloudinary } from "@/lib/cloudinaryConfig"; // your Cloudinary config path
 import { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // Upload response types
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
 
     // Check the response and return the appropriate status
     if (res.success && res.result) {
+      revalidatePath('/account/settings')
       return NextResponse.json({
         message: "success",
         imgUrl: res.result.secure_url,
