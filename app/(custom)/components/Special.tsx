@@ -12,7 +12,7 @@ const Special = () => {
 
   const metrics = [
     {
-      value: "100m+",
+      value: "10m+",
       label: "Acres of land to use",
     },
     {
@@ -94,10 +94,10 @@ const Special = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <div className="flex flex-col md:flex-row -mt-8 justify-between items-start md:items-center">
-            <div className="max-w-3xl mb-6 md:mb-0">
+          <div className="flex flex-col md:flex-row  justify-between items-start md:items-center">
+            <div className="max-w-3xl mb-6 md:mb-0 ">
               <motion.h2
-                className="text-xl md:text-2xl 2xl:text-3xl capitalize font-semibold mb-4 md:mb-6"
+                className="text-xl md:text-2xl 2xl:text-3xl capitalize  mb-4 md:mb-6"
                 variants={fadeInUpVariants}
               >
                 HuntGrounds enhances the hunting journey, making it more
@@ -106,16 +106,16 @@ const Special = () => {
                 hunters of all levels.
               </motion.h2>
               <motion.p
-                className="text-gray-300 leading-relaxed text-sm md:text-base"
+                className="text-gray-300 leading-relaxed font-thin tracking-wide text-sm md:text-base"
                 variants={fadeInUpVariants}
               >
-                Embark On A Thrilling Journey Into Nature With HuntGrounds'
-                Wildlife Tour Experience. Explore Pristine Landscapes Filled
-                With Diverse Wildlife, Guided By Experts Who Bring The Wonders
-                Of The Wild Up Close. Whether You're A Hunter Or A Nature
-                Enthusiast, This Tour Offers Unforgettable Encounters And
-                Breathtaking Views. Experience The Thrill Of The Wild
-                Responsibly And Create Lasting Memories With HuntGrounds.
+                Using HuntGrounds is a game-changer for outdoor enthusiasts
+                looking to elevate their hunting experience. This platform
+                offers an incredible advantage by providing easy access to prime
+                hunting locations, detailed land information, and a wide variety
+                of landscapes to explore. HuntGrounds takes the guesswork out of
+                finding ideal spots, so hunters can focus on what they love
+                most—connecting with nature and pursuing their passion.
               </motion.p>
             </div>
 
@@ -197,10 +197,10 @@ const Special = () => {
               {metrics.map((metric, index) => (
                 <motion.div
                   key={index}
-                  className="flex flex-col items-center sm:items-start font-thin text-center sm:text-left"
+                  className="flex flex-col items-center  font-thin text-center sm:text-left"
                   variants={metricItemVariants}
                 >
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
+                  <span className="text-3xl sm:text-4xl lg:text-5xl  text-white mb-2">
                     {metric.value}
                   </span>
                   <span className="text-white text-xs sm:text-sm font-thin">

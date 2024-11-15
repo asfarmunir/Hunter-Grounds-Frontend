@@ -8,7 +8,7 @@ const Game = () => {
   return (
     <>
       <div
-        className="relative min-h-screen md:h-[150svh]  bg-cover bg-top bg-no-repeat z-0 inset-0"
+        className="relative min-h-screen md:h-[180svh]  bg-cover bg-center  bg-no-repeat z-0 inset-0"
         style={{
           backgroundImage: "url('/images/BeerView.svg')",
         }}
@@ -22,7 +22,7 @@ const Game = () => {
             zIndex="z-10"
             height="h-[400px]"
           />
-          <div className="relative z-20 pt-10">
+          <div className="relative z-20 ">
             {/* White section with text */}
             <motion.div
               initial={{ y: -50, opacity: 0 }}
@@ -61,7 +61,7 @@ const Game = () => {
                     <p className="text-black font-medium">Contact Us</p>
                     <a
                       href="mailto:help@huntgrounds.com"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-black hover:text-white bg-white/60 hover:bg-black/30  transition-colors"
+                      className="inline-flex items-center gap-2 p-1 pr-2 rounded-full text-black hover:text-white bg-white/60 hover:bg-black/30  transition-colors"
                     >
                       <span className="w-12 h-12 flex items-center justify-center bg-black  rounded-full">
                         <svg

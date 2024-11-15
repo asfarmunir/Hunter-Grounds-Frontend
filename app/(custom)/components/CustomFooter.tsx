@@ -25,17 +25,17 @@ const CustomFooter = () => {
           {/* Navigation Links */}
           <nav className="hidden md:block">
             <ul className="flex space-x-8">
-              <li>
+              {/* <li>
                 <Link
                   href="/login"
                   className="text-sm text-white hover:text-gray-300"
                 >
                   Login
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
-                  href="/signup"
+                  href="/start-hosting"
                   className="text-sm text-white hover:text-gray-300"
                 >
                   Signup
@@ -43,7 +43,7 @@ const CustomFooter = () => {
               </li>
               <li>
                 <Link
-                  href="/list-land"
+                  href="/start-hosting"
                   className="text-sm text-white hover:text-gray-300"
                 >
                   List Land
@@ -51,7 +51,7 @@ const CustomFooter = () => {
               </li>
               <li>
                 <Link
-                  href="/faqs"
+                  href="#"
                   className="text-sm text-white hover:text-gray-300"
                 >
                   FAQs
@@ -59,7 +59,7 @@ const CustomFooter = () => {
               </li>
               <li>
                 <Link
-                  href="/start-hunting"
+                  href="/home"
                   className="text-sm text-white hover:text-gray-300"
                 >
                   Start Hunting
@@ -71,22 +71,22 @@ const CustomFooter = () => {
           {/* Social Icons */}
           <div className="flex items-center space-x-4">
             <Link
-              href="https://instagram.com"
-              className="text-white hover:text-gray-300"
+              href="https://www.instagram.com/huntgrounds/"
+              className="text-black rounded-full p-1.5 hover:text-gray-300 bg-white"
               aria-label="Instagram"
             >
               <Instagram size={20} />
             </Link>
             <Link
-              href="https://facebook.com"
-              className="text-white hover:text-gray-300"
+              href="https://www.facebook.com/profile.php?id=61564649940146&mibextid=LQQJ4d"
+              className="text-black rounded-full p-1.5 hover:text-gray-300 bg-white"
               aria-label="Facebook"
             >
               <Facebook size={20} />
             </Link>
             <Link
               href="https://youtube.com"
-              className="text-white hover:text-gray-300"
+              className="text-black rounded-full p-1.5 hover:text-gray-300 bg-white"
               aria-label="YouTube"
             >
               <Youtube size={20} />
