@@ -5,8 +5,8 @@ import { Star, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 1.1 } },
 };
 
 const Benefits = () => {
@@ -17,7 +17,7 @@ const Benefits = () => {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: true }}
             className="flex justify-center items-center flex-col"
           >
             <motion.div className="py-10" variants={fadeUp}>
@@ -54,7 +54,7 @@ const Benefits = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
+              viewport={{ once: true }}
               variants={fadeUp}
               className="rounded-2xl overflow-hidden"
             >
@@ -103,7 +103,7 @@ const Benefits = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
+              viewport={{ once: true }}
               variants={fadeUp}
               className="bg-[#F8F8F8] p-4 md:p-6 rounded-2xl"
             >
@@ -132,7 +132,7 @@ const Benefits = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
+              viewport={{ once: true }}
               variants={fadeUp}
               className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden"
             >
@@ -153,7 +153,7 @@ const Benefits = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
+              viewport={{ once: true }}
               variants={fadeUp}
               className="rounded-2xl overflow-hidden"
             >
@@ -202,7 +202,7 @@ const Benefits = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
+              viewport={{ once: true }}
               variants={fadeUp}
               className="bg-[#F8F8F8] p-4 md:p-6 rounded-2xl"
             >
@@ -232,7 +232,7 @@ const Benefits = () => {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
+              viewport={{ once: true }}
               variants={fadeUp}
               className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden"
             >
