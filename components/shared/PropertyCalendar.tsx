@@ -51,22 +51,26 @@ const PropertyCalendar = ({
     { totalEarnings: number; propertyNames: string[] }
   > = {}; // Map date to total earnings and property names
 
-  data.forEach((property) => {
-    property.bookedDates.forEach((date) => {
-      const formattedDate = date.split("T")[0]; // Get the date part of the string
-      if (!bookedDatesMap[formattedDate]) {
-        bookedDatesMap[formattedDate] = { totalEarnings: 0, propertyNames: [] };
-      }
-      bookedDatesMap[formattedDate].totalEarnings += property.pricePerNight; // Add pricePerNight to total earnings
-      bookedDatesMap[formattedDate].propertyNames.push(property.name); // Add property name to the list
+  if (data) {
+    data.forEach((property) => {
+      property.bookedDates.forEach((date) => {
+        const formattedDate = date.split("T")[0]; // Get the date part of the string
+        if (!bookedDatesMap[formattedDate]) {
+          bookedDatesMap[formattedDate] = {
+            totalEarnings: 0,
+            propertyNames: [],
+          };
+        }
+        bookedDatesMap[formattedDate].totalEarnings += property.pricePerNight; // Add pricePerNight to total earnings
+        bookedDatesMap[formattedDate].propertyNames.push(property.name); // Add property name to the list
+      });
     });
-  });
-
+  }
   const [currentDate, setCurrentDate] = useState(new Date());
   const [bookedDates, setBookedDates] = useState<string[]>([]);
   useEffect(() => {
     // Check if data array length is 1, then set nonAvailableDates
-    if (data.length === 1 && data[0]?.nonAvailableDates) {
+    if (data && data.length === 1 && data[0]?.nonAvailableDates) {
       const dates = data[0].nonAvailableDates.map(
         (date: string) => date.split("T")[0]
       );
@@ -194,7 +198,7 @@ const PropertyCalendar = ({
         text-sm text-gray-300 mt-5 mb-6 2xl:text-base font-normal tracking-wide
       "
       >
-        {data.length === 1
+        {data && data.length === 1
           ? "  Manage the availability of your property by selecting dates on the  calendar below. Click on a date to toggle between available and unavailable." // Show different message if multiple dates are selected
           : "Select a property to toggle availability."}
       </p>
@@ -251,7 +255,7 @@ const PropertyCalendar = ({
                         >
                           ${totalEarnings.toLocaleString()}
                         </p>
-                      ) : data.length === 1 ? (
+                      ) : data && data.length === 1 ? (
                         isBooked ? (
                           <button
                             onClick={() =>

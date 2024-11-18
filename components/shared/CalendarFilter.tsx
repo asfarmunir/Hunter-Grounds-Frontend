@@ -44,21 +44,28 @@ const PayoutFilter = ({
         <IoChevronDownOutline className="w-3 h-3" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-primary-200 mt-1 p-3 rounded-lg shadow-sm">
-        <DropdownMenuItem
-          className="flex items-center text-xs 2xl:text-sm justify-between"
-          onClick={() => handleFilterChange("ALL")}
-        >
-          <p>ALL</p>
-        </DropdownMenuItem>
-        {properties.map((property) => (
+        {properties && (
           <DropdownMenuItem
-            key={property._id}
-            className="flex items-center capitalize text-xs 2xl:text-sm justify-between"
-            onClick={() => handleFilterChange(property.name)}
+            className="flex items-center text-xs 2xl:text-sm justify-between"
+            onClick={() => handleFilterChange("ALL")}
           >
-            <p>{property.name}</p>
+            <p>ALL</p>
           </DropdownMenuItem>
-        ))}
+        )}
+        {properties &&
+          properties.map((property) => (
+            <DropdownMenuItem
+              key={property._id}
+              className="flex items-center capitalize text-xs 2xl:text-sm justify-between"
+              onClick={() => handleFilterChange(property.name)}
+            >
+              <p>{property.name}</p>
+            </DropdownMenuItem>
+          ))}
+
+        {!properties && (
+          <p className="text-xs 2xl:text-sm">No properties found</p>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
