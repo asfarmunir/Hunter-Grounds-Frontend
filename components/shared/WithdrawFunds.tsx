@@ -70,12 +70,6 @@ const WithdrawFunds = ({
     // If no errors, proceed with withdrawal
     if (Object.keys(formErrors).length === 0) {
       // Handle payout creation (this would trigger a backend call)
-      console.log("Processing payout:", {
-        userId,
-        withdrawAmount,
-        paypalEmail,
-      });
-
       setLoading(true);
 
       const data = {
@@ -85,7 +79,6 @@ const WithdrawFunds = ({
         type: type,
       };
       const res = await createPayout(data, path);
-      console.log("Payout response:", res);
       if (res.status !== 200) {
         toast.error(res.message, {
           duration: 5000,

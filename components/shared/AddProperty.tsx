@@ -209,9 +209,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     }
 
     const userAddress = `${propertyDetails.stAddress}, ${propertyDetails.city}, ${propertyDetails.state}, ${propertyDetails.postalCode}, ${propertyDetails.country}`;
-    console.log("🚀 ~ submitHandler ~ userAddress:", userAddress);
     const coordinates = await getCoordinatesFromMapbox(userAddress);
-    console.log("🚀 ~ submitHandler ~ coordinates:", coordinates);
     if (!coordinates) {
       toast.error("Invalid address. Please provide a valid address");
       setLoading(false);

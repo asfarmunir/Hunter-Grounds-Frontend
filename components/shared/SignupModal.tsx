@@ -64,12 +64,10 @@ const Signup = ({
   const pathname = usePathname();
   const isStartHostingNew = pathname === "/";
   async function onSubmit(values: any) {
-    console.log(values);
     setLoading(true);
 
     try {
       const response = await axios.post("/api/auth/signup", values);
-      console.log(response);
       if (response.status !== 200) {
         throw new Error("Something went wrong");
       }

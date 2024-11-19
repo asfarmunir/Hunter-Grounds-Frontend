@@ -44,7 +44,6 @@ const PropertyCalendar = ({
     _id: string;
   }[];
 }) => {
-  console.log("🚀 ~ data:", data);
   // Create a mapping of booked dates to property details
   const bookedDatesMap: Record<
     string,
@@ -79,7 +78,6 @@ const PropertyCalendar = ({
   }, [data]); // Dependency on 'data' so this effect runs when 'data' changes
   // State to track unavailable dates
   const [loading, setLoading] = useState(false);
-  console.log("🚀 ~ bookedDates:", bookedDates);
 
   const handleToggleAvailability = (formattedDay: string) => {
     setBookedDates(
@@ -121,16 +119,11 @@ const PropertyCalendar = ({
   const handleSubmit = async () => {
     setLoading(true); // Set loading state
     try {
-      console.log(
-        data[0]._id, // Assuming we are updating the first property
-        bookedDates
-      );
       const response = await toggleUnavailableDates({
         propertyId: data[0]._id, // Assuming we are updating the first property
         nonAvailableDates: bookedDates,
       });
       if (response.status === 200) {
-        console.log("Dates updated successfully", response.updatedProperty);
         toast.success("Dates updated successfully", {
           duration: 4000,
           style: {

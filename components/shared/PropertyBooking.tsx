@@ -30,7 +30,6 @@ const page = ({
   propertyDetails: IProperty;
   userId: string;
 }) => {
-  console.log("🚀 ~ page ~ propertyDetails:", propertyDetails);
   const [fromDate, setFromDate] = React.useState<Date>();
   const [toDate, setToDate] = React.useState<Date>();
   const [nights, setNights] = React.useState<number | null>(null);

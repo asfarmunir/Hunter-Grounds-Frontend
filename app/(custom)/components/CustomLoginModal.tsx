@@ -82,7 +82,6 @@ const CustomLoginModal = ({
           },
         });
         const { success } = await apiQuery.json();
-        console.log("🚀 ~ onSubmit ~ success:", success);
         if (success) {
           // toast.success("Form submitted successfully");
         } else {
@@ -101,7 +100,6 @@ const CustomLoginModal = ({
       password,
       redirect: false,
     });
-    console.log(res);
     if (!res!.ok) {
       toast.error(res!.error);
       setLoading(false);

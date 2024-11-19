@@ -28,7 +28,5 @@ export const connectToDatabase = async () => {
     }).then((mongoose) => mongoose.connection);
 
   global.mongoose.conn = await global.mongoose.promise;
-
-  console.log('Connected to database');
   return global.mongoose.conn;
 };

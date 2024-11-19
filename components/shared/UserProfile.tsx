@@ -33,8 +33,6 @@ const UserProfile = ({
   const year = date.getFullYear();
 
   const onRatingSubmit = async (rating: number, bookingId: string) => {
-    console.log("🚀 ~ onRatingSubmit ~ bookingId:", bookingId);
-    console.log(rating);
     toast.promise(addRatings(bookingId, rating, userDetails._id!), {
       loading: "Submitting rating...",
       success: "Rating submitted successfully",

@@ -5,7 +5,6 @@ import React from "react";
 const GoogleLogin = () => {
   const googleLogin = async () => {
     const res = await signIn("google", { callbackUrl: "/home" });
-    console.log(res);
   };
 
   return (

@@ -8,7 +8,6 @@ import { getAllBookingsForUserProperties } from "@/database/actions/booking.acti
 const page = async () => {
   const session = await getServerSession(authOptions);
   const userBookings = await getAllBookingsForUserProperties(session.user.id);
-  console.log("🚀 ~ page ~ userBookings:", userBookings);
   return (
     <div className="w-full flex flex-col items-center mt-12  pb-8 gap-12 md:pb-0 justify-center  ">
       <div className=" max-w-3xl 2xl:max-w-5xl relative  ">
