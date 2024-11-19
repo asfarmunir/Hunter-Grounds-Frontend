@@ -22,7 +22,7 @@ const Benefits = () => {
           >
             <motion.div className="py-10" variants={fadeUp}>
               <Image
-                src="/images/ship.svg"
+                src="/images/boat.png"
                 alt="circledeer"
                 width={60}
                 height={60}
