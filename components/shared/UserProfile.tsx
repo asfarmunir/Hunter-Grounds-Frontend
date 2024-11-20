@@ -47,7 +47,7 @@ const UserProfile = ({
           <div className="flex items-center gap-3">
             <div className="w-[40px] h-[40px] rounded-full flex overflow-hidden  items-center object-contain object-center justify-center">
               <Image
-                src={userDetails.profileImage || "/images/avatar.svg"}
+                src={userDetails.profileImage || "/images/logoIcon.svg"}
                 width={50}
                 alt="avatar"
                 height={50}
@@ -90,7 +90,7 @@ const UserProfile = ({
           </div> */}
           <Link
             href={"/account/settings"}
-            className=" px-20 text-sm py-3 text-center rounded-xl  bg-[#372F2F] "
+            className=" px-20 text-sm py-3 mt-2 text-center rounded-xl  bg-[#372F2F] "
           >
             Edit Profile
           </Link>

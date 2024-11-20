@@ -10,9 +10,13 @@ import { BounceLoader } from "react-spinners";
 
 interface CheckoutFormProps {
   dpmCheckerLink: string;
+  propertyId: string;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ dpmCheckerLink }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({
+  dpmCheckerLink,
+  propertyId,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -32,6 +36,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ dpmCheckerLink }) => {
       elements,
       confirmParams: {
         return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pre-booking/success`,
+        // return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pre-booking/${propertyId}/payment`,
       },
     });
 
@@ -78,7 +83,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ dpmCheckerLink }) => {
       </form>
 
       {/* [DEV]: For demo purposes only, display dynamic payment methods annotation and integration checker */}
-      <div id="dpm-annotation">
+      {/* <div id="dpm-annotation">
         <p>
           Payment methods are dynamically displayed based on customer location,
           order amount, and currency.&nbsp;
@@ -91,7 +96,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ dpmCheckerLink }) => {
             Preview payment methods by transaction
           </a>
         </p>
-      </div>
+      </div> */}
     </>
   );
 };

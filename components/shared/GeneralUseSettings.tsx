@@ -164,7 +164,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               <p className="text-xs md:text-sm text-gray-400 max-w-3xl font-thin tracking-wide">
                 Please upload a profile picture where your face is clearly
                 visible. Sharing a clear image of yourself helps to build trust
-                within the Hipcamp Community, and helps Hosts and Hipcampers
+                within the Huntgrounds Community, and helps Hosts and Hunters
                 recognize each other when meeting on properties. Max size: 10 Mb
               </p>
             </div>
@@ -305,7 +305,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className="  min-w-16 md:min-w-36">HuntGrounds URL</p>
             <textarea
               className=" py-2 bg-transparent  px-3 w-full text-sm  focus:outline-none rounded-lg "
-              placeholder="Heads up! Changing your Hipcamp URL will break any referral, invite, or profile links you've shared in the past.
+              placeholder="Heads up! Changing your Huntgrounds URL will break any referral, invite, or profile links you've shared in the past.
             Previously earned referral credit will not be lost by changing your URL.              "
             />
           </div>

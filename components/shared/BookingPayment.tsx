@@ -264,73 +264,13 @@ const page = ({
                 {confirmed ? (
                   <PaymentSuccess />
                 ) : (
-                  <CheckoutForm dpmCheckerLink={dpmCheckerLink} />
+                  <CheckoutForm
+                    dpmCheckerLink={dpmCheckerLink}
+                    propertyId={propertyDetails._id}
+                  />
                 )}
               </Elements>
             )}
-            {/* ////// */}
-            {/* <div className="flex flex-col gap-2 w-full">
-            <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
-              Card Number
-            </p>
-            <input
-              type="text"
-              className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
-              placeholder=" Enter card number "
-            />
-          </div>
-          <div className="flex flex-col gap-2 w-full">
-            <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
-              Card Number
-            </p>
-            <input
-              type="text"
-              className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
-              placeholder=" Enter card number "
-            />
-          </div>
-          <div className="flex flex-col gap-2 w-full">
-            <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
-              Card Name
-            </p>
-            <input
-              type="text"
-              className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
-              placeholder=" Enter card name "
-            />
-          </div>
-          <div className=" w-full flex flex-col md:flex-row items-center gap-4  justify-between">
-            <div className="flex flex-col w-full gap-1.5">
-              <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
-                Date
-              </p>
-              <input
-                type="text"
-                className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
-                placeholder=" mm / yy "
-              />
-            </div>
-            <div className="flex flex-col w-full gap-1.5">
-              <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
-                CVV
-              </p>
-              <input
-                type="text"
-                className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
-                placeholder=" X X X "
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 w-full mb-4">
-            <p className="text-xs 2xl:text-base font-semibold  tracking-wide">
-              Zip Code
-            </p>
-            <input
-              type="text"
-              className="bg-[#372F2F33] border border-gray-800 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
-              placeholder=" Enter zip code"
-            />
-          </div> */}
 
             <div className="flex items-center px-2 py-4 gap-3 justify-start w-full ">
               <Checkbox
