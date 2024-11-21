@@ -295,7 +295,7 @@ const page = ({
         </h2>
         <div className="  gap-8 flex flex-col md:flex-row pb-4 items-center md:items-start border-b border-primary-50/30">
           <Image
-            src={"/images/place1.svg"}
+            src={propertyDetails.photos[0]}
             width={165}
             height={165}
             alt="mail"

@@ -123,10 +123,11 @@ const HuntingGround = () => {
                 transition={{ duration: 0.3 }}
               >
                 <Image
-                  src="/images/Beer1.svg"
+                  src="/images/Beer1.webp"
                   alt="Beer1"
                   width={250}
                   height={250}
+                  unoptimized
                   className="rounded-lg"
                 />
               </motion.div>
@@ -138,10 +139,11 @@ const HuntingGround = () => {
                 transition={{ duration: 0.3 }}
               >
                 <Image
-                  src="/images/Beer2.svg"
+                  src="/images/Beer2.png"
                   alt="Beer2"
                   width={250}
                   height={250}
+                  unoptimized
                   className="rounded-lg"
                 />
               </motion.div>
@@ -187,7 +189,7 @@ const HuntingGround = () => {
           >
             {/* Map Image */}
             <Image
-              src="/images/Group 2.svg"
+              src="/images/Group 2.webp"
               alt="Africa"
               width={1000}
               height={1000}

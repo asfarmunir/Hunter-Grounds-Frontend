@@ -19,9 +19,12 @@ const sessionToken =
   if (pathname === '/') {
     return NextResponse.next();
   }
+  if (pathname === '/home') {
+    return NextResponse.next();
+  }
 
   // Redirect to the root path if trying to access any other route without the session token
-  return NextResponse.redirect(new URL('/', req.url));
+  return NextResponse.redirect(new URL('/home', req.url));
 }
 
 // Define which routes to protect

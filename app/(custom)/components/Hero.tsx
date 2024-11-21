@@ -3,13 +3,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import CustomLoginModal from "./CustomLoginModal";
-import { isAbsolute } from "path";
 import GradientLayer from "./GradientLayer";
 import CustomNavbar from "./CustomNavbar";
 import Link from "next/link";
-import Image from "next/image";
-
 const Hero = () => {
   // Refs for scroll detection
   const subtitleRef = useRef(null);
@@ -101,7 +97,7 @@ const Hero = () => {
       <div
         className="relative bg-cover bg-bottom bg-no-repeat bg-opacity-70 z-[1]"
         style={{
-          backgroundImage: "url('/images/bg-hero-new.svg')",
+          backgroundImage: "url('/landingImages/1.webp')",
         }}
       >
         <CustomNavbar />

@@ -13,10 +13,6 @@ export default function SpecificPageLayout({
 }: SpecificPageLayoutProps) {
   return (
     <div>
-      <div>
-        <Hero />
-      </div>
-
       {/* Content section outside of background image */}
       <main className="flex-1">{children}</main>
     </div>

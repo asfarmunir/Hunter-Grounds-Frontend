@@ -11,23 +11,23 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const backgroundImage =
     pathname === "/home"
-      ? "url('/images/bg-hero.svg')" // Background for the homepage
+      ? "url('/images/bg-hero.webp')" // Background for the homepage
       : pathname === "/start-hosting"
-      ? "url('/images/bg-hero2.svg')" // Background for the start-hosting page
+      ? "url('/images/bg-hero2.webp')" // Background for the start-hosting page
       : pathname.includes("/pre-booking") &&
         !pathname.includes("/payment") &&
         !pathname.includes("/success")
-      ? "url('/images/bg-hero3.svg')" // Background for pre-booking (excluding payment and success)
+      ? "url('/images/bg-hero3.webp')" // Background for pre-booking (excluding payment and success)
       : pathname.includes("/pre-booking") && pathname.includes("/payment")
-      ? "url('/images/bg-hero3.svg')" // Background for payment pages under pre-booking
+      ? "url('/images/bg-hero3.webp')" // Background for payment pages under pre-booking
       : pathname.includes("/pre-booking") && pathname.includes("/success")
-      ? "url('/images/bg-hero4.svg')" // Background for success pages under pre-booking
+      ? "url('/images/bg-hero4.webp')" // Background for success pages under pre-booking
       : pathname === "/booking"
-      ? "url('/images/bg-hero.svg')" // Background for booking page
+      ? "url('/images/bg-hero.webp')" // Background for booking page
       : pathname === "/refer-and-earn"
-      ? "url('/images/hunt-bg.svg')" // Background for booking page
+      ? "url('/images/hunt-bg.webp')" // Background for booking page
       : pathname === "/account/inbox"
-      ? "url('/images/bg-hero.svg')" // Background for account inbox page
+      ? "url('/images/bg-hero.webp')" // Background for account inbox page
       : pathname === "/no-bg"
       ? "" // No background for specific page
       : ""; // Default to no background for other pages

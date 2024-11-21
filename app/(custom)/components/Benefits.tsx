@@ -60,7 +60,7 @@ const Benefits = () => {
             >
               <div className="relative w-full h-[291px] md:h-[485px]">
                 <Image
-                  src="/images/HL1.svg"
+                  src="/landingImages/HL1.webp"
                   alt="Hunter in mountains"
                   fill
                   className="object-cover rounded-2xl"
@@ -137,7 +137,7 @@ const Benefits = () => {
               className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden"
             >
               <Image
-                src="/images/HL2.svg"
+                src="/landingImages/HL2.webp"
                 alt="Buffalo in misty forest"
                 fill
                 className="object-cover"
@@ -159,7 +159,7 @@ const Benefits = () => {
             >
               <div className="relative w-full h-[300px] md:h-[500px]">
                 <Image
-                  src="/images/HL3.svg"
+                  src="/landingImages/HL3.webp"
                   alt="Hunter in mountains"
                   fill
                   className="object-cover rounded-2xl"
@@ -237,7 +237,7 @@ const Benefits = () => {
               className="relative w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden"
             >
               <Image
-                src="/images/HL4.svg"
+                src="/landingImages/HL4.webp"
                 alt="Buffalo in misty forest"
                 fill
                 className="object-cover"

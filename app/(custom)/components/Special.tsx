@@ -75,7 +75,7 @@ const Special = () => {
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1 }}
         style={{
-          backgroundImage: "url('/images/mountain.svg')",
+          backgroundImage: "url('/landingImages/5.webp')",
         }}
       />
       <GradientLayer

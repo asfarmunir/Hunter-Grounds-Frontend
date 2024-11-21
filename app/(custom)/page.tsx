@@ -7,10 +7,12 @@ import Special from "./components/Special";
 import HillsBackground from "./components/HillsBackground";
 import Benefits from "./components/Benefits";
 import Game from "./components/Game";
+import Hero from "./components/Hero";
 
 const page = () => {
   return (
     <div className="">
+      <Hero />
       <HuntingGround />
       <SnowHill />
       <WildLife />

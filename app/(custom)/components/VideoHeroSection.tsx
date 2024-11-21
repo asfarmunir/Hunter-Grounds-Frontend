@@ -7,8 +7,7 @@ const VideoHeroSection: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [showVideo, setShowVideo] = useState<boolean>(false);
 
-  const thumbnailImage = "/images/VideoImage.svg";
-  const backgroundImage = "/images/VideoImage.svg";
+  const backgroundImage = "/landingImages/4.webp";
 
   const handlePlayPause = () => {
     const video = document.getElementById(
@@ -48,7 +47,7 @@ const VideoHeroSection: React.FC = () => {
             <video
               id="heroVideo"
               className="absolute inset-0 w-full h-full object-cover"
-              poster={thumbnailImage}
+              poster={backgroundImage}
               playsInline
             >
               <source src="YOUR_VIDEO_URL_HERE" type="video/mp4" />

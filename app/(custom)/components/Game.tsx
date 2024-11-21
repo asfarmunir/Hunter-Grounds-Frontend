@@ -10,7 +10,7 @@ const Game = () => {
       <div
         className="relative min-h-screen md:h-[180svh]  bg-cover bg-center  bg-no-repeat z-0 inset-0"
         style={{
-          backgroundImage: "url('/images/BeerView.svg')",
+          backgroundImage: "url('/landingImages/7.webp')",
         }}
       >
         {/* Main background image (Bear) */}

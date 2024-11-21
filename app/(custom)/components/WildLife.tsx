@@ -48,7 +48,7 @@ const WildLife = () => {
 
   return (
     <div
-      className="relative w-full h-screen md:h-[150svh] bg-[#0B0E15] py-4 "
+      className="relative w-full h-[90svh] md:h-[150svh] bg-[#0B0E15] py-4 "
       ref={ref}
     >
       <GradientLayer
@@ -70,7 +70,7 @@ const WildLife = () => {
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1 }}
         style={{
-          backgroundImage: "url('/images/Wolf.svg')",
+          backgroundImage: "url('/landingImages/3.webp')",
           backgroundPosition: "top",
           backgroundSize: "cover",
         }}
