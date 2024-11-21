@@ -263,16 +263,13 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           longitude: coordinates.longitude,
         },
       };
-      console.log("🚀 ~ submitHandler ~ data:", data);
 
-      // console.log("🚀 ~ submitHandler ~ data:", data);
-
-      // const res = await createProperty(data);
-      // if (res.status !== 200) {
-      //   toast.error("Something went wrong while creating property");
-      //   setLoading(false);
-      //   return;
-      // }
+      const res = await createProperty(data);
+      if (res.status !== 200) {
+        toast.error("Something went wrong while creating property");
+        setLoading(false);
+        return;
+      }
       toast.success("Property Listed Successfully! ", {
         duration: 3000,
         style: {
@@ -280,7 +277,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
           color: "#fff",
         },
       });
-      // router.push("/user-properties");
+      router.push("/user-properties");
     } catch (error: any) {
       console.error("Error uploading images:", error);
       toast.dismiss();
