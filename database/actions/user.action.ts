@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import { connectToDatabase } from '@/database';
 import { revalidatePath } from 'next/cache';
 import { StreamChat } from 'stream-chat';
-import { sendEmail } from '@/lib/sendEmail';
+import { sendEmail, sendKycSuccessEmail } from '@/lib/sendEmail';
 import { verifyCaptchaToken } from '@/lib/captcha';
 export const getUserDetails = async (email: string) => {
     try {
@@ -131,6 +131,9 @@ export const updateUserStatus = async (userId:string) => {
         user.isVerified = true;
         await user.save();
         revalidatePath('/dashboard');
+
+        await sendKycSuccessEmail(user.email);
+
         return JSON.parse(JSON.stringify({status:200}))
         
     } catch (error) {

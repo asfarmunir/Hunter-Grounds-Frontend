@@ -3,7 +3,7 @@ import User from "@/database/user.modal";
 import { connectToDatabase } from "@/database";
 import * as bcryptjs from "bcryptjs";
 import { createNewStreamUser } from "@/database/actions/user.action";
-import { sendEmail } from "@/lib/sendEmail";
+import { sendEmail, sendGreetingEmail } from "@/lib/sendEmail";
 
 
 export async function POST(req:NextRequest, res:NextResponse ){
@@ -44,15 +44,7 @@ export async function POST(req:NextRequest, res:NextResponse ){
                 "https://getstream.io/random_svg/?id=broken-waterfall-5&name=Broken+waterfall");
 
 
-         const htmlContent = `
-          <div>
-            <h1>Welcome to Our Service, ${firstname}!</h1>
-            <p>Thank you for signing up. We're excited to have you on board.</p>
-            <p>If you have any questions, feel free to reach out.</p>
-          </div>
-        `;
-
-        await sendEmail(email, "Welcome to Our Huntgrounds!", htmlContent);
+        await sendGreetingEmail(email, `${firstname} ${lastname}`);
 
         return NextResponse.json({status: 200 , message: "User created successfully"});
 

@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import User from '@/database/user.modal';
 import { connectToDatabase } from '@/database';
 import { resetEmail } from '@/lib/resetEmail';
+import { sendResetEmail } from '@/lib/sendEmail';
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
     const resetLink = `${process.env.APP_URL}/reset-password/${userId}?token=${resetToken}`;
 
     // Send the email with the reset link
-      await resetEmail(email, "Password Reset", resetLink);  
+      await sendResetEmail(email, resetLink);
 
     return NextResponse.json({ message: 'Reset email sent successfully' }, { status: 200 });
   } catch (error) {

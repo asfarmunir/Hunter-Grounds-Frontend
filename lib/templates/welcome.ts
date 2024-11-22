@@ -1,4 +1,7 @@
-<!doctype html>
+export const getSignupEmailTemplate = () => {
+  const SIGNUP_TITLE = "Welcome to the Huntgrounds!";
+  const SIGNUP_TEMPLATE = (`
+    <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
   <head>
     <title>
@@ -252,7 +255,7 @@ flex-grow: 0;
             <td  style="width:600px;" class="mj-full-width-mobile">
               
       <img
-         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731824617/email%20images/Hunt%20Ground%20EMails/Hero%20Images/Your_Booking_Hero_desktop_opccrp.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="600"
+         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731898944/email%20images/Hunt%20Ground%20EMails/Hero%20Images/Payment_failed_Hero_twzq5h.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="600"
       />
     
             </td>
@@ -276,7 +279,7 @@ flex-grow: 0;
             <td  style="width:600px;" class="mj-full-width-mobile">
               
       <img
-         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731824507/email%20images/Hunt%20Ground%20EMails/Hero%20Images/Your_Booking_Hero_Mobile_v2_oypbax.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="600"
+         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731898943/email%20images/Hunt%20Ground%20EMails/Hero%20Images/Payment_failed_Hero_Mobile_fpfmd6.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="600"
       />
     
             </td>
@@ -372,7 +375,7 @@ flex-grow: 0;
                   
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;font-weight:600;line-height:1;text-align:center;color:#FFFFFF;"
-      >Your Booking</div>
+      >Account Created</div>
     
                 </td>
               </tr>
@@ -471,8 +474,20 @@ flex-grow: 0;
                   
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:1.5;text-align:left;color:#ffffff;"
-      ></br>
-      Thank you so much for your booking! We're excited to welcome you to the <span style="color:#FF9900">HuntGrounds family.</span> We hope you have an incredible hunting trip, and we'd love to see your photos—tag us with #HuntGrounds on Instagram so we can share them. Once again, thank you, and  <span style="color:#FF9900">enjoy your adventure!</span></div>
+      >Welcome to HuntGrounds, your ultimate guide to finding prime hunting land and experiencing the thrill of the wild! We’re excited to have you join our community of passionate hunters and outdoor enthusiasts.</div>
+    
+                </td>
+              </tr>
+            
+              <tr>
+                <td
+                   align="left" style="font-size:0px;padding:40px;padding-bottom:0px;word-break:break-word;"
+                >
+                  
+      <div
+         style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:1.5;text-align:left;color:#ffffff;"
+      >Here’s what you can do with HuntGrounds:</br>✅ Explore top hunting locations tailored to your needs.</br>✅ Access detailed land information to plan your next adventure.</br>✅ Connect with landowners and fellow hunters effortlessly.</br>
+Your next great hunting experience is just a few clicks away!</div>
     
                 </td>
               </tr>
@@ -586,7 +601,7 @@ flex-grow: 0;
                   
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;color:#ffffff;"
-      >Your Receipt</div>
+      >Account Username:</div>
     
                 </td>
               </tr>
@@ -598,9 +613,7 @@ flex-grow: 0;
                   
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:22px;line-height:1.6;text-align:center;color:#ffffff;"
-      >
-      [totalAmount]
-    </div>
+      >(Clients email)</div>
     
                 </td>
               </tr>
@@ -651,8 +664,8 @@ flex-grow: 0;
       >
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731870974/email%20images/Hunt%20Ground%20EMails/Hero%20Images/chart-pie_lnbhhh.png" width=40px></img></td>
-            <td style="padding:0px 10px;color:#ffffff" >Your Receipt</br>
-           <span style="font-size:22px;line-height: 1.6;"> [totalAmount] </span>
+            <td style="padding:0px 10px;color:#ffffff" >Account Username:</br>
+           <span style="font-size:22px;line-height: 1.6;"> (Clients email) </span>
             </td>
           </tr>
       </table>
@@ -674,277 +687,7 @@ flex-grow: 0;
       </div>
     
         <!--[if mso | IE]></v:textbox></v:rect></td></tr></table></td></tr><![endif]-->
-        <!-- Your Receipt details Card End --><!-- Booking details Card Start -->
-          <!--[if mso | IE]><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:560px;" width="560" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    
-      
-      <div  style="margin:0px auto;max-width:560px;">
-        
-        <table
-           align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"
-        >
-          <tbody>
-            <tr>
-              <td
-                 style="direction:ltr;font-size:0px;padding:10px;text-align:center;"
-              >
-                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr></tr></table><![endif]-->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        
-      </div>
-    
-      
-      <!--[if mso | IE]></td></tr></table></td></tr><tr><td class="mobile-card-outlook" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile-card-outlook" role="presentation" style="width:560px;" width="560" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><v:rect style="width:560px;" xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false"><v:fill origin="0.5, 0" position="0.5, 0" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" type="tile" /><v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0"><![endif]-->
-          
-      <div  class="mobile-card" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;margin:0px auto;border-radius:15px;max-width:560px;">
-        <div  style="line-height:0;font-size:0;">
-        <table
-           align="center" background="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;width:100%;border-radius:15px;"
-        >
-          <tbody>
-            <tr>
-              <td
-                 style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0px;text-align:center;"
-              >
-                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:100px;" ><![endif]-->
-            
-      <div
-         class="mj-column-px-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"
-      >
-        
-      <table
-         border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"
-      >
-        <tbody>
-          
-              <tr>
-                <td
-                   align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;"
-                >
-                  
-      <table
-         border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;"
-      >
-        <tbody>
-          <tr>
-            <td  style="width:40px;">
-              
-      <img
-         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902812/email%20images/Hunt%20Ground%20EMails/Hero%20Images/calender_icaon_wdohbq.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="40"
-      />
-    
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    
-                </td>
-              </tr>
-            
-        </tbody>
-      </table>
-    
-      </div>
-    
-          <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:280px;" ><![endif]-->
-            
-  
-    
-          <!--[if mso | IE]></td></tr></table><![endif]-->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-      </div>
-    
-        <!--[if mso | IE]></v:textbox></v:rect></td></tr></table></td></tr><tr><td class="desktop-card-outlook" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="desktop-card-outlook" role="presentation" style="width:560px;" width="560" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><v:rect style="width:560px;" xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false"><v:fill origin="0.5, 0" position="0.5, 0" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" type="tile" /><v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0"><![endif]-->
-          
-    
-        <!--[if mso | IE]></v:textbox></v:rect></td></tr></table></td></tr><![endif]-->
-        <!-- Booking details Card End --><!-- Address Card Start -->
-          <!--[if mso | IE]><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:560px;" width="560" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-    
-      
-      <div  style="margin:0px auto;max-width:560px;">
-        
-        <table
-           align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"
-        >
-          <tbody>
-            <tr>
-              <td
-                 style="direction:ltr;font-size:0px;padding:10px;text-align:center;"
-              >
-                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr></tr></table><![endif]-->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        
-      </div>
-    
-      
-      <!--[if mso | IE]></td></tr></table></td></tr><tr><td class="mobile-card-outlook" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile-card-outlook" role="presentation" style="width:560px;" width="560" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><v:rect style="width:560px;" xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false"><v:fill origin="0.5, 0" position="0.5, 0" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" type="tile" /><v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0"><![endif]-->
-          
-      <div  class="mobile-card" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;margin:0px auto;border-radius:15px;max-width:560px;">
-        <div  style="line-height:0;font-size:0;">
-        <table
-           align="center" background="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;width:100%;border-radius:15px;"
-        >
-          <tbody>
-            <tr>
-              <td
-                 style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0px;text-align:center;"
-              >
-                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:100px;" ><![endif]-->
-            
-      <div
-         class="mj-column-px-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"
-      >
-        
-      <table
-         border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"
-      >
-        <tbody>
-          
-              <tr>
-                <td
-                   align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;"
-                >
-                  
-      <table
-         border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;"
-      >
-        <tbody>
-          <tr>
-            <td  style="width:40px;">
-              
-      <img
-         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902813/email%20images/Hunt%20Ground%20EMails/Hero%20Images/magnifire_icon_nbqe5e.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="40"
-      />
-    
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    
-                </td>
-              </tr>
-            
-        </tbody>
-      </table>
-    
-      </div>
-    
-          <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:280px;" ><![endif]-->
-            
-      <div
-         class="mj-column-per-50 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"
-      >
-        
-      <table
-         border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"
-      >
-        <tbody>
-          
-              <tr>
-                <td
-                   align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;"
-                >
-                  
-      <div
-         style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;color:#ffffff;"
-      >Address</div>
-    
-                </td>
-              </tr>
-            
-              <tr>
-                <td
-                   align="center" style="font-size:0px;padding:10px 25px;padding-top:0px;word-break:break-word;"
-                >
-                  
-      <div
-         style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:22px;line-height:1.6;text-align:center;color:#ffffff;"
-      >Braine Le Chateau</div>
-    
-                </td>
-              </tr>
-            
-        </tbody>
-      </table>
-    
-      </div>
-    
-          <!--[if mso | IE]></td></tr></table><![endif]-->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-      </div>
-    
-        <!--[if mso | IE]></v:textbox></v:rect></td></tr></table></td></tr><tr><td class="desktop-card-outlook" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="desktop-card-outlook" role="presentation" style="width:560px;" width="560" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><v:rect style="width:560px;" xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false"><v:fill origin="0.5, 0" position="0.5, 0" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" type="tile" /><v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0"><![endif]-->
-          
-      <div  class="desktop-card" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;margin:0px auto;border-radius:15px;max-width:560px;">
-        <div  style="line-height:0;font-size:0;">
-        <table
-           align="center" background="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;width:100%;border-radius:15px;"
-        >
-          <tbody>
-            <tr>
-              <td
-                 style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;"
-              >
-                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:560px;" ><![endif]-->
-            
-      <div
-         class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"
-      >
-        
-      <table
-         border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"
-      >
-        <tbody>
-          
-              <tr>
-                <td
-                   align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;"
-                >
-                  
-      <table
-         cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;"
-      >
-        <tr>
-            <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902813/email%20images/Hunt%20Ground%20EMails/Hero%20Images/magnifire_icon_nbqe5e.png" width=40px></img></td>
-            <td style="padding:0px 10px;color:#ffffff" >Address</br>
-           <span style="font-size:22px;line-height: 1.6;"> Braine Le Chateau </span>
-            </td>
-          </tr>
-      </table>
-    
-                </td>
-              </tr>
-            
-        </tbody>
-      </table>
-    
-      </div>
-    
-          <!--[if mso | IE]></td></tr></table><![endif]-->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-      </div>
-    
-        <!--[if mso | IE]></v:textbox></v:rect></td></tr></table></td></tr><![endif]-->
-        <!-- Address Card End -->
+        <!-- Your Receipt details Card End -->
     
                 <!--[if mso | IE]></table><![endif]-->
               </td>
@@ -1397,7 +1140,7 @@ flex-grow: 0;
 1. Nature of Hunting Activities</br></br>Hunting is a physically demanding activity that may involve exposure to dangerous wildlife, adverse weather conditions, and unfamiliar terrain. As such, you should fully understand the risks before engaging in any hunting activities on the grounds listed on HuntGrounds.com.
 </br>
   </br>
-2. Third-Party Responsibility</br></br>HuntGrounds.com does not own or manage any of the hunting grounds listed on our platform. We provide a platform for users to connect with landowners and operators. The safety, accessibility, and condition of the hunting grounds are the responsibility of the respective landowners and operators. You are responsible for performing your own due diligence before entering any hunting grounds, and we strongly recommend confirming all details directly with the landowner or operator prior to visiting.</div>
+2. Third-Party Responsibility</br></br>HuntGrounds.com does not own or manage any of the hunting grounds listed on our platform. We provide a platform for users to connect with landowners and operators. The safety, accessibility, and condition of the hunting grounds are the responsibility of the respective landowners and operators.You are responsible for performing your own due diligence before entering any hunting grounds, and we strongly recommend confirming all details directly with the landowner or operator prior to visiting.</div>
     
                 </td>
               </tr>
@@ -1521,4 +1264,10 @@ flex-grow: 0;
     
   </body>
 </html>
+  `);
   
+  return {
+    title: SIGNUP_TITLE,
+    template: SIGNUP_TEMPLATE,
+  };
+};

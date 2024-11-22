@@ -1,4 +1,7 @@
-<!doctype html>
+export const getBookingTemplate = (totalAmount:number,address:String) => {
+  const title = "Booking Successfull!";
+   const template = (`
+    <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
   <head>
     <title>
@@ -599,7 +602,7 @@ flex-grow: 0;
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:22px;line-height:1.6;text-align:center;color:#ffffff;"
       >
-      [totalAmount]
+      ${totalAmount}
     </div>
     
                 </td>
@@ -652,7 +655,7 @@ flex-grow: 0;
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731870974/email%20images/Hunt%20Ground%20EMails/Hero%20Images/chart-pie_lnbhhh.png" width=40px></img></td>
             <td style="padding:0px 10px;color:#ffffff" >Your Receipt</br>
-           <span style="font-size:22px;line-height: 1.6;"> [totalAmount] </span>
+           <span style="font-size:22px;line-height: 1.6;"> ${totalAmount} </span>
             </td>
           </tr>
       </table>
@@ -870,7 +873,7 @@ flex-grow: 0;
                   
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:22px;line-height:1.6;text-align:center;color:#ffffff;"
-      >Braine Le Chateau</div>
+      >${address}</div>
     
                 </td>
               </tr>
@@ -922,7 +925,7 @@ flex-grow: 0;
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902813/email%20images/Hunt%20Ground%20EMails/Hero%20Images/magnifire_icon_nbqe5e.png" width=40px></img></td>
             <td style="padding:0px 10px;color:#ffffff" >Address</br>
-           <span style="font-size:22px;line-height: 1.6;"> Braine Le Chateau </span>
+           <span style="font-size:22px;line-height: 1.6;"> ${address} </span>
             </td>
           </tr>
       </table>
@@ -1521,4 +1524,14 @@ flex-grow: 0;
     
   </body>
 </html>
+  `);
   
+
+
+ 
+  
+  return {
+    title: title,
+    template: template,
+  };
+};

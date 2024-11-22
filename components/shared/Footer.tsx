@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const socials = [
   // {
@@ -27,8 +28,9 @@ const socials = [
 
 const Footer = () => {
   const [email, setEmail] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
-  const submit = () => {
+  const submit = async () => {
     if (!email || !email.includes("@")) {
       return toast.error("Please enter a valid email!", {
         icon: "😢",
@@ -40,15 +42,34 @@ const Footer = () => {
         duration: 5000,
       });
     }
-    toast.success("Subscribed Successfully!", {
-      icon: "😊",
-      style: {
-        borderRadius: "40px",
-        background: "green",
-        color: "#fff",
-      },
-      duration: 5000,
-    });
+
+    try {
+      setLoading(true);
+      await axios.post("/api/newsletter", { email });
+
+      toast.success("Subscribed Successfully!", {
+        icon: "😊",
+        style: {
+          borderRadius: "40px",
+          background: "green",
+          color: "#fff",
+        },
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error("Error during subscription:", error);
+      toast.error("Subscription failed. Please try again later!", {
+        icon: "😢",
+        style: {
+          borderRadius: "40px",
+          background: "red",
+          color: "#fff",
+        },
+        duration: 5000,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,7 +83,7 @@ const Footer = () => {
             We will not clog up your email inbox and will write only in very
             important cases
           </p>
-          <div className="flex items-center  border mb-4 border-slate-600 rounded-3xl w-fit pl-3 sm:pl-5">
+          <div className="flex items-center  border mb-4 border-slate-600 rounded-3xl w-fit pl-3 gap-4 sm:pl-5">
             <input
               type="text"
               placeholder="Enter your email"
@@ -72,7 +93,8 @@ const Footer = () => {
             />
             <button
               onClick={submit}
-              className=" bg-gradient-to-r 2xl:hover:px-14 hover:px-10 transition-all hover:shadow-inner shadow-orange-400 from-[#FF9900] to-[#FFFFFF] text-xs md:text-sm rounded-3xl px-6 2xl:px-12 py-4  font-semibold 2xl:text-lg"
+              disabled={loading}
+              className=" disabled:opacity-60 bg-gradient-to-r 2xl:hover:px-14 hover:px-10 transition-all hover:shadow-inner shadow-orange-400 from-[#FF9900] to-[#FFFFFF] text-xs md:text-sm rounded-3xl px-6 2xl:px-12 py-4  font-semibold 2xl:text-lg"
             >
               Subscribe
             </button>

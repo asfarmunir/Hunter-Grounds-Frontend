@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { createBooking } from "@/database/actions/booking.action";
 import Property from "@/database/property.model";
 import User from "@/database/user.modal"; // Import the User model
+import { sendBookedEmail, sendBookingEmail } from "@/lib/sendEmail";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -47,6 +48,8 @@ export async function POST(request: Request) {
 
     // @ts-ignore
     await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id);
+
+    await sendEmails(metadata.property,metadata.user, amount);
 
     return NextResponse.json({ message: "OK", booking });
   }
@@ -143,4 +146,16 @@ async function handleReferralReward(userId: string, bookingAmount: number) {
       console.log(`Referral reward of ${rewardAmount} added to user ${referringUser.email}`);
     }
   }
+}
+
+async function sendEmails (propertyId:string,user:string,amount:number) {
+    const property = await Property.findById(propertyId);
+    if(property){
+        const owner = await User.findById(property.owner);
+        const bookingPerson = await User.findById(user);
+        await sendBookingEmail(bookingPerson.email , amount , property.address);
+        await sendBookedEmail(owner.email , amount , property.address);
+    }
+
+    
 }

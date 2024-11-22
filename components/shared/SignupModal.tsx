@@ -75,12 +75,15 @@ const Signup = ({
         toast.error(response.data.message);
         return;
       }
+
+      await axios.post("/api/newsletter", { email: values.email });
       const { email, password } = values;
       await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
+
       toast.success("User created successfully");
     } catch (error) {
       console.log(error);
@@ -110,7 +113,7 @@ const Signup = ({
         <Form {...form}>
           <div
             id="first"
-            className="flex flex-col bg-[#161313CC]  items-center max-h-[95svh] overflow-auto justify-start w-full gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:pt-16 rounded-xl "
+            className="flex flex-col bg-[#161313CC]  items-center max-h-[95svh] [scrollbar-width:none] overflow-auto justify-start w-full gap-5 md:gap-3 p-5 md:p-8 2xl:px-10 2xl:pt-16 rounded-xl "
           >
             <h2 className="text-2xl md:text-4xl 2xl:text-5xl font-semibold">
               Signup to continue
