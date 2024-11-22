@@ -602,7 +602,7 @@ flex-grow: 0;
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:22px;line-height:1.6;text-align:center;color:#ffffff;"
       >
-      ${totalAmount}
+      ${totalAmount/100}
     </div>
     
                 </td>
@@ -655,7 +655,7 @@ flex-grow: 0;
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731870974/email%20images/Hunt%20Ground%20EMails/Hero%20Images/chart-pie_lnbhhh.png" width=40px></img></td>
             <td style="padding:0px 10px;color:#ffffff" >Your Receipt</br>
-           <span style="font-size:22px;line-height: 1.6;"> ${totalAmount} </span>
+           <span style="font-size:22px;line-height: 1.6;"> ${totalAmount/100} </span>
             </td>
           </tr>
       </table>
