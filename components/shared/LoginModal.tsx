@@ -71,28 +71,28 @@ const AddClient = ({
     //   setLoading(false);
     //   return;
     // }
-    try {
-      recaptchaRef.current.reset();
-      const token = await recaptchaRef.current?.executeAsync();
-      if (token) {
-        const apiQuery: any = await fetch(`/api/auth/verify-captcha/${token}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const { success } = await apiQuery.json();
-        if (success) {
-          // toast.success("Form submitted successfully");
-        } else {
-          // toast.error("Form submission failed");
-        }
-      } else {
-        // toast.error("Error getting token");
-      }
-    } catch (error) {
-      // toast.error("Failed to verify captcha");
-    }
+    // try {
+    //   recaptchaRef.current.reset();
+    //   const token = await recaptchaRef.current?.executeAsync();
+    //   if (token) {
+    //     const apiQuery: any = await fetch(`/api/auth/verify-captcha/${token}`, {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     });
+    //     const { success } = await apiQuery.json();
+    //     if (success) {
+    //       // toast.success("Form submitted successfully");
+    //     } else {
+    //       // toast.error("Form submission failed");
+    //     }
+    //   } else {
+    //     // toast.error("Error getting token");
+    //   }
+    // } catch (error) {
+    //   // toast.error("Failed to verify captcha");
+    // }
 
     const { email, password } = values;
     const res = await signIn("credentials", {
@@ -237,13 +237,13 @@ const AddClient = ({
                   Forgot Password?
                 </button>
               </div>
-              <ReCAPTCHA
+              {/* <ReCAPTCHA
                 ref={recaptchaRef}
                 size="invisible"
                 sitekey="6LdnbmUqAAAAAB7lH7ly1Hj3D3HdNlXNluZo7HW7"
                 onChange={onChange}
                 asyncScriptOnLoad={asyncScriptOnLoad}
-              />
+              /> */}
 
               <div className="flex flex-col w-full mt-2 items-center justify-center">
                 <Button

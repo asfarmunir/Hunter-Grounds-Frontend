@@ -51,14 +51,6 @@ const CustomFooter = () => {
               </li>
               <li>
                 <Link
-                  href="#"
-                  className="text-sm text-white hover:text-gray-300"
-                >
-                  FAQs
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/home"
                   className="text-sm text-white hover:text-gray-300"
                 >

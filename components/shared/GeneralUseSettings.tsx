@@ -158,7 +158,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             <p className=" min-w-16 md:min-w-36">Profile Picture</p>
             <div className="flex flex-col gap-3 mb-3">
               <AvatarUpload
-                userProfile={userData.profileImage || "/images/avatar.svg"}
+                userProfile={userData.profileImage || "/images/logoIcon.svg"}
                 userEmail={userData.email}
               />
               <p className="text-xs md:text-sm text-gray-400 max-w-3xl font-thin tracking-wide">

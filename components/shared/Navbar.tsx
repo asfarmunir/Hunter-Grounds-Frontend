@@ -449,7 +449,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-[50px] h-[50px] rounded-full flex overflow-hidden  items-center object-contain object-center justify-center">
                     <Image
-                      src={session.data.user?.image || "/images/avatar.svg"}
+                      src={session.data.user?.image || "/images/logoIcon.svg"}
                       width={60}
                       alt="avatar"
                       priority

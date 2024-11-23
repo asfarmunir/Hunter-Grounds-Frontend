@@ -164,7 +164,7 @@ const PropertyCalendar = ({
             onClick={goToPreviousMonth}
             className="text-2xl p-0.5 border border-primary-50/30 rounded-full cursor-pointer"
           />
-          <p className="font-semibold">{`${currentDate.toLocaleString(
+          <p className="font-semibold w-36 text-center ">{`${currentDate.toLocaleString(
             "default",
             {
               month: "long",

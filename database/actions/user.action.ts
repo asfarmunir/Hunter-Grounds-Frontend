@@ -76,7 +76,7 @@ export const updateUserPassword = async (email: string, password: string, curren
         
         revalidatePath('/account/settings')
 
-      await  sendEmail(user.email, 'Password Updated', 'Your password has been updated successfully!');
+      // await  sendEmail(user.email, 'Password Updated', 'Your password has been updated successfully!');
 
         return JSON.parse(JSON.stringify({user,status:200}));
     } catch (error:any) {
