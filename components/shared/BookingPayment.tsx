@@ -138,6 +138,7 @@ const page = ({
       checkOut: to,
       totalAmount:
         propertyDetails.pricePerNight * (totalDays + 1) +
+        propertyDetails.pricePerNight * (totalDays + 1) * 0.1 +
         propertyDetails.pricePerNight * (totalDays + 1) * 0.1,
     };
     axios
@@ -334,12 +335,13 @@ const page = ({
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
             Service fee{" "}
-            {/* <span className="text-xs text-slate-300 px-1 italic">
-              per night
-            </span> */}
+            <span className="text-xs text-slate-300 px-1 italic">10%</span>
           </p>
           {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
-          <p className="text-lg">10%</p>
+          <p>
+            CA$
+            {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)}
+          </p>{" "}
         </div>
         <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>Taxes</p>
@@ -354,8 +356,9 @@ const page = ({
             CA$
             {(
               propertyDetails.pricePerNight * (totalDays + 1) +
+              propertyDetails.pricePerNight * (totalDays + 1) * 0.1 +
               propertyDetails.pricePerNight * (totalDays + 1) * 0.1
-            ).toFixed(0)}
+            ).toFixed(2)}
           </p>
         </div>
         <p className="text-xs 2xl:text-sm max-w-md 2xl:max-w-lg font-normal my-3 2xl:my-5 tracking-wide text-gray-200">

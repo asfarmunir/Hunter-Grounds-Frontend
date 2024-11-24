@@ -118,12 +118,6 @@ const page = ({
     toast.success("Booking details saved successfully.");
   };
 
-  interface CalendarProps {
-    fromDate: Date | null; // start date
-    toDate: Date | null; // end date
-    bookedDates: Date[]; // array of booked dates
-  }
-
   return (
     <div className=" w-full flex flex-col-reverse md:flex-row gap-4 justify-center p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
       {/* <div className="flex flex-col gap-2">
@@ -386,12 +380,16 @@ const page = ({
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
               <p>
                 Service fee{" "}
-                {/* <span className="text-xs text-slate-300 px-1 italic">
-                  per night
-                </span> */}
+                <span className="text-xs text-slate-300 px-1 italic">10%</span>
               </p>
               {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
-              <p className="text-lg">10%</p>
+              {/* <p className="text-lg">10%</p> */}
+              <p className="text-lg">
+                CA$
+                {(
+                  (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1
+                ).toFixed(2)}
+              </p>
             </div>
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
               <p>
@@ -411,9 +409,11 @@ const page = ({
               <p className="font-bold">Total</p>
               <p className="font-bold text-lg">
                 CA$
-                {(propertyDetails.pricePerNight * (nights! + 1) * 1.1).toFixed(
-                  2
-                )}
+                {(
+                  (propertyDetails.pricePerNight * (nights! + 1) || 0) +
+                  (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1 +
+                  (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1
+                ).toFixed(2)}
               </p>
             </div>
           </>
