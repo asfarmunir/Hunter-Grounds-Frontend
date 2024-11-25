@@ -97,12 +97,22 @@ const PropertyCalendar = ({
   // Generate the days for the current month
   const daysInMonth = generateDaysInMonth(year, month);
 
+  // const goToPreviousMonth = () => {
+  //   setCurrentDate(new Date(Date.UTC(year, month - 1, 1))); // Go to previous month
+  // };
+
   const goToPreviousMonth = () => {
-    setCurrentDate(new Date(Date.UTC(year, month - 1, 1))); // Go to previous month
+    const newDate = new Date(Date.UTC(year, month - 1, 1)); // Subtract a month in UTC
+    setCurrentDate(newDate);
   };
 
+  // const goToNextMonth = () => {
+  //   setCurrentDate(new Date(Date.UTC(year, month + 1, 1))); // Go to next month
+  // };
+
   const goToNextMonth = () => {
-    setCurrentDate(new Date(Date.UTC(year, month + 1, 1))); // Go to next month
+    const newDate = new Date(Date.UTC(year, month + 1, 1)); // Add a month in UTC
+    setCurrentDate(newDate);
   };
 
   const getMonthlyBookingsCount = () => {
@@ -164,12 +174,19 @@ const PropertyCalendar = ({
             onClick={goToPreviousMonth}
             className="text-2xl p-0.5 border border-primary-50/30 rounded-full cursor-pointer"
           />
-          <p className="font-semibold w-36 text-center ">{`${currentDate.toLocaleString(
+          {/* <p className="font-semibold w-36 text-center ">{`${currentDate.toLocaleString(
             "default",
             {
               month: "long",
             }
-          )} ${year}`}</p>
+          )} ${year}`}</p> */}
+          <p className="font-semibold w-36 text-center ">
+            {`${currentDate.toLocaleString("default", {
+              month: "long",
+              timeZone: "UTC",
+            })} ${year}`}
+          </p>
+
           <FaChevronRight
             onClick={goToNextMonth}
             className="text-2xl p-0.5 border border-primary-50/30 rounded-full cursor-pointer"
