@@ -261,7 +261,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
           </div>
           <div className="flex py-8 border-b border-primary-50/15  gap-16">
             <p className="  min-w-16 md:min-w-36">Country</p>
-            <input
+            {/* <input
               type="text"
               className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
               value={userData.country}
@@ -269,7 +269,18 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               onChange={(e) =>
                 setUserData((prev) => ({ ...prev, country: e.target.value }))
               }
-            />
+            /> */}
+
+            <select
+              className=" py-2  px-3  bg-primary-200/70 border border-primary-200  focus:outline-none rounded-lg "
+              value={userData.country}
+              onChange={(e) =>
+                setUserData((prev) => ({ ...prev, country: e.target.value }))
+              }
+            >
+              <option value="usa">United States of America</option>
+              <option value="canada">Canada</option>
+            </select>
           </div>
           <div className="flex py-8 border-b border-primary-50/15  gap-16">
             <p className="  min-w-16 md:min-w-36">Zip Code</p>

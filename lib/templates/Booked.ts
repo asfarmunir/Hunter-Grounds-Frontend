@@ -473,7 +473,7 @@ flex-grow: 0 !important;
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731870974/email%20images/Hunt%20Ground%20EMails/Hero%20Images/chart-pie_lnbhhh.png" width=40px></img></td>
             <td style="padding:0px 10px;color:#ffffff" >Total Amount <br></br>
-           <span style="font-size:22px;line-height: 1.6;"> ${totalAmount/100} </span>
+           <span style="font-size:22px;line-height: 1.6;"> $ ${totalAmount/100} </span>
             </td>
             
           </tr>

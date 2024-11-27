@@ -20,11 +20,13 @@ const page = ({
   from,
   to,
   userId,
+  userCountry,
 }: {
   propertyDetails: IProperty;
   from: string;
   to: string;
   userId: string;
+  userCountry: string;
 }) => {
   const [clientSecret, setClientSecret] = useState<string>("");
   const [dpmCheckerLink, setDpmCheckerLink] = useState<string>("");
@@ -52,6 +54,7 @@ const page = ({
     user: userId,
     checkIn: checkIn,
     checkOut: checkOut,
+    country: userCountry || "Canada",
   });
 
   useEffect(() => {
@@ -134,6 +137,7 @@ const page = ({
       property: bookingDetails.property,
       user: bookingDetails.user,
       bookingDays: totalDays + 1,
+      country: bookingDetails.country,
       checkIn: from,
       checkOut: to,
       totalAmount:
@@ -198,21 +202,41 @@ const page = ({
                 />
               </div>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <p className="text-xs 2xl:text-base">Email</p>
-              <input
-                type="text"
-                required
-                value={bookingDetails.bookingEmail}
-                onChange={(e) => {
-                  setBookingDetails({
-                    ...bookingDetails,
-                    bookingEmail: e.target.value,
-                  });
-                }}
-                className="bg-[#3C3C434A] border border-gray-500 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
-                placeholder=" Enter email "
-              />
+            <div className=" w-full flex flex-col md:flex-row  items-center gap-4  justify-between">
+              <div className="flex flex-col gap-1.5 w-full">
+                <p className="text-xs 2xl:text-base">Email</p>
+                <input
+                  type="text"
+                  required
+                  value={bookingDetails.bookingEmail}
+                  onChange={(e) => {
+                    setBookingDetails({
+                      ...bookingDetails,
+                      bookingEmail: e.target.value,
+                    });
+                  }}
+                  className="bg-[#3C3C434A] border border-gray-500 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+                  placeholder=" Enter email "
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5 w-full">
+                <p className="text-xs 2xl:text-base">Country</p>
+
+                <select
+                  value={bookingDetails.country}
+                  onChange={(e) => {
+                    setBookingDetails({
+                      ...bookingDetails,
+                      country: e.target.value,
+                    });
+                  }}
+                  className="bg-[#3C3C434A] border border-gray-500 rounded-lg text-sm 2xl:text-base px-4 py-2.5 2xl:py-3"
+                >
+                  <option value="canada">Canada</option>
+                  <option value="usa">USA</option>
+                </select>
+              </div>
             </div>
             <div className=" w-full pt-2 pb-4 flex flex-col md:flex-row my-2.5 items-center gap-4  justify-between">
               <div className="flex w-full flex-col gap-1.5">

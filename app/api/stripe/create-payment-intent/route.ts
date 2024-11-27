@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { data } = await req.json();
-  const currentYear = new Date().getFullYear();
 
   // Construct proper Date objects
   const checkInDate = new Date(data.checkIn);  
@@ -17,8 +16,23 @@ export async function POST(req: NextRequest) {
   // Ensure amount is converted to integer (in cents) and rounded properly
   const totalAmountInCents = Math.round(data.totalAmount * 100);
 
+  const country = data.country;
+  let currency;
+  switch (country) {
+    case "canada":
+      currency = "cad";
+      break;
+    case "usa":
+      currency = "usd";
+      break;
+    default:
+      currency = "cad";
+  }
+
+
   const paymentIntent = await stripe.paymentIntents.create({
     description: 'huntgrounds payment intent',
+    
     shipping: {
       name: data.bookingFirstname + ' ' + data.bookingLastname,
       address: {
@@ -30,7 +44,7 @@ export async function POST(req: NextRequest) {
       },
     },
     amount: totalAmountInCents, // Corrected here
-    currency: 'usd',
+    currency: currency,
     automatic_payment_methods: {
       enabled: true,
     },
