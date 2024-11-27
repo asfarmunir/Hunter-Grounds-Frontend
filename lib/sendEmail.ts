@@ -30,9 +30,9 @@ export async function sendGreetingEmail(to: string, name: string) {
   const message = {
     to,
     from: FROM_EMAIL,
-    subject: getSignupEmailTemplate().title,
-    text: `Hello ${name},\n\nThank you for signing up to PicksHero. We're excited to have you on board!`,
-    html: getSignupEmailTemplate().template,
+    subject: getSignupEmailTemplate(to).title,
+    // text: `Hello ${name},\n\nThank you for signing up to PicksHero. We're excited to have you on board!`,
+    html: getSignupEmailTemplate(to).template,
   };
 
   try {

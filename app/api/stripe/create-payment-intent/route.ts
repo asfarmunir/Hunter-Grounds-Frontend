@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   const totalAmountInCents = Math.round(data.totalAmount * 100);
 
   const paymentIntent = await stripe.paymentIntents.create({
-    description: 'hunterground payment intent',
+    description: 'huntgrounds payment intent',
     shipping: {
       name: data.bookingFirstname + ' ' + data.bookingLastname,
       address: {

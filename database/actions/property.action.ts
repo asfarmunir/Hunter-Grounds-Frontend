@@ -1,10 +1,9 @@
 
 'use server';
 import { connectToDatabase } from "..";
-import { IProperty } from "../../lib/types/property";
 import Property from '@/database/property.model'
 import User from "../user.modal";
-import { sendEmail, sendPropertyListEmail } from "@/lib/sendEmail";
+import { sendPropertyListEmail } from "@/lib/sendEmail";
 import { revalidatePath } from "next/cache";
 
 export const createProperty = async (property: any) => {
@@ -70,6 +69,7 @@ export const getAllPropertiesLocation = async () => {
         name: property.name,
         location: property.location,
         pricePerNight: property.pricePerNight,
+        image: property.photos[0],
       }});
 
 

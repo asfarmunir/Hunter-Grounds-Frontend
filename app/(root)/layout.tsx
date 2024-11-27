@@ -24,6 +24,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       ? "url('/images/bg-hero4.webp')" // Background for success pages under pre-booking
       : pathname === "/booking"
       ? "url('/images/bg-hero.webp')" // Background for booking page
+      : pathname === "/user-properties"
+      ? "url('/images/bg-hero.webp')" // Background for booking page
       : pathname === "/refer-and-earn"
       ? "url('/images/hunt-bg.webp')" // Background for booking page
       : pathname === "/account/inbox"

@@ -1,6 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { DateTime } from "luxon";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getAllBookingsForUserProperties } from "@/database/actions/booking.action";
@@ -10,29 +9,13 @@ const page = async () => {
   const userBookings = await getAllBookingsForUserProperties(session.user.id);
   return (
     <div className="w-full flex flex-col items-center mt-12  pb-8 gap-12 md:pb-0 justify-center  ">
-      <div className=" max-w-3xl 2xl:max-w-5xl relative  ">
-        <Image
-          src="/yoywhatsupfambro.svg"
-          alt="background"
-          width={920}
-          height={600}
-        />
-        <Link
-          href={"/dashboard/add-property"}
-          className=" opacity-0 absolute bottom-8 2xl:bottom-10 py-4 w-full"
-        >
-          go
-        </Link>
-
-        <div className=" w-full  p-3"></div>
-      </div>
       <h2 className=" font-bold text-2xl 2xl:text-4xl tracking-wide border-b-2 px-3 pb-2 border-primary-50 ">
         Ground Bookings
       </h2>
       {userBookings.error && (
-        <div className="flex flex-col items-center gap-3 p-4 bg-primary-100 rounded-lg">
-          <p className="text-sm text-gray-400 text-center">
-            Bookings not found for your properties.
+        <div className="flex flex-col items-center gap-3 p-4 bg-primary rounded-lg">
+          <p className="text-sm text-gray-400 text-center capitalize">
+            No Bookings found for your properties.
           </p>
         </div>
       )}
@@ -74,12 +57,23 @@ const page = async () => {
                 </div>
                 <div className="flex flex-col items-start w-full ">
                   <p className="text-xs text-gray-400">Check In</p>
-                  <p className="text-sm font-semibold capitalize">
+                  {/* <p className="text-sm font-semibold capitalize">
                     {new Date(booking.checkIn).toDateString()}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-3">Check Out</p>
+                  </p> */}
                   <p className="text-sm font-semibold capitalize">
+                    {DateTime.fromISO(booking.checkIn, {
+                      zone: "utc",
+                    }).toFormat("MMM dd, yyyy")}
+                  </p>
+
+                  <p className="text-xs text-gray-400 mt-3">Check Out</p>
+                  {/* <p className="text-sm font-semibold capitalize">
                     {new Date(booking.checkOut).toDateString()}
+                  </p> */}
+                  <p className="text-sm font-semibold capitalize">
+                    {DateTime.fromISO(booking.checkOut, {
+                      zone: "utc",
+                    }).toFormat("MMM dd, yyyy")}
                   </p>
                 </div>
               </div>

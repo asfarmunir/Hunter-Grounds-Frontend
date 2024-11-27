@@ -180,6 +180,7 @@ export const getBookingCountByTimeFrame = async (userId: string, timeFrame?: str
 
 
 export const getAllBookingsForUserProperties = async (userId:string) => {
+  console.log("🚀 ~ getAllBookingsForUserProperties ~ userId:", userId)
   try {
     // Ensure the database is connected
     await connectToDatabase();

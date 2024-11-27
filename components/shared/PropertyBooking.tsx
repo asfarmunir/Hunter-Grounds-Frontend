@@ -30,6 +30,7 @@ const page = ({
   propertyDetails: IProperty;
   userId: string;
 }) => {
+  console.log("🚀 ~ propertyDetails:", propertyDetails);
   const [fromDate, setFromDate] = React.useState<Date>();
   const [toDate, setToDate] = React.useState<Date>();
   const [nights, setNights] = React.useState<number | null>(null);
@@ -119,7 +120,7 @@ const page = ({
   };
 
   return (
-    <div className=" w-full flex flex-col-reverse md:flex-row gap-4 justify-center p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
+    <div className=" w-full flex flex-col md:flex-row gap-4 justify-center p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
       {/* <div className="flex flex-col gap-2">
         <h2 className="text-2xl 2xl:text-4xl font-bold">Add Extras</h2>
         <p className="text-sm 2xl:text-base mb-4">
@@ -191,7 +192,52 @@ const page = ({
           </div>
         </div>
       </div> */}
-      <div className="">
+      <div className=" w-full md:w-[70%] space-y-4">
+        <h2 className="text-5xl font-bold capitalize">
+          {propertyDetails.name}
+        </h2>
+        <p className=" 2xl:text-lg text-slate-200 max-w-2xl">
+          {propertyDetails.description}
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe optio
+          assumenda deleniti impedit eius neque, ea officia, facere harum earum,
+          excepturi aperiam. Perferendis, magnam. Distinctio, at. Earum fuga nam
+          sit.
+        </p>
+        <div className="py-2">
+          <h3 className="text-xl mb-3 font-bold">Games available: </h3>
+
+          <div className="flex gap-2 ">
+            {propertyDetails.gameAvailable.map((game, index) => (
+              <div
+                key={index}
+                className="bg-primary-50/30 capitalize text-primary-50 px-4 py-2 rounded-md"
+              >
+                {game}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="py-2">
+          <h3 className="text-xl mb-3 font-bold">Huntground Images: </h3>
+
+          <div className="grid grid-cols-1 bg-primary-100 rounded-xl sm:grid-cols-2 gap-4 md:pr-8 py-4 md:grid-cols-3">
+            {propertyDetails.photos.map((photo, index) => {
+              return (
+                <div key={index} className="relative h-[200px] sm:h-[300px]">
+                  <Image
+                    src={photo}
+                    alt="property"
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-xl"
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      <div className=" w-full md:w-[30%]">
         <div className=" w-full flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold 2xl:text-4xl text-center md:text-start ">
             Booking Details
@@ -251,7 +297,8 @@ const page = ({
           </div>
           <div className="flex flex-col w-full sm:w-fit px-6 md:px-0  ">
             <h4 className="font-bold capitalize text-xl sm:text-base 2xl:text-xl mb-2">
-              {propertyDetails.name}
+              CA${propertyDetails.pricePerNight}{" "}
+              <span className="text-sm italic  lowercase">per night</span>
             </h4>
             <p className="text-base sm:text-sm 2xl:text-base font-semibold">
               {propertyDetails.acres} acres in {propertyDetails.city}{" "}

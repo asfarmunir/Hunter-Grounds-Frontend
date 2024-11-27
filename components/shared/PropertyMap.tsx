@@ -17,6 +17,7 @@ type property = {
   location: { latitude: number; longitude: number };
   pricePerNight: number;
   id: string;
+  image: string;
 };
 
 const PropertyMap = ({ properties }: { properties: property[] }) => {
@@ -144,11 +145,20 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
         >
           <Link
             href={`/pre-booking/${popupInfo.id}`}
-            className=" px-3 border border-white capitalize flex items-center gap-1 "
+            className=" px-3 border border-white pt-2  flex-col gap-2  flex items-center  "
             scroll={true}
           >
-            {popupInfo.name}
-            <SiGoogleadsense className="text-xs" />
+            <Image
+              src={popupInfo.image}
+              alt="img"
+              width={200}
+              height={200}
+              className=" rounded-xl"
+            />
+            <p className=" inline-flex gap-2 text-base items-center">
+              {popupInfo.name}
+              <SiGoogleadsense className="text-lg" />
+            </p>
           </Link>
         </Popup>
       )}

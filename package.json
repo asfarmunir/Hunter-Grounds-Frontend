@@ -42,6 +42,7 @@
     "i": "^0.3.7",
     "jspdf": "^2.5.2",
     "lucide-react": "^0.414.0",
+    "luxon": "^3.5.0",
     "mapbox-gl": "^3.7.0",
     "mapbox-gl-geocoder": "^2.0.1",
     "mongoose": "^8.6.3",
@@ -74,6 +75,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/grecaptcha": "^3.0.9",
+    "@types/luxon": "^3.4.2",
     "@types/mapbox__mapbox-gl-geocoder": "^5.0.0",
     "@types/node": "^20",
     "@types/react": "^18",

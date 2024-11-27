@@ -5,16 +5,33 @@ import { containerVariants } from "@/lib/animations";
 import Image from "next/image";
 import { IProperty } from "@/lib/types/property";
 import Link from "next/link";
-import { BsSave } from "react-icons/bs";
 import { addSavedProperty } from "@/database/actions/user.action";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { FaHeart } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const Properties = ({ properties }: { properties: IProperty[] }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const session = useSession();
+  const router = useRouter();
+
+  const routerhandler = (id: string) => {
+    if (session.status === "authenticated") {
+      router.push(`/pre-booking/${id}`);
+    } else {
+      toast.error("Please login to continue!", {
+        duration: 4000,
+        style: {
+          background: "#ffff",
+          color: "#DC143C",
+        },
+        icon: "🔒",
+      });
+    }
+  };
+
   return (
     <div className=" ">
       {properties && properties.length ? (
@@ -35,8 +52,8 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
-                <Link
-                  href={`/pre-booking/${property._id}`}
+                <button
+                  onClick={() => routerhandler(property._id)}
                   className=" w-full h-full"
                 >
                   <Image
@@ -47,7 +64,7 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
                     height={250}
                     alt="property image"
                   />
-                </Link>
+                </button>
 
                 {hoveredIndex === index &&
                   session.status === "authenticated" && (
@@ -90,8 +107,8 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
                     </button>
                   )}
               </div>
-              <Link
-                href={`/pre-booking/${property._id}`}
+              <button
+                onClick={() => routerhandler(property._id)}
                 className="text-center"
               >
                 <h4 className="font-bold mx-auto text-sm 2xl:text-lg capitalize text-nowrap mb-3">
@@ -115,7 +132,7 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
                   </span>{" "}
                   / night
                 </p>
-              </Link>
+              </button>
             </motion.div>
           ))}
         </motion.div>
