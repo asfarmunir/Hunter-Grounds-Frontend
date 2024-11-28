@@ -12,6 +12,7 @@ import { useSearchParams } from "next/navigation";
 import { IoChatboxEllipses } from "react-icons/io5";
 import ReviewMaker from "./Review";
 import { addRatings } from "@/database/actions/booking.action";
+import { DateTime } from "luxon";
 
 const UserProfile = ({
   userDetails,
@@ -289,21 +290,27 @@ const UserProfile = ({
                         </p>
                         <p className="text-sm px-3 capitalize text-gray-400 mb-4">
                           in {booking.property.address} from{" "}
-                          {new Date(booking.checkIn).toLocaleDateString(
+                          {/* {new Date(booking.checkIn).toLocaleDateString(
                             "en-US",
                             {
                               month: "short",
                               day: "numeric",
                             }
-                          )}{" "}
+                          )} */}
+                          {DateTime.fromISO(booking.checkIn.toString(), {
+                            zone: "utc",
+                          }).toFormat("MMM dd, yyyy")}{" "}
                           to{" "}
-                          {new Date(booking.checkOut).toLocaleDateString(
+                          {/* {new Date(booking.checkOut).toLocaleDateString(
                             "en-US",
                             {
                               month: "short",
                               day: "numeric",
                             }
-                          )}
+                          )} */}
+                          {DateTime.fromISO(booking.checkOut.toString(), {
+                            zone: "utc",
+                          }).toFormat("MMM dd, yyyy")}{" "}
                         </p>
                       </div>
                       {booking.property.owner !== userDetails._id && (

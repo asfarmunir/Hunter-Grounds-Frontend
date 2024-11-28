@@ -198,10 +198,6 @@ const page = ({
         </h2>
         <p className=" 2xl:text-lg text-slate-200 max-w-2xl">
           {propertyDetails.description}
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe optio
-          assumenda deleniti impedit eius neque, ea officia, facere harum earum,
-          excepturi aperiam. Perferendis, magnam. Distinctio, at. Earum fuga nam
-          sit.
         </p>
         <div className="py-2">
           <h3 className="text-xl mb-3 font-bold">Games available: </h3>
@@ -417,11 +413,13 @@ const page = ({
             </h2>
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
               <p>
-                CA${propertyDetails.pricePerNight} x {nights + 1} night
+                <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
+                {propertyDetails.pricePerNight} x {nights + 1} night
                 {nights > 1 ? "s" : ""}
               </p>
               <p className="text-lg">
-                CA${(propertyDetails.pricePerNight * (nights + 1)).toFixed(2)}
+                <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
+                {(propertyDetails.pricePerNight * (nights + 1)).toFixed(2)}
               </p>
             </div>
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
@@ -429,10 +427,13 @@ const page = ({
                 Service fee{" "}
                 <span className="text-xs text-slate-300 px-1 italic">10%</span>
               </p>
-              {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
+              {/* 
+              {
+              propertyDetails.country === 'usa' ? 'US' : 'CA'}<p clasName="text-lg" <span>
+              </span>>${propertyDetails.pricePerNight}</p> */}
               {/* <p className="text-lg">10%</p> */}
               <p className="text-lg">
-                CA$
+                <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
                 {(
                   (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1
                 ).toFixed(2)}
@@ -446,7 +447,7 @@ const page = ({
                 </span> */}
               </p>
               <p className="text-lg">
-                CA$
+                <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
                 {(
                   (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1
                 ).toFixed(2)}
@@ -455,7 +456,7 @@ const page = ({
             <div className="flex py-4 border-t border-primary-50/30 items-center text-xs 2xl:text-sm justify-between">
               <p className="font-bold">Total</p>
               <p className="font-bold text-lg">
-                CA$
+                <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
                 {(
                   (propertyDetails.pricePerNight * (nights! + 1) || 0) +
                   (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1 +

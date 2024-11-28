@@ -361,7 +361,9 @@ const Navbar = () => {
           <Link
             className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
             href={
-              session.status === "authenticated" ? "/booking" : "/start-hosting"
+              session.status === "authenticated"
+                ? "/user-properties"
+                : "/start-hosting"
             }
           >
             Start Hosting
@@ -523,7 +525,7 @@ const Navbar = () => {
               className={`text-sm 2xl:text-base font-semibold hover:border-b-2 border-primary-50 hover:-translate-y-1 transition-all   pb-1.5 mt-1.5`}
               href={
                 session.status === "authenticated"
-                  ? "/booking"
+                  ? "/user-properties"
                   : "/start-hosting"
               }
             >

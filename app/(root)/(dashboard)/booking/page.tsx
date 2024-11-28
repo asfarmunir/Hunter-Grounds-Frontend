@@ -7,6 +7,7 @@ import { getAllBookingsForUserProperties } from "@/database/actions/booking.acti
 const page = async () => {
   const session = await getServerSession(authOptions);
   const userBookings = await getAllBookingsForUserProperties(session.user.id);
+  console.log("🚀 ~ page ~ userBookings:", userBookings);
   return (
     <div className="w-full flex flex-col items-center mt-12  pb-8 gap-12 md:pb-0 justify-center  ">
       <h2 className=" font-bold text-2xl 2xl:text-4xl tracking-wide border-b-2 px-3 pb-2 border-primary-50 ">
@@ -61,7 +62,7 @@ const page = async () => {
                     {new Date(booking.checkIn).toDateString()}
                   </p> */}
                   <p className="text-sm font-semibold capitalize">
-                    {DateTime.fromISO(booking.checkIn, {
+                    {DateTime.fromISO(booking.checkIn.toISOString(), {
                       zone: "utc",
                     }).toFormat("MMM dd, yyyy")}
                   </p>
@@ -71,7 +72,7 @@ const page = async () => {
                     {new Date(booking.checkOut).toDateString()}
                   </p> */}
                   <p className="text-sm font-semibold capitalize">
-                    {DateTime.fromISO(booking.checkOut, {
+                    {DateTime.fromISO(booking.checkOut.toISOString(), {
                       zone: "utc",
                     }).toFormat("MMM dd, yyyy")}
                   </p>

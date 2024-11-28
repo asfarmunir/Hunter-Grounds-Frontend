@@ -72,6 +72,11 @@ const PropertySchema = new Schema(
     extraServices: {
       type: String,
       default: "",
+    },
+    country:{
+      type: String,
+      default: "canada",
+      enum: ["canada", "usa"],
     }
   },
   { timestamps: true }

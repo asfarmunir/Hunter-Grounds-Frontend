@@ -16,12 +16,22 @@ import { RiExchangeFill } from "react-icons/ri";
 import toast from "react-hot-toast";
 
 // Helper function to generate the days of the month in UTC
+// const generateDaysInMonth = (year: number, month: number) => {
+//   const date = new Date(Date.UTC(year, month, 1)); // Using UTC
+//   const days = [];
+//   while (date.getUTCMonth() === month) {
+//     days.push(new Date(date)); // Push copy of date
+//     date.setUTCDate(date.getUTCDate() + 1); // Move to the next UTC date
+//   }
+//   return days;
+// };
+
 const generateDaysInMonth = (year: number, month: number) => {
-  const date = new Date(Date.UTC(year, month, 1)); // Using UTC
   const days = [];
+  let date = new Date(Date.UTC(year, month, 1)); // Start at the first day of the month in UTC
   while (date.getUTCMonth() === month) {
-    days.push(new Date(date)); // Push copy of date
-    date.setUTCDate(date.getUTCDate() + 1); // Move to the next UTC date
+    days.push(new Date(date.getTime())); // Push a copy of the date
+    date.setUTCDate(date.getUTCDate() + 1); // Increment the date in UTC
   }
   return days;
 };
@@ -97,21 +107,13 @@ const PropertyCalendar = ({
   // Generate the days for the current month
   const daysInMonth = generateDaysInMonth(year, month);
 
-  // const goToPreviousMonth = () => {
-  //   setCurrentDate(new Date(Date.UTC(year, month - 1, 1))); // Go to previous month
-  // };
-
   const goToPreviousMonth = () => {
-    const newDate = new Date(Date.UTC(year, month - 1, 1)); // Subtract a month in UTC
+    const newDate = new Date(Date.UTC(year, month - 1, 1)); // Move to the previous month in UTC
     setCurrentDate(newDate);
   };
 
-  // const goToNextMonth = () => {
-  //   setCurrentDate(new Date(Date.UTC(year, month + 1, 1))); // Go to next month
-  // };
-
   const goToNextMonth = () => {
-    const newDate = new Date(Date.UTC(year, month + 1, 1)); // Add a month in UTC
+    const newDate = new Date(Date.UTC(year, month + 1, 1)); // Move to the next month in UTC
     setCurrentDate(newDate);
   };
 
@@ -252,10 +254,13 @@ const PropertyCalendar = ({
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger className="flex items-center  w-full justify-between">
                       <p>
-                        {day.toLocaleDateString("en-US", {
-                          weekday: "short",
-                          day: "numeric",
-                        })}
+                        <p>
+                          {day.toLocaleDateString("en-US", {
+                            weekday: "short",
+                            day: "numeric",
+                            timeZone: "UTC", // Ensure consistent formatting
+                          })}
+                        </p>
                       </p>
                       {totalEarnings ? (
                         <p

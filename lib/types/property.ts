@@ -15,4 +15,5 @@ export interface IProperty {
   location: { latitude: number; longitude: number };
   reviews: { user: string; review: string, rating:number }[];
   nonAvailableDates: string[];
+  country: string;
 }

@@ -471,10 +471,8 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                 alt="location"
               />
 
-              <input
-                type="text"
-                placeholder="Enter Country"
-                className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
+              <select
+                className="   px-4 py-2 focus:outline-none bg-transparent  rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
                 value={propertyDetails.country}
                 onChange={(e) =>
                   setPropertyDetails({
@@ -482,7 +480,14 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                     country: e.target.value,
                   })
                 }
-              />
+              >
+                <option value="canada" className=" text-black">
+                  Canada
+                </option>
+                <option value="usa" className=" text-black">
+                  United States
+                </option>
+              </select>
             </div>
             {/* <button className=" bg-gradient-to-t text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
               Change Adress

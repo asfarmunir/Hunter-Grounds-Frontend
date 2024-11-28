@@ -54,7 +54,7 @@ const page = ({
     user: userId,
     checkIn: checkIn,
     checkOut: checkOut,
-    country: userCountry || "Canada",
+    country: propertyDetails.country || "canada",
   });
 
   useEffect(() => {
@@ -348,11 +348,12 @@ const page = ({
         </h2>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
-            CA${propertyDetails.pricePerNight} x {(totalDays + 1).toFixed(0)}{" "}
+            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
+            {propertyDetails.pricePerNight} x {(totalDays + 1).toFixed(0)}{" "}
             nights
           </p>
           <p className="text-lg">
-            CA$
+            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
             {(propertyDetails.pricePerNight * (totalDays + 1)).toFixed(0)}
           </p>
         </div>
@@ -363,21 +364,21 @@ const page = ({
           </p>
           {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
           <p>
-            CA$
+            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
             {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)}
           </p>{" "}
         </div>
         <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>Taxes</p>
           <p>
-            CA$
+            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
             {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)}
           </p>
         </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
           <p className="font-bold">Total Amount</p>
           <p className="font-bold">
-            CA$
+            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
             {(
               propertyDetails.pricePerNight * (totalDays + 1) +
               propertyDetails.pricePerNight * (totalDays + 1) * 0.1 +
