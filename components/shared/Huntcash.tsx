@@ -13,7 +13,7 @@ import {
 import { IUser } from "@/lib/types/user";
 import { useRouter } from "next/navigation";
 import WithdrawFunds from "./WithdrawFunds";
-import PayoutInfo from "./PayoutInfo";
+import HuntcashInfo from "./HuntcashInfo";
 const page = ({
   userDetails,
   lastMonthEarning,
@@ -52,7 +52,7 @@ const page = ({
       </div>
       <div className=" my-7 w-full ">
         <h3 className="text-xl mb-4">Last 30 Days</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-3 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4  w-full">
           <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
             <h2 className="flex items-center mb-6 text-sm text-gray-200 gap-2">
               <Image
@@ -110,7 +110,7 @@ const page = ({
               </div>
             </div>
           </div>
-          <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
+          {/* <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
             <h2 className="flex items-center mb-6 text-sm text-gray-200 gap-2">
               <Image
                 src={"/images/rate.svg"}
@@ -125,18 +125,10 @@ const page = ({
                 <p className="text-2xl 2xl:text-5xl font-semibold ">
                   {userDetails.referedUsers ? "10%" : "0%"}
                 </p>
-                {/* <p className="flex items-center text-sm gap-1.5 text-[#00C88C] bg-[#00C88C]/20 font-semibold border border-[#00C88C] rounded-full px-3 py-2">
-                  <Image
-                    src={"/images/up.svg"}
-                    width={15}
-                    height={15}
-                    alt="arrow"
-                  />
-                  +59.9%
-                </p> */}
+                
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className=" my-7 w-full ">
@@ -175,7 +167,7 @@ const page = ({
                 />
                 Withdraw Amount
               </h2>
-              <PayoutInfo />
+              <HuntcashInfo />
             </div>
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">

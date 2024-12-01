@@ -50,14 +50,12 @@ const WithdrawFunds = () => {
             Payout Explained
           </h1>
           <p className=" text-start text-sm 2xl:text-base">
-            You can request your funds 7 days after the checkout of each
-            booking. An icon will appear on this page when the funds are
+            You can request your funds 14 days after the checkout of the sale in
+            which you referred. <br />
+            <br /> An icon will appear on this page when the funds are
             withdrawable. <br /> <br /> Payouts are processed within 10 business
             days following the request, via PayPal. Please make sure you have
-            entered the correct PayPal email address on the request. <br />{" "}
-            <br /> Taxes collected on the sale are transfered to you upon
-            withdrawal. Each host is responsible for filing their own respective
-            State/Provincial and Federal taxes. <br />
+            entered the correct PayPal email address on the request.
           </p>
           <p className="text-sm text-primary-50 font-bold mt-10 text-center">
             10% of the sale amount is deducted as a service fee.

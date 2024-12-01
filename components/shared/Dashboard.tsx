@@ -233,7 +233,7 @@ const page = ({
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-4">
+      {/* <div className="flex items-center gap-4">
         <div className=" w-full bg-[#16131399] p-8 space-y-4 border border-[#372F2F] rounded-xl">
           <p className="textlg 2xl:text-xl mb-3 text-gray-300">
             Most Order By State
@@ -259,9 +259,9 @@ const page = ({
             </p>
           )}
         </div>
-      </div>
+      </div> */}
 
-      <div className=" my-7 w-full">
+      <div className=" my-12 w-full">
         <h3 className="text-xl 2xl:text-2xl mb-4">Payouts History</h3>
         <Table>
           <TableHeader className=" bg-[#161313] ">
