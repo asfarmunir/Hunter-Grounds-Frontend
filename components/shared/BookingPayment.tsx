@@ -336,12 +336,12 @@ const page = ({
               {propertyDetails.acres} acres in {propertyDetails.city}
             </p>
 
-            <p className="text-xs mt-4 mb-2">Coupon (optional)</p>
+            {/* <p className="text-xs mt-4 mb-2">Coupon (optional)</p>
             <input
               placeholder="Enter coupen code"
               className="bg-[#222229cb] py-3  px-3 rounded-xl text-sm border border-[#50505c4a] "
               type="text"
-            />
+            /> */}
           </div>
         </div>
         <h2 className="text-xl font-bold 2xl:text-3xl my-4">
