@@ -94,12 +94,12 @@ export async function sendResetEmail ( to:string,link:string) {
 }
 
 
-export async function sendBookingEmail ( to:string,  totalAmount:number, address:string) {
+export async function sendBookingEmail ( to:string,  totalAmount:number, address:string, totalNights:string, rent: number ) {
  const message = {
     to,
     from: FROM_EMAIL,
-    subject: getBookingTemplate(totalAmount,address).title,
-    html: getBookingTemplate(totalAmount,address).template,
+    subject: getBookingTemplate(totalAmount,address, totalNights, rent ).title,
+    html: getBookingTemplate(totalAmount,address, totalNights,rent).template,
   };
 
   try {
@@ -109,12 +109,12 @@ export async function sendBookingEmail ( to:string,  totalAmount:number, address
     console.error("Error sending  email:", error);
   }
 }
-export async function sendBookedEmail ( to:string,  totalAmount:number, address:string) {
+export async function sendBookedEmail ( to:string,  totalAmount:number, address:string, totalNights:string, rent: number ) {
  const message = {
     to,
     from: FROM_EMAIL,
-    subject: getBookedTemplate(totalAmount,address).title,
-    html: getBookedTemplate(totalAmount,address).template,
+    subject: getBookedTemplate(totalAmount,address, totalNights, rent ).title,
+    html: getBookedTemplate(totalAmount,address, totalNights, rent ).template,
   };
 
   try {

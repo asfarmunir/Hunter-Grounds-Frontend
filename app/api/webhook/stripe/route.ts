@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     // @ts-ignore
     await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id);
 
-    await sendEmails(metadata.property,metadata.user, amount);
+    await sendEmails(metadata.property,metadata.user, amount, metadata.totalNights);
 
     return NextResponse.json({ message: "OK", booking });
   }
@@ -148,13 +148,13 @@ async function handleReferralReward(userId: string, bookingAmount: number) {
   }
 }
 
-async function sendEmails (propertyId:string,user:string,amount:number) {
+async function sendEmails (propertyId:string,user:string,amount:number,totalNights:string ) {
     const property = await Property.findById(propertyId);
     if(property){
         const owner = await User.findById(property.owner);
         const bookingPerson = await User.findById(user);
-        await sendBookingEmail(bookingPerson.email , amount , property.address);
-        await sendBookedEmail(owner.email , amount , property.address);
+        await sendBookingEmail(bookingPerson.email , amount , property.address , totalNights , property.pricePerNight);
+        await sendBookedEmail(owner.email , amount , property.address , totalNights , property.pricePerNight);
     }
 
     

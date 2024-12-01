@@ -144,6 +144,7 @@ const page = ({
         propertyDetails.pricePerNight * (totalDays + 1) +
         propertyDetails.pricePerNight * (totalDays + 1) * 0.1 +
         propertyDetails.pricePerNight * (totalDays + 1) * 0.1,
+      totalNights: totalDays + 1,
     };
     axios
       .post("/api/stripe/create-payment-intent", {
