@@ -69,7 +69,7 @@ const page = ({
           </button>
         </div> */}
       </div>
-      <div className=" w-full grid grid-cols-1 gap-4 md:grid-cols-3  lg:grid-col-3">
+      <div className=" w-full grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="flex flex-col gap-3">
           <div className=" bg-[#16131399] p-4 md:p-8 border border-[#372F2F] rounded-xl">
             <p className="textlg 2xl:text-xl mb-6 text-gray-300">Total Sales</p>
@@ -213,7 +213,7 @@ const page = ({
             </div>
           </div>
         </div>
-        <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
+        {/* <div className=" bg-[#16131399] p-8 border border-[#372F2F] rounded-xl">
           <p className="textlg 2xl:text-xl mb-3 text-gray-300">
             Customer Volume
           </p>
@@ -231,7 +231,7 @@ const page = ({
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       {/* <div className="flex items-center gap-4">
         <div className=" w-full bg-[#16131399] p-8 space-y-4 border border-[#372F2F] rounded-xl">

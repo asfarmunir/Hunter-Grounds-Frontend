@@ -425,7 +425,7 @@ const page = ({
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
               <p>
                 Service fee{" "}
-                <span className="text-xs text-slate-300 px-1 italic">10%</span>
+                {/* <span className="text-xs text-slate-300 px-1 italic">10%</span> */}
               </p>
               {/* 
               {

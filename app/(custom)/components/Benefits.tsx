@@ -3,13 +3,25 @@ import Image from "next/image";
 import React from "react";
 import { Star, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const fadeUp = {
   hidden: { opacity: 0, y: 50 },
   visible: { opacity: 1, y: 0, transition: { duration: 1.1 } },
 };
 
 const Benefits = () => {
+  const router = useRouter();
+  const session = useSession();
+
+  const routeHandler = () => {
+    if (session.status === "authenticated") {
+      router.push("/dashboard");
+    } else {
+      router.push("/home");
+    }
+  };
+
   return (
     <>
       <div className="pt-4 pb-20 bg-white">
@@ -86,7 +98,10 @@ const Benefits = () => {
                     17K Views • Likes
                   </span>
                   <div className="flex justify-center items-center">
-                    <button className="bg-[#FF7A3D] text-white p-4 rounded-full text-sm flex items-center gap-2">
+                    <button
+                      onClick={routeHandler}
+                      className="bg-[#FF7A3D] text-white p-4 rounded-full text-sm flex items-center gap-2"
+                    >
                       Rent a land near you
                     </button>
                     <div className="bg-white text-black p-4 rounded-full">
@@ -120,7 +135,10 @@ const Benefits = () => {
                 and effort in locating ideal spots for your next adventure.
               </p>
               <div className="flex justify-end items-center">
-                <button className="bg-black text-white px-4 p-4 rounded-full text-sm flex items-center gap-2">
+                <button
+                  onClick={routeHandler}
+                  className="bg-black text-white px-4 p-4 rounded-full text-sm flex items-center gap-2"
+                >
                   Get Hunting Now
                 </button>
                 <div className="bg-white text-black p-4 rounded-full">
@@ -185,7 +203,10 @@ const Benefits = () => {
                     17K Views • Likes
                   </span>
                   <div className="flex justify-center items-center">
-                    <button className="bg-[#FF7A3D] text-white p-4 rounded-full text-sm flex items-center gap-2">
+                    <button
+                      onClick={routeHandler}
+                      className="bg-[#FF7A3D] text-white p-4 rounded-full text-sm flex items-center gap-2"
+                    >
                       List My Land
                     </button>
                     <div className="bg-white text-black p-4 rounded-full">
@@ -220,7 +241,10 @@ const Benefits = () => {
                 experience unique wildlife encounters.
               </p>
               <div className="flex justify-end items-center">
-                <button className="bg-black text-white px-4 p-4 rounded-full text-sm flex items-center gap-2">
+                <button
+                  onClick={routeHandler}
+                  className="bg-black text-white px-4 p-4 rounded-full text-sm flex items-center gap-2"
+                >
                   Refer a friend and get 10% off
                 </button>
                 <div className="bg-white text-black p-4 rounded-full">
