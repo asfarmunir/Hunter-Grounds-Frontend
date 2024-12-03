@@ -719,10 +719,10 @@ const page = ({
               </p>
             </div>
           </div>
-          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+          {/* <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             ID Verification
-          </p>
-          <div className=" w-full dark:bg-[#372F2F33] border flex items-center justify-between gap-4 flex-col md:flex-row border-[#372F2F] p-6 rounded-xl shadow-md">
+          </p> */}
+          {/* <div className=" w-full dark:bg-[#372F2F33] border flex items-center justify-between gap-4 flex-col md:flex-row border-[#372F2F] p-6 rounded-xl shadow-md">
             <div className="flex flex-col">
               {userDetails.isVerified ? (
                 <div className="flex py-5 items-center gap-3   ">
@@ -758,7 +758,7 @@ const page = ({
                 Show More
               </Link>
             </div>
-          </div>
+          </div> */}
           {/* <p className="text-lg  font-normal text-[#FFFFFF80] mt-8 mb-2.5">
             Insurance
           </p>

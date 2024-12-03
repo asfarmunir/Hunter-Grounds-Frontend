@@ -119,6 +119,13 @@ const page = ({
     toast.success("Booking details saved successfully.");
   };
 
+  const calculateTaxes = (pricePerNight: number, nights: number) => {
+    if (propertyDetails.country === "usa") {
+      return (pricePerNight * nights * 0.1).toFixed(2);
+    }
+    return (pricePerNight * nights * 0.15).toFixed(2);
+  };
+
   return (
     <div className=" w-full flex flex-col md:flex-row gap-4 justify-center p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
       {/* <div className="flex flex-col gap-2">
@@ -448,9 +455,10 @@ const page = ({
               </p>
               <p className="text-lg">
                 <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
-                {(
+                {/* {(
                   (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1
-                ).toFixed(2)}
+                ).toFixed(2)} */}
+                {calculateTaxes(propertyDetails.pricePerNight, nights! + 1)}
               </p>
             </div>
             <div className="flex py-4 border-t border-primary-50/30 items-center text-xs 2xl:text-sm justify-between">
@@ -460,7 +468,9 @@ const page = ({
                 {(
                   (propertyDetails.pricePerNight * (nights! + 1) || 0) +
                   (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1 +
-                  (propertyDetails.pricePerNight * (nights! + 1) || 0) * 0.1
+                  parseFloat(
+                    calculateTaxes(propertyDetails.pricePerNight, nights! + 1)
+                  )
                 ).toFixed(2)}
               </p>
             </div>

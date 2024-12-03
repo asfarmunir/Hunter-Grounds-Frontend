@@ -143,8 +143,11 @@ const page = ({
       totalAmount:
         propertyDetails.pricePerNight * (totalDays + 1) +
         propertyDetails.pricePerNight * (totalDays + 1) * 0.1 +
-        propertyDetails.pricePerNight * (totalDays + 1) * 0.1,
+        parseFloat(
+          calculateTaxes(propertyDetails.pricePerNight, totalDays + 1)
+        ),
       totalNights: totalDays + 1,
+      taxes: calculateTaxes(propertyDetails.pricePerNight, totalDays + 1),
     };
     axios
       .post("/api/stripe/create-payment-intent", {
@@ -158,6 +161,13 @@ const page = ({
         toast.error("Error creating payment intent");
         console.error("Error creating payment intent:", error);
       });
+  };
+
+  const calculateTaxes = (pricePerNight: number, nights: number) => {
+    if (propertyDetails.country === "usa") {
+      return (pricePerNight * nights * 0.1).toFixed(2);
+    }
+    return (pricePerNight * nights * 0.15).toFixed(2);
   };
 
   return (
@@ -221,7 +231,7 @@ const page = ({
                 />
               </div>
 
-              <div className="flex flex-col gap-1.5 w-full">
+              {/* <div className="flex flex-col gap-1.5 w-full">
                 <p className="text-xs 2xl:text-base">Country</p>
 
                 <select
@@ -237,7 +247,7 @@ const page = ({
                   <option value="canada">Canada</option>
                   <option value="usa">USA</option>
                 </select>
-              </div>
+              </div> */}
             </div>
             <div className=" w-full pt-2 pb-4 flex flex-col md:flex-row my-2.5 items-center gap-4  justify-between">
               <div className="flex w-full flex-col gap-1.5">
@@ -373,7 +383,8 @@ const page = ({
           <p>Taxes</p>
           <p>
             <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
-            {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)}
+            {/* {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)} */}
+            {calculateTaxes(propertyDetails.pricePerNight, totalDays + 1)}
           </p>
         </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
@@ -383,7 +394,10 @@ const page = ({
             {(
               propertyDetails.pricePerNight * (totalDays + 1) +
               propertyDetails.pricePerNight * (totalDays + 1) * 0.1 +
-              propertyDetails.pricePerNight * (totalDays + 1) * 0.1
+              // propertyDetails.pricePerNight * (totalDays + 1) * 0.1
+              parseFloat(
+                calculateTaxes(propertyDetails.pricePerNight, totalDays + 1)
+              )
             ).toFixed(2)}
           </p>
         </div>

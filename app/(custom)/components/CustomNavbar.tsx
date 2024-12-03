@@ -193,11 +193,14 @@ const CustomNavbar = () => {
               <DropdownMenuTrigger>
                 <div className="w-[50px] h-[50px] rounded-full flex overflow-hidden  items-center object-contain object-center justify-center">
                   <Image
-                    src={session.data.user?.image || "/images/avatar.svg"}
+                    src={session.data.user?.image || "/images/logoIcon.svg"}
                     width={60}
                     alt="avatar"
                     priority
                     height={60}
+                    className={`
+                    ${session.data.user?.image ? "invert-0" : "invert"}
+                      `}
                   />
                 </div>
               </DropdownMenuTrigger>

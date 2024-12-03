@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     await handleReferralReward(metadata.user, amount);
 
     // @ts-ignore
-    await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id);
+    await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id,metadata.taxes);
 
     await sendEmails(metadata.property,metadata.user, amount, metadata.totalNights);
 
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
   return new Response("", { status: 200 });
 }
 
-async function addBookingPaymentToOwner(propertyId: string, bookingDays: number, bookingId: string) {
+async function addBookingPaymentToOwner(propertyId: string, bookingDays: number, bookingId: string , taxes:number) {
   // Find the property by its ID
   const property = await Property.findById(propertyId);
 
@@ -68,7 +68,7 @@ async function addBookingPaymentToOwner(propertyId: string, bookingDays: number,
     if (owner) {
       // Create a new booking payment object
       const bookingPayment = {
-        amount: bookingDays * property.pricePerNight * 100,          // Booking amount
+        amount: ( bookingDays * property.pricePerNight * 100 ) + taxes * 100, // Total amount in cents
         bookingRefId: bookingId,          // Reference to the booking ID
         status: 'pending',                // Status (can change to 'paid' later)
         date: new Date(),                 // Payment date
