@@ -24,7 +24,7 @@ const page = async ({
   const timeframe = searchParams?.timeframe as string | "24h";
   const data = await getUserDetails(session.user.email);
   await updateBookingWithdrawableAmount(session.user.id);
-  const topCities = await getTopPropertiesByOwner(session.user.id);
+  // const topCities = await getTopPropertiesByOwner(session.user.id);
   await handleRejectedPayouts();
   const bookingsForUser = await getBookingCountByTimeFrame(
     session.user.id,
@@ -36,7 +36,7 @@ const page = async ({
   return (
     <Dashboard
       userData={data}
-      topCities={topCities.topCities}
+      // topCities={topCities.topCities}
       totalBookings={bookingsForUser.bookingCount}
       userPayouts={userPayouts.data}
     />

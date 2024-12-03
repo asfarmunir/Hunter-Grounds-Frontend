@@ -537,6 +537,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                     price: parseInt(e.target.value),
                   })
                 }
+                min={0}
                 className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 2xl:p-6 dark:bg-[#372f2f67] "
               />
             </div>

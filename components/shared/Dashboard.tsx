@@ -17,15 +17,15 @@ import {
 } from "@/components/ui/table";
 const page = ({
   userData,
-  topCities,
+  // topCities,
   totalBookings,
   userPayouts,
 }: {
   userData: IUser;
-  topCities?: {
-    _id?: string;
-    totalBookings?: number;
-  }[];
+  // topCities?: {
+  //   _id?: string;
+  //   totalBookings?: number;
+  // }[];
   totalBookings?: number;
   userPayouts: any;
 }) => {

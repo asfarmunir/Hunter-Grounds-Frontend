@@ -1,5 +1,27 @@
-export const getBookedTemplate = (totalAmount:number,address:String,totalNights:string, rent: number ) => {
+export const getBookedTemplate = (totalAmount:number,address:String,totalNights:string, rent: number, BookingPersonEmail:string ) => {
   const title = "Booking on your land!";
+const getCurrentDateTime = () => {
+  const currentDate = new Date();
+
+  // Format date as '21 Dec 2024'
+  const date = currentDate.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+
+  // Format time as '12:30 am'
+  const time = currentDate.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+
+  return `${time} ${date}`;
+};
+
+const formattedDateTime = getCurrentDateTime();
+
      const template = (`
       <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -472,7 +494,7 @@ flex-grow: 0 !important;
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731870974/email%20images/Hunt%20Ground%20EMails/Hero%20Images/chart-pie_lnbhhh.png" width=40px></img></td>
             <td style="padding:0px 10px;color:#ffffff" >Total Amount <br></br>
-           <span style="font-size:22px;line-height: 1.6;"> $${totalAmount/100} </span>
+           <span style="font-size:22px;line-height: 1.6;"> $${totalAmount} </span>
             </td>
             
           </tr>
@@ -551,8 +573,85 @@ flex-grow: 0 !important;
       >
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902812/email%20images/Hunt%20Ground%20EMails/Hero%20Images/calender_icaon_wdohbq.png" width=40px></img></td>
-            <td style="padding:0px 10px; color:#ffffff" >Booking Details / Dates<br></br>
-           <span style="font-size:22px;line-height: 1.6;"> ${totalNights} Nights  </span>
+            <td style="padding:0px 10px; color:#ffffff" >Booking Nights<br></br>
+           <span style="font-size:22px;line-height: 1.6;"> ${totalNights}  </span>
+            </td>
+          </tr>
+      </table>
+    
+                </td>
+              </tr>
+            
+        </tbody>
+      </table>
+    
+      </div>
+    
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    
+        <!--[if mso | IE]></v:textbox></v:rect></td></tr></table></td></tr><![endif]-->
+        <!-- Booking details Card End --><!-- Address Card Start -->
+          <!--[if mso | IE]><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:560px;" width="560" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+    
+      
+      <div  style="margin:0px auto;max-width:560px;">
+        
+        <table
+           align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;"
+        >
+          <tbody>
+            <tr>
+              <td
+                 style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;"
+              >
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+
+
+      <div  class="desktop-card" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;margin:0px auto;border-radius:15px;max-width:560px;">
+        <div  style="line-height:0;font-size:0;">
+        <table
+           align="center" background="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;width:100%;border-radius:15px;"
+        >
+          <tbody>
+            <tr>
+              <td
+                 style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;"
+              >
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:560px;" ><![endif]-->
+            
+      <div
+         class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"
+      >
+        
+      <table
+         border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"
+      >
+        <tbody>
+          
+              <tr>
+                <td
+                   align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;"
+                >
+                  
+      <table
+         cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;"
+      >
+        <tr>
+            <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902812/email%20images/Hunt%20Ground%20EMails/Hero%20Images/calender_icaon_wdohbq.png" width=40px></img></td>
+            <td style="padding:0px 10px; color:#ffffff" >Reservation Date<br></br>
+           <span style="font-size:22px;line-height: 1.6;"> ${formattedDateTime}  </span>
             </td>
           </tr>
       </table>
@@ -630,6 +729,73 @@ flex-grow: 0 !important;
       >
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902813/email%20images/Hunt%20Ground%20EMails/Hero%20Images/magnifire_icon_nbqe5e.png" width=40px></img></td>
+            <td style="padding:0px 10px;color:#ffffff" >Contact Info<br></br>
+           <span style="font-size:22px;line-height: 1.6;"> ${BookingPersonEmail} </span>
+            </td>
+          </tr>
+      </table>
+    
+                </td>
+              </tr>
+            
+        </tbody>
+      </table>
+    
+      </div>
+    
+          <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div style="margin:0px auto;max-width:560px;">
+      
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
+      </div>
+
+      <div  class="desktop-card" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;margin:0px auto;border-radius:15px;max-width:560px;">
+        <div  style="line-height:0;font-size:0;">
+        <table
+           align="center" background="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:url('https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731876040/email%20images/Hunt%20Ground%20EMails/Hero%20Images/gredient_bg_giuhdf.png') center top / auto repeat;background-position:center top;background-repeat:repeat;background-size:auto;width:100%;border-radius:15px;"
+        >
+          <tbody>
+            <tr>
+              <td
+                 style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;"
+              >
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:560px;" ><![endif]-->
+            
+      <div
+         class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"
+      >
+        
+      <table
+         border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"
+      >
+        <tbody>
+          
+              <tr>
+                <td
+                   align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;"
+                >
+                  
+      <table
+         cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;"
+      >
+        <tr>
+            <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902813/email%20images/Hunt%20Ground%20EMails/Hero%20Images/magnifire_icon_nbqe5e.png" width=40px></img></td>
             <td style="padding:0px 10px;color:#ffffff" >Address<br></br>
            <span style="font-size:22px;line-height: 1.6;"> ${address} </span>
             </td>
@@ -650,6 +816,20 @@ flex-grow: 0 !important;
           </tbody>
         </table>
         </div>
+      </div>
+
+      <div style="margin:0px auto;max-width:560px;">
+      
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
       </div>
     
         <!--[if mso | IE]></v:textbox></v:rect></td></tr></table></td></tr><![endif]-->
@@ -1198,9 +1378,9 @@ The HuntGrounds Team 🌲🏹</div>
           <tr>
             <td  style="width:100px;">
               
-      <img
+      <!-- <img
          height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1732564849/email%20images/Hunt%20Ground%20EMails/icons/Unsubscribe_zmzpy8.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="100"
-      />
+      /> -->
     
             </td>
           </tr>
@@ -1239,10 +1419,9 @@ The HuntGrounds Team 🌲🏹</div>
     
   </body>
 </html>
-  
-      `)
-   
-  return {
+  `)
+    
+      return {
     title: title,
     template: template,
   };
