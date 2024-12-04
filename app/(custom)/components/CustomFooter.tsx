@@ -77,11 +77,16 @@ const CustomFooter = () => {
               <Facebook size={20} />
             </Link>
             <Link
-              href="https://youtube.com"
-              className="text-black rounded-full p-1.5 hover:text-gray-300 bg-white"
+              href="https://www.twitter.com/HuntgroundsInc"
+              className="text-black rounded-full  hover:text-gray-300 bg-white"
               aria-label="YouTube"
             >
-              <Youtube size={20} />
+              <Image
+                src="/images/x2.svg"
+                alt="YouTube"
+                width={33}
+                height={33}
+              />
             </Link>
           </div>
         </div>

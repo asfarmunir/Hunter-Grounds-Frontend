@@ -42,7 +42,7 @@ const Page = () => {
     <div className="w-full flex items-center md:h-screen mt-12 pb-8 md:pb-0 justify-center">
       <div className="max-w-3xl 2xl:max-w-5xl relative">
         <Image
-          src="/bg.svg"
+          src="/images/referBg.webp"
           alt="background"
           objectFit="contain"
           objectPosition="center"

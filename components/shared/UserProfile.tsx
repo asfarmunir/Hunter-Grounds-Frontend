@@ -261,7 +261,7 @@ const UserProfile = ({
         ) : tab === "trips" ? (
           <div className=" w-full bg-[#372F2F33] my-4 pb-6 ">
             <Image
-              src={"/images/scene.svg"}
+              src={"/images/scene.webp"}
               width={900}
               height={400}
               alt="user"
@@ -397,7 +397,7 @@ const UserProfile = ({
               <div className="flex items-center justify-between max-w-md 2xl:max-w-lg w-full">
                 <div className="flex gap-2">
                   <Image
-                    src={"/images/avatar.svg"}
+                    src={"/images/logoIcon.svg"}
                     width={20}
                     height={20}
                     alt="mail"

@@ -437,7 +437,7 @@ const Navbar = () => {
           </>
         )}
 
-        {/* <Image src={"/images/avatar.svg"} width={37} height={37} alt="logo" /> */}
+        {/* <Image src={"/images/logoIcon.svg"} width={37} height={37} alt="logo" /> */}
       </div>
       <Sheet>
         <SheetTrigger className=" block md:hidden">
@@ -535,7 +535,7 @@ const Navbar = () => {
           Sign Out
         </button> */}
 
-            {/* <Image src={"/images/avatar.svg"} width={37} height={37} alt="logo" /> */}
+            {/* <Image src={"/images/logoIcon.svg"} width={37} height={37} alt="logo" /> */}
           </div>
         </SheetContent>
       </Sheet>

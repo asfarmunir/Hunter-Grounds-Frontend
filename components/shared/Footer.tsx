@@ -14,6 +14,10 @@ const socials = [
     image: "/images/insta.svg",
   },
   {
+    link: "https://www.twitter.com/HuntgroundsInc",
+    image: "/images/x.svg",
+  },
+  {
     link: "https://www.facebook.com/profile.php?id=61564649940146&mibextid=LQQJ4d",
     image: "/fb2.svg",
   },

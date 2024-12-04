@@ -308,7 +308,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
             />
           </div>
         </div>
-        <p className="text-lg      font-normal text-gray-400 mt-8 mb-2">
+        {/* <p className="text-lg      font-normal text-gray-400 mt-8 mb-2">
           How you publicly appear around HuntGround
         </p>
         <div className=" w-full     bg-[#352e2e33] border border-[#372F2F] p-6 rounded-xl shadow-md">
@@ -396,7 +396,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-        </div>
+        </div> */}
         <div className=" w-full pt-4    flex justify-end my-4">
           <button
             type="submit"

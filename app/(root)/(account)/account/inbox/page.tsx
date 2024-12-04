@@ -14,7 +14,7 @@ const page = () => {
             >
               <div className="flex items-center gap-3">
                 <Image
-                  src="/images/avatar.svg"
+                  src="/images/logoIcon.svg"
                   width={50}
                   height={50}
                   alt="avatar"
@@ -45,7 +45,7 @@ const page = () => {
           <div className="  flex items-center justify-between border-b p-5 border-[#ebebeb28]">
             <div className="flex items-center gap-3  w-[220px] 2xl:w-[250px] ">
               <Image
-                src="/images/avatar.svg"
+                src="/images/logoIcon.svg"
                 width={50}
                 height={50}
                 alt="avatar"

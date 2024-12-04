@@ -247,7 +247,7 @@ const CustomNavbar = () => {
           </>
         )}
 
-        {/* <Image src={"/images/avatar.svg"} width={37} height={37} alt="logo" /> */}
+        {/* <Image src={"/images/logoIcon.svg"} width={37} height={37} alt="logo" /> */}
       </div>
       <Sheet>
         <SheetTrigger className=" block md:hidden">
@@ -261,7 +261,7 @@ const CustomNavbar = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-[50px] h-[50px] rounded-full flex overflow-hidden  items-center object-contain object-center justify-center">
                     <Image
-                      src={session.data.user?.image || "/images/avatar.svg"}
+                      src={session.data.user?.image || "/images/logoIcon.svg"}
                       width={60}
                       alt="avatar"
                       priority
@@ -356,7 +356,7 @@ const CustomNavbar = () => {
           Sign Out
         </button> */}
 
-            {/* <Image src={"/images/avatar.svg"} width={37} height={37} alt="logo" /> */}
+            {/* <Image src={"/images/logoIcon.svg"} width={37} height={37} alt="logo" /> */}
           </div>
         </SheetContent>
       </Sheet>

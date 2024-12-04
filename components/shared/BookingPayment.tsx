@@ -136,18 +136,16 @@ const page = ({
       bookingPhone: bookingDetails.areaCode + bookingDetails.phone,
       property: bookingDetails.property,
       user: bookingDetails.user,
-      bookingDays: totalDays + 1,
+      bookingDays: totalDays,
       country: bookingDetails.country,
       checkIn: from,
       checkOut: to,
       totalAmount:
-        propertyDetails.pricePerNight * (totalDays + 1) +
-        propertyDetails.pricePerNight * (totalDays + 1) * 0.1 +
-        parseFloat(
-          calculateTaxes(propertyDetails.pricePerNight, totalDays + 1)
-        ),
-      totalNights: totalDays + 1,
-      taxes: calculateTaxes(propertyDetails.pricePerNight, totalDays + 1),
+        propertyDetails.pricePerNight * totalDays +
+        propertyDetails.pricePerNight * totalDays * 0.1 +
+        parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)),
+      totalNights: totalDays,
+      taxes: calculateTaxes(propertyDetails.pricePerNight, totalDays),
     };
     axios
       .post("/api/stripe/create-payment-intent", {
@@ -360,12 +358,11 @@ const page = ({
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
             <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
-            {propertyDetails.pricePerNight} x {(totalDays + 1).toFixed(0)}{" "}
-            nights
+            {propertyDetails.pricePerNight} x {totalDays.toFixed(0)} nights
           </p>
           <p className="text-lg">
             <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
-            {(propertyDetails.pricePerNight * (totalDays + 1)).toFixed(0)}
+            {(propertyDetails.pricePerNight * totalDays).toFixed(0)}
           </p>
         </div>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
@@ -376,7 +373,7 @@ const page = ({
           {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
           <p>
             <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
-            {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)}
+            {(propertyDetails.pricePerNight * totalDays * 0.1).toFixed(2)}
           </p>{" "}
         </div>
         <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
@@ -384,7 +381,7 @@ const page = ({
           <p>
             <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
             {/* {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)} */}
-            {calculateTaxes(propertyDetails.pricePerNight, totalDays + 1)}
+            {calculateTaxes(propertyDetails.pricePerNight, totalDays)}
           </p>
         </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
@@ -392,11 +389,11 @@ const page = ({
           <p className="font-bold">
             <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
             {(
-              propertyDetails.pricePerNight * (totalDays + 1) +
-              propertyDetails.pricePerNight * (totalDays + 1) * 0.1 +
+              propertyDetails.pricePerNight * totalDays +
+              propertyDetails.pricePerNight * totalDays * 0.1 +
               // propertyDetails.pricePerNight * (totalDays + 1) * 0.1
               parseFloat(
-                calculateTaxes(propertyDetails.pricePerNight, totalDays + 1)
+                calculateTaxes(propertyDetails.pricePerNight, totalDays)
               )
             ).toFixed(2)}
           </p>
