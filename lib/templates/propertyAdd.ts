@@ -737,7 +737,7 @@ The HuntGrounds Team 🌲🏹</div>
             <a href="https://www.facebook.com/profile.php?id=61564649940146&mibextid=LQQJ4d" target="_blank">
 
                 <img
-                height="auto" src="../../public/fb2.svg" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;filter:grayscale(100%);" width="38"
+                height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1733509009/email%20images/Hunt%20Ground%20EMails/icons/fb2_rfsd7t.webp" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;filter:grayscale(100%);" width="38"
                 />
               </a>
     
