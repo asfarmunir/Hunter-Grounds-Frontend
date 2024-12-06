@@ -1,4 +1,4 @@
-export const getBookedTemplate = (totalAmount:number,address:String,totalNights:string, rent: number, BookingPersonEmail:string ) => {
+export const getBookedTemplate = (totalAmount:number,address:String,totalNights:string, rent: number, BookingPersonEmail:string, checkIn:string, checkOut:string, name:string ) => {
   const title = "Booking on your land!";
 const getCurrentDateTime = () => {
   const currentDate = new Date();
@@ -651,7 +651,7 @@ flex-grow: 0 !important;
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902812/email%20images/Hunt%20Ground%20EMails/Hero%20Images/calender_icaon_wdohbq.png" width=40px></img></td>
             <td style="padding:0px 10px; color:#ffffff" >Reservation Date<br></br>
-           <span style="font-size:22px;line-height: 1.6;"> ${formattedDateTime}  </span>
+           <span style="font-size:22px;line-height: 1.6;"> ${checkIn} - ${checkOut}  </span>
             </td>
           </tr>
       </table>
@@ -797,7 +797,7 @@ flex-grow: 0 !important;
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902813/email%20images/Hunt%20Ground%20EMails/Hero%20Images/magnifire_icon_nbqe5e.png" width=40px></img></td>
             <td style="padding:0px 10px;color:#ffffff" >Address<br></br>
-           <span style="font-size:22px;line-height: 1.6;"> ${address} </span>
+           <span style="font-size:22px;line-height: 1.6;"> ${name} - ${address} </span>
             </td>
           </tr>
       </table>
@@ -1123,8 +1123,7 @@ The HuntGrounds Team 🌲🏹</div>
       </div>
     
           <!--[if mso | IE]></td><td class="" style="width:300px;" ><![endif]-->
-            
-      <div
+           <div
          class="mj-column-per-50 mj-outlook-group-fix" style="font-size:0;line-height:0;text-align:left;display:inline-block;width:100%;direction:ltr;"
       >
         <!--[if mso | IE]><table border="0" cellpadding="0" cellspacing="0" role="presentation" ><tr><td style="vertical-align:top;width:100px;" ><![endif]-->
@@ -1149,10 +1148,54 @@ The HuntGrounds Team 🌲🏹</div>
         <tbody>
           <tr>
             <td  style="width:38px;">
-              
-      <img
-         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1732563267/email%20images/Hunt%20Ground%20EMails/icons/Social_Icon_bi05g4.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="38"
-      />
+            
+            <a href="https://www.facebook.com/profile.php?id=61564649940146&mibextid=LQQJ4d" target="_blank">
+
+                <img
+                height="auto" src="../../public/fb2.svg" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;filter:grayscale(100%);" width="38"
+                />
+              </a>
+    
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    
+                </td>
+              </tr>
+            
+        </tbody>
+      </table>
+    
+      </div>
+    
+              <!--[if mso | IE]></td><td style="vertical-align:top;width:100px;" ><![endif]-->
+                
+      <div
+         class="mj-column-per-33-333333333333336 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:33%;"
+      >
+        
+      <table
+         border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"
+      >
+        <tbody>
+          
+              <tr>
+                <td
+                   align="center" style="font-size:0px;padding:0;word-break:break-word;"
+                >
+                  
+      <table
+         border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;"
+      >
+        <tbody>
+          <tr>
+            <td  style="width:38px;">
+             <a href="https://www.twitter.com/HuntgroundsInc" target="_blank">
+               <img
+               height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1732563267/email%20images/Hunt%20Ground%20EMails/icons/Social_Icon-1_fnlch8.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="38"
+               />
+              </a> 
     
             </td>
           </tr>
@@ -1190,49 +1233,12 @@ The HuntGrounds Team 🌲🏹</div>
           <tr>
             <td  style="width:38px;">
               
-      <img
-         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1732563267/email%20images/Hunt%20Ground%20EMails/icons/Social_Icon-1_fnlch8.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="38"
-      />
-    
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    
-                </td>
-              </tr>
-            
-        </tbody>
-      </table>
-    
-      </div>
-    
-              <!--[if mso | IE]></td><td style="vertical-align:top;width:100px;" ><![endif]-->
-                
-      <div
-         class="mj-column-per-33-333333333333336 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:33%;"
-      >
-        
-      <table
-         border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"
-      >
-        <tbody>
-          
-              <tr>
-                <td
-                   align="center" style="font-size:0px;padding:0;word-break:break-word;"
-                >
-                  
-      <table
-         border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;"
-      >
-        <tbody>
-          <tr>
-            <td  style="width:38px;">
-              
-      <img
-         height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1732563267/email%20images/Hunt%20Ground%20EMails/icons/Social_Icon-2_mweyoy.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="38"
-      />
+            <a href="https://www.instagram.com/huntgrounds/" target="_blank">
+
+                <img
+                height="auto" src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1732563267/email%20images/Hunt%20Ground%20EMails/icons/Social_Icon-2_mweyoy.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="38"
+                />
+              </a>
     
             </td>
           </tr>

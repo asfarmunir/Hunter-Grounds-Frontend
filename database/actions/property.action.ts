@@ -69,7 +69,7 @@ export const getAllPropertiesLocation = async () => {
         name: property.name,
         location: property.location,
         pricePerNight: property.pricePerNight,
-        image: property.photos[0],
+        images: property.photos
       }});
 
 

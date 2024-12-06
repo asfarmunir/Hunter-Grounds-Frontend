@@ -10,17 +10,20 @@ import Map, {
 import GeocoderControl from "@/components/shared/GeocoderControls";
 import Image from "next/image";
 import Link from "next/link";
-import { SiGoogleadsense } from "react-icons/si";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 type property = {
   name: string;
   location: { latitude: number; longitude: number };
   pricePerNight: number;
   id: string;
-  image: string;
+  images: string[];
 };
 
 const PropertyMap = ({ properties }: { properties: property[] }) => {
+  console.log("🚀 ~ PropertyMap ~ properties:", properties);
   const [popupInfo, setPopupInfo] = useState<property | null>(null);
   const [userLocation, setUserLocation] = useState<{
     latitude: number;
@@ -143,23 +146,48 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
           closeOnClick={true}
           onClose={() => setPopupInfo(null)}
         >
-          <Link
-            href={`/pre-booking/${popupInfo.id}`}
-            className=" px-3 border border-white pt-2  flex-col gap-2  flex items-center  "
-            scroll={true}
+          <div
+            // href={`/pre-booking/${popupInfo.id}`}
+            // scroll={true}
+            className=" px-3 border border-white pt-2  flex-col gap-3  flex items-center  "
           >
-            <Image
-              src={popupInfo.image}
-              alt="img"
+            <Carousel
+              showStatus={false}
+              showThumbs={false}
+              infiniteLoop={true}
+              autoPlay={true}
+              interval={3000}
+              showArrows={true}
               width={200}
-              height={200}
-              className=" rounded-xl"
-            />
-            <p className=" inline-flex gap-2 text-base items-center">
-              {popupInfo.name}
-              <SiGoogleadsense className="text-lg" />
-            </p>
-          </Link>
+              stopOnHover={true}
+              className=" z-50"
+            >
+              {popupInfo.images.map((image, index) => (
+                <div
+                  key={index}
+                  className=" w-[200px] h-[180px] rounded-xl overflow-hidden "
+                >
+                  <Image
+                    src={image}
+                    alt="img"
+                    width={200}
+                    height={200}
+                    className=" object-cover w-full h-full object-center "
+                  />
+                </div>
+              ))}
+            </Carousel>
+            <Link
+              href={`/pre-booking/${popupInfo.id}`}
+              scroll={true}
+              className=" w-full"
+            >
+              <p className=" inline-flex capitalize gap-2 text-base font-semibold justify-center bg-black text-white w-full rounded-lg p-1.5 items-center">
+                {popupInfo.name}
+                <FaExternalLinkAlt className="text-sm" />
+              </p>
+            </Link>
+          </div>
         </Popup>
       )}
     </Map>

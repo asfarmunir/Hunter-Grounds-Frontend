@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     // @ts-ignore
     await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id,metadata.taxes);
 
-    await sendEmails(metadata.property,metadata.user, metadata.taxes, metadata.totalNights);
+    await sendEmails(metadata.property,metadata.user, metadata.taxes, metadata.totalNights, metadata.checkIn, metadata.checkOut);
 
     return NextResponse.json({ message: "OK", booking });
   }
@@ -151,7 +151,7 @@ async function handleReferralReward(userId: string, bookingAmount: number) {
   }
 }
 
-async function sendEmails (propertyId:string,user:string,taxes:string,totalNights:string ) {
+async function sendEmails (propertyId:string,user:string,taxes:string,totalNights:string, checkIn:string, checkOut:string ) {
     const property = await Property.findById(propertyId);
 
     const totalAmount = property.pricePerNight * Number(totalNights) + Number(taxes)
@@ -159,8 +159,8 @@ async function sendEmails (propertyId:string,user:string,taxes:string,totalNight
     if(property){
         const owner = await User.findById(property.owner);
         const bookingPerson = await User.findById(user);
-        await sendBookingEmail(bookingPerson.email , totalAmount , property.address , totalNights , property.pricePerNight, owner.email);
-        await sendBookedEmail(owner.email , totalAmount , property.address , totalNights , property.pricePerNight, bookingPerson.email);
+        await sendBookingEmail(bookingPerson.email , totalAmount , property.address , totalNights , property.pricePerNight, owner.email, checkIn, checkOut, property.name);
+        await sendBookedEmail(owner.email , totalAmount , property.address , totalNights , property.pricePerNight, bookingPerson.email, checkIn, checkOut, property.name);
     }
 
     
