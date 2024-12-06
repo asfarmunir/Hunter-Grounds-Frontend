@@ -12,7 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaCaretDown, FaExternalLinkAlt } from "react-icons/fa";
 
 type property = {
   name: string;
@@ -122,14 +122,15 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
             setPopupInfo(property);
           }}
         >
-          <div className="p-1.5  px-4 bg-[#FF9900] rounded-lg  cursor-pointer relative ">
-            <Image
+          <div className="p-1.5  px-4 bg-[#FF9900] rounded-lg  cursor-pointer font-bold relative ">
+            {/* <Image
               src={"/images/vector.svg"}
               width={28}
               height={28}
               alt="mar"
               className=" absolute -z-10 right-[30%] "
-            />
+            /> */}
+            <FaCaretDown className=" absolute z-10 -bottom-[1.5rem]  right-[20%] text-[#FF9900] text-5xl " />
             CA ${property.pricePerNight}
           </div>
         </Marker>
