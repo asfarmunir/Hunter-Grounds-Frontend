@@ -22,10 +22,6 @@ type Errors = {
   terms?: string;
 };
 
-interface WithdrawFundsProps {
-  userId: string;
-}
-
 const WithdrawFunds = ({
   userId,
   type,

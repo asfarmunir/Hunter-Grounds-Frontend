@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     await handleReferralReward(metadata.user, amount);
 
     // @ts-ignore
-    await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id,metadata.taxes);
+    await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id,metadata.taxes, metadata.checkOut);
 
     await sendEmails(metadata.property,metadata.user, metadata.taxes, metadata.totalNights, metadata.checkIn, metadata.checkOut);
 
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
   return new Response("", { status: 200 });
 }
 
-async function addBookingPaymentToOwner(propertyId: string, bookingDays: number, bookingId: string , taxes:number) {
+async function addBookingPaymentToOwner(propertyId: string, bookingDays: number, bookingId: string , taxes:number, checkOut: Date) {
   // Find the property by its ID
   const property = await Property.findById(propertyId);
 
@@ -74,7 +74,8 @@ async function addBookingPaymentToOwner(propertyId: string, bookingDays: number,
         amount: ( bookingDays * property.pricePerNight * 100 ) + taxes * 100, // Total amount in cents
         bookingRefId: bookingId,          // Reference to the booking ID
         status: 'pending',                // Status (can change to 'paid' later)
-        date: new Date(),                 // Payment date
+        date: new Date(checkOut),
+        // date: new Date(),                 // Payment date
       };
 
       owner.bookingPayments.push(bookingPayment);

@@ -246,10 +246,10 @@ export const updateBookingWithdrawableAmount = async (userId: string) => {
       return;
     }
 
-    // Get the current date and calculate the date 30 days ago (withdrawable period)
+    // Get the current date and calculate the date 2 days ago (withdrawable period)
     const currentDate = new Date();
-    const oneMonthAgo = new Date(currentDate);
-    oneMonthAgo.setDate(currentDate.getDate() - 14); // Set the date to 30 days ago
+    const twoDaysAgo = new Date(currentDate);
+    twoDaysAgo.setDate(currentDate.getDate() - 2); // Set the date to 2 days ago
 
     // Initialize a variable to accumulate the new withdrawable amount from booking payments
     let newBookingWithdrawableAmount = 0;
@@ -257,9 +257,9 @@ export const updateBookingWithdrawableAmount = async (userId: string) => {
     // Flag to track if any updates were made
     let paymentsUpdated = false;
 
-    // Loop through booking payments and find the ones older than one month
+    // Loop through booking payments and find the ones older than 2 days
     user.bookingPayments = user.bookingPayments.map((payment: any) => {
-      if (payment.date <= oneMonthAgo && payment.status === "pending") {
+      if (payment.date <= twoDaysAgo && payment.status === "pending") {
         // Update the status to 'paid'
         payment.status = "paid";
         paymentsUpdated = true;
@@ -273,8 +273,7 @@ export const updateBookingWithdrawableAmount = async (userId: string) => {
     // If no payments were updated, no need to save the user
     if (!paymentsUpdated) {
       console.log(`No withdrawable booking payments for user ID ${userId}.`);
-    revalidatePath('/dashboard');
-
+      revalidatePath('/dashboard');
       return;
     }
 
@@ -285,13 +284,13 @@ export const updateBookingWithdrawableAmount = async (userId: string) => {
     await user.save();
     revalidatePath('/dashboard');
 
-
     console.log(`User ID ${userId} withdrawable amount updated from booking payments: ${newBookingWithdrawableAmount}`);
     
   } catch (error) {
     console.error("Error updating booking withdrawable amount: ", error);
   }
 };
+
 
 
 
