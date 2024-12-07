@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
-
+import referBg from "@/public/images/referBg.webp";
 const Page = () => {
   const { data: session, status } = useSession(); // Destructure session and status
   const [urlText, setUrlText] = useState<string>("");
@@ -42,7 +42,7 @@ const Page = () => {
     <div className="w-full flex items-center md:h-screen mt-12 pb-8 md:pb-0 justify-center">
       <div className="max-w-3xl 2xl:max-w-5xl relative">
         <Image
-          src="/images/referBg.webp"
+          src={referBg}
           alt="background"
           objectFit="contain"
           objectPosition="center"

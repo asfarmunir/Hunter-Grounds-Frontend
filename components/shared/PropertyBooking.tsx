@@ -229,6 +229,7 @@ const page = ({
                 <div key={index} className="relative h-[200px] sm:h-[300px]">
                   <Image
                     src={photo}
+                    priority
                     alt="property"
                     layout="fill"
                     objectFit="cover"

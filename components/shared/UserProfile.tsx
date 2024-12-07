@@ -13,6 +13,7 @@ import { IoChatboxEllipses } from "react-icons/io5";
 import ReviewMaker from "./Review";
 import { addRatings } from "@/database/actions/booking.action";
 import { DateTime } from "luxon";
+import scene from "@/public/images/scene.webp";
 
 const UserProfile = ({
   userDetails,
@@ -261,7 +262,7 @@ const UserProfile = ({
         ) : tab === "trips" ? (
           <div className=" w-full bg-[#372F2F33] my-4 pb-6 ">
             <Image
-              src={"/images/scene.webp"}
+              src={scene}
               width={900}
               height={400}
               alt="user"

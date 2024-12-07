@@ -1,6 +1,7 @@
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import xicon from "@/public/images/x2.svg";
 
 const CustomFooter = () => {
   return (
@@ -81,12 +82,7 @@ const CustomFooter = () => {
               className="text-black rounded-full  hover:text-gray-300 bg-white"
               aria-label="YouTube"
             >
-              <Image
-                src="/images/x2.svg"
-                alt="YouTube"
-                width={33}
-                height={33}
-              />
+              <Image src={xicon} alt="YouTube" width={33} height={33} />
             </Link>
           </div>
         </div>

@@ -128,7 +128,7 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
                   <span className="font-semibold">{property.acres}</span> acres
                   huntground in {property.city} from only{" "}
                   <span className="font-semibold">
-                    CA${property.pricePerNight}
+                    ${property.pricePerNight}
                   </span>{" "}
                   / night
                 </p>
