@@ -208,9 +208,9 @@ const WithdrawFunds = ({
             !errors.email &&
             !errors.terms ? (
               <p className="text-sm italic mt-4 px-12 text-center ">
-                *Please note that the withdrawal process may take up to 3-5
+                *Please note that the withdrawal process may take up to 10
                 business days.{" "}
-                <span className="text-primary-50 font-bold">15%</span> of the
+                <span className="text-primary-50 font-bold">10%</span> of the
                 total amount will be deducted as a service fee. Thank you!
               </p>
             ) : null}
