@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     // @ts-ignore
     await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id,metadata.taxes, metadata.checkOut);
 
-    await sendEmails(metadata.property,metadata.user, metadata.taxes, metadata.totalNights, metadata.checkIn, metadata.checkOut);
+    await sendEmails(metadata.property,metadata.user, metadata.taxes, metadata.totalNights, metadata.checkIn, metadata.checkOut, metadata.totalAmount);
 
     return NextResponse.json({ message: "OK", booking });
   }
@@ -152,16 +152,15 @@ async function handleReferralReward(userId: string, bookingAmount: number) {
   }
 }
 
-async function sendEmails (propertyId:string,user:string,taxes:string,totalNights:string, checkIn:string, checkOut:string ) {
+async function sendEmails (propertyId:string,user:string,taxes:string,totalNights:string, checkIn:string, checkOut:string,totalAmount:string ) {
     const property = await Property.findById(propertyId);
 
-    const totalAmount = property.pricePerNight * Number(totalNights) + Number(taxes)
+    const totalAmountforBookingPerson = Number(totalAmount);
+    const totalAmountforOwner = property.pricePerNight * Number(totalNights) + Number(taxes)
     const formatDate = (dateString:any) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US'); // Format as MM/DD/YYYY
-
-
-};
+    return date.toLocaleDateString('en-US'); 
+    };
 
     const checkInDate = formatDate(checkIn);
     const checkOutDate = formatDate(checkOut);
@@ -169,8 +168,8 @@ async function sendEmails (propertyId:string,user:string,taxes:string,totalNight
     if(property){
         const owner = await User.findById(property.owner);
         const bookingPerson = await User.findById(user);
-        await sendBookingEmail(bookingPerson.email , totalAmount , property.address , totalNights , property.pricePerNight, owner.email, checkInDate, checkOutDate, property.name);
-        await sendBookedEmail(owner.email , totalAmount , property.address , totalNights , property.pricePerNight, bookingPerson.email, checkInDate, checkOutDate, property.name);
+        await sendBookingEmail(bookingPerson.email , totalAmountforBookingPerson , property.address , totalNights , property.pricePerNight, owner.email, checkInDate, checkOutDate, property.name);
+        await sendBookedEmail(owner.email , totalAmountforOwner , property.address , totalNights , property.pricePerNight, bookingPerson.email, checkInDate, checkOutDate, property.name);
     }
 
     

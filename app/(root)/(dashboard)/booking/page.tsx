@@ -46,10 +46,10 @@ const page = async () => {
                     <p className="text-sm font-semibold">{booking.userEmail}</p>
                   </div>
                   <div className="flex flex-col">
-                    <p className="text-xs text-gray-400">Total Amount</p>
+                    {/* <p className="text-xs text-gray-400">Total Amount</p>
                     <p className="text-sm font-semibold capitalize">
                       ${booking.totalAmount / 100}
-                    </p>
+                    </p> */}
                     <p className="text-xs text-gray-400 mt-3">Payment Status</p>
                     <p className=" px-3 py-1 text-xs mt-1 bg-green-700/30 text-green-600 border border-green-600 rounded-full w-fit">
                       {booking.paymentStatus}
