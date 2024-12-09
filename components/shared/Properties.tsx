@@ -138,7 +138,7 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
         </motion.div>
       ) : (
         <div className="flex justify-center items-center pt-12 w-full h-full">
-          <h1 className="text-2xl border-b-2 border-t-2 border-primary-50/30 py-12 bg-primary-50/10 font-bold capitalize px-20 rounded-lg">
+          <h1 className="sm:text-2xl text-center border-b-2 border-t-2 border-primary-50/30 py-12 bg-primary-50/10 font-bold capitalize px-20 rounded-lg">
             No properties found!
           </h1>
         </div>

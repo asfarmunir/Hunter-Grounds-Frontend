@@ -163,12 +163,12 @@ const PropertyCalendar = ({
   return (
     <div className=" p-4 md:p-20 w-full oyo">
       <div className=" w-full flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex justify-center md:justify-start flex-wrap items-center pt-5 md:pt-0 gap-5 md:gap-3">
           <h3 className="text-xl md:text-3xl 2xl:text-5xl font-bold">
             Calendar
           </h3>
           <CalendarFilter properties={propertyNames} />
-          <div className="flex items-center gap-3 border border-primary-50/30 px-3 rounded-full">
+          <div className="hidden md:flex items-center gap-3 border border-primary-50/30 px-3 rounded-full">
             <p className=" w-2 h-2 bg-primary-50 rounded-full"></p>
             <p className=" py-2.5 text-sm">Today</p>
           </div>
@@ -207,7 +207,7 @@ const PropertyCalendar = ({
       </div>
       <p
         className="
-        text-sm text-gray-300 mt-5 mb-6 2xl:text-base font-normal tracking-wide
+        text-sm text-gray-300 text-center md:text-start mt-5 mb-6 2xl:text-base font-normal tracking-wide
       "
       >
         {data && data.length === 1
@@ -231,7 +231,9 @@ const PropertyCalendar = ({
               {getMonthlyBookingsCount() <= 1 ? "" : "s"}
             </p>
           </div>
-          <p className=" text-sm font-bold tracking-wider">Live Stats</p>
+          <p className=" hidden md:block text-sm font-bold tracking-wider">
+            Live Stats
+          </p>
         </div>
         <div className=" w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {daysInMonth.map((day, i) => {

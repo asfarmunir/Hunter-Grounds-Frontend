@@ -188,7 +188,7 @@ const Special = () => {
             every adventure.
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             variants={metricsVariants}
             initial="hidden"
             animate={metricsInView ? "visible" : "hidden"}
@@ -209,7 +209,7 @@ const Special = () => {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
 

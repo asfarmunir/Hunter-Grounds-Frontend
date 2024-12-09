@@ -62,7 +62,7 @@ const CustomFooter = () => {
           </nav>
 
           {/* Social Icons */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 z-50">
             <Link
               href="https://www.instagram.com/huntgrounds/"
               className="text-black rounded-full p-1.5 hover:text-gray-300 bg-white"

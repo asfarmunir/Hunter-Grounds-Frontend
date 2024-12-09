@@ -169,7 +169,7 @@ const PrivacyPolicyPage = () => {
       </p>
       <p className="text-sm 2xl:text-base">
         HuntGrounds.com <br />
-        Email: Legal@HuntGrounds.com
+        Email: Help@Huntgrounds.com
       </p>
       <p className="text-sm 2xl:text-base">
         By using HuntGrounds.com, you acknowledge that you have read and agreed

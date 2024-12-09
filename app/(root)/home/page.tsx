@@ -11,6 +11,7 @@ import PriceRangeSlider from "@/components/shared/PriceRangeSlider";
 import CityFilter from "@/components/shared/CityFilter";
 import DateFilter from "@/components/shared/DateFilter";
 import RemoveGame from "@/components/shared/RemoveGame";
+import { Filters } from "@/components/shared/Navbar";
 
 type SearchParamProps = {
   params: { id: string };
@@ -48,7 +49,10 @@ const Home = async ({ searchParams }: SearchParamProps) => {
         <Image src="/images/check.svg" width={20} height={20} alt="logo" />
         <p className="text-sm font-semibold">Hunt Where You Feel Free.</p>
       </div>
-      <div className=" w-full pt-8">
+      <div className=" w-full pt-3">
+        <div className="block md:hidden pb-4">
+          <Filters />
+        </div>
         <PriceRangeSlider />
         <div className="flex  flex-col mb-5">
           <h2 className=" 2xl:text-lg text-sm font-bold mb-2">

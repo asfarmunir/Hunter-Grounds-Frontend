@@ -30,7 +30,7 @@ const Game = () => {
               transition={{ duration: 1, delay: 0.5 }}
             >
               <div className="flex flex-col items-center ">
-                <div className="text-4xl font-bold mb-4 text-black">
+                <div className="text-4xl text-center font-bold mb-4 text-black">
                   Your Game Starts Here.
                 </div>
                 <p className="text-sm md:text-base px-3 max-w-lg text-center text-black mb-8">

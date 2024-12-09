@@ -211,7 +211,7 @@ const WithdrawFunds = ({
                 *Please note that the withdrawal process may take up to 10
                 business days.{" "}
                 <span className="text-primary-50 font-bold">10%</span> of the
-                total amount will be deducted as a service fee. Thank you!
+                total amount has been deducted as a service fee. Thank you!
               </p>
             ) : null}
           </div>

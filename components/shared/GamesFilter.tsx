@@ -49,7 +49,7 @@ const GameFilter = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
-        <GiDeerHead className="text-lg text-primary-50/60" />
+        <GiDeerHead className="text-lg text-primary-50/60 hidden md:block" />
 
         <span>Available Game +</span>
       </AlertDialogTrigger>{" "}

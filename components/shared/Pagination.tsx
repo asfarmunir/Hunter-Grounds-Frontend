@@ -32,7 +32,11 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
   return (
     <div
       className={`
-        ${totalPages > 1 ? "flex" : "hidden"}
+        ${
+          totalPages > 1
+            ? "flex justify-center w-full md:justify-start"
+            : "hidden"
+        }
      gap-4 mt-10`}
     >
       <Button

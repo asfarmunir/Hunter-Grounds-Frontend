@@ -148,192 +148,138 @@ const Navbar = () => {
         />
       </Link>
       {pathname === "/home" ? (
-        <div
-          className=" bg-[#2A2A2A] px-4  
-       py-2  hidden md:flex items-center gap-2 rounded-lg"
-        >
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
-                <Image
-                  src={"/images/where.svg"}
-                  width={18}
-                  height={18}
-                  alt="logo"
-                />
+        //   <div
+        //     className=" bg-[#2A2A2A] px-4
+        //  py-2  hidden md:flex items-center gap-2 rounded-lg"
+        //   >
+        //     <DropdownMenu>
+        //       <DropdownMenuTrigger asChild>
+        //         <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
+        //           <Image
+        //             src={"/images/where.svg"}
+        //             width={18}
+        //             height={18}
+        //             alt="logo"
+        //           />
 
-                {!toggleSearch && <span>Where +</span>}
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="mt-4 bg-[#2A2A2A]  rounded-md border-none ">
-              <div className="text-slate-50 flex w-fit  hover:text-white py-3 items-center gap-2 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
-                <FiSearch className="text-lg text-primary-50/50" />
-                <input
-                  type="text"
-                  placeholder="city..."
-                  // value={searchCity}
-                  onChange={handleInputChange}
-                  className=" bg-transparent focus:outline-none "
-                />
-              </div>
-              {mostSearchedCities.map((city, index) => (
-                <DropdownMenuItem
-                  key={index}
-                  onClick={() => handleCitySelect(city)}
-                  className="cursor-pointer px-3 inline-flex items-center gap-2 capitalize py-2 hover:bg-primary-50/20 text-white w-full"
-                >
-                  <Image
-                    src={"/images/location.svg"}
-                    width={13}
-                    height={13}
-                    alt="logo"
-                  />
-                  {city}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <GameFilter />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className={
-                  " inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500 dark:bg-transparent "
-                }
-              >
-                <Image
-                  src={"/images/calendar.svg"}
-                  width={17}
-                  height={17}
-                  alt="logo"
-                />{" "}
-                <span
-                  className={`${toggleSearch ? "hidden" : "block"}  text-white`}
-                >
-                  Add Dates +
-                </span>
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="mt-4 bg-[#2A2A2A] flex flex-col gap-4  rounded-md border-none   py-4 ">
-              {/* <Popover >
-                <PopoverTrigger asChild>
-                  <button
-                    className={
-                      " inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm  px-2.5 border-gray-500 dark:bg-transparent "
-                    }
-                  >
-                    <Image
-                      src={"/images/calendar.svg"}
-                      width={17}
-                      height={17}
-                      alt="logo"
-                    />{" "}
-                    {fromDate ? (
-                      format(fromDate, "PPP")
-                    ) : (
-                      <span
-                        className={`${
-                          toggleSearch ? "hidden" : "block"
-                        }  text-white`}
-                      >
-                        From Date...
-                      </span>
-                    )}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={fromDate}
-                    onSelect={setFromDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover> */}
-              <Popover open={fromPopoverOpen} onOpenChange={setFromPopoverOpen}>
-                <PopoverTrigger asChild>
-                  <button className="inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm px-2.5 border-gray-500 dark:bg-transparent">
-                    <Image
-                      src={"/images/calendar.svg"}
-                      width={17}
-                      height={17}
-                      alt="logo"
-                    />
-                    {fromDate ? (
-                      format(fromDate, "PPP")
-                    ) : (
-                      <span className="text-white">From Date...</span>
-                    )}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={fromDate}
-                    onSelect={handleFromDateSelect}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <Popover open={toPopoverOpen} onOpenChange={setToPopoverOpen}>
-                <PopoverTrigger asChild>
-                  <button className="inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm px-2.5 border-gray-500 dark:bg-transparent">
-                    <Image
-                      src={"/images/calendar.svg"}
-                      width={17}
-                      height={17}
-                      alt="logo"
-                    />
-                    {toDate ? (
-                      format(toDate, "PPP")
-                    ) : (
-                      <span className="text-white">To Date...</span>
-                    )}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={toDate}
-                    onSelect={handleToDateSelect}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <button
-                onClick={handleDateFilter}
-                className=" w-[90%] mx-auto  tracking-widest py-2 rounded-lg bg-primary-50/25 text-xs text-white font-semibold"
-              >
-                Set Filter
-              </button>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        //           {!toggleSearch && <span>Where +</span>}
+        //         </button>
+        //       </DropdownMenuTrigger>
+        //       <DropdownMenuContent className="mt-4 bg-[#2A2A2A]  rounded-md border-none ">
+        //         <div className="text-slate-50 flex w-fit  hover:text-white py-3 items-center gap-2 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
+        //           <FiSearch className="text-lg text-primary-50/50" />
+        //           <input
+        //             type="text"
+        //             placeholder="city..."
+        //             // value={searchCity}
+        //             onChange={handleInputChange}
+        //             className=" bg-transparent focus:outline-none "
+        //           />
+        //         </div>
+        //         {mostSearchedCities.map((city, index) => (
+        //           <DropdownMenuItem
+        //             key={index}
+        //             onClick={() => handleCitySelect(city)}
+        //             className="cursor-pointer px-3 inline-flex items-center gap-2 capitalize py-2 hover:bg-primary-50/20 text-white w-full"
+        //           >
+        //             <Image
+        //               src={"/images/location.svg"}
+        //               width={13}
+        //               height={13}
+        //               alt="logo"
+        //             />
+        //             {city}
+        //           </DropdownMenuItem>
+        //         ))}
+        //       </DropdownMenuContent>
+        //     </DropdownMenu>
+        //     <GameFilter />
+        //     <DropdownMenu>
+        //       <DropdownMenuTrigger asChild>
+        //         <button
+        //           className={
+        //             " inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500 dark:bg-transparent "
+        //           }
+        //         >
+        //           <Image
+        //             src={"/images/calendar.svg"}
+        //             width={17}
+        //             height={17}
+        //             alt="logo"
+        //           />{" "}
+        //           <span
+        //             className={`${toggleSearch ? "hidden" : "block"}  text-white`}
+        //           >
+        //             Add Dates +
+        //           </span>
+        //         </button>
+        //       </DropdownMenuTrigger>
+        //       <DropdownMenuContent className="mt-4 bg-[#2A2A2A] flex flex-col gap-4  rounded-md border-none   py-4 ">
+        //         <Popover open={fromPopoverOpen} onOpenChange={setFromPopoverOpen}>
+        //           <PopoverTrigger asChild>
+        //             <button className="inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm px-2.5 border-gray-500 dark:bg-transparent">
+        //               <Image
+        //                 src={"/images/calendar.svg"}
+        //                 width={17}
+        //                 height={17}
+        //                 alt="logo"
+        //               />
+        //               {fromDate ? (
+        //                 format(fromDate, "PPP")
+        //               ) : (
+        //                 <span className="text-white">From Date...</span>
+        //               )}
+        //             </button>
+        //           </PopoverTrigger>
+        //           <PopoverContent className="w-auto p-0" align="start">
+        //             <Calendar
+        //               mode="single"
+        //               selected={fromDate}
+        //               onSelect={handleFromDateSelect}
+        //               initialFocus
+        //             />
+        //           </PopoverContent>
+        //         </Popover>
+        //         <Popover open={toPopoverOpen} onOpenChange={setToPopoverOpen}>
+        //           <PopoverTrigger asChild>
+        //             <button className="inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm px-2.5 border-gray-500 dark:bg-transparent">
+        //               <Image
+        //                 src={"/images/calendar.svg"}
+        //                 width={17}
+        //                 height={17}
+        //                 alt="logo"
+        //               />
+        //               {toDate ? (
+        //                 format(toDate, "PPP")
+        //               ) : (
+        //                 <span className="text-white">To Date...</span>
+        //               )}
+        //             </button>
+        //           </PopoverTrigger>
+        //           <PopoverContent className="w-auto p-0" align="start">
+        //             <Calendar
+        //               mode="single"
+        //               selected={toDate}
+        //               onSelect={handleToDateSelect}
+        //               initialFocus
+        //             />
+        //           </PopoverContent>
+        //         </Popover>
+        //         <button
+        //           onClick={handleDateFilter}
+        //           className=" w-[90%] mx-auto  tracking-widest py-2 rounded-lg bg-primary-50/25 text-xs text-white font-semibold"
+        //         >
+        //           Set Filter
+        //         </button>
+        //       </DropdownMenuContent>
+        //     </DropdownMenu>
 
-          {/* <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
-            <Image
-              src={"/images/guest.svg"}
-              width={18}
-              height={18}
-              alt="logo"
-            />
-            {!toggleSearch && <span> Add Guests +</span>}
-          </button> */}
-          {/* <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
-            <Image src={"/images/map.svg"} width={18} height={18} alt="logo" />
-            {!toggleSearch && <span>Map Area</span>}
-          </button> */}
-          {/* <input
-            type="text"
-            placeholder="search"
-            className={` ${
-              toggleSearch ? "block" : "hidden"
-            } bg-transparent border border-primary-50/30 flex-grow p-2 transition-all  rounded-full text-xs px-4`}
-          /> */}
-
-          {/* <button onClick={() => setToggleSearch(!toggleSearch)}> */}
-          <button>
-            <IoMdSearch className=" bg-gradient-to-b cursor-default from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
-          </button>
+        //     <button>
+        //       <IoMdSearch className=" bg-gradient-to-b cursor-default from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
+        //     </button>
+        //   </div>
+        <div className="hidden md:block">
+          <Filters />
         </div>
       ) : null}
 
@@ -486,11 +432,7 @@ const Navbar = () => {
                     Trip
                   </p>
                 </Link>
-                <Link href={"https://help.huntgrounds.com"}>
-                  <p className=" gap-2 inline-flex items-center hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
-                    Help and FAQ
-                  </p>
-                </Link>
+
                 <Link href={"/refer-and-earn"}>
                   <p className=" gap-2 inline-flex items-center hover:text-white px-2 font-normal hover:bg-primary-50/50 cursor-pointer">
                     Hunt Cash
@@ -544,3 +486,228 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+export const Filters = () => {
+  const router = useRouter();
+  const [fromDate, setFromDate] = React.useState<Date>();
+  const [toDate, setToDate] = React.useState<Date>();
+  const [toggleSearch, setToggleSearch] = React.useState(false);
+  const [searchCity, setSearchCity] = React.useState("");
+  const [debouncedCity, setDebouncedCity] = useState(""); // Debounced city
+  const [fromPopoverOpen, setFromPopoverOpen] = useState(false);
+  const [toPopoverOpen, setToPopoverOpen] = useState(false);
+
+  const handleFromDateSelect = (date: Date | undefined) => {
+    setFromDate(date);
+    setFromPopoverOpen(false); // Close the popover after selecting a date
+  };
+
+  const handleToDateSelect = (date: Date | undefined) => {
+    setToDate(date);
+    setToPopoverOpen(false); // Close the popover after selecting a date
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedCity(searchCity); // Update debounced city after 500ms
+    }, 500);
+
+    return () => {
+      clearTimeout(handler); // Clean up the timeout
+    };
+  }, [searchCity]);
+  useEffect(() => {
+    if (debouncedCity) {
+      const queryParams = new URLSearchParams();
+      queryParams.set("city", debouncedCity);
+      router.push(`?${queryParams.toString()}`, undefined);
+    }
+  }, [debouncedCity]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedCity = e.target.value.toLowerCase().replace(/\s+/g, "");
+    setSearchCity(formattedCity);
+  };
+
+  // Handle city selection from dropdown
+  const handleCitySelect = (city: string) => {
+    setSearchCity(city); // Set the city from dropdown
+    setDebouncedCity(city); // Immediately set debouncedCity
+  };
+
+  const searchParams = useSearchParams();
+
+  const handleDateFilter = () => {
+    if (!fromDate || !toDate) {
+      toast.error("Please select dates to filter!", {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff0000",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+
+    if (fromDate > toDate) {
+      toast.error("Please add a valid period!", {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff0000",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+
+    // Format the dates using local time (avoiding timezone offset)
+    const formattedFromDate = fromDate!.toLocaleDateString("en-CA"); // "YYYY-MM-DD"
+    const formattedToDate = toDate!.toLocaleDateString("en-CA"); // "YYYY-MM-DD"
+
+    // Create query for the date range
+    const updatedUrlWithDateFilter = formUrlQuery({
+      params: searchParams.toString(),
+      key: "dateFilter",
+      value: `${formattedFromDate}-${formattedToDate}`,
+    });
+
+    // Push the new URL with the query params
+    router.push(updatedUrlWithDateFilter, { scroll: false });
+  };
+
+  return (
+    <div
+      className=" bg-[#2A2A2A] px-4  
+       py-2  flex items-center gap-2 rounded-lg"
+    >
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className="inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500">
+            <Image
+              src={"/images/where.svg"}
+              width={18}
+              height={18}
+              alt="logo"
+              className="hidden md:block"
+            />
+
+            {!toggleSearch && <span>Where +</span>}
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="mt-4 bg-[#2A2A2A]  rounded-md border-none ">
+          <div className="text-slate-50 flex w-fit  hover:text-white py-3 items-center gap-2 px-3 font-semibold hover:bg-primary-50/20 rounded-md cursor-pointer">
+            <FiSearch className="text-lg text-primary-50/50" />
+            <input
+              type="text"
+              placeholder="city..."
+              // value={searchCity}
+              onChange={handleInputChange}
+              className=" bg-transparent focus:outline-none "
+            />
+          </div>
+          {mostSearchedCities.map((city, index) => (
+            <DropdownMenuItem
+              key={index}
+              onClick={() => handleCitySelect(city)}
+              className="cursor-pointer px-3 inline-flex items-center gap-2 capitalize py-2 hover:bg-primary-50/20 text-white w-full"
+            >
+              <Image
+                src={"/images/location.svg"}
+                width={13}
+                height={13}
+                alt="logo"
+                className="hidden md:block"
+              />
+              {city}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <GameFilter />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            className={
+              " inline-flex items-center gap-2 text-xs 2xl:text-sm border-r px-2.5 border-gray-500 dark:bg-transparent "
+            }
+          >
+            <Image
+              src={"/images/calendar.svg"}
+              width={17}
+              height={17}
+              className="hidden md:block"
+              alt="logo"
+            />{" "}
+            <span
+              className={`${toggleSearch ? "hidden" : "block"}  text-white`}
+            >
+              Add Dates +
+            </span>
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="mt-4 bg-[#2A2A2A] flex flex-col gap-4  rounded-md border-none   py-4 ">
+          <Popover open={fromPopoverOpen} onOpenChange={setFromPopoverOpen}>
+            <PopoverTrigger asChild>
+              <button className="inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm px-2.5 border-gray-500 dark:bg-transparent">
+                <Image
+                  src={"/images/calendar.svg"}
+                  width={17}
+                  height={17}
+                  alt="logo"
+                />
+                {fromDate ? (
+                  format(fromDate, "PPP")
+                ) : (
+                  <span className="text-white">From Date...</span>
+                )}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={fromDate}
+                onSelect={handleFromDateSelect}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          <Popover open={toPopoverOpen} onOpenChange={setToPopoverOpen}>
+            <PopoverTrigger asChild>
+              <button className="inline-flex items-start gap-3 text-xs w-52 justify-start 2xl:text-sm px-2.5 border-gray-500 dark:bg-transparent">
+                <Image
+                  src={"/images/calendar.svg"}
+                  width={17}
+                  height={17}
+                  alt="logo"
+                />
+                {toDate ? (
+                  format(toDate, "PPP")
+                ) : (
+                  <span className="text-white">To Date...</span>
+                )}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={toDate}
+                onSelect={handleToDateSelect}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          <button
+            onClick={handleDateFilter}
+            className=" w-[90%] mx-auto  tracking-widest py-2 rounded-lg bg-primary-50/25 text-xs text-white font-semibold"
+          >
+            Set Filter
+          </button>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <button>
+        <IoMdSearch className=" bg-gradient-to-b cursor-default from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
+      </button>
+    </div>
+  );
+};

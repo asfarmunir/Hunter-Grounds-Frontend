@@ -23,7 +23,6 @@ type property = {
 };
 
 const PropertyMap = ({ properties }: { properties: property[] }) => {
-  console.log("🚀 ~ PropertyMap ~ properties:", properties);
   const [popupInfo, setPopupInfo] = useState<property | null>(null);
   const [userLocation, setUserLocation] = useState<{
     latitude: number;

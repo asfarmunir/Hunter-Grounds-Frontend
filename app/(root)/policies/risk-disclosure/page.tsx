@@ -90,7 +90,7 @@ const RiskDisclosurePage = () => {
         contact us at:
         <br />
         HuntGrounds.com <br />
-        Email: Legal@HuntGrounds.com
+        Email: Help@Huntgrounds.com
       </p>
       <p className="text-sm 2xl:text-base">
         By using HuntGrounds.com, you confirm that you have read, understood,

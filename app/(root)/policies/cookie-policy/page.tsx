@@ -92,7 +92,7 @@ const page = () => {
         contact us at:
       </p>
       <p className="text-sm 2xl:text-base">
-        HuntGrounds.com <br /> Email: Legal@HuntGrounds.com
+        HuntGrounds.com <br /> Email: Help@Huntgrounds.com
       </p>
       <p className="text-sm 2xl:text-base">
         By using HuntGrounds.com, you consent to the use of cookies as outlined

@@ -169,7 +169,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               </p>
             </div>
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className=" min-w-16 md:min-w-36">First Name</p>
             <input
               type="text"
@@ -181,7 +181,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className=" min-w-16 md:min-w-36">Last Name</p>
             <input
               type="text"
@@ -193,16 +193,8 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-          {/* <div className="flex py-8 border-b border-primary-50/15  gap-16">
-            <p className=" min-w-16 md:min-w-36">Facebook</p>
-            <button
-              className={`text-sm 2xl:text-base font-semibold bg-[#05D6FF80] px-4 py-2 rounded-lg
-                }`}
-            >
-              + Connect Facebook
-            </button>{" "}
-          </div> */}
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className=" min-w-16 md:min-w-36">Email</p>
             <p className="">{userData.email}</p>
           </div>
@@ -211,7 +203,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
           Contact Information
         </p>
         <div className=" w-full     bg-[#352e2e33] border border-[#372F2F] p-6 rounded-xl shadow-md">
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className="  min-w-16 md:min-w-36">Street Address</p>
             <input
               type="text"
@@ -223,7 +215,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className="  min-w-16 md:min-w-36">Suite Number</p>
             <input
               type="text"
@@ -235,7 +227,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className="  min-w-16 md:min-w-36">City</p>
             <input
               type="text"
@@ -247,7 +239,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className="  min-w-16 md:min-w-36">State</p>
             <input
               type="text"
@@ -259,7 +251,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className="  min-w-16 md:min-w-36">Country</p>
             {/* <input
               type="text"
@@ -282,7 +274,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               <option value="canada">Canada</option>
             </select>
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className="  min-w-16 md:min-w-36">Zip Code</p>
             <input
               type="text"
@@ -295,7 +287,7 @@ const GeneralSettings = ({ data }: { data: IUser }) => {
               }
             />
           </div>
-          <div className="flex py-8 border-b border-primary-50/15  gap-16">
+          <div className="flex flex-col md:flex-row py-8 border-b border-primary-50/15  gap-4 md:gap-16">
             <p className="  min-w-16 md:min-w-36">Phone Number</p>
             <input
               type="text"

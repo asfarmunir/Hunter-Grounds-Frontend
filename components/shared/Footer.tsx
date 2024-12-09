@@ -78,7 +78,7 @@ const Footer = () => {
 
   return (
     <div className=" w-full flex items-center bg-[#000214]  justify-between px-6 pb-12  md:pl-10 2xl:pl-16 md:pr-0 md:h-[35rem] 2xl:h-[40rem] mt-16  overflow-hidden">
-      <div className="flex flex-col md:flex-row gap-10 pt-12 md:pt-32 md:pl-8 pb-12 ">
+      <div className="flex flex-col md:flex-row gap-5 md:gap-10 pt-12 md:pt-32 md:pl-8 pb-12 ">
         <div className="flex flex-col gap-2 ">
           <h2 className="text-2xl 2xl:text-4xl font-black">
             Let's Keep in Touch
@@ -174,7 +174,7 @@ const Footer = () => {
           <p className=" 2xl:text-xl text-start font-thin transition-all">
             Write to Us
           </p>
-          <p className=" text-pretty justify-center bg-[#05D6FF1A] inline-flex text-sm 2xl:text-base text-primary-50 border border-primary-50 w-fit px-3 py-2 rounded-full items-center gap-3">
+          <p className=" hidden text-pretty justify-center bg-[#05D6FF1A] md:inline-flex text-sm 2xl:text-base text-primary-50 border border-primary-50 w-fit px-3 py-2 rounded-full items-center gap-3">
             <Image src={"/images/mail.svg"} alt="bg" width={25} height={25} />
             Help@HuntGrounds.com
           </p>
@@ -207,6 +207,10 @@ const Footer = () => {
           <p className=" text-pretty inline-flex border w-fit bg-[#05D6FF1A] border-[#05d5ff3f] text-primary-50 px-3 py-2 rounded-full items-center justify-center gap-3">
             <span className=" w-4 h-4 bg-primary-50 border-2 border-blue-600 rounded-full"></span>
             18+
+          </p>
+          <p className=" md:hidden text-pretty justify-center bg-[#05D6FF1A] inline-flex text-sm 2xl:text-base text-primary-50 border border-primary-50 w-fit px-3 py-2 rounded-full items-center gap-3">
+            <Image src={"/images/mail.svg"} alt="bg" width={25} height={25} />
+            Help@HuntGrounds.com
           </p>
         </div>
       </div>

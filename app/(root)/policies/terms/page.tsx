@@ -85,15 +85,6 @@ const page = () => {
         punitive damages arising from your use of the Services.
       </p>
       <p className="text-sm 2xl:text-base">
-        8. Limitation of Liability - No Warranties: The Services are provided
-        "as is" and "as available," without any warranties, express or implied.
-        We do not guarantee the accuracy, reliability, or availability of the
-        Services. - Limitation of Liability: To the fullest extent permitted by
-        law, HuntGrounds.com, its affiliates, and employees will not be liable
-        for any direct, indirect, incidental, consequential, or punitive damages
-        arising from your use of the Services.
-      </p>
-      <p className="text-sm 2xl:text-base">
         9. Indemnification <br /> You agree to indemnify, defend, and hold
         harmless HuntGrounds.com, its affiliates, officers, directors,
         employees, and agents from and against any claims, liabilities, damages,
@@ -101,7 +92,13 @@ const page = () => {
         your use of the Services or violation of these Terms
       </p>
       <p className="text-sm 2xl:text-base">
-        HuntGrounds.com <br /> Email: Legal@HuntGrounds.com
+        10. Withdrawals <br /> All Hosts must agree to verify their
+        identification with the Veriff service upon request of their first
+        withdrawal. HuntGrounds reserves the right to refuse a withdrawal
+        request if this step is not completed.
+      </p>
+      <p className="text-sm 2xl:text-base">
+        HuntGrounds.com <br /> Email: Help@Huntgrounds.com
       </p>
       <p className="text-sm 2xl:text-base">
         By using HuntGrounds.com, you acknowledge that you have read,
