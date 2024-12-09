@@ -91,9 +91,7 @@ const generateEmailTemplate = (userName: string, amount: number, type: string) =
             <p>If you have any questions, feel free to reply to this email or contact our support team.</p>
             <p>Thank you for using our platform!</p>
             <p style="color: #95a5a6;">Best regards,<br>The Support Team</p>
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="#" style="text-decoration: none; background-color: #3498db; color: white; padding: 10px 20px; border-radius: 5px;">Visit Dashboard</a>
-            </div>
+            
         </div>
     </div>
   `;
