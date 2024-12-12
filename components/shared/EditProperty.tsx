@@ -72,11 +72,37 @@ const page = ({
   const [imagePreviews, setImagePreviews] = useState<string[]>(
     property.photos || []
   );
+  console.log("🚀 ~ imagePreviews:", imagePreviews);
   const [uploading, setUploading] = useState(false);
+
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = Array.from(e.target.files || []);
+  //   const validFiles = files.filter((file) => {
+  //     if (!file.type.startsWith("image/")) {
+  //       toast.error(`${file.name} is not a valid image file.`);
+  //       return false;
+  //     }
+  //     if (file.size > 5 * 1024 * 1024) {
+  //       // 10 MB size limit
+  //       toast.error(`${file.name} exceeds the size limit of 10 MB.`);
+  //       return false;
+  //     }
+  //     return true;
+  //   });
+
+  //   if (validFiles.length + selectedFiles.length > 10) {
+  //     toast.error("You can upload a maximum of 10 images.");
+  //     return;
+  //   }
+
+  //   setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
+  //   const newPreviews = validFiles.map((file) => URL.createObjectURL(file));
+  //   setImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+  // };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (files.length > 10 || selectedFiles.length + files.length > 10) {
+    if (files.length > 10 || imagePreviews.length + files.length > 10) {
       alert("You can only upload a maximum of 10 images.");
       return;
     }
@@ -231,7 +257,6 @@ const page = ({
       setLoading(false);
       return;
     }
-    // propertyDetails.location = coordinates;
 
     if (imagePreviews.length === 0) {
       toast.error("Please Upload atleast one image for your property", {
@@ -252,32 +277,47 @@ const page = ({
     });
 
     try {
-      let uploadedUrls = [];
+      let newUploadedUrls: string[] = [];
+
+      // Step 1: Identify new images (blob URLs that don't start with "https")
 
       if (selectedFiles.length > 0) {
-        const uploadPromises = selectedFiles.map(async (file) => {
-          const formData = new FormData();
-          formData.append("file", file);
+        try {
+          // Step 2: Map blob URLs to File objects (if not already done)
+          const uploadPromises = selectedFiles.map(async (image) => {
+            const formData = new FormData();
+            formData.append("file", image);
 
-          const response = await axios.post(
-            "/api/cloudinary/upload",
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
+            const response = await axios.post(
+              "/api/cloudinary/upload",
+              formData,
+              {
+                headers: { "Content-Type": "multipart/form-data" },
+              }
+            );
 
-          return response.data.imgUrl;
-        });
-        uploadedUrls = await Promise.all(uploadPromises);
+            return response.data.imgUrl; // Assume API returns uploaded URL
+          });
+          newUploadedUrls = await Promise.all(uploadPromises);
+        } catch (error) {
+          toast.error("Error uploading images. Please try again.");
+          console.error("Error uploading images:", error);
+          throw new Error("Image upload failed. Please try again.");
+        }
       }
+
+      const finalImageArray = [
+        ...imagePreviews.filter((image) => image.startsWith("https")), // Existing images
+        ...newUploadedUrls, // Newly uploaded images
+      ];
+
       toast.dismiss();
+
       const data = {
         ...propertyDetails,
         pricePerNight: propertyDetails.price,
-        photos: uploadedUrls.length ? uploadedUrls : property.photos,
+        // photos: uploadedUrls.length ? uploadedUrls : property.photos,
+        photos: finalImageArray,
         owner: userDetails._id,
         city: propertyDetails.city.trim().replace(/\s+/g, "").toLowerCase(),
         gameAvailable: selectedGames,
@@ -678,9 +718,17 @@ const page = ({
                   multiple
                   onChange={handleFileChange}
                   className=" absolute top-2 opacity-0"
-                  disabled={selectedFiles.length >= 10 || uploading} // Disable if already 3 images or uploading
+                  disabled={imagePreviews.length >= 10 || uploading} // Disable if already 3 images or uploading
                 />
-                <p className=" w-fit h-fit  text-nowrap  text-xs md:text-sm bg-gradient-to-t hover:cursor-wait from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 md:px-12 py-2.5 text-black font-semibold 2xl:text-lg">
+                <p
+                  className={` 
+                    ${
+                      imagePreviews.length >= 10 || uploading
+                        ? "opacity-50"
+                        : ""
+                    }
+                    w-fit h-fit  text-nowrap  text-xs md:text-sm bg-gradient-to-t hover:cursor-wait from-[#FF9900] to-[#FFE7A9] rounded-xl px-6 md:px-12 py-2.5 text-black font-semibold 2xl:text-lg`}
+                >
                   Add or edit photos
                 </p>
               </div>
