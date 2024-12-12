@@ -70,22 +70,28 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
   }
 
   // Render fallback map if no properties are passed
+  const fallbackLongitude = -73.9385; // Default to New York City
+  const fallbackLatitude = 40.6643; // Default to New York City
+
   if (!properties || !properties.length) {
     return (
       <Map
         mapboxAccessToken="pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"
         initialViewState={{
-          longitude: userLocation
-            ? userLocation.longitude
-            : properties[0].location.longitude,
-          latitude: userLocation
-            ? userLocation.latitude
-            : properties[0].location.latitude,
+          longitude: userLocation?.longitude || fallbackLongitude,
+          latitude: userLocation?.latitude || fallbackLatitude,
           zoom: 11,
         }}
         style={{ width: 600, height: 700 }}
         mapStyle="mapbox://styles/mapbox/dark-v10"
       >
+        <NavigationControl position="top-right" />
+        <FullscreenControl position="top-right" />
+        <GeolocateControl position="top-right" />
+        <GeocoderControl
+          mapboxAccessToken="pk.eyJ1IjoiaHVudGdyb3VuZHMiLCJhIjoiY20xaHl5ZTdpMDZtdjJscHg3bHlwd2o5cCJ9.NyZWUQjoQ07M0q_Uehvxow"
+          position="top-left"
+        />
         {error && <div className="error">{error}</div>}
       </Map>
     );
@@ -122,13 +128,6 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
           }}
         >
           <div className="p-1.5  px-4 bg-[#FF9900] rounded-lg  cursor-pointer font-bold relative ">
-            {/* <Image
-              src={"/images/vector.svg"}
-              width={28}
-              height={28}
-              alt="mar"
-              className=" absolute -z-10 right-[30%] "
-            /> */}
             <FaCaretDown className=" absolute z-10 -bottom-[1.5rem]  right-[20%] text-[#FF9900] text-5xl " />
             CA ${property.pricePerNight}
           </div>
