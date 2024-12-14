@@ -34,11 +34,11 @@ const RefundPolicyPage = () => {
       </p>
       <p className="text-sm 2xl:text-base">
         <span className="font-bold">
-          - Cancellations Within 48 Hours of the Trip:
+          - Cancellations Within 1 week of the Trip:
         </span>
         <br />
-        If you need to cancel less than 48 hours before your trip, we will not
-        be able to issue a refund. This is because last-minute cancellations may
+        If you need to cancel less than 1 week before your trip, we will not be
+        able to issue a refund. This is because last-minute cancellations may
         affect both landowners and other participants, and it can be challenging
         to fill those slots at short notice.
       </p>
@@ -67,7 +67,7 @@ const RefundPolicyPage = () => {
       </p>
       <p className="text-sm 2xl:text-base">
         Please note that these situations are exceptional, and the general rule
-        is that cancellations within 48 hours and after the trip do not qualify
+        is that cancellations within 1 week and after the trip do not qualify
         for refunds.
       </p>
       <p className="text-sm 2xl:text-base font-bold">
@@ -78,7 +78,7 @@ const RefundPolicyPage = () => {
         trip or the number of participants, please contact us as soon as
         possible. While we cannot guarantee that changes can always be made, we
         will do our best to accommodate your request if received{" "}
-        <b>at least 48 hours before your trip</b>.
+        <b>at least 1 week before your trip</b>.
       </p>
       <p className="text-sm 2xl:text-base font-bold">
         5. How to Cancel or Modify a Booking
