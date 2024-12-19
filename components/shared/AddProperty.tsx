@@ -447,7 +447,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   name="state"
                   value={propertyDetails.state}
                   onChange={handleStateChange}
-                  className="px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full"
+                  className="px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-[80%] "
                 >
                   <option value="">Select State/Province</option>
                   {/* @ts-ignore */}
@@ -507,6 +507,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   setPropertyDetails({
                     ...propertyDetails,
                     country: e.target.value,
+                    state: "",
                   })
                 }
               >
