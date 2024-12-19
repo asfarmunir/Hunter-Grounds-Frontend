@@ -16,4 +16,5 @@ export interface IProperty {
   reviews: { user: string; review: string, rating:number }[];
   nonAvailableDates: string[];
   country: string;
+  state : string;
 }

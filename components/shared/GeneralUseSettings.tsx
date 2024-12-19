@@ -26,10 +26,10 @@ const links = [
     name: "Change Password",
     link: "change-password",
   },
-  {
-    name: "Emails & SMS",
-    link: "emails-sms",
-  },
+  // {
+  //   name: "Emails & SMS",
+  //   link: "emails-sms",
+  // },
   // {
   //   name: "Payment Details",
   //   link: "payment-details",

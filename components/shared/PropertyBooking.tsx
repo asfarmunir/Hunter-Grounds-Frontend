@@ -22,6 +22,7 @@ import { IProperty } from "@/lib/types/property";
 import { CgLock } from "react-icons/cg";
 import { addSavedProperty } from "@/database/actions/user.action";
 import { FaHeart } from "react-icons/fa";
+import { statesData } from "@/lib/constants";
 
 const page = ({
   propertyDetails,
@@ -120,10 +121,26 @@ const page = ({
   };
 
   const calculateTaxes = (pricePerNight: number, nights: number) => {
-    if (propertyDetails.country === "usa") {
-      return (pricePerNight * nights * 0.1).toFixed(2);
+    if (propertyDetails.state && propertyDetails.state !== "") {
+      //@ts-ignore
+      const stateData = statesData[propertyDetails.country].find(
+        (state: any) => state.name === propertyDetails.state
+      );
+
+      if (stateData) {
+        // Convert the rate string (e.g., "5%") to a number (e.g., 0.05)
+        const rate = parseFloat(stateData.rate) / 100;
+
+        // Calculate tax
+        return (pricePerNight * nights * rate).toFixed(2);
+      }
     }
-    return (pricePerNight * nights * 0.15).toFixed(2);
+
+    if (propertyDetails.country === "usa") {
+      return (pricePerNight * nights * 0.1).toFixed(2); // Default USA tax
+    }
+
+    return (pricePerNight * nights * 0.15).toFixed(2); // Default Canada tax
   };
 
   return (

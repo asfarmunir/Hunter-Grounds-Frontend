@@ -16,7 +16,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { createProperty } from "@/database/actions/property.action";
 import axios from "axios";
 import { Checkbox } from "../ui/checkbox";
-import { gameOptions } from "@/lib/constants";
+import { gameOptions, statesData } from "@/lib/constants";
 const initialSettings = [
   { name: "Property Address", status: "pending" },
   { name: "Acres", status: "pending" },
@@ -37,7 +37,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     acres: 0,
     postalCode: "",
     city: "",
-    country: userDetails.country || "",
+    country: "canada",
     name: "",
     description: "",
     extraServices: "",
@@ -62,6 +62,17 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       setSelectedGames([...selectedGames, game]);
     }
   };
+
+  const handleStateChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setPropertyDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const [settings, setSettings] = useState(initialSettings);
   const [loading, setLoading] = useState<boolean>(false);
   //-------------
@@ -420,7 +431,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   alt="location"
                 />
 
-                <input
+                {/* <input
                   type="text"
                   placeholder="Enter State/Province "
                   className="   px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
@@ -431,7 +442,25 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                       state: e.target.value,
                     })
                   }
-                />
+                /> */}
+                <select
+                  name="state"
+                  value={propertyDetails.state}
+                  onChange={handleStateChange}
+                  className="px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full"
+                >
+                  <option value="">Select State/Province</option>
+                  {/* @ts-ignore */}
+                  {statesData[propertyDetails.country]?.map((state: any) => (
+                    <option
+                      key={state.name}
+                      value={state.name}
+                      className="text-black"
+                    >
+                      {state.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex  py-4 items-center gap-3 w-full      ">
                 <Image
@@ -838,12 +867,12 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             </div>
           </div> */}
           <div className=" w-full flex justify-center sm:justify-end gap-3 items-center mr-5 my-8">
-            <Link
+            {/* <Link
               href={"/user-properties"}
               className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-semibold px-4  sm:px-10 py-2.5 text-sm 2xl:text-base "
             >
               Continue to sites
-            </Link>
+            </Link> */}
             <button
               type="submit"
               disabled={loading}

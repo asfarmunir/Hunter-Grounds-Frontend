@@ -14,7 +14,7 @@ import {
 } from "@/database/actions/property.action";
 import axios from "axios";
 import { Checkbox } from "../ui/checkbox";
-import { gameOptions } from "@/lib/constants";
+import { gameOptions, statesData } from "@/lib/constants";
 import { IProperty } from "@/lib/types/property";
 const initialSettings = [
   { name: "Property Address", status: "pending" },
@@ -43,6 +43,7 @@ const page = ({
     description: property.description || "",
     extraServices: property.extraServices || "",
     city: property.city || "",
+    state: property.state || "",
     location: property.location || {
       latitude: 0,
       longitude: 0,
@@ -240,6 +241,16 @@ const page = ({
     }
   };
 
+  const handleStateChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setPropertyDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const router = useRouter();
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -367,7 +378,7 @@ const page = ({
         <div className="w-full md:w-[30%]">
           <div className="p-5 rounded-xl w-full flex flex-col bg-gradient-to-b from-primary to-orange-500/20">
             <Link
-              href={"/dashboard"}
+              href={"/user-properties"}
               className="2xl:text-lg inline-flex items-center gap-3"
             >
               <FaArrowLeftLong className="text-xl text-primary-50" />
@@ -465,6 +476,46 @@ const page = ({
                   })
                 }
               />
+              <Image
+                src={
+                  propertyDetails.state.length > 3
+                    ? "/images/added.svg"
+                    : "/images/missing.svg"
+                }
+                width={30}
+                height={30}
+                alt="location"
+              />
+              <select
+                name="state"
+                value={propertyDetails.state}
+                onChange={handleStateChange}
+                className="px-4 py-2 focus:outline-none bg-transparent rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full"
+              >
+                <option value="">Select State/Province</option>
+                {/* @ts-ignore */}
+                {statesData[propertyDetails.country]?.map((state: any) => (
+                  <option
+                    key={state.name}
+                    value={state.name}
+                    className="text-black"
+                  >
+                    {state.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-3 py-4 w-full">
+              <Image
+                src={
+                  propertyDetails.country.length > 2
+                    ? "/images/added.svg"
+                    : "/images/missing.svg"
+                }
+                width={30}
+                height={30}
+                alt="location"
+              />
 
               <select
                 className="   px-4 py-2 focus:outline-none bg-transparent  rounded-lg focus:ring-2 focus:ring-primary-50 focus:ring-opacity-10 w-full "
@@ -484,6 +535,7 @@ const page = ({
                 </option>
               </select>
             </div>
+
             {/* <button className=" bg-gradient-to-t text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">
               Change Adress
             </button> */}
@@ -843,11 +895,11 @@ const page = ({
               </Link>
             </div>
           </div> */}
-          <div className=" w-full flex justify-end mr-4">
+          {/* <div className=" w-full flex justify-end mr-4">
             <button className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-bold  px-6 py-2.5 text-sm mt-8 ">
               Continue to sites
             </button>
-          </div>
+          </div> */}
         </div>
       </form>
     </div>

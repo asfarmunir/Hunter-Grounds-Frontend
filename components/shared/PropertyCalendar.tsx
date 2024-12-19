@@ -117,12 +117,23 @@ const PropertyCalendar = ({
     setCurrentDate(newDate);
   };
 
+  // const getMonthlyBookingsCount = () => {
+  //   // Filter bookedDatesMap to match only dates in the current month
+  //   const bookingsThisMonth = Object.keys(bookedDatesMap).filter((date) => {
+  //     const bookedDate = new Date(date);
+  //     return (
+  //       bookedDate.getFullYear() === year && bookedDate.getMonth() === month
+  //     );
+  //   });
+  //   return bookingsThisMonth.length;
+  // };
+
   const getMonthlyBookingsCount = () => {
-    // Filter bookedDatesMap to match only dates in the current month
     const bookingsThisMonth = Object.keys(bookedDatesMap).filter((date) => {
       const bookedDate = new Date(date);
       return (
-        bookedDate.getFullYear() === year && bookedDate.getMonth() === month
+        bookedDate.getUTCFullYear() === year &&
+        bookedDate.getUTCMonth() === month
       );
     });
     return bookingsThisMonth.length;

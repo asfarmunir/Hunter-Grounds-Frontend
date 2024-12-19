@@ -280,6 +280,7 @@ const UserProfile = ({
               userBookings
                 .filter((booking) => new Date(booking.checkOut) >= new Date()) // Filter to show only future bookings
                 .map((booking) => {
+                  console.log(userBookings);
                   return (
                     <div
                       className="flex w-full px-4 items-center justify-between flex-col md:flex-row"
@@ -287,10 +288,12 @@ const UserProfile = ({
                     >
                       <div>
                         <p className="mt-4 mb-2 capitalize px-3 text-xl font-semibold">
-                          {booking.property.name}
+                          {booking.property
+                            ? booking.property.name
+                            : "Huntground"}
                         </p>
                         <p className="text-sm px-3 capitalize text-gray-400 mb-4">
-                          in {booking.property.address} from{" "}
+                          in {booking.property && booking.property.address} from{" "}
                           {/* {new Date(booking.checkIn).toLocaleDateString(
                             "en-US",
                             {
@@ -314,19 +317,20 @@ const UserProfile = ({
                           }).toFormat("MMM dd, yyyy")}{" "}
                         </p>
                       </div>
-                      {booking.property.owner !== userDetails._id && (
-                        <Link
-                          href={`/chat?id=${
-                            booking.property.owner
-                          }&propertyName=${encodeURIComponent(
-                            booking.property.name
-                          )}`}
-                          className="flex items-center gap-2 text-sm"
-                        >
-                          <IoChatboxEllipses className="text-2xl mt-0.5 text-primary-50" />
-                          Chat with owner
-                        </Link>
-                      )}
+                      {booking.property &&
+                        booking.property.owner !== userDetails._id && (
+                          <Link
+                            href={`/chat?id=${
+                              booking.property.owner
+                            }&propertyName=${encodeURIComponent(
+                              booking.property.name
+                            )}`}
+                            className="flex items-center gap-2 text-sm"
+                          >
+                            <IoChatboxEllipses className="text-2xl mt-0.5 text-primary-50" />
+                            Chat with owner
+                          </Link>
+                        )}
                     </div>
                   );
                 })}
@@ -386,36 +390,7 @@ const UserProfile = ({
                     </div>
                   );
                 })}
-            {/* <div className="flex items-center gap-5 px-5 mx-4 py-4 rounded-xl bg-[#372F2F80] justify-between flex-col-reverse md:flex-row p-3">
-            <div className=" space-y-3">
-              <h3 className="text-lg text-primary-50">
-                An exceptional experience
-              </h3>
-              <p className="text-gray-400 max-w-md 2xl:max-w-lg text-xs 2xl:text-sm">
-                We loved our stay! Real and Johanne were great hostess , we will
-                100 recommend!
-              </p>
-              <div className="flex items-center justify-between max-w-md 2xl:max-w-lg w-full">
-                <div className="flex gap-2">
-                  <Image
-                    src={"/images/logoIcon.svg"}
-                    width={20}
-                    height={20}
-                    alt="mail"
-                  />
-                  <p className="text-sm">John Maximus</p>
-                </div>
-                <p className="text-primary-50/60 text-sm">June 21st , 2022</p>
-              </div>
-            </div>
-            <Image
-              src={"/images/food.svg"}
-              width={155}
-              height={155}
-              alt="mail"
-              className="rounded-xl "
-            />
-          </div> */}
+
             {userBookings &&
               userBookings.some(
                 (booking) => new Date(booking.checkOut) < new Date()

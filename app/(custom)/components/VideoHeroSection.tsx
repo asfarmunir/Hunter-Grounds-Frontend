@@ -54,8 +54,7 @@ const VideoHeroSection: React.FC = () => {
               Your browser does not support the video tag.
             </video>
 
-            {/* Play/Pause Button */}
-            <button
+            {/* <button
               onClick={handlePlayPause}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 
                      bg-white hover:bg-white rounded-full p-4 backdrop-blur-sm
@@ -66,7 +65,7 @@ const VideoHeroSection: React.FC = () => {
               ) : (
                 <Play className="w-8 h-8 text-black" />
               )}
-            </button>
+            </button> */}
           </div>
         ) : (
           // Background Image
@@ -74,7 +73,6 @@ const VideoHeroSection: React.FC = () => {
             className="absolute inset-0 bg-cover bg-top"
             style={{ backgroundImage: `url(${backgroundImage})` }}
           >
-            {/* Play Button on Image */}
             <button
               onClick={() => setShowVideo(true)}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 

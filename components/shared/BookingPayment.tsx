@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import PaymentSuccess from "@/components/shared/PaymentSuccess";
 import toast from "react-hot-toast";
 import { IProperty } from "@/lib/types/property";
+import { statesData } from "@/lib/constants";
 
 // Load Stripe outside of the component to avoid reinitializing it on every render
 const stripePromise: Promise<Stripe | null> = loadStripe(
@@ -160,14 +161,28 @@ const page = ({
         console.error("Error creating payment intent:", error);
       });
   };
-
   const calculateTaxes = (pricePerNight: number, nights: number) => {
-    if (propertyDetails.country === "usa") {
-      return (pricePerNight * nights * 0.1).toFixed(2);
-    }
-    return (pricePerNight * nights * 0.15).toFixed(2);
-  };
+    if (propertyDetails.state && propertyDetails.state !== "") {
+      //@ts-ignore
+      const stateData = statesData[propertyDetails.country].find(
+        (state: any) => state.name === propertyDetails.state
+      );
 
+      if (stateData) {
+        // Convert the rate string (e.g., "5%") to a number (e.g., 0.05)
+        const rate = parseFloat(stateData.rate) / 100;
+
+        // Calculate tax
+        return (pricePerNight * nights * rate).toFixed(2);
+      }
+    }
+
+    if (propertyDetails.country === "usa") {
+      return (pricePerNight * nights * 0.1).toFixed(2); // Default USA tax
+    }
+
+    return (pricePerNight * nights * 0.15).toFixed(2); // Default Canada tax
+  };
   return (
     <div className=" w-full flex flex-col md:flex-row gap-10 justify-between p-4 md:p-20">
       <div className="flex flex-col gap-2 w-full max-w-lg 2xl:max-w-2xl">
