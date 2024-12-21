@@ -11,12 +11,7 @@ const page = async () => {
   return (
     <div className="w-full flex flex-col items-center mt-10  pb-8 gap-12 md:pb-0 justify-center  ">
       <div className=" max-w-3xl 2xl:max-w-5xl relative  ">
-        <Image
-          src="/yoywhatsupfambro.svg"
-          alt="background"
-          width={920}
-          height={600}
-        />
+        <Image src="/new.svg" alt="background" width={920} height={600} />
         <Link
           href={"/dashboard/add-property"}
           className=" opacity-0 absolute bottom-10 2xl:bottom-14 py-4 w-full"
