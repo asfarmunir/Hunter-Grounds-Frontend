@@ -4,19 +4,20 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Image from "next/image";
 import Link from "next/link";
+import bg from "@/public/new.svg";
 import { IProperty } from "@/lib/types/property";
 const page = async () => {
   const session = await getServerSession(authOptions);
   const properties = await getUserProperties(session.user.id);
   return (
     <div className="w-full flex flex-col items-center mt-10  pb-8 gap-12 md:pb-0 justify-center  ">
-      <div className=" max-w-3xl 2xl:max-w-5xl relative  ">
-        <Image src="/new.svg" alt="background" width={920} height={600} />
+      <div className=" max-w-3xl flex justify-center 2xl:max-w-5xl relative  ">
+        <Image src={bg} alt="background" width={920} height={600} />
         <Link
           href={"/dashboard/add-property"}
-          className=" opacity-0 absolute bottom-10 2xl:bottom-14 py-4 w-full"
+          className="  absolute bottom-10 2xl:bottom-14  bg-gradient-to-b  from-[#FF9900] to-[#3a3e3a6f] font-semibold  px-8 py-3 rounded-lg "
         >
-          go
+          List Property
         </Link>
 
         <div className=" w-full  p-3"></div>
