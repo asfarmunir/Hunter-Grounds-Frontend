@@ -517,6 +517,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                 <option value="usa" className=" text-black">
                   United States
                 </option>
+                <option value="mexico" className=" text-black">
+                  Mexico
+                </option>
               </select>
             </div>
             {/* <button className=" bg-gradient-to-t text-xs md:text-sm from-[#FF9900] to-[#FFE7A9] rounded-xl px-12 py-2.5 text-black font-semibold 2xl:text-lg">

@@ -128,8 +128,8 @@ const PropertyMap = ({ properties }: { properties: property[] }) => {
           }}
         >
           <div className="p-1.5  px-4 bg-[#FF9900] rounded-lg  cursor-pointer font-bold relative ">
-            <FaCaretDown className=" absolute z-10 -bottom-[1.5rem]  right-[20%] text-[#FF9900] text-5xl " />
-            CA ${property.pricePerNight}
+            <FaCaretDown className=" absolute z-10 -bottom-[1.5rem]  right-[23%] text-[#FF9900] text-5xl " />
+            ${property.pricePerNight}/night
           </div>
         </Marker>
       ))}

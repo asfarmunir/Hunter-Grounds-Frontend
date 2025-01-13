@@ -76,7 +76,7 @@ const PropertySchema = new Schema(
     country:{
       type: String,
       default: "canada",
-      enum: ["canada", "usa"],
+      enum: ["canada", "usa","mexico"],
     },
     state: {
       type: String,

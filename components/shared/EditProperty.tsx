@@ -533,6 +533,9 @@ const page = ({
                 <option value="usa" className=" text-black">
                   United States
                 </option>
+                <option value="mexico" className=" text-black">
+                  Mexico
+                </option>
               </select>
             </div>
 

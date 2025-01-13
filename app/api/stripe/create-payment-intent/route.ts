@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       currency = "usd";
       break;
     default:
-      currency = "cad";
+      currency = "usd";
   }
 
 

@@ -372,12 +372,24 @@ const page = ({
         </h2>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
-            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
-            {propertyDetails.pricePerNight} x {totalDays.toFixed(0)} nights
+            <span>
+              {propertyDetails.country === "usa"
+                ? "US"
+                : propertyDetails.country === "canada"
+                ? "CA"
+                : ""}
+            </span>
+            ${propertyDetails.pricePerNight} x {totalDays.toFixed(0)} nights
           </p>
           <p className="text-lg">
-            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
-            {(propertyDetails.pricePerNight * totalDays).toFixed(0)}
+            <span>
+              {propertyDetails.country === "usa"
+                ? "US"
+                : propertyDetails.country === "canada"
+                ? "CA"
+                : ""}
+            </span>
+            ${(propertyDetails.pricePerNight * totalDays).toFixed(0)}
           </p>
         </div>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
@@ -387,14 +399,27 @@ const page = ({
           </p>
           {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
           <p>
-            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
-            {(propertyDetails.pricePerNight * totalDays * 0.1).toFixed(2)}
+            <span>
+              {propertyDetails.country === "usa"
+                ? "US"
+                : propertyDetails.country === "canada"
+                ? "CA"
+                : ""}
+            </span>
+            ${(propertyDetails.pricePerNight * totalDays * 0.1).toFixed(2)}
           </p>{" "}
         </div>
         <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>Taxes</p>
           <p>
-            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
+            <span>
+              {propertyDetails.country === "usa"
+                ? "US"
+                : propertyDetails.country === "canada"
+                ? "CA"
+                : ""}
+            </span>
+            $
             {/* {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)} */}
             {calculateTaxes(propertyDetails.pricePerNight, totalDays)}
           </p>
@@ -402,7 +427,14 @@ const page = ({
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
           <p className="font-bold">Total Amount</p>
           <p className="font-bold">
-            <span>{propertyDetails.country === "usa" ? "US" : "CA"}</span>$
+            <span>
+              {propertyDetails.country === "usa"
+                ? "US"
+                : propertyDetails.country === "canada"
+                ? "CA"
+                : ""}
+            </span>
+            $
             {(
               propertyDetails.pricePerNight * totalDays +
               propertyDetails.pricePerNight * totalDays * 0.1 +
