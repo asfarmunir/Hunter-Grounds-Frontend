@@ -88,6 +88,7 @@ export const getAllProperties = async ({
   fromDate,
   toDate,
   games,
+  tour
   
 }: {
   limit: number;
@@ -97,6 +98,7 @@ export const getAllProperties = async ({
   toDate?: string;
   priceRange?: { min: number; max: number } | null; // Add priceRange parameter
   games?: string[];
+  tour?: string;
 }) => {
   try {
     await connectToDatabase();
@@ -130,6 +132,10 @@ export const getAllProperties = async ({
       query.gameAvailable = {
         $all: games,
       };
+    }
+
+    if (tour) {
+      query.guidedTours = tour === "true";
     }
 
 

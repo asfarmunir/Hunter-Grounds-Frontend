@@ -80,7 +80,11 @@ const PropertySchema = new Schema(
     },
     state: {
       type: String,
-    }
+    },
+    guidedTours: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

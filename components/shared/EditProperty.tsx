@@ -51,6 +51,7 @@ const page = ({
     gameAvailable: property.gameAvailable || [],
     profilePicture: userDetails.profileImage || "",
     country: property.country || "canada",
+    guidedTours: property.guidedTours || false,
   });
 
   const [selectedGames, setSelectedGames] = useState<string[]>(
@@ -713,7 +714,58 @@ const page = ({
               ))}
             </div>
           </div>
+          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+            Guided Tours?
+          </p>
+          <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
+              Do you offer guided tours on your property?
+            </p>
+            <div className="  py-3  my-4 space-y-3">
+              <div className="flex items-center gap-4">
+                <Checkbox
+                  value="guidedToursTrue"
+                  name="guidedToursTrue"
+                  checked={propertyDetails.guidedTours}
+                  onCheckedChange={() =>
+                    setPropertyDetails({
+                      ...propertyDetails,
+                      guidedTours: true,
+                    })
+                  }
+                  className="mr-2 2xl:mr-2.5"
+                />
 
+                <label
+                  htmlFor="guidedToursTrue"
+                  className=" capitalize text-[#FFFFFF80]"
+                >
+                  Yes, we do offer guided tours
+                </label>
+              </div>
+              <div className="flex items-center gap-4">
+                <Checkbox
+                  value="guidedToursFalse"
+                  name="guidedToursFalse"
+                  checked={!propertyDetails.guidedTours}
+                  onCheckedChange={() =>
+                    setPropertyDetails({
+                      ...propertyDetails,
+                      guidedTours: false,
+                    })
+                  }
+                  className="mr-2 2xl:mr-2.5"
+                />
+
+                <label
+                  htmlFor="guidedToursFalse"
+                  className=" capitalize text-[#FFFFFF80]"
+                >
+                  No, we do not offer guided tours
+                </label>
+              </div>
+            </div>
+          </div>
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Add Images
           </p>

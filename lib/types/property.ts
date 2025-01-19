@@ -17,4 +17,5 @@ export interface IProperty {
   nonAvailableDates: string[];
   country: string;
   state : string;
+  guidedTours: boolean;
 }

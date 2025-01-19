@@ -217,9 +217,6 @@ const page = ({
         </div>
       </div> */}
       <div className=" w-full md:w-[70%] space-y-4">
-        <h2 className="text-5xl font-bold capitalize">
-          {propertyDetails.name}
-        </h2>
         <p className=" 2xl:text-lg text-slate-200 max-w-2xl">
           {propertyDetails.description}
         </p>
@@ -323,7 +320,7 @@ const page = ({
                   ? "US"
                   : propertyDetails.country === "canada"
                   ? "CA"
-                  : ""}
+                  : "US"}
               </span>
               ${propertyDetails.pricePerNight}{" "}
               <span className="text-sm italic  lowercase">per night</span>
@@ -450,7 +447,7 @@ const page = ({
                     ? "US"
                     : propertyDetails.country === "canada"
                     ? "CA"
-                    : ""}
+                    : "US"}
                 </span>
                 ${propertyDetails.pricePerNight} x {nights} night
                 {nights > 1 ? "s" : ""}
@@ -461,7 +458,7 @@ const page = ({
                     ? "US"
                     : propertyDetails.country === "canada"
                     ? "CA"
-                    : ""}
+                    : "US"}
                 </span>
                 ${(propertyDetails.pricePerNight * nights).toFixed(2)}
               </p>
@@ -482,7 +479,7 @@ const page = ({
                     ? "US"
                     : propertyDetails.country === "canada"
                     ? "CA"
-                    : ""}
+                    : "US"}
                 </span>
                 $
                 {((propertyDetails.pricePerNight * nights! || 0) * 0.1).toFixed(
@@ -503,7 +500,7 @@ const page = ({
                     ? "US"
                     : propertyDetails.country === "canada"
                     ? "CA"
-                    : ""}
+                    : "US"}
                 </span>
                 $
                 {/* {(
@@ -520,7 +517,7 @@ const page = ({
                     ? "US"
                     : propertyDetails.country === "canada"
                     ? "CA"
-                    : ""}
+                    : "US"}
                 </span>
                 $
                 {(

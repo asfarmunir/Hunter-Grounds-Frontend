@@ -9,10 +9,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { gameOptions } from "@/lib/constants";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
 import { IoArrowBack, IoCloseSharp } from "react-icons/io5";
 
 import { Checkbox } from "../ui/checkbox";

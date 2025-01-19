@@ -30,7 +30,7 @@ import { useSession, signOut } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { FiSearch } from "react-icons/fi";
-import { formUrlQuery } from "@/lib/utils";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 const mostSearchedCities = ["oslo", "denver", "new york"]; // Example most searched cities
 import GameFilter from "@/components/shared/GamesFilter";
 const Navbar = () => {
@@ -97,44 +97,6 @@ const Navbar = () => {
   };
 
   const searchParams = useSearchParams();
-
-  const handleDateFilter = () => {
-    if (!fromDate || !toDate) {
-      toast.error("Please select dates to filter!", {
-        duration: 2000,
-        style: {
-          backgroundColor: "#ff0000",
-          color: "#fff",
-        },
-      });
-      return;
-    }
-
-    if (fromDate > toDate) {
-      toast.error("Please add a valid period!", {
-        duration: 2000,
-        style: {
-          backgroundColor: "#ff0000",
-          color: "#fff",
-        },
-      });
-      return;
-    }
-
-    // Format the dates using local time (avoiding timezone offset)
-    const formattedFromDate = fromDate!.toLocaleDateString("en-CA"); // "YYYY-MM-DD"
-    const formattedToDate = toDate!.toLocaleDateString("en-CA"); // "YYYY-MM-DD"
-
-    // Create query for the date range
-    const updatedUrlWithDateFilter = formUrlQuery({
-      params: searchParams.toString(),
-      key: "dateFilter",
-      value: `${formattedFromDate}-${formattedToDate}`,
-    });
-
-    // Push the new URL with the query params
-    router.push(updatedUrlWithDateFilter, { scroll: false });
-  };
 
   return (
     <nav className=" w-full  rounded-full px-3 md:pl-10 2xl:pl-12 2xl:px-5 py-3.5 flex items-center justify-between">
@@ -489,6 +451,9 @@ export default Navbar;
 
 export const Filters = () => {
   const router = useRouter();
+  const query = useSearchParams();
+
+  const tour = query.get("tour");
   const [fromDate, setFromDate] = React.useState<Date>();
   const [toDate, setToDate] = React.useState<Date>();
   const [toggleSearch, setToggleSearch] = React.useState(false);
@@ -496,6 +461,7 @@ export const Filters = () => {
   const [debouncedCity, setDebouncedCity] = useState(""); // Debounced city
   const [fromPopoverOpen, setFromPopoverOpen] = useState(false);
   const [toPopoverOpen, setToPopoverOpen] = useState(false);
+  const [guidedTour, setGuidedTour] = useState(tour === "true" ? true : false);
 
   const handleFromDateSelect = (date: Date | undefined) => {
     setFromDate(date);
@@ -573,6 +539,21 @@ export const Filters = () => {
 
     // Push the new URL with the query params
     router.push(updatedUrlWithDateFilter, { scroll: false });
+  };
+
+  const handleGuidedTour = (tour: boolean) => {
+    setGuidedTour(tour); // Update the state
+    const queryParams = new URLSearchParams();
+    queryParams.set("tour", tour ? "true" : "false");
+    router.push(`?${queryParams.toString()}`, undefined);
+  };
+  const handleRemoveKey = () => {
+    const newUrl = removeKeysFromQuery({
+      params: searchParams.toString(),
+      keysToRemove: ["tour"],
+    });
+    setGuidedTour(false);
+    router.push(newUrl, { scroll: false });
   };
 
   return (
@@ -704,10 +685,59 @@ export const Filters = () => {
           </button>
         </DropdownMenuContent>
       </DropdownMenu>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            className={
+              " inline-flex items-center gap-2 text-xs 2xl:text-sm px-2.5  dark:bg-transparent "
+            }
+          >
+            <Image
+              src={"/images/where.svg"}
+              width={17}
+              height={17}
+              className="hidden md:block"
+              alt="logo"
+            />{" "}
+            <span
+              className={`${toggleSearch ? "hidden" : "block"}  text-white`}
+            >
+              Guided Tour +
+            </span>
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="mt-4 bg-[#2A2A2A] flex flex-col gap-4  rounded-md border-none   py-4 ">
+          <button
+            onClick={() => handleGuidedTour(true)}
+            className={` w-[90%] mx-auto hover:opacity-80  tracking-widest py-2 rounded-sm 
+              ${
+                guidedTour
+                  ? "bg-primary-50 text-black"
+                  : "bg-primary-50/20 text-white"
+              }
+               text-xs  font-semibold`}
+          >
+            Yes
+          </button>
 
+          <button
+            onClick={() => handleRemoveKey()}
+            className={` w-[90%] mx-auto hover:opacity-80  tracking-widest py-2 rounded-sm 
+              ${
+                !guidedTour
+                  ? "bg-primary-50 text-black"
+                  : "bg-primary-50/20 text-white"
+              }
+               text-xs  font-semibold`}
+          >
+            No
+          </button>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {/* 
       <button>
         <IoMdSearch className=" bg-gradient-to-b cursor-default from-[#FF9900] to-[#10111080] px-1  rounded-md w-6 2xl:w-7 h-6 2xl:h-7" />
-      </button>
+      </button> */}
     </div>
   );
 };

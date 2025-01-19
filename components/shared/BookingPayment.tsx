@@ -377,7 +377,7 @@ const page = ({
                 ? "US"
                 : propertyDetails.country === "canada"
                 ? "CA"
-                : ""}
+                : "US"}
             </span>
             ${propertyDetails.pricePerNight} x {totalDays.toFixed(0)} nights
           </p>
@@ -387,7 +387,7 @@ const page = ({
                 ? "US"
                 : propertyDetails.country === "canada"
                 ? "CA"
-                : ""}
+                : "US"}
             </span>
             ${(propertyDetails.pricePerNight * totalDays).toFixed(0)}
           </p>
@@ -404,7 +404,7 @@ const page = ({
                 ? "US"
                 : propertyDetails.country === "canada"
                 ? "CA"
-                : ""}
+                : "US"}
             </span>
             ${(propertyDetails.pricePerNight * totalDays * 0.1).toFixed(2)}
           </p>{" "}
@@ -417,7 +417,7 @@ const page = ({
                 ? "US"
                 : propertyDetails.country === "canada"
                 ? "CA"
-                : ""}
+                : "US"}
             </span>
             $
             {/* {(propertyDetails.pricePerNight * (totalDays + 1) * 0.1).toFixed(2)} */}
@@ -432,7 +432,7 @@ const page = ({
                 ? "US"
                 : propertyDetails.country === "canada"
                 ? "CA"
-                : ""}
+                : "US"}
             </span>
             $
             {(

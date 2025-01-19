@@ -40,6 +40,7 @@ export const gameOptions = [
   "Gators",
   "Fox",
   "Other Small Game",
+  "Fishing",
 ];
 
 export const statesData = {

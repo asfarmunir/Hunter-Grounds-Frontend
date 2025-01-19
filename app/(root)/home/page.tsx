@@ -12,6 +12,7 @@ import CityFilter from "@/components/shared/CityFilter";
 import DateFilter from "@/components/shared/DateFilter";
 import RemoveGame from "@/components/shared/RemoveGame";
 import { Filters } from "@/components/shared/Navbar";
+import TourFilter from "@/components/shared/TourFilter";
 
 type SearchParamProps = {
   params: { id: string };
@@ -21,6 +22,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
   const games = searchParams?.games ? searchParams.games.split(",") : [];
   const page = Number(searchParams?.page) || 1;
   const city = (searchParams?.city as string) || "";
+  const tour = searchParams?.tour as string | undefined;
   const priceRangeParam = Array.isArray(searchParams?.priceRange)
     ? searchParams?.priceRange[0] // Use the first element if it's an array
     : searchParams?.priceRange;
@@ -41,6 +43,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
     fromDate,
     toDate,
     games,
+    tour,
   });
 
   return (
@@ -76,6 +79,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
               /night
             </p>
           )}
+          {tour && <TourFilter />}
         </div>
         <Properties properties={properties.properties} />
         <Pagination page={page} totalPages={properties.totalPages} />

@@ -49,6 +49,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     },
     insurance: "",
     price: 0,
+    guidedTours: false,
   });
 
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
@@ -671,28 +672,59 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               ))}
             </div>
           </div>
-          {/* 
+
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
-            Extra Services
+            Guided Tours?
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
             <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
-              Do you offer any extra services or amenities? (Optional)
+              Do you offer guided tours on your property?
             </p>
-            <div className="  pb-3  my-3">
-              <textarea
-                value={propertyDetails.extraServices}
-                placeholder="Please add details here...."
-                onChange={(e) =>
-                  setPropertyDetails({
-                    ...propertyDetails,
-                    extraServices: e.target.value,
-                  })
-                }
-                className=" border min-h-40 lg:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 2xl:p-5 bg-[#372f2f67] "
-              />
+            <div className="  py-3  my-4 space-y-3">
+              <div className="flex items-center gap-4">
+                <Checkbox
+                  value="guidedToursTrue"
+                  name="guidedToursTrue"
+                  checked={propertyDetails.guidedTours}
+                  onCheckedChange={() =>
+                    setPropertyDetails({
+                      ...propertyDetails,
+                      guidedTours: true,
+                    })
+                  }
+                  className="mr-2 2xl:mr-2.5"
+                />
+
+                <label
+                  htmlFor="guidedToursTrue"
+                  className=" capitalize text-[#FFFFFF80]"
+                >
+                  Yes, we do offer guided tours
+                </label>
+              </div>
+              <div className="flex items-center gap-4">
+                <Checkbox
+                  value="guidedToursFalse"
+                  name="guidedToursFalse"
+                  checked={!propertyDetails.guidedTours}
+                  onCheckedChange={() =>
+                    setPropertyDetails({
+                      ...propertyDetails,
+                      guidedTours: false,
+                    })
+                  }
+                  className="mr-2 2xl:mr-2.5"
+                />
+
+                <label
+                  htmlFor="guidedToursFalse"
+                  className=" capitalize text-[#FFFFFF80]"
+                >
+                  No, we do not offer guided tours
+                </label>
+              </div>
             </div>
-          </div> */}
+          </div>
 
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Add Images
