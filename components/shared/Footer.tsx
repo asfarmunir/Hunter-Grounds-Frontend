@@ -49,7 +49,8 @@ const Footer = () => {
 
     try {
       setLoading(true);
-      await axios.post("/api/newsletter", { email });
+      const res = await axios.post("/api/newsletter", { email });
+      console.log("🚀 ~ submit ~ res:", res);
 
       toast.success("Subscribed Successfully!", {
         icon: "😊",
@@ -60,17 +61,22 @@ const Footer = () => {
         },
         duration: 5000,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error during subscription:", error);
-      toast.error("Subscription failed. Please try again later!", {
-        icon: "😢",
-        style: {
-          borderRadius: "40px",
-          background: "red",
-          color: "#fff",
-        },
-        duration: 5000,
-      });
+      toast.error(
+        error.response.status === 409
+          ? "Email Already Subscribed!"
+          : "Subscription failed. Please try again later!",
+        {
+          icon: error.response.status === 409 ? "😢" : "",
+          style: {
+            borderRadius: "40px",
+            background: "red",
+            color: "#fff",
+          },
+          duration: 5000,
+        }
+      );
     } finally {
       setLoading(false);
     }
