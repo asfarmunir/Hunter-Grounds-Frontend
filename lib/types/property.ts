@@ -4,7 +4,7 @@ export interface IProperty {
   acres: number;
   name: string;
   description: string;
-  extraServices: string;
+  extraServices?:  string[];
   photos: string[];
   insurance: string;
   gameAvailable: string[];
@@ -18,4 +18,5 @@ export interface IProperty {
   country: string;
   state : string;
   guidedTours: boolean;
+  bookingsAllowed : number;
 }

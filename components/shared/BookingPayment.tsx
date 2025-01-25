@@ -34,6 +34,15 @@ const page = ({
   const [confirmed, setConfirmed] = useState<string | null>(null);
   const [paymentBegan, setPaymentBegan] = useState<boolean>(false);
   const [totalDays, setTotalDays] = useState<number>(0);
+  const [bookingData, setBookingData] = useState<any>(null);
+  console.log("🚀 ~ bookingData:", bookingData);
+
+  useEffect(() => {
+    const data = localStorage.getItem("bookingDetails");
+    if (data) {
+      setBookingData(JSON.parse(data));
+    }
+  }, []);
 
   // Updated parseDate to include year handling
   const parseDate = (dateStr: string) => {
@@ -130,6 +139,13 @@ const page = ({
     e.preventDefault();
     setPaymentBegan(true);
 
+    const totalAmount =
+      (propertyDetails.pricePerNight * totalDays +
+        propertyDetails.pricePerNight * totalDays * 0.1 +
+        parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)) +
+        calculateExtras()) *
+      bookingData.hunters;
+
     const data = {
       bookingFirstname: bookingDetails.bookingFirstname,
       bookingLastname: bookingDetails.bookingLastname,
@@ -141,12 +157,14 @@ const page = ({
       country: bookingDetails.country,
       checkIn: from,
       checkOut: to,
-      totalAmount:
-        propertyDetails.pricePerNight * totalDays +
-        propertyDetails.pricePerNight * totalDays * 0.1 +
-        parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)),
+      totalAmount,
+      // totalAmount:
+      //   propertyDetails.pricePerNight * totalDays +
+      //   propertyDetails.pricePerNight * totalDays * 0.1 +
+      //   parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)),
       totalNights: totalDays,
       taxes: calculateTaxes(propertyDetails.pricePerNight, totalDays),
+      extras: bookingData.selectedServices,
     };
     axios
       .post("/api/stripe/create-payment-intent", {
@@ -183,6 +201,17 @@ const page = ({
 
     return (pricePerNight * nights * 0.15).toFixed(2); // Default Canada tax
   };
+
+  const calculateExtras = () => {
+    let total = 0;
+    if (bookingData && bookingData.selectedServices) {
+      bookingData.selectedServices.forEach((service: any) => {
+        total += service.price;
+      });
+    }
+    return total;
+  };
+
   return (
     <div className=" w-full flex flex-col md:flex-row gap-10 justify-between p-4 md:p-20">
       <div className="flex flex-col gap-2 w-full max-w-lg 2xl:max-w-2xl">
@@ -394,6 +423,20 @@ const page = ({
         </div>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
+            Hunters
+            {/* <span className="text-xs text-slate-300 px-1 italic">10%</span> */}
+          </p>
+          {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
+          <p>
+            {bookingData && bookingData.hunters
+              ? bookingData.hunters > 9
+                ? bookingData.hunters
+                : `0${bookingData.hunters}`
+              : null}
+          </p>{" "}
+        </div>
+        <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+          <p>
             Service fee{" "}
             {/* <span className="text-xs text-slate-300 px-1 italic">10%</span> */}
           </p>
@@ -409,7 +452,7 @@ const page = ({
             ${(propertyDetails.pricePerNight * totalDays * 0.1).toFixed(2)}
           </p>{" "}
         </div>
-        <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+        <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>Taxes</p>
           <p>
             <span>
@@ -424,6 +467,19 @@ const page = ({
             {calculateTaxes(propertyDetails.pricePerNight, totalDays)}
           </p>
         </div>
+        <div className="flex items-center text-xs  pb-4 border-b border-primary-50/30 my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+          <p>Extras</p>
+          <p>
+            <span>
+              {propertyDetails.country === "usa"
+                ? "US"
+                : propertyDetails.country === "canada"
+                ? "CA"
+                : "US"}
+            </span>
+            ${calculateExtras()}
+          </p>
+        </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
           <p className="font-bold">Total Amount</p>
           <p className="font-bold">
@@ -435,14 +491,29 @@ const page = ({
                 : "US"}
             </span>
             $
-            {(
-              propertyDetails.pricePerNight * totalDays +
-              propertyDetails.pricePerNight * totalDays * 0.1 +
-              // propertyDetails.pricePerNight * (totalDays + 1) * 0.1
-              parseFloat(
-                calculateTaxes(propertyDetails.pricePerNight, totalDays)
-              )
-            ).toFixed(2)}
+            {/* {bookingData &&
+              (
+                propertyDetails.pricePerNight * totalDays +
+                propertyDetails.pricePerNight * totalDays * 0.1 +
+                // propertyDetails.pricePerNight * (totalDays + 1) * 0.1
+                parseFloat(
+                  calculateTaxes(propertyDetails.pricePerNight, totalDays)
+                ) +
+                calculateExtras()
+              ).toFixed(2) * bookingData.hunters} */}
+            {bookingData &&
+              (
+                parseFloat(
+                  (
+                    propertyDetails.pricePerNight * totalDays +
+                    propertyDetails.pricePerNight * totalDays * 0.1 +
+                    parseFloat(
+                      calculateTaxes(propertyDetails.pricePerNight, totalDays)
+                    ) +
+                    calculateExtras()
+                  ).toFixed(2)
+                ) * bookingData.hunters
+              ).toFixed(2)}
           </p>
         </div>
         <p className="text-xs 2xl:text-sm max-w-md 2xl:max-w-lg font-normal my-3 2xl:my-5 tracking-wide text-gray-200">

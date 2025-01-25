@@ -26,6 +26,7 @@ const initialSettings = [
   { name: "Profile Picture", status: "completed" },
   // { name: "Insurance", status: "pending" },
   { name: "Game Available", status: "pending" },
+  { name: "Bookings Per Night ", status: "pending" },
 ];
 
 const page = ({
@@ -35,13 +36,25 @@ const page = ({
   userDetails: IUser;
   property: IProperty;
 }) => {
+  const predefinedServices = [
+    "Guided Hunt",
+    "Food & Beverage Package",
+    "Others",
+  ];
+  const [services, setServices] = useState(
+    predefinedServices.map((service) => ({
+      name: service,
+      description: "",
+      price: 0,
+    }))
+  );
+  console.log("🚀 ~ services:", services);
   const [propertyDetails, setPropertyDetails] = useState({
     address: property.address || "",
     acres: property.acres || 0,
     price: property.pricePerNight || 0,
     name: property.name || "",
     description: property.description || "",
-    extraServices: property.extraServices || "",
     city: property.city || "",
     state: property.state || "",
     location: property.location || {
@@ -52,7 +65,11 @@ const page = ({
     profilePicture: userDetails.profileImage || "",
     country: property.country || "canada",
     guidedTours: property.guidedTours || false,
+    bookingsAllowed: property.bookingsAllowed || 0,
+    extraServices:
+      property.extraServices !== null ? property.extraServices : services,
   });
+  console.log("🚀 ~ propertyDetails:", propertyDetails);
 
   const [selectedGames, setSelectedGames] = useState<string[]>(
     property.gameAvailable || []
@@ -74,7 +91,6 @@ const page = ({
   const [imagePreviews, setImagePreviews] = useState<string[]>(
     property.photos || []
   );
-  console.log("🚀 ~ imagePreviews:", imagePreviews);
   const [uploading, setUploading] = useState(false);
 
   // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,6 +189,12 @@ const page = ({
             return {
               ...s,
               status: selectedGames.length > 0 ? "completed" : "pending",
+            };
+          case "Bookings Per Night ":
+            return {
+              ...s,
+              status:
+                propertyDetails.bookingsAllowed > 0 ? "completed" : "pending",
             };
 
           default:
@@ -338,6 +360,8 @@ const page = ({
           longitude: coordinates.longitude,
         },
       };
+      console.log("🚀 ~ submitHandler ~ data:", data);
+
       const res = await updateProperty(property._id, data);
       if (res.status !== 200) {
         toast.error("Something went wrong while creating property");
@@ -359,6 +383,35 @@ const page = ({
     } finally {
       setUploading(false);
     }
+  };
+
+  const handleServiceChange = (
+    index: number,
+    field: "description" | "price",
+    value: string | number
+  ) => {
+    console.log(index, field, value);
+    setPropertyDetails((prevDetails: any) => {
+      const updatedServices = [...prevDetails.extraServices];
+      updatedServices[index] = {
+        // @ts-ignore
+        ...updatedServices[index],
+        [field]: value,
+      };
+      return {
+        ...prevDetails,
+        extraServices: updatedServices,
+      };
+    });
+  };
+
+  // Function to clear extra services
+
+  const removeService = () => {
+    setPropertyDetails((prevDetails: any) => ({
+      ...prevDetails,
+      extraServices: services,
+    }));
   };
 
   return (
@@ -595,6 +648,33 @@ const page = ({
             </div>
           </div>
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+            Bookings Per Night
+          </p>
+          <div className=" w-full dark:bg-[#372F2F33] border border-[#372F2F] p-6 rounded-xl shadow-md">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] mb-2">
+              How many bookings are allowed per night?
+            </p>
+            <div className="  pb-3  my-3">
+              <Input
+                type="number"
+                placeholder="10 guests"
+                value={
+                  propertyDetails.bookingsAllowed === 0
+                    ? ""
+                    : propertyDetails.bookingsAllowed
+                }
+                onChange={(e) =>
+                  setPropertyDetails({
+                    ...propertyDetails,
+                    bookingsAllowed: parseInt(e.target.value),
+                  })
+                }
+                min={0}
+                className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 2xl:p-6 dark:bg-[#372f2f67] "
+              />
+            </div>
+          </div>
+          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Property Name
           </p>
           <div className=" w-full dark:bg-[#372F2F33] flex items-center gap-6 flex-col md:flex-row justify-between border border-[#372F2F] px-6 pt-6 pb-4 rounded-xl shadow-md">
@@ -664,28 +744,71 @@ const page = ({
               />
             </div>
           </div>
-          {/* <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Extra Services
           </p>
           <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
             <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
-              Do you offer any extra services or amenities? (Optional)
+              Do you provide extra services on your property?
             </p>
-            <div className="  pb-3  my-3">
-              <textarea
-                required
-                value={propertyDetails.extraServices}
-                placeholder="Please add details here...."
-                onChange={(e) =>
-                  setPropertyDetails({
-                    ...propertyDetails,
-                    extraServices: e.target.value,
-                  })
-                }
-                className=" border min-h-40 lg:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 2xl:p-5 bg-[#372f2f67] "
-              />
+            <div className="space-y-6">
+              <div className="p-6 py-8 bg-[#372F2F33] border rounded-xl border-[#372F2F] my-4 gap-6 flex items-center justify-between flex-col md:flex-row ">
+                {propertyDetails.extraServices!.map(
+                  (service: any, index: number) => (
+                    <div className="w-full max-w-sm" key={index}>
+                      <div className="flex items-center mb-3.5 gap-3">
+                        <Image
+                          src={`/service${index + 1}.png`} // Dynamically load images for services
+                          width={80}
+                          height={80}
+                          alt="service"
+                          className="rounded-full"
+                        />
+                        <label className="capitalize text-lg 2xl:text-xl text-[#FFFFFF80]">
+                          {service.name}
+                        </label>
+                      </div>
+                      <textarea
+                        value={service.description}
+                        onChange={(e) =>
+                          handleServiceChange(
+                            index,
+                            "description",
+                            e.target.value
+                          )
+                        }
+                        placeholder="Description...."
+                        className="border min-h-20 mb-1 2xl:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 bg-[#372f2f67]"
+                      />
+                      <Input
+                        type="number"
+                        value={service.price === 0 ? "" : service.price}
+                        onChange={(e) =>
+                          handleServiceChange(
+                            index,
+                            "price",
+                            parseFloat(e.target.value)
+                          )
+                        }
+                        placeholder="$Price per night"
+                        min={0}
+                        className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 dark:bg-[#372f2f67] "
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+              <div className=" w-full flex justify-end  items-center mr-5 my-4">
+                <button
+                  onClick={removeService}
+                  type="button"
+                  className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-semibold px-4  sm:px-10 py-2.5 text-sm 2xl:text-base "
+                >
+                  I dont have extras
+                </button>
+              </div>
             </div>
-          </div> */}
+          </div>
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Game Available
           </p>

@@ -5,14 +5,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import toast from "react-hot-toast";
-import { useDropzone } from "@uploadthing/react";
-import { generateClientDropzoneAccept } from "uploadthing/client";
-import { generatePermittedFileTypes } from "uploadthing/client";
-import { useUploadThing } from "@/lib/uploadthing";
-import { convertFileToUrl } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { IUser } from "@/lib/types/user";
-import { RiDeleteBinLine } from "react-icons/ri";
 import { createProperty } from "@/database/actions/property.action";
 import axios from "axios";
 import { Checkbox } from "../ui/checkbox";
@@ -23,6 +17,10 @@ const initialSettings = [
   { name: "Price Per Night", status: "pending" },
   { name: "Property Name", status: "pending" },
   { name: "Property Description", status: "pending" },
+  {
+    name: "Bookings Per Night",
+    status: "pending",
+  },
   { name: "Photos", status: "pending" },
   // { name: "Profile Picture", status: "pending" },
   // { name: "Verification", status: "pending" },
@@ -31,6 +29,19 @@ const initialSettings = [
 ];
 
 const page = ({ userDetails }: { userDetails: IUser }) => {
+  const predefinedServices = [
+    "Guided Hunt",
+    "Food & Beverage Package",
+    "Others",
+  ];
+  const [services, setServices] = useState(
+    predefinedServices.map((service) => ({
+      name: service,
+      description: "",
+      price: 0,
+    }))
+  );
+  console.log("🚀 ~ page ~ services:", services);
   const [propertyDetails, setPropertyDetails] = useState({
     stAddress: "",
     state: "",
@@ -40,7 +51,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     country: "canada",
     name: "",
     description: "",
-    extraServices: "",
+    extraServices: services,
     photos: [] as string[],
     profilePicture: "",
     location: {
@@ -50,7 +61,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     insurance: "",
     price: 0,
     guidedTours: false,
+    bookingsAllowed: 0,
   });
+  console.log("🚀 ~ page ~ propertyDetails", propertyDetails);
 
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
 
@@ -163,6 +176,12 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             return {
               ...s,
               status: selectedGames.length > 0 ? "completed" : "pending",
+            };
+          case "Bookings Per Night":
+            return {
+              ...s,
+              status:
+                propertyDetails.bookingsAllowed > 0 ? "completed" : "pending",
             };
 
           default:
@@ -300,6 +319,37 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     }
   };
 
+  const handleServiceChange = (
+    index: number,
+    field: "name" | "description" | "price",
+    value: string
+  ) => {
+    const updatedServices = services.map((service, i) =>
+      i === index
+        ? { ...service, [field]: field === "price" ? parseFloat(value) : value }
+        : service
+    );
+    setServices(updatedServices);
+    setPropertyDetails((prevDetails: any) => ({
+      ...prevDetails,
+      extraServices: updatedServices,
+    }));
+  };
+
+  const removeService = () => {
+    const resetServices = predefinedServices.map((service) => ({
+      name: service,
+      description: "",
+      price: 0,
+    }));
+
+    setServices(resetServices); // Update the services state
+    setPropertyDetails((prevDetails: any) => ({
+      ...prevDetails,
+      extraServices: resetServices, // Use the new reset services directly
+    }));
+  };
+
   return (
     <div className=" w-full p-4 md:px-20 py-12 relative">
       <div className=" hidden md:block absolute right-0 h-[600px]">
@@ -313,9 +363,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       </div>
       <form
         onSubmit={submitHandler}
-        className="w-full flex flex-col md:flex-row gap-12"
+        className="w-full  flex flex-col md:flex-row gap-12"
       >
-        <div className="w-full md:w-[30%]">
+        <div className="w-full md:w-[30%] ">
           <div className="p-5 rounded-xl w-full flex flex-col bg-gradient-to-b from-primary to-orange-500/20">
             <Link
               href={"/dashboard"}
@@ -527,6 +577,7 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               Change Adress
             </button> */}
           </div>
+
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Acres
           </p>
@@ -569,6 +620,33 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                   setPropertyDetails({
                     ...propertyDetails,
                     price: parseInt(e.target.value),
+                  })
+                }
+                min={0}
+                className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 2xl:p-6 dark:bg-[#372f2f67] "
+              />
+            </div>
+          </div>
+          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+            Bookings Per Night
+          </p>
+          <div className=" w-full dark:bg-[#372F2F33] border border-[#372F2F] p-6 rounded-xl shadow-md">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] mb-2">
+              How many bookings are you allowing per night on your property?
+            </p>
+            <div className="  pb-3  my-3">
+              <Input
+                type="number"
+                placeholder="10 bookings"
+                value={
+                  propertyDetails.bookingsAllowed === 0
+                    ? ""
+                    : propertyDetails.bookingsAllowed
+                }
+                onChange={(e) =>
+                  setPropertyDetails({
+                    ...propertyDetails,
+                    bookingsAllowed: parseInt(e.target.value),
                   })
                 }
                 min={0}
@@ -725,7 +803,70 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
               </div>
             </div>
           </div>
-
+          <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
+            Extra Services
+          </p>
+          <div className=" w-full dark:bg-[#372F2F33]  gap-6  border border-[#372F2F] p-6 rounded-xl shadow-md">
+            <p className="text-sm 2xl:text-base  tracking-wide text-[#FFFFFF80] max-w-lg mb-2">
+              Do you provide extra services on your property?
+            </p>
+            <div className="space-y-6">
+              <div className="p-6 py-8 bg-[#372F2F33] border rounded-xl border-[#372F2F] my-4 gap-6 flex items-center justify-between flex-col md:flex-row ">
+                {services.map((service, index) => (
+                  <div className="w-full max-w-sm" key={index}>
+                    <div className="flex items-center mb-3.5 gap-3">
+                      <Image
+                        src={`/service${index + 1}.png`} // Dynamically load images for services
+                        width={80}
+                        height={80}
+                        alt={service.name}
+                        className="rounded-full"
+                      />
+                      <label className="capitalize text-lg 2xl:text-xl text-[#FFFFFF80]">
+                        {service.name}
+                      </label>
+                    </div>
+                    <textarea
+                      value={service.description}
+                      onChange={(e) =>
+                        handleServiceChange(
+                          index,
+                          "description",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Description...."
+                      className="border min-h-20 mb-1 2xl:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 bg-[#372f2f67]"
+                    />
+                    <Input
+                      type="number"
+                      value={service.price === 0 ? "" : service.price}
+                      onChange={(e) =>
+                        handleServiceChange(
+                          index,
+                          "price",
+                          e.target.value
+                          // parseFloat(e.target.value)
+                        )
+                      }
+                      placeholder="$Price per night"
+                      min={0}
+                      className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 dark:bg-[#372f2f67] "
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className=" w-full flex justify-end  items-center mr-5 my-4">
+                <button
+                  onClick={removeService}
+                  type="button"
+                  className=" bg-[#FFFFFF4D] border-2 border-primary-50/70 rounded-xl font-semibold px-4  sm:px-10 py-2.5 text-sm 2xl:text-base "
+                >
+                  I dont have extras
+                </button>
+              </div>
+            </div>
+          </div>
           <p className="text-lg  font-normal text-gray-400 mt-8 mb-2.5">
             Add Images
           </p>

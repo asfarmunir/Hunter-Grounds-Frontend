@@ -50,7 +50,6 @@ const Footer = () => {
     try {
       setLoading(true);
       const res = await axios.post("/api/newsletter", { email });
-      console.log("🚀 ~ submit ~ res:", res);
 
       toast.success("Subscribed Successfully!", {
         icon: "😊",

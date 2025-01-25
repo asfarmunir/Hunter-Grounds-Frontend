@@ -25,7 +25,7 @@ const PropertySchema = new Schema(
     insurance: {
       type: String,
     },
-   gameAvailable: {
+    gameAvailable: {
       type: [String],
       default: [],
     },
@@ -33,15 +33,32 @@ const PropertySchema = new Schema(
       type: Number,
       required: true, // Assuming price per night is mandatory
     },
+    bookingsAllowed: {
+      type: Number,
+      required: true, // Maximum number of guests the property can accommodate
+      default: 10, // Default to 10 guests
+    },
     bookedDates: {
-      type: [Date], // Array to store the dates when the property is booked
+      type: [
+        {
+          date: { type: Date, required: true },
+          spotsRemaining: {
+            type: Number,
+            required: true,
+            default: function () {
+              //@ts-ignore
+              return this.bookingsAllowed; // Default to the value of guestsAllowed
+            },
+          },
+        },
+      ],
       default: [],
     },
-     nonAvailableDates: {
+    nonAvailableDates: {
       type: [Date], // Array to store dates when the owner does not want to rent out the property
       default: [],
     },
-    city:{
+    city: {
       type: String,
       required: true,
     },
@@ -55,7 +72,7 @@ const PropertySchema = new Schema(
         required: true,
       },
     },
-    owner:{
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
@@ -69,14 +86,20 @@ const PropertySchema = new Schema(
       ],
       default: [],
     },
-    extraServices: {
-      type: String,
-      default: "",
+   extraServices: {
+    type: [
+      {
+        name: { type: String,  }, 
+        description: { type: String }, 
+        price: { type: Number }, 
+      },
+    ],
+    default: null, 
     },
-    country:{
+    country: {
       type: String,
       default: "canada",
-      enum: ["canada", "usa","mexico"],
+      enum: ["canada", "usa", "mexico"],
     },
     state: {
       type: String,
@@ -89,6 +112,18 @@ const PropertySchema = new Schema(
   { timestamps: true }
 );
 
+PropertySchema.pre("save", function (next) {
+  this.bookedDates.forEach((entry) => {
+    if (entry.spotsRemaining > this.bookingsAllowed) {
+      throw new Error("Spots remaining cannot exceed bookingsAllowed.");
+    }
+  });
+  next();
+});
+
+
 const Property = models.Property || model("Property", PropertySchema);
 
 export default Property;
+
+

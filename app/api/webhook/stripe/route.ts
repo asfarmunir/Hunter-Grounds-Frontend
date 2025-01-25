@@ -60,6 +60,76 @@ export async function POST(request: Request) {
   return new Response("", { status: 200 });
 }
 
+
+// async function updatePropertyWithBookedDates(propertyId: string, checkIn: string, checkOut: string) {
+//   const checkInDate = new Date(checkIn);
+//   const checkOutDate = new Date(checkOut);
+
+//   checkInDate.setUTCHours(0, 0, 0, 0);
+//   checkOutDate.setUTCHours(23, 59, 59, 999);
+
+//   const bookedDates = getDatesInRange(checkInDate, checkOutDate);
+
+//   await Property.updateOne(
+//     { _id: propertyId },
+//     { $push: { bookedDates: { $each: bookedDates } } }
+//   );
+// }
+
+async function updatePropertyWithBookedDates(propertyId: string, checkIn: string, checkOut: string) {
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+
+  checkInDate.setUTCHours(0, 0, 0, 0);
+  checkOutDate.setUTCHours(23, 59, 59, 999);
+
+  const datesToBook = getDatesInRange(checkInDate, checkOutDate);
+
+  for (const date of datesToBook) {
+    const currentDate = new Date(date);
+
+    // Find the property and its bookedDates
+    const property = await Property.findById(propertyId);
+
+    if (!property) {
+      throw new Error("Property not found.");
+    }
+
+    // Check if the date already exists in bookedDates
+    const existingDate = property.bookedDates.find(
+      (entry:any) => entry.date.getTime() === currentDate.getTime()
+    );
+
+    if (existingDate) {
+      // If the date exists, decrement spotsRemaining if it's greater than 0
+      if (existingDate.spotsRemaining > 0) {
+        existingDate.spotsRemaining -= 1;
+
+        // Prevent spotsRemaining from going below 0
+        existingDate.spotsRemaining = Math.max(0, existingDate.spotsRemaining);
+      } else {
+        throw new Error(`No spots remaining for ${currentDate.toISOString().split("T")[0]}`);
+      }
+    } else {
+      // If the date does not exist, create a new entry
+      property.bookedDates.push({
+        date: currentDate,
+        spotsRemaining: property.bookingsAllowed - 1, // One spot is booked
+      });
+    }
+
+    // Validate that spotsRemaining is not exceeding bookingsAllowed
+    property.bookedDates.forEach((entry:any) => {
+      if (entry.spotsRemaining > property.bookingsAllowed) {
+        throw new Error("Spots remaining cannot exceed bookingsAllowed.");
+      }
+    });
+
+    // Save the property with updated bookedDates
+    await property.save();
+  }
+}
+
 async function addBookingPaymentToOwner(propertyId: string, bookingDays: number, bookingId: string , taxes:number, checkOut: Date) {
   // Find the property by its ID
   const property = await Property.findById(propertyId);
@@ -87,21 +157,6 @@ async function addBookingPaymentToOwner(propertyId: string, bookingDays: number,
   } else {
     console.error(`Property not found with ID: ${propertyId}`);
   }
-}
-
-async function updatePropertyWithBookedDates(propertyId: string, checkIn: string, checkOut: string) {
-  const checkInDate = new Date(checkIn);
-  const checkOutDate = new Date(checkOut);
-
-  checkInDate.setUTCHours(0, 0, 0, 0);
-  checkOutDate.setUTCHours(23, 59, 59, 999);
-
-  const bookedDates = getDatesInRange(checkInDate, checkOutDate);
-
-  await Property.updateOne(
-    { _id: propertyId },
-    { $push: { bookedDates: { $each: bookedDates } } }
-  );
 }
 
 function getDatesInRange(startDate: Date, endDate: Date): Date[] {

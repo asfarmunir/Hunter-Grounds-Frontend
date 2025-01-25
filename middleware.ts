@@ -36,6 +36,7 @@ export const config = {
     '/calendar',
     '/hunt-cash',
     '/account',
+    '/user-properties',
     '/account/settings',
     '/account/inbox',
     '/pre-booking/:path*',

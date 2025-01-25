@@ -24,11 +24,9 @@ export async function POST(req: NextRequest) {
           },
         }
       );
-       console.log("🚀 ~ POST ~ res:", res.data)
       return NextResponse.json("Success",{status:200})
 
     } catch (error:any) {
-        console.error('Error subscribing user:', error);
         return NextResponse.json('Internal Server Error', { status:  error.response.status || 500 });
     }
   

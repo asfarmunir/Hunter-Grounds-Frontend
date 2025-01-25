@@ -31,12 +31,12 @@ const page = ({
   propertyDetails: IProperty;
   userId: string;
 }) => {
-  console.log("🚀 ~ propertyDetails:", propertyDetails);
   const [fromDate, setFromDate] = React.useState<Date>();
   const [toDate, setToDate] = React.useState<Date>();
   const [nights, setNights] = React.useState<number | null>(null);
   const [loading, setLoading] = React.useState(false);
-
+  const [selectedServices, setSelectedServices] = React.useState<any>([]);
+  const [hunters, setHunters] = React.useState(1);
   const [fromDateOpen, setFromDateOpen] = React.useState(false);
   const [toDateOpen, setToDateOpen] = React.useState(false);
 
@@ -117,6 +117,17 @@ const page = ({
       `/pre-booking/${propertyDetails._id}/payment?` + params.toString()
     );
 
+    const dataToBeStoredOnLocalStorage = {
+      selectedServices: selectedServices,
+      hunters: hunters,
+    };
+
+    // Store booking details in local storage
+    localStorage.setItem(
+      "bookingDetails",
+      JSON.stringify(dataToBeStoredOnLocalStorage)
+    );
+
     toast.success("Booking details saved successfully.");
   };
 
@@ -135,7 +146,7 @@ const page = ({
         return (pricePerNight * nights * rate).toFixed(2);
       }
     }
-
+    // these were used when no states were available
     if (propertyDetails.country === "usa") {
       return (pricePerNight * nights * 0.1).toFixed(2); // Default USA tax
     }
@@ -143,83 +154,47 @@ const page = ({
     return (pricePerNight * nights * 0.15).toFixed(2); // Default Canada tax
   };
 
+  const handleServicesSelection = (service: any) => {
+    setSelectedServices((prevServices: any) => {
+      const isServiceSelected = prevServices.find(
+        (selected: any) => selected.name === service.name
+      );
+
+      if (isServiceSelected) {
+        // Remove service if already selected
+        return prevServices.filter(
+          (selected: any) => selected.name !== service.name
+        );
+      } else {
+        // Add service to the state
+        return [...prevServices, service];
+      }
+    });
+  };
+
+  const calculateExtraServicesTotal = () => {
+    return selectedServices.reduce(
+      (acc: number, service: any) => acc + service.price,
+      0
+    );
+  };
+
   return (
-    <div className=" w-full flex flex-col md:flex-row gap-4 justify-center p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
-      {/* <div className="flex flex-col gap-2">
-        <h2 className="text-2xl 2xl:text-4xl font-bold">Add Extras</h2>
-        <p className="text-sm 2xl:text-base mb-4">
-          Make your hunting trip even more fun by adding a little something
-          special.
-        </p>
-        <div className="flex flex-col md:flex-row items-center gap-3 border-b border-primary-50/30 py-5">
-          <Image
-            src={"/images/extra.svg"}
-            width={155}
-            height={155}
-            alt="mail"
-            className="rounded-xl "
-          />
-          <div className="flex flex-col">
-            <h3 className="2xl:text-lg inline-flex mb-1.5 font-semibold gap-3">
-              Wine Tasting{" "}
-              <span className=" px-3 py-1 text-xs border border-primary-50 rounded-full text-primary-50">
-                9.0
-              </span>
-            </h3>
-            <p className="text-sm 2xl:text-base mb-4 text-gray-300 font-normal max-w-md">
-              Notes of ripe berries and subtle oak, balanced with a hint of
-              spice. The palate is smooth, with a lingering finish that
-              highlights its rich, velvety texture
-            </p>
-            <div className="flex gap-4 items-center justify-between flex-col md:flex-row">
-              <p className="text-sm 2xl:text-base text-gray-300 font-normal max-w-md">
-                from only{" "}
-                <span className="text-white font-semibold"> CA$88</span> / per
-                person
-              </p>
-              <button className="px-6 text-xs 2xl:text-sm py-2 border-2 border-primary-50 bg-[#FFFFFF4D] rounded-2xl">
-                Add to trip
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row items-center gap-3 border-b border-primary-50/30 py-5">
-          <Image
-            src={"/images/extra.svg"}
-            width={155}
-            height={155}
-            alt="mail"
-            className="rounded-xl "
-          />
-          <div className="flex flex-col">
-            <h3 className="2xl:text-lg inline-flex mb-1.5 font-semibold gap-3">
-              Wine Tasting{" "}
-              <span className=" px-3 py-1 text-xs border border-primary-50 rounded-full text-primary-50">
-                9.0
-              </span>
-            </h3>
-            <p className="text-sm 2xl:text-base mb-4 text-gray-300 font-normal max-w-md">
-              Notes of ripe berries and subtle oak, balanced with a hint of
-              spice. The palate is smooth, with a lingering finish that
-              highlights its rich, velvety texture
-            </p>
-            <div className="flex gap-4 items-center justify-between flex-col md:flex-row">
-              <p className="text-sm 2xl:text-base text-gray-300 font-normal max-w-md">
-                from only{" "}
-                <span className="text-white font-semibold"> CA$88</span> / per
-                person
-              </p>
-              <button className="px-6 text-xs 2xl:text-sm py-2 border-2 border-primary-50 bg-[#FFFFFF4D] rounded-2xl">
-                Add to trip
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      <div className=" w-full md:w-[70%] space-y-4">
+    <div className=" w-full flex relative  flex-col md:flex-row gap-4 md:gap-12 justify-center p-4 md:pl-14 2xl:pl-20 md:py-12 2xl:pr-28 md:pr-20">
+      <div className=" w-full md:w-[70%]  h-full  space-y-4">
         <p className=" 2xl:text-lg text-slate-200 max-w-2xl">
           {propertyDetails.description}
         </p>
+        {/* {propertyDetails.guestsAllowed && (
+          <div className="py-2">
+            <h3 className="text-xl mb-3 font-bold">Accommodation:</h3>
+
+            <p className="text-3xl font-bold text-primary-50">
+              {propertyDetails.guestsAllowed}{" "}
+              <span className="text-white">Guests</span>
+            </p>
+          </div>
+        )} */}
         <div className="py-2">
           <h3 className="text-xl mb-3 font-bold">Games available: </h3>
 
@@ -254,8 +229,79 @@ const page = ({
             })}
           </div>
         </div>
+        <div className="flex flex-col gap-2 py-2">
+          <h2 className="text-2xl 2xl:text-4xl font-bold">Add Extras</h2>
+          <p className="text-sm 2xl:text-base mb-4">
+            Make your hunting trip even more fun by adding a little something
+            special.
+          </p>
+          {propertyDetails.extraServices &&
+            propertyDetails.extraServices.map((service: any, index) => {
+              if (service.description === "" || service.price === 0)
+                return null;
+              const isSelected =
+                selectedServices &&
+                selectedServices.some(
+                  (selected: any) => selected.name === service.name
+                );
+              return (
+                <div
+                  key={index}
+                  className="flex flex-col md:flex-row items-start gap-4 border-b border-primary-50/30 py-5"
+                >
+                  <Image
+                    src={
+                      service.name === "Guided Hunt"
+                        ? "/service1.png"
+                        : service.name === "Food & Beverage Package"
+                        ? "/service2.png"
+                        : "/service3.png"
+                    }
+                    width={175}
+                    height={175}
+                    alt="mail"
+                    className="rounded-xl "
+                  />
+                  <div className="flex flex-col">
+                    <h3 className="2xl:text-lg inline-flex mb-1.5 font-semibold gap-3">
+                      {service.name}
+                      <span className=" px-3 py-1 text-xs border border-primary-50 rounded-full text-primary-50">
+                        9.0
+                      </span>
+                    </h3>
+                    <p className="text-sm 2xl:text-base mb-4 text-gray-300 font-normal max-w-3xl">
+                      {service.description}
+                    </p>
+                    <div className="flex gap-4 items-center justify-between flex-col md:flex-row">
+                      <p className="text-sm 2xl:text-base text-gray-300 font-normal max-w-md">
+                        from only{" "}
+                        <span className="text-white font-semibold">
+                          {" "}
+                          ${service.price}{" "}
+                        </span>{" "}
+                        / per person
+                      </p>
+                      {/* <button className="px-6 text-xs 2xl:text-sm py-2 border-2 border-primary-50 bg-[#FFFFFF4D] rounded-2xl">
+                        Add to trip
+                      </button> */}
+                      <button
+                        onClick={() => handleServicesSelection(service)}
+                        className={` text-xs 2xl:text-sm py-2 border-2 ${
+                          isSelected
+                            ? "border-red-500 px-6 bg-red-500/50 text-white"
+                            : "border-primary-50 px-8 bg-[#FFFFFF4D]"
+                        } rounded-2xl`}
+                      >
+                        {isSelected ? "Remove from trip" : "Add to trip"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
       </div>
-      <div className=" w-full md:w-[30%]">
+      <div className=" w-full md:w-[30%] h-screen  sticky top-10">
         <div className=" w-full flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold 2xl:text-4xl text-center md:text-start ">
             Booking Details
@@ -434,6 +480,28 @@ const page = ({
           </div>
         </div>
 
+        {/* Display total hunters */}
+        {nights !== null && (
+          <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+            <p className="text-lg font-bold">Total Hunters</p>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setHunters((prev) => prev - 1)}
+                className="px-4 py-2 bg-primary-50/30 rounded-lg"
+              >
+                -
+              </button>
+              <p className="text-lg">{hunters}</p>
+              <button
+                onClick={() => setHunters((prev) => prev + 1)}
+                className="px-4 py-2 bg-primary-50/30 rounded-lg"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Display total nights */}
         {nights !== null && (
           <>
@@ -509,8 +577,33 @@ const page = ({
                 {calculateTaxes(propertyDetails.pricePerNight, nights!)}
               </p>
             </div>
+            {selectedServices.length > 0 && (
+              <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+                <p>
+                  Extra Services
+                  {/* <span className="text-xs text-slate-300 px-1 italic">
+                  (10%)
+                </span> */}
+                </p>
+                <p className="text-lg">
+                  <span>
+                    {propertyDetails.country === "usa"
+                      ? "US"
+                      : propertyDetails.country === "canada"
+                      ? "CA"
+                      : "US"}
+                  </span>
+                  ${calculateExtraServicesTotal()}
+                </p>
+              </div>
+            )}
             <div className="flex py-4 border-t border-primary-50/30 items-center text-xs 2xl:text-sm justify-between">
-              <p className="font-bold">Total</p>
+              <p className="font-bold">
+                Total
+                <span className="text-xs text-slate-300 px-1 italic">
+                  {hunters > 1 ? ` for ${hunters} hunters` : ""}
+                </span>
+              </p>
               <p className="font-bold text-lg">
                 <span>
                   {propertyDetails.country === "usa"
@@ -525,8 +618,9 @@ const page = ({
                   (propertyDetails.pricePerNight * nights! || 0) * 0.1 +
                   parseFloat(
                     calculateTaxes(propertyDetails.pricePerNight, nights!)
-                  )
-                ).toFixed(2)}
+                  ) +
+                  calculateExtraServicesTotal()
+                ).toFixed(2) * hunters}
               </p>
             </div>
           </>
@@ -535,7 +629,8 @@ const page = ({
         <button
           onClick={handleSubmit}
           type="button"
-          className=" w-full sm:w-[96%] px-12 py-3 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold mt-8"
+          disabled={loading || !nights}
+          className=" w-full sm:w-[96%] disabled:opacity-50 px-12 py-3 rounded-xl bg-gradient-to-b from-[#FF9900] to-[#FFE7A9] text-black font-semibold mt-8"
         >
           Continue
         </button>
