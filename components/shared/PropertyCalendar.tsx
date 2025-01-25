@@ -1,6 +1,6 @@
+// Import necessary modules and components
 "use client";
 import { IProperty } from "@/lib/types/property";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { LuCalendarDays } from "react-icons/lu";
@@ -15,135 +15,128 @@ import { toggleUnavailableDates } from "@/database/actions/property.action";
 import { RiExchangeFill } from "react-icons/ri";
 import toast from "react-hot-toast";
 
-// Helper function to generate the days of the month in UTC
-// const generateDaysInMonth = (year: number, month: number) => {
-//   const date = new Date(Date.UTC(year, month, 1)); // Using UTC
-//   const days = [];
-//   while (date.getUTCMonth() === month) {
-//     days.push(new Date(date)); // Push copy of date
-//     date.setUTCDate(date.getUTCDate() + 1); // Move to the next UTC date
-//   }
-//   return days;
-// };
+// Type definitions
+interface BookedDateEntry {
+  date: string;
+  spotsRemaining: number;
+}
 
-const generateDaysInMonth = (year: number, month: number) => {
-  const days = [];
-  let date = new Date(Date.UTC(year, month, 1)); // Start at the first day of the month in UTC
+interface Property {
+  _id: string;
+  name: string;
+  pricePerNight: number;
+  bookedDates: BookedDateEntry[];
+  nonAvailableDates?: string[];
+}
+
+interface PropertyNames {
+  name: string;
+  _id: string;
+}
+
+interface BookedDateMap {
+  [date: string]: {
+    totalEarnings: number;
+    propertyNames: string[];
+    spotsRemaining: number;
+  };
+}
+
+// Helper to generate all days in a given month
+const generateDaysInMonth = (year: number, month: number): Date[] => {
+  const days: Date[] = [];
+  let date = new Date(Date.UTC(year, month, 1));
   while (date.getUTCMonth() === month) {
-    days.push(new Date(date.getTime())); // Push a copy of the date
-    date.setUTCDate(date.getUTCDate() + 1); // Increment the date in UTC
+    days.push(new Date(date.getTime()));
+    date.setUTCDate(date.getUTCDate() + 1);
   }
   return days;
 };
 
-// Format a date to "YYYY-MM-DD" format using UTC
-const formatDate = (date: Date) => {
+// Format a date to "YYYY-MM-DD"
+const formatDate = (date: Date): string => {
   const year = date.getUTCFullYear();
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Ensure two digits
-  const day = date.getUTCDate().toString().padStart(2, "0"); // Ensure two digits
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = date.getUTCDate().toString().padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
-const PropertyCalendar = ({
-  data,
-  propertyNames,
-}: {
-  data: IProperty[];
-  propertyNames: {
-    name: string;
-    _id: string;
-  }[];
-}) => {
+const PropertyCalendar: React.FC<{
+  data: Property[];
+  propertyNames: PropertyNames[];
+}> = ({ data, propertyNames }) => {
   // Create a mapping of booked dates to property details
-  const bookedDatesMap: Record<
-    string,
-    { totalEarnings: number; propertyNames: string[] }
-  > = {}; // Map date to total earnings and property names
+  const bookedDatesMap: BookedDateMap = {};
 
   if (data) {
     data.forEach((property) => {
-      property.bookedDates.forEach((date) => {
-        const formattedDate = date.split("T")[0]; // Get the date part of the string
+      property.bookedDates.forEach((entry) => {
+        const formattedDate = formatDate(new Date(entry.date));
         if (!bookedDatesMap[formattedDate]) {
           bookedDatesMap[formattedDate] = {
             totalEarnings: 0,
             propertyNames: [],
+            spotsRemaining: entry.spotsRemaining,
           };
         }
-        bookedDatesMap[formattedDate].totalEarnings += property.pricePerNight; // Add pricePerNight to total earnings
-        bookedDatesMap[formattedDate].propertyNames.push(property.name); // Add property name to the list
+        bookedDatesMap[formattedDate].totalEarnings += property.pricePerNight;
+        bookedDatesMap[formattedDate].propertyNames.push(property.name);
+        bookedDatesMap[formattedDate].spotsRemaining = entry.spotsRemaining;
       });
     });
   }
-  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [bookedDates, setBookedDates] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
-    // Check if data array length is 1, then set nonAvailableDates
     if (data && data.length === 1 && data[0]?.nonAvailableDates) {
-      const dates = data[0].nonAvailableDates.map(
-        (date: string) => date.split("T")[0]
+      const dates = data[0].nonAvailableDates.map((date) =>
+        formatDate(new Date(date))
       );
       setBookedDates(dates);
     }
-  }, [data]); // Dependency on 'data' so this effect runs when 'data' changes
-  // State to track unavailable dates
-  const [loading, setLoading] = useState(false);
+  }, [data]);
 
   const handleToggleAvailability = (formattedDay: string) => {
-    setBookedDates(
-      (prev) =>
-        prev.includes(formattedDay)
-          ? prev.filter((date) => date !== formattedDay) // Remove if it's already booked
-          : [...prev, formattedDay] // Add if it's available
+    setBookedDates((prev) =>
+      prev.includes(formattedDay)
+        ? prev.filter((date) => date !== formattedDay)
+        : [...prev, formattedDay]
     );
   };
-  const isDateBooked = (formattedDay: string) =>
+
+  const isDateBooked = (formattedDay: string): boolean =>
     bookedDates.includes(formattedDay);
 
-  // Get year and month for the current view
   const year = currentDate.getUTCFullYear();
   const month = currentDate.getUTCMonth();
-
-  // Generate the days for the current month
   const daysInMonth = generateDaysInMonth(year, month);
 
   const goToPreviousMonth = () => {
-    const newDate = new Date(Date.UTC(year, month - 1, 1)); // Move to the previous month in UTC
-    setCurrentDate(newDate);
+    setCurrentDate(new Date(Date.UTC(year, month - 1, 1)));
   };
 
   const goToNextMonth = () => {
-    const newDate = new Date(Date.UTC(year, month + 1, 1)); // Move to the next month in UTC
-    setCurrentDate(newDate);
+    setCurrentDate(new Date(Date.UTC(year, month + 1, 1)));
   };
 
-  // const getMonthlyBookingsCount = () => {
-  //   // Filter bookedDatesMap to match only dates in the current month
-  //   const bookingsThisMonth = Object.keys(bookedDatesMap).filter((date) => {
-  //     const bookedDate = new Date(date);
-  //     return (
-  //       bookedDate.getFullYear() === year && bookedDate.getMonth() === month
-  //     );
-  //   });
-  //   return bookingsThisMonth.length;
-  // };
-
-  const getMonthlyBookingsCount = () => {
-    const bookingsThisMonth = Object.keys(bookedDatesMap).filter((date) => {
+  const getMonthlyBookingsCount = (): number => {
+    return Object.keys(bookedDatesMap).filter((date) => {
       const bookedDate = new Date(date);
       return (
         bookedDate.getUTCFullYear() === year &&
         bookedDate.getUTCMonth() === month
       );
-    });
-    return bookingsThisMonth.length;
+    }).length;
   };
 
   const handleSubmit = async () => {
-    setLoading(true); // Set loading state
+    setLoading(true);
     try {
       const response = await toggleUnavailableDates({
-        propertyId: data[0]._id, // Assuming we are updating the first property
+        propertyId: data[0]._id,
         nonAvailableDates: bookedDates,
       });
       if (response.status === 200) {
@@ -155,7 +148,6 @@ const PropertyCalendar = ({
           },
         });
       } else {
-        console.error("Error updating dates", response.error);
         toast.error("Error updating dates", {
           duration: 4000,
           style: {
@@ -167,10 +159,9 @@ const PropertyCalendar = ({
     } catch (error) {
       console.error("Server error:", error);
     } finally {
-      setLoading(false); // Stop loading state
+      setLoading(false);
     }
   };
-
   return (
     <div className=" p-4 md:p-20 w-full oyo">
       <div className=" w-full flex items-center justify-between">
@@ -187,12 +178,7 @@ const PropertyCalendar = ({
             onClick={goToPreviousMonth}
             className="text-2xl p-0.5 border border-primary-50/30 rounded-full cursor-pointer"
           />
-          {/* <p className="font-semibold w-36 text-center ">{`${currentDate.toLocaleString(
-            "default",
-            {
-              month: "long",
-            }
-          )} ${year}`}</p> */}
+
           <p className="font-semibold w-36 text-center ">
             {`${currentDate.toLocaleString("default", {
               month: "long",
@@ -247,13 +233,15 @@ const PropertyCalendar = ({
           </p>
         </div>
         <div className=" w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {daysInMonth.map((day, i) => {
+          {/* {daysInMonth.map((day, i) => {
             const formattedDay = formatDate(day);
-            const bookingData = bookedDatesMap[formattedDay];
-            const totalEarnings = bookingData?.totalEarnings || 0;
-            const propertyNames = bookingData?.propertyNames || [];
+            const bookingData = bookedDatesMap[formattedDay] || {};
+            const {
+              totalEarnings = 0,
+              propertyNames = [],
+              spotsRemaining,
+            } = bookingData;
             const isBooked = isDateBooked(formattedDay);
-
             return (
               <div
                 key={i}
@@ -324,6 +312,110 @@ const PropertyCalendar = ({
                               <li key={index}>- {name}</li>
                             ))}
                           </ul>
+                        </div>
+                      ) : (
+                        <div className="text-sm border-2 border-gray-400 p-5 px-10 rounded-lg mt-2 text-white">
+                          No bookings on this date.
+                        </div>
+                      )}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            );
+          })} */}
+          {daysInMonth.map((day, i) => {
+            const formattedDay = formatDate(day);
+            const bookingData = bookedDatesMap[formattedDay] || {};
+            const {
+              totalEarnings = 0,
+              propertyNames = [],
+              spotsRemaining,
+            } = bookingData;
+            const isBooked = isDateBooked(formattedDay);
+
+            return (
+              <div
+                key={i}
+                className={`p-6 ${
+                  totalEarnings
+                    ? "bg-[#FF990033] border-b text-primary-50 border-b-primary-50/50"
+                    : "bg-[#372F2F33] text-gray-300  "
+                } hover:border-b hover:border-r-0 hover:border-l-0 border  border-[#372F2F]/50    flex flex-col items-start justify-between`}
+              >
+                <TooltipProvider>
+                  <Tooltip delayDuration={100}>
+                    <TooltipTrigger className="flex items-center  w-full justify-between">
+                      <p>
+                        {day.toLocaleDateString("en-US", {
+                          weekday: "short",
+                          day: "numeric",
+                          timeZone: "UTC",
+                        })}
+                      </p>
+                      {totalEarnings ? (
+                        <p
+                          className={`px-3 py-1.5 rounded-full
+                              
+                            ${
+                              data.length === 1 && spotsRemaining === 0
+                                ? "bg-green-600 text-white"
+                                : "bg-primary-50/60 text-white"
+                            }
+
+                          `}
+                        >
+                          {/* ${totalEarnings.toLocaleString()} */}
+                          {data.length !== 1
+                            ? "Booked"
+                            : spotsRemaining === 0
+                            ? "Fully Booked "
+                            : `Partial Booked`}
+                        </p>
+                      ) : data && data.length === 1 ? (
+                        isBooked ? (
+                          <button
+                            onClick={() =>
+                              handleToggleAvailability(formattedDay)
+                            }
+                            className={`px-3 py-1.5 flex items-center justify-center gap-1 rounded-full bg-primary-50/60 text-white`}
+                          >
+                            <RiExchangeFill className="text-lg 2xl:text-xl text-white" />
+                            Unavailable
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() =>
+                              handleToggleAvailability(formattedDay)
+                            }
+                            className={`px-3 py-1.5 flex items-center justify-center bg-[#FFFFFF33] gap-1 rounded-full  text-white`}
+                          >
+                            <RiExchangeFill className="text-lg 2xl:text-xl  text-primary-50" />
+                            Available
+                          </button>
+                        )
+                      ) : (
+                        <p
+                          className={`px-3 py-1.5 rounded-full
+                              bg-[#FFFFFF33] text-white
+                          `}
+                        >
+                          No booking
+                        </p>
+                      )}
+                    </TooltipTrigger>
+                    <TooltipContent className=" min-w-40 px-4 pb-3 pt-1 rounded-lg">
+                      {totalEarnings ? (
+                        <div className="text-sm border-2 border-primary-50/45 p-5 px-10 rounded-lg mt-2 text-white">
+                          <p>Properties Booked:</p>
+                          <ul>
+                            {propertyNames.map((name, index) => (
+                              <li key={index}>- {name}</li>
+                            ))}
+                          </ul>
+                          {data.length === 1 && (
+                            <p>Spots Remaining: {spotsRemaining}</p>
+                          )}
                         </div>
                       ) : (
                         <div className="text-sm border-2 border-gray-400 p-5 px-10 rounded-lg mt-2 text-white">

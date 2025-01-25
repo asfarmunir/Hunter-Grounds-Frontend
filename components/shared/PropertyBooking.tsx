@@ -402,17 +402,20 @@ const page = ({
                     setFromDateOpen(false);
                   }}
                   disabled={(date) => {
-                    // Disable dates that are booked or dates before `fromDate`
-                    const isBooked = propertyDetails.bookedDates.some(
-                      (bookedDate) => isSameDay(bookedDate, date)
+                    // Disable dates where spotsRemaining are 0 or dates before `fromDate`
+                    const isFullyBooked = propertyDetails.bookedDates.some(
+                      (bookedDate: any) =>
+                        isSameDay(new Date(bookedDate.date), date) &&
+                        bookedDate.spotsRemaining === 0
                     );
 
                     const isUnavailable =
                       propertyDetails.nonAvailableDates.some(
-                        (nonAvailableDate) => isSameDay(nonAvailableDate, date)
+                        (nonAvailableDate) =>
+                          isSameDay(new Date(nonAvailableDate), date)
                       );
 
-                    return isBooked || isUnavailable;
+                    return isFullyBooked || isUnavailable;
                   }}
                   initialFocus
                 />
@@ -436,15 +439,6 @@ const page = ({
                 </button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                {/* <Calendar
-                  mode="single"
-                  selected={toDate}
-                  onSelect={(date) => {
-                    setToDate(date);
-                    setToDateOpen(false);
-                  }}
-                  initialFocus
-                /> */}
                 <Calendar
                   mode="single"
                   selected={toDate}
@@ -462,7 +456,9 @@ const page = ({
                   disabled={(date) => {
                     // Disable dates that are booked or dates before `fromDate`
                     const isBooked = propertyDetails.bookedDates.some(
-                      (bookedDate) => isSameDay(bookedDate, date)
+                      (bookedDate: any) =>
+                        isSameDay(bookedDate.date, date) &&
+                        bookedDate.spotsRemaining === 0
                     );
                     const isUnavailable =
                       propertyDetails.nonAvailableDates.some(
@@ -614,13 +610,15 @@ const page = ({
                 </span>
                 $
                 {(
-                  (propertyDetails.pricePerNight * nights! || 0) +
-                  (propertyDetails.pricePerNight * nights! || 0) * 0.1 +
-                  parseFloat(
-                    calculateTaxes(propertyDetails.pricePerNight, nights!)
-                  ) +
-                  calculateExtraServicesTotal()
-                ).toFixed(2) * hunters}
+                  (
+                    (propertyDetails.pricePerNight * nights! || 0) +
+                    (propertyDetails.pricePerNight * nights! || 0) * 0.1 +
+                    parseFloat(
+                      calculateTaxes(propertyDetails.pricePerNight, nights!)
+                    ) +
+                    calculateExtraServicesTotal()
+                  ).toFixed(2) * hunters
+                ).toFixed(2)}
               </p>
             </div>
           </>
