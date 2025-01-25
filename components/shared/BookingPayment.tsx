@@ -164,7 +164,9 @@ const page = ({
       //   parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)),
       totalNights: totalDays,
       taxes: calculateTaxes(propertyDetails.pricePerNight, totalDays),
-      extras: bookingData.selectedServices,
+      // extras: bookingData.selectedServices,
+      hunters: bookingData.hunters,
+      extrasPrice: calculateExtras(),
     };
     axios
       .post("/api/stripe/create-payment-intent", {

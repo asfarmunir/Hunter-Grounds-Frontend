@@ -45,14 +45,12 @@ export async function POST(request: Request) {
 
     // Handle referral rewards
 
-
-
     await handleReferralReward(metadata.user, amount);
 
     // @ts-ignore
-    await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id,metadata.taxes, metadata.checkOut);
+    await addBookingPaymentToOwner(metadata.property, metadata.bookingDays, booking.booking._id,metadata.taxes, metadata.checkOut,metadata.hunters,metadata.extrasPrice);
 
-    await sendEmails(metadata.property,metadata.user, metadata.taxes, metadata.totalNights, metadata.checkIn, metadata.checkOut, metadata.totalAmount);
+    await sendEmails(metadata.property,metadata.user, metadata.taxes, metadata.totalNights, metadata.checkIn, metadata.checkOut, metadata.totalAmount,metadata.hunters,metadata.extrasPrice);
 
     return NextResponse.json({ message: "OK", booking });
   }
@@ -130,7 +128,8 @@ async function updatePropertyWithBookedDates(propertyId: string, checkIn: string
   }
 }
 
-async function addBookingPaymentToOwner(propertyId: string, bookingDays: number, bookingId: string , taxes:number, checkOut: Date) {
+async function addBookingPaymentToOwner(propertyId: string, bookingDays: number, bookingId: string , taxes:number, checkOut: Date , hunters:number, extrasPrice:number)
+ {
   // Find the property by its ID
   const property = await Property.findById(propertyId);
 
@@ -141,7 +140,7 @@ async function addBookingPaymentToOwner(propertyId: string, bookingDays: number,
     if (owner) {
       // Create a new booking payment object
       const bookingPayment = {
-        amount: ( bookingDays * property.pricePerNight * 100 ) + taxes * 100, // Total amount in cents
+        amount: (( bookingDays * property.pricePerNight * 100 ) + taxes * 100  + extrasPrice * 100 ) * hunters, // Total amount for the booking
         bookingRefId: bookingId,          // Reference to the booking ID
         status: 'pending',                // Status (can change to 'paid' later)
         date: new Date(checkOut),
@@ -207,11 +206,12 @@ async function handleReferralReward(userId: string, bookingAmount: number) {
   }
 }
 
-async function sendEmails (propertyId:string,user:string,taxes:string,totalNights:string, checkIn:string, checkOut:string,totalAmount:string ) {
+async function sendEmails (propertyId:string,user:string,taxes:string,totalNights:string, checkIn:string, checkOut:string,totalAmount:string,hunters:string,extrasPrice:string ) 
+{
     const property = await Property.findById(propertyId);
 
     const totalAmountforBookingPerson = Number(totalAmount);
-    const totalAmountforOwner = property.pricePerNight * Number(totalNights) + Number(taxes)
+    const totalAmountforOwner =( property.pricePerNight * Number(totalNights) + Number(taxes) + Number(extrasPrice)) * Number(hunters);
     const formatDate = (dateString:any) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US'); 
