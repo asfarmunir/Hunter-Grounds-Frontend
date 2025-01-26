@@ -60,6 +60,7 @@ const page = ({
       toast.error("Please select booking dates.");
       return;
     }
+
     if (fromDate > toDate) {
       toast.error("Please add a valid period!", {
         duration: 2000,
@@ -72,38 +73,72 @@ const page = ({
     }
 
     if (isPast(fromDate) || isPast(toDate)) {
-      toast.error("Please select valid future date.");
+      toast.error("Please select valid future dates.");
       return;
     }
 
-    // Adjust dates to noon to avoid time zone shift
+    // Adjust dates to noon to avoid time zone shifts
     const adjustedFromDate = new Date(fromDate);
     adjustedFromDate.setHours(12, 0, 0, 0);
 
     const adjustedToDate = new Date(toDate);
     adjustedToDate.setHours(12, 0, 0, 0);
 
-    // Check if any of the bookedDates fall within the selected range
-    const isDateBooked = propertyDetails.bookedDates.some((bookedDate) => {
-      const date = new Date(bookedDate); // Convert ISO date if necessary
-      return isWithinInterval(date, {
-        start: adjustedFromDate,
-        end: adjustedToDate,
-      });
-    });
+    // Check if any selected date conflicts with nonAvailableDates
+    const hasUnavailableDates = propertyDetails.nonAvailableDates.some(
+      (unavailableDate) => {
+        const date = new Date(unavailableDate);
+        return isWithinInterval(date, {
+          start: adjustedFromDate,
+          end: adjustedToDate,
+        });
+      }
+    );
 
-    if (isDateBooked) {
-      toast.error("One or more of the selected dates are already booked.", {
-        duration: 5000,
-        style: {
-          backgroundColor: "#FF0000",
-          color: "#fff",
-        },
-      });
-      return; // Prevent further actions
+    if (hasUnavailableDates) {
+      toast.error(
+        "Selected dates contain unavailable dates for this property.",
+        {
+          duration: 5000,
+          style: {
+            backgroundColor: "#FF0000",
+            color: "#fff",
+          },
+          icon: "",
+        }
+      );
+      return;
     }
 
-    // Format the dates for query params
+    // Check if selected dates exceed availability (spotsRemaining)
+    const hasBookedDatesConflict = propertyDetails.bookedDates.some(
+      (entry: any) => {
+        const date = new Date(entry.date); // Convert ISO date to JS Date object
+        return (
+          isWithinInterval(date, {
+            start: adjustedFromDate,
+            end: adjustedToDate,
+          }) && entry.spotsRemaining <= 0 // Check if spots are unavailable
+        );
+      }
+    );
+
+    if (hasBookedDatesConflict) {
+      toast.error(
+        "One or more selected dates are fully booked. Please choose other date range.",
+        {
+          duration: 5000,
+          style: {
+            backgroundColor: "#FF0000",
+            color: "#fff",
+          },
+          icon: "",
+        }
+      );
+      return;
+    }
+
+    // Format dates for query params
     const formattedFromDate = format(adjustedFromDate, "yyyy-MM-dd");
     const formattedToDate = format(adjustedToDate, "yyyy-MM-dd");
 
@@ -118,8 +153,8 @@ const page = ({
     );
 
     const dataToBeStoredOnLocalStorage = {
-      selectedServices: selectedServices,
-      hunters: hunters,
+      selectedServices,
+      hunters,
     };
 
     // Store booking details in local storage
@@ -215,7 +250,10 @@ const page = ({
           <div className="grid grid-cols-1 bg-primary-100 rounded-xl sm:grid-cols-2 gap-4 md:pr-8 py-4 md:grid-cols-3">
             {propertyDetails.photos.map((photo, index) => {
               return (
-                <div key={index} className="relative h-[200px] sm:h-[300px]">
+                <div
+                  key={index}
+                  className="relative h-[200px] sm:h-[200px] 2xl:h-[300px]"
+                >
                   <Image
                     src={photo}
                     priority

@@ -54,8 +54,9 @@ const WithdrawFunds = () => {
             which you referred. <br />
             <br /> An icon will appear on this page when the funds are
             withdrawable. <br /> <br /> Payouts are processed within 10 business
-            days following the request, via PayPal. Please make sure you have
-            entered the correct PayPal email address on the request.
+            days following the request, via E-Transfer (for Canada) or Rise (for
+            USA and Mexico).Please make sure you have entered the correct email
+            address on the request.
           </p>
           {/* <p className="text-sm text-primary-50 font-bold mt-10 text-center">
             10% of the sale amount is deducted as a service fee.
