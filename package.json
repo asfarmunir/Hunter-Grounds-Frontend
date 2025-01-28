@@ -12,6 +12,7 @@
     "@chatscope/chat-ui-kit-react": "^2.0.3",
     "@hookform/resolvers": "^3.9.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.3",
+    "@next/third-parties": "^15.1.6",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",

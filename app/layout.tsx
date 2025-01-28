@@ -8,6 +8,7 @@ import AuthSessionProvider from "@/lib/AuthProvider";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Script from "next/script";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -35,7 +36,16 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
+      <GoogleTagManager gtmId="GTM-5FRDZPFS" />
       <body className={lexend.variable}>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5FRDZPFS"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
         <AuthSessionProvider>
           <NextTopLoader
             color="orange"
