@@ -39,6 +39,7 @@ const page = ({
   const [nights, setNights] = React.useState<number | null>(null);
   const [loading, setLoading] = React.useState(false);
   const [selectedServices, setSelectedServices] = React.useState<any>([]);
+  console.log("🚀 ~ selectedServices:", selectedServices);
   const [hunters, setHunters] = React.useState(1);
   const [fromDateOpen, setFromDateOpen] = React.useState(false);
   const [toDateOpen, setToDateOpen] = React.useState(false);
@@ -181,7 +182,10 @@ const page = ({
         const rate = parseFloat(stateData.rate) / 100;
 
         // Calculate tax
-        return (pricePerNight * nights * rate).toFixed(2);
+        return (
+          (pricePerNight * nights + calculateExtraServicesTotal(nights)) *
+          rate
+        ).toFixed(2);
       }
     }
     // these were used when no states were available
@@ -210,11 +214,19 @@ const page = ({
     });
   };
 
-  const calculateExtraServicesTotal = () => {
-    return selectedServices.reduce(
-      (acc: number, service: any) => acc + service.price,
-      0
-    );
+  const calculateExtraServicesTotal = (nights: number) => {
+    return selectedServices.reduce((acc: number, service: any) => {
+      if (service.type === "flatFee") {
+        // Add the flat fee directly
+        return acc + service.flatFee;
+      } else if (service.type === "perNight") {
+        // Add the per night fee multiplied by the number of nights
+        return acc + service.perNight * nights;
+      } else {
+        // Handle any other cases (if necessary)
+        return acc;
+      }
+    }, 0);
   };
 
   return (
@@ -521,7 +533,7 @@ const page = ({
         </div>
 
         {/* Display total hunters */}
-        {nights !== null && (
+        {/* {nights !== null && (
           <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
             <p className="text-lg font-bold">Total Hunters</p>
             <div className="flex items-center gap-4">
@@ -540,7 +552,7 @@ const page = ({
               </button>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Display total nights */}
         {nights !== null && (
@@ -571,6 +583,26 @@ const page = ({
                 ${(propertyDetails.pricePerNight * nights).toFixed(2)}
               </p>
             </div>
+            {selectedServices.length > 0 && (
+              <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+                <p>
+                  Extra Services
+                  {/* <span className="text-xs text-slate-300 px-1 italic">
+                  (10%)
+                </span> */}
+                </p>
+                <p className="text-lg">
+                  <span>
+                    {propertyDetails.country === "usa"
+                      ? "US"
+                      : propertyDetails.country === "canada"
+                      ? "CA"
+                      : "US"}
+                  </span>
+                  ${calculateExtraServicesTotal(nights)}
+                </p>
+              </div>
+            )}
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
               <p>
                 Service fee{" "}
@@ -590,9 +622,11 @@ const page = ({
                     : "US"}
                 </span>
                 $
-                {((propertyDetails.pricePerNight * nights! || 0) * 0.1).toFixed(
-                  2
-                )}
+                {(
+                  ((propertyDetails.pricePerNight * nights! || 0) +
+                    calculateExtraServicesTotal(nights)) *
+                  0.1
+                ).toFixed(2)}
               </p>
             </div>
             <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
@@ -617,26 +651,7 @@ const page = ({
                 {calculateTaxes(propertyDetails.pricePerNight, nights!)}
               </p>
             </div>
-            {selectedServices.length > 0 && (
-              <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
-                <p>
-                  Extra Services
-                  {/* <span className="text-xs text-slate-300 px-1 italic">
-                  (10%)
-                </span> */}
-                </p>
-                <p className="text-lg">
-                  <span>
-                    {propertyDetails.country === "usa"
-                      ? "US"
-                      : propertyDetails.country === "canada"
-                      ? "CA"
-                      : "US"}
-                  </span>
-                  ${calculateExtraServicesTotal()}
-                </p>
-              </div>
-            )}
+
             <div className="flex py-4 border-t border-primary-50/30 items-center text-xs 2xl:text-sm justify-between">
               <p className="font-bold">
                 Total
@@ -656,11 +671,13 @@ const page = ({
                 {(
                   (
                     (propertyDetails.pricePerNight * nights! || 0) +
-                    (propertyDetails.pricePerNight * nights! || 0) * 0.1 +
+                    ((propertyDetails.pricePerNight * nights! || 0) +
+                      calculateExtraServicesTotal(nights)) *
+                      0.1 +
                     parseFloat(
                       calculateTaxes(propertyDetails.pricePerNight, nights!)
                     ) +
-                    calculateExtraServicesTotal()
+                    calculateExtraServicesTotal(nights)
                   ).toFixed(2) * hunters
                 ).toFixed(2)}
               </p>

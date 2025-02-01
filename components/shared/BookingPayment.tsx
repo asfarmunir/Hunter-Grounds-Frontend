@@ -139,12 +139,27 @@ const page = ({
     e.preventDefault();
     setPaymentBegan(true);
 
-    const totalAmount =
-      (propertyDetails.pricePerNight * totalDays +
-        propertyDetails.pricePerNight * totalDays * 0.1 +
-        parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)) +
-        calculateExtras()) *
-      bookingData.hunters;
+    // const totalAmount =
+    //  ( (propertyDetails.pricePerNight * totalDays +
+    //     (propertyDetails.pricePerNight * totalDays+calculateExtraServicesTotal()) * 0.1 +
+    //     parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)) +
+    //     calculateExtraServicesTotal()) *
+    //   bookingData.hunters).toFixed(2);
+
+    const totalAmount = (
+      parseFloat(
+        (
+          propertyDetails.pricePerNight * totalDays + // Base price for the stay
+          (propertyDetails.pricePerNight * totalDays +
+            calculateExtraServicesTotal()) *
+            0.1 + // 10% service fee
+          parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)) + // Taxes
+          calculateExtraServicesTotal()
+        ) // Extra services
+          .toFixed(2) // Round to 2 decimal places
+      ) * bookingData.hunters
+    ) // Multiply by the number of hunters
+      .toFixed(2); // Final rounding to 2 decimal places
 
     const data = {
       bookingFirstname: bookingDetails.bookingFirstname,
@@ -166,7 +181,7 @@ const page = ({
       taxes: calculateTaxes(propertyDetails.pricePerNight, totalDays),
       // extras: bookingData.selectedServices,
       hunters: bookingData.hunters,
-      extrasPrice: calculateExtras(),
+      extrasPrice: calculateExtraServicesTotal(),
     };
     axios
       .post("/api/stripe/create-payment-intent", {
@@ -193,7 +208,10 @@ const page = ({
         const rate = parseFloat(stateData.rate) / 100;
 
         // Calculate tax
-        return (pricePerNight * nights * rate).toFixed(2);
+        return (
+          (pricePerNight * nights + calculateExtraServicesTotal()) *
+          rate
+        ).toFixed(2);
       }
     }
 
@@ -203,17 +221,26 @@ const page = ({
 
     return (pricePerNight * nights * 0.15).toFixed(2); // Default Canada tax
   };
-
-  const calculateExtras = () => {
+  const calculateExtraServicesTotal = () => {
     let total = 0;
-    if (bookingData && bookingData.selectedServices) {
-      bookingData.selectedServices.forEach((service: any) => {
-        total += service.price;
-      });
-    }
-    return total;
-  };
 
+    if (bookingData && bookingData.selectedServices) {
+      total = bookingData.selectedServices.reduce(
+        (acc: number, service: any) => {
+          if (service.type === "flatFee") {
+            return acc + service.flatFee;
+          } else if (service.type === "perNight") {
+            return acc + service.perNight * totalDays;
+          } else {
+            return acc;
+          }
+        },
+        0
+      );
+    }
+
+    return total; // Return the calculated total
+  };
   return (
     <div className=" w-full flex flex-col md:flex-row gap-10 justify-between p-4 md:p-20">
       <div className="flex flex-col gap-2 w-full max-w-lg 2xl:max-w-2xl">
@@ -423,12 +450,11 @@ const page = ({
             ${(propertyDetails.pricePerNight * totalDays).toFixed(0)}
           </p>
         </div>
-        <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
+        {/* hunters count  */}
+        {/* <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
             Hunters
-            {/* <span className="text-xs text-slate-300 px-1 italic">10%</span> */}
           </p>
-          {/* <p className="text-lg">CA${propertyDetails.pricePerNight}</p> */}
           <p>
             {bookingData && bookingData.hunters
               ? bookingData.hunters > 9
@@ -436,7 +462,7 @@ const page = ({
                 : `0${bookingData.hunters}`
               : null}
           </p>{" "}
-        </div>
+        </div> */}
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
           <p>
             Service fee{" "}
@@ -451,7 +477,12 @@ const page = ({
                 ? "CA"
                 : "US"}
             </span>
-            ${(propertyDetails.pricePerNight * totalDays * 0.1).toFixed(2)}
+            $
+            {(
+              (propertyDetails.pricePerNight * totalDays +
+                calculateExtraServicesTotal()) *
+              0.1
+            ).toFixed(2)}
           </p>{" "}
         </div>
         <div className="flex items-center text-xs my-2 2xl:my-4 2xl:text-sm text-gray-200 justify-between">
@@ -479,7 +510,7 @@ const page = ({
                 ? "CA"
                 : "US"}
             </span>
-            ${calculateExtras()}
+            ${calculateExtraServicesTotal()}
           </p>
         </div>
         <div className="flex py-4 rounded-br-2xl bg-primary-50/20 px-4 mt-3 rounded-bl-2xl items-center text-xs 2xl:text-sm  justify-between">
@@ -493,26 +524,18 @@ const page = ({
                 : "US"}
             </span>
             $
-            {/* {bookingData &&
-              (
-                propertyDetails.pricePerNight * totalDays +
-                propertyDetails.pricePerNight * totalDays * 0.1 +
-                // propertyDetails.pricePerNight * (totalDays + 1) * 0.1
-                parseFloat(
-                  calculateTaxes(propertyDetails.pricePerNight, totalDays)
-                ) +
-                calculateExtras()
-              ).toFixed(2) * bookingData.hunters} */}
             {bookingData &&
               (
                 parseFloat(
                   (
                     propertyDetails.pricePerNight * totalDays +
-                    propertyDetails.pricePerNight * totalDays * 0.1 +
+                    (propertyDetails.pricePerNight * totalDays +
+                      calculateExtraServicesTotal()) *
+                      0.1 +
                     parseFloat(
                       calculateTaxes(propertyDetails.pricePerNight, totalDays)
                     ) +
-                    calculateExtras()
+                    calculateExtraServicesTotal()
                   ).toFixed(2)
                 ) * bookingData.hunters
               ).toFixed(2)}
