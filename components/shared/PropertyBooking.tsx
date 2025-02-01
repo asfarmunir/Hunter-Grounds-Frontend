@@ -23,6 +23,9 @@ import { CgLock } from "react-icons/cg";
 import { addSavedProperty } from "@/database/actions/user.action";
 import { FaHeart } from "react-icons/fa";
 import { statesData } from "@/lib/constants";
+import service1 from "@/public/service1.png";
+import service2 from "@/public/service2.png";
+import service3 from "@/public/service3.png";
 
 const page = ({
   propertyDetails,
@@ -274,7 +277,7 @@ const page = ({
             special.
           </p>
           {propertyDetails.extraServices &&
-            propertyDetails.extraServices.map((service: any, index) => {
+            propertyDetails.extraServices.map((service: any, index: number) => {
               if (service.description === "" || service.price === 0)
                 return null;
               const isSelected =
@@ -290,17 +293,17 @@ const page = ({
                   <Image
                     src={
                       service.name === "Guided Hunt"
-                        ? "/service1.png"
+                        ? service1
                         : service.name === "Food & Beverage Package"
-                        ? "/service2.png"
-                        : "/service3.png"
+                        ? service2
+                        : service3
                     }
                     width={175}
                     height={175}
                     alt="mail"
                     className="rounded-xl "
                   />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-full">
                     <h3 className="2xl:text-lg inline-flex mb-1.5 font-semibold gap-3">
                       {service.name}
                       <span className=" px-3 py-1 text-xs border border-primary-50 rounded-full text-primary-50">
@@ -310,14 +313,17 @@ const page = ({
                     <p className="text-sm 2xl:text-base mb-4 text-gray-300 font-normal max-w-3xl">
                       {service.description}
                     </p>
-                    <div className="flex gap-4 items-center justify-between flex-col md:flex-row">
+                    <div className="flex gap-4 items-center justify-between w-full flex-col md:flex-row">
                       <p className="text-sm 2xl:text-base text-gray-300 font-normal max-w-md">
                         from only{" "}
                         <span className="text-white font-semibold">
                           {" "}
-                          ${service.price}{" "}
+                          $
+                          {service.flatFee !== 0
+                            ? service.flatFee
+                            : service.perNight}{" "}
                         </span>{" "}
-                        / per person
+                        {service.type === "flatFee" ? "" : "/ Night"}
                       </p>
                       {/* <button className="px-6 text-xs 2xl:text-sm py-2 border-2 border-primary-50 bg-[#FFFFFF4D] rounded-2xl">
                         Add to trip

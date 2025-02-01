@@ -11,6 +11,10 @@ import { createProperty } from "@/database/actions/property.action";
 import axios from "axios";
 import { Checkbox } from "../ui/checkbox";
 import { gameOptions, statesData } from "@/lib/constants";
+import service1 from "@/public/service1.png";
+9;
+import service2 from "@/public/service2.png";
+import service3 from "@/public/service3.png";
 const initialSettings = [
   { name: "Property Address", status: "pending" },
   { name: "Acres", status: "pending" },
@@ -38,7 +42,9 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     predefinedServices.map((service) => ({
       name: service,
       description: "",
-      price: 0,
+      perNight: 0,
+      flatFee: 0,
+      type: "",
     }))
   );
   console.log("🚀 ~ page ~ services:", services);
@@ -319,28 +325,74 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     }
   };
 
+  // const handleServiceChange = (
+  //   index: number,
+  //   field: "name" | "description" | "price" | "type",
+  //   value: string
+  // ) => {
+  //   const updatedServices = services.map((service, i) =>
+  //     i === index
+  //       ? { ...service, [field]: field === "price" ? parseFloat(value) : value }
+  //       : service
+  //   );
+  //   setServices(updatedServices);
+  //   setPropertyDetails((prevDetails: any) => ({
+  //     ...prevDetails,
+  //     extraServices: updatedServices,
+  //   }));
+  // };
+
   const handleServiceChange = (
     index: number,
-    field: "name" | "description" | "price",
+    field: "description" | "perNight" | "flatFee",
     value: string
   ) => {
-    const updatedServices = services.map((service, i) =>
-      i === index
-        ? { ...service, [field]: field === "price" ? parseFloat(value) : value }
-        : service
-    );
-    setServices(updatedServices);
-    setPropertyDetails((prevDetails: any) => ({
-      ...prevDetails,
-      extraServices: updatedServices,
-    }));
+    setServices((prevServices) => {
+      const updatedServices = prevServices.map((service, i) => {
+        if (i !== index) return service; // Keep other services unchanged
+
+        let updatedService = { ...service };
+
+        if (field === "perNight") {
+          updatedService.perNight = parseFloat(value) || 0;
+          if (updatedService.perNight > 0) {
+            updatedService.flatFee = 0; // Reset flat fee if perNight is set
+            updatedService.type = "perNight";
+          }
+        }
+
+        if (field === "flatFee") {
+          updatedService.flatFee = parseFloat(value) || 0;
+          if (updatedService.flatFee > 0) {
+            updatedService.perNight = 0; // Reset per night if flatFee is set
+            updatedService.type = "flatFee";
+          }
+        }
+
+        if (field === "description") {
+          updatedService.description = value;
+        }
+
+        return updatedService;
+      });
+
+      // 🔥 Ensure we update property details using the updated services!
+      setPropertyDetails((prevDetails: any) => ({
+        ...prevDetails,
+        extraServices: updatedServices, // ✅ Use updated services
+      }));
+
+      return updatedServices; // ✅ Return updated state for `setServices`
+    });
   };
 
   const removeService = () => {
     const resetServices = predefinedServices.map((service) => ({
       name: service,
       description: "",
-      price: 0,
+      perNight: 0,
+      flatFee: 0,
+      type: "",
     }));
 
     setServices(resetServices); // Update the services state
@@ -812,11 +864,17 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
             </p>
             <div className="space-y-6">
               <div className="p-6 py-8 bg-[#372F2F33] border rounded-xl border-[#372F2F] my-4 gap-6 flex items-center justify-between flex-col md:flex-row ">
-                {services.map((service, index) => (
+                {/* {services.map((service, index) => (
                   <div className="w-full max-w-sm" key={index}>
                     <div className="flex items-center mb-3.5 gap-3">
                       <Image
-                        src={`/service${index + 1}.png`} // Dynamically load images for services
+                        src={
+                          index === 0
+                            ? service1
+                            : index === 1
+                            ? service2
+                            : service3
+                        } // Dynamically load images for services
                         width={80}
                         height={80}
                         alt={service.name}
@@ -841,18 +899,141 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
                     <Input
                       type="number"
                       value={service.price === 0 ? "" : service.price}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         handleServiceChange(
                           index,
                           "price",
                           e.target.value
                           // parseFloat(e.target.value)
-                        )
-                      }
-                      placeholder="$Price per night"
+                        );
+                        handleServiceChange(index, "type", "perNight");
+                      }}
+                      placeholder="$ per night"
                       min={0}
                       className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 dark:bg-[#372f2f67] "
                     />
+                    <Input
+                      type="number"
+                      value={service.price === 0 ? "" : service.price}
+                      onChange={(e) => {
+                        handleServiceChange(
+                          index,
+                          "price",
+                          e.target.value
+                          // parseFloat(e.target.value)
+                        );
+                        handleServiceChange(index, "type", "flatFee");
+                      }}
+                      placeholder="$ flat fee"
+                      min={0}
+                      className=" border lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 dark:bg-[#372f2f67] "
+                    />
+
+                  </div>
+                ))} */}
+                {services.map((service, index) => (
+                  <div className="w-full max-w-sm" key={index}>
+                    {/* Image and Label */}
+                    <div className="flex items-center mb-3.5 gap-3">
+                      <Image
+                        src={
+                          index === 0
+                            ? service1
+                            : index === 1
+                            ? service2
+                            : service3
+                        }
+                        width={80}
+                        height={80}
+                        alt={service.name}
+                        className="rounded-full"
+                      />
+                      <label className="capitalize text-lg 2xl:text-xl text-[#FFFFFF80]">
+                        {service.name}
+                      </label>
+                    </div>
+
+                    {/* Description Input */}
+                    <textarea
+                      value={service.description}
+                      onChange={(e) =>
+                        handleServiceChange(
+                          index,
+                          "description",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Description..."
+                      className="border min-h-20 mb-1 2xl:text-base text-sm w-full rounded-lg dark:border-[#372F2F] p-3 bg-[#372f2f67]"
+                    />
+
+                    <div className="flex items-center justify-between gap-2.5">
+                      {/* Per Night Fee Input */}
+                      <Input
+                        type="number"
+                        value={service.perNight === 0 ? "" : service.perNight}
+                        onChange={(e) =>
+                          handleServiceChange(index, "perNight", e.target.value)
+                        }
+                        placeholder="$ per night"
+                        min={0}
+                        disabled={service.flatFee > 0} // Disable if flat fee is set
+                        className="border w-full lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 dark:bg-[#372f2f67]"
+                      />
+
+                      {/* Flat Fee Input */}
+                      <Input
+                        type="number"
+                        value={service.flatFee === 0 ? "" : service.flatFee}
+                        onChange={(e) =>
+                          handleServiceChange(index, "flatFee", e.target.value)
+                        }
+                        placeholder="$ flat fee"
+                        min={0}
+                        disabled={service.perNight > 0} // Disable if perNight is set
+                        className="border w-full lg:text-base text-sm rounded-lg dark:border-[#372F2F] p-4 dark:bg-[#372f2f67]"
+                      />
+                    </div>
+
+                    {/* <div className="flex items-center justify-between mt-2 gap-2.5 2xl:gap-3">
+                      <button
+                        type="button"
+                        className={`border lg:text-base w-full text-sm rounded-lg p-4 ${
+                          service.flatFee > 0
+                            ? "opacity-50 cursor-not-allowed"
+                            : "dark:bg-[#372f2f67]"
+                        }`}
+                        onClick={() =>
+                          handleServiceChange(
+                            index,
+                            "perNight",
+                            service.perNight ? "0" : "1"
+                          )
+                        }
+                        disabled={service.flatFee > 0}
+                      >
+                        Fee Per Night
+                      </button>
+
+                      <button
+                        type="button"
+                        className={`border lg:text-base w-full text-sm rounded-lg p-4 ${
+                          service.perNight > 0
+                            ? "opacity-50 cursor-not-allowed"
+                            : "dark:bg-[#372f2f67]"
+                        }`}
+                        onClick={() =>
+                          handleServiceChange(
+                            index,
+                            "flatFee",
+                            service.flatFee ? "0" : "1"
+                          )
+                        }
+                        disabled={service.perNight > 0}
+                      >
+                        Flat Fee
+                      </button>
+                    </div> */}
                   </div>
                 ))}
               </div>

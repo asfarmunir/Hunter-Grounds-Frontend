@@ -273,7 +273,7 @@ const page = ({
                 Amount
               </TableHead>
               <TableHead className=" uppercase text-xs 2xl:text-sm">
-                Paypal Email
+                Email
               </TableHead>
               <TableHead className=" uppercase text-xs 2xl:text-sm">
                 Status

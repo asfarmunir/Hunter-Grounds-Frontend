@@ -4,7 +4,7 @@ export interface IProperty {
   acres: number;
   name: string;
   description: string;
-  extraServices?:  string[];
+  extraServices?: any;
   photos: string[];
   insurance: string;
   gameAvailable: string[];
