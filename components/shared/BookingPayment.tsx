@@ -161,6 +161,13 @@ const page = ({
     ) // Multiply by the number of hunters
       .toFixed(2); // Final rounding to 2 decimal places
 
+    const serviceNames =
+      bookingData.selectedServices.length > 0
+        ? bookingData.selectedServices
+            .map((service: any) => service.name)
+            .join(", ")
+        : "";
+
     const data = {
       bookingFirstname: bookingDetails.bookingFirstname,
       bookingLastname: bookingDetails.bookingLastname,
@@ -173,15 +180,11 @@ const page = ({
       checkIn: from,
       checkOut: to,
       totalAmount,
-      // totalAmount:
-      //   propertyDetails.pricePerNight * totalDays +
-      //   propertyDetails.pricePerNight * totalDays * 0.1 +
-      //   parseFloat(calculateTaxes(propertyDetails.pricePerNight, totalDays)),
       totalNights: totalDays,
       taxes: calculateTaxes(propertyDetails.pricePerNight, totalDays),
-      // extras: bookingData.selectedServices,
       hunters: bookingData.hunters,
       extrasPrice: calculateExtraServicesTotal(),
+      selectedServices: serviceNames,
     };
     axios
       .post("/api/stripe/create-payment-intent", {

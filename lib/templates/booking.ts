@@ -1,4 +1,4 @@
-export const getBookingTemplate = (totalAmount:number,address:String,totalNights:string, rent: number,ownerEmail:string, checkIn:string,checkOut:string, name:string  ) => {
+export const getBookingTemplate = (totalAmount:number,address:String,totalNights:string, rent: number,ownerEmail:string, checkIn:string,checkOut:string, name:string,firstname:string,lastname:string,selectedServices:string  ) => {
   const title = "Booking Successfull!";
 
   const getCurrentDateTime = () => {
@@ -496,7 +496,7 @@ flex-grow: 0 !important;
         <tr>
             <td style="padding:0px;width:60px"><img src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731870974/email%20images/Hunt%20Ground%20EMails/Hero%20Images/chart-pie_lnbhhh.png" width=40px></img></td>
             <td style="padding:0px 10px;color:#ffffff" >Your Receipt <br></br>
-           <span style="font-size:22px;line-height: 1.6;"> ${totalNights} x nights @ $${rent} = $${totalAmount} </span>
+           <span style="font-size:22px;line-height: 1.6;"> ${totalNights} x nights @ $${rent} ${selectedServices !== "" ? `(+ ${selectedServices})` : "" } <br></br> = $${totalAmount} </span>
             </td>
           </tr>
       </table>
@@ -790,7 +790,7 @@ flex-grow: 0 !important;
                                           src="https://res.cloudinary.com/unionwealthmanagement/image/upload/v1731902813/email%20images/Hunt%20Ground%20EMails/Hero%20Images/magnifire_icon_nbqe5e.png"
                                           width=40px></img></td>
                                       <td style="padding:0px 10px;color:#ffffff">Contact Email<br></br>
-                                        <span style="font-size:22px;line-height: 1.6;"> ${ownerEmail} </span>
+                                        <span style="font-size:22px;line-height: 1.6;"> ${ownerEmail} - ${firstname} ${lastname} </span>
                                       </td>
                                     </tr>
                                   </table>

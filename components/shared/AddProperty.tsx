@@ -239,6 +239,39 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
     e.preventDefault();
     setLoading(true);
 
+    // if (
+    //   propertyDetails.extraServices.some(
+    //     (service) =>
+    //       service.description === "" ||
+    //       service.perNight === 0 ||
+    //       service.flatFee === 0
+    //   )
+    // ) {
+    //   toast.error("Please fill in all the fields for extra services");
+    //   setLoading(false);
+    //   return;
+    // }
+
+    if (
+      propertyDetails.extraServices.some((service) => {
+        const hasPrice = service.flatFee > 0 || service.perNight > 0;
+        const hasDescription = service.description.trim() !== "";
+        if (!hasDescription && hasPrice) {
+          return true;
+        }
+        if (hasDescription && !hasPrice) {
+          return true;
+        }
+        return false;
+      })
+    ) {
+      toast.error(
+        "Please ensure all extra services are either fully filled or left empty."
+      );
+      setLoading(false);
+      return;
+    }
+
     if (settings.some((s) => s.status === "pending")) {
       toast.error("Please complete all the fields before submitting");
       setLoading(false);
@@ -324,23 +357,6 @@ const page = ({ userDetails }: { userDetails: IUser }) => {
       setUploading(false);
     }
   };
-
-  // const handleServiceChange = (
-  //   index: number,
-  //   field: "name" | "description" | "price" | "type",
-  //   value: string
-  // ) => {
-  //   const updatedServices = services.map((service, i) =>
-  //     i === index
-  //       ? { ...service, [field]: field === "price" ? parseFloat(value) : value }
-  //       : service
-  //   );
-  //   setServices(updatedServices);
-  //   setPropertyDetails((prevDetails: any) => ({
-  //     ...prevDetails,
-  //     extraServices: updatedServices,
-  //   }));
-  // };
 
   const handleServiceChange = (
     index: number,

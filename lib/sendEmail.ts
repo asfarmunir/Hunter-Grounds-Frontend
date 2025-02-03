@@ -94,12 +94,12 @@ export async function sendResetEmail ( to:string,link:string) {
 }
 
 
-export async function sendBookingEmail ( to:string,  totalAmount:number, address:string, totalNights:string, rent: number, ownerEmail:string, checkIn:string, checkOut:string,name:string ) {
+export async function sendBookingEmail ( to:string,  totalAmount:number, address:string, totalNights:string, rent: number, ownerEmail:string, checkIn:string, checkOut:string,name:string, firstname:string, lastname:string,selectedServices:string ) {
  const message = {
     to,
     from: FROM_EMAIL,
-    subject: getBookingTemplate(totalAmount,address, totalNights, rent,ownerEmail, checkIn,checkOut, name ).title,
-    html: getBookingTemplate(totalAmount,address, totalNights,rent,ownerEmail, checkIn,checkOut, name ).template,
+    subject: getBookingTemplate(totalAmount,address, totalNights, rent,ownerEmail, checkIn,checkOut, name,firstname,lastname,selectedServices ).title,
+    html: getBookingTemplate(totalAmount,address, totalNights,rent,ownerEmail, checkIn,checkOut, name, firstname,lastname,selectedServices ).template,
   };
 
   try {
