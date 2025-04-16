@@ -39,7 +39,7 @@ export const config = {
     '/user-properties',
     '/account/settings',
     '/account/inbox',
-    '/pre-booking/:path*',
+    // '/pre-booking/:path*',
     '/pre-booking/success',
   ],
 };

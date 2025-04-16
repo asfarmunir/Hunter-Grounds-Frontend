@@ -47,6 +47,9 @@ const Navbar = () => {
   const loginModalRef = useRef(null);
   const signupModalRef = useRef(null);
 
+  const searchParams = useSearchParams();
+  const loginParam = searchParams.get("login"); // This will be 'false' in your example URL
+
   const handleFromDateSelect = (date: Date | undefined) => {
     setFromDate(date);
     setFromPopoverOpen(false); // Close the popover after selecting a date
@@ -95,8 +98,6 @@ const Navbar = () => {
     setSearchCity(city); // Set the city from dropdown
     setDebouncedCity(city); // Immediately set debouncedCity
   };
-
-  const searchParams = useSearchParams();
 
   return (
     <nav className=" w-full  rounded-full px-3 md:pl-10 2xl:pl-12 2xl:px-5 py-3.5 flex items-center justify-between">

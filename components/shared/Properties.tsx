@@ -18,18 +18,18 @@ const Properties = ({ properties }: { properties: IProperty[] }) => {
   const router = useRouter();
 
   const routerhandler = (id: string) => {
-    if (session.status === "authenticated") {
-      router.push(`/pre-booking/${id}`);
-    } else {
-      toast.error("Please login to continue!", {
-        duration: 4000,
-        style: {
-          background: "#ffff",
-          color: "#DC143C",
-        },
-        icon: "🔒",
-      });
-    }
+    // if (session.status === "authenticated") {
+    router.push(`/pre-booking/${id}`);
+    // } else {
+    //   toast.error("Please login to continue!", {
+    //     duration: 4000,
+    //     style: {
+    //       background: "#ffff",
+    //       color: "#DC143C",
+    //     },
+    //     icon: "🔒",
+    //   });
+    // }
   };
 
   return (
